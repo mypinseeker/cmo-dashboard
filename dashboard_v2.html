@@ -2250,10 +2250,12 @@
                         }
                         break
                     }
-                    case 'growth':
-                        fillColor = parseFloat(cd.trend) > 0 ? '#10b981' : '#ef4444';
-                        label = `增长 ${cd.trend}`;
+                    case 'growth': {
+                        const gr = parseFloat(cd.trend);
+                        fillColor = gr > 2 ? '#059669' : gr > 0.5 ? '#10b981' : gr > -0.5 ? '#f59e0b' : gr > -2 ? '#f97316' : '#ef4444';
+                        label = `${gr > 0 ? '+' : ''}${cd.trend}`;
                         break;
+                    }
                     case 'newUsers':
                         fillColor = '#3b82f6';
                         label = '新增用户';
@@ -2406,11 +2408,13 @@
                         radius = 6
                         break
                     }
-                    case 'growth':
-                        color = (site.growth||0) > 2 ? '#10b981' : (site.growth||0) > 0 ? '#f59e0b' : '#ef4444';
-                        radius = 6 + Math.abs(site.growth||0) * 1.5;
-                        tooltipExtra = `增长: ${(site.growth||0) > 0 ? '+' : ''}${site.growth||0}%`;
+                    case 'growth': {
+                        const sg = site.growth||0;
+                        color = sg > 2 ? '#059669' : sg > 0.5 ? '#10b981' : sg > -0.5 ? '#f59e0b' : sg > -2 ? '#f97316' : '#ef4444';
+                        radius = 5 + Math.abs(sg) * 1.5;
+                        tooltipExtra = `增长: ${sg > 0 ? '+' : ''}${sg}%`;
                         break;
+                    }
                     case 'newUsers':
                         color = '#3b82f6';
                         radius = 3 + (site.newUsers||0) / 80;
@@ -2511,7 +2515,7 @@
                 legendData = legendMap[m] || legendMap.dl_speed
             } else {
                 const staticLegends = {
-                    growth:{title:'用户增长率',items:[{color:'#10b981',label:'> 0% 增长'},{color:'#ef4444',label:'< 0% 下降'}]},
+                    growth:{title:'用户增长率',items:[{color:'#059669',label:'> +2% 强劲增长'},{color:'#10b981',label:'+0.5%~+2% 稳健'},{color:'#f59e0b',label:'-0.5%~+0.5% 持平'},{color:'#f97316',label:'-2%~-0.5% 轻度下降'},{color:'#ef4444',label:'< -2% 严重下降'}]},
                     newUsers:{title:'新增用户',items:[{color:'#3b82f6',label:'圆圈越大 = 新增越多'}]},
                     churn:{title:'流失率',items:[{color:'#10b981',label:'< 1.2% 健康'},{color:'#f59e0b',label:'1.2-2.0% 关注'},{color:'#ef4444',label:'> 2.0% 严重'}]},
                     video:{title:'YouTube HD 占比',items:[{color:'#10b981',label:'≥ 35% 良好'},{color:'#f59e0b',label:'25-35% 一般'},{color:'#ef4444',label:'< 25% 较差'}]},
