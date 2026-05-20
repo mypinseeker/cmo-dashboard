@@ -979,6 +979,7 @@
               <button class="map-layer-btn" onclick="switchMapLayer('churn')" id="btn-churn">流失分布</button>
               <button class="map-layer-btn" onclick="switchMapLayer('competitiveness')" id="btn-competitiveness">vs Claro</button>
               <button class="map-layer-btn" onclick="switchMapLayer('video')" id="btn-video">视频体验</button>
+              <button class="map-layer-btn" onclick="switchMapLayer('coverageAnalysis')" id="btn-coverageAnalysis">覆盖分析</button>
             </div>
 
             <!-- Back to National Button -->
@@ -990,6 +991,50 @@
             </div>
 
             <div id="map"></div>
+
+            <!-- Coverage Analysis Chart Panel -->
+            <div id="coverageChartPanel" style="display:none;position:absolute;bottom:0;left:0;right:0;z-index:1000;
+              background:rgba(15,23,42,0.95);border-top:2px solid #06b6d4;border-radius:12px 12px 0 0;
+              padding:12px 16px;backdrop-filter:blur(8px);">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <div>
+                  <span style="font-size:12px;font-weight:700;color:#06b6d4;">RSRP 覆盖分布</span>
+                  <span style="font-size:10px;color:#64748b;margin-left:8px;">今日全网 RRC 连接用户 vs Ookla 测试样本</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div style="display:flex;align-items:center;gap:4px;">
+                    <div style="width:12px;height:8px;background:#3b82f6;border-radius:2px;"></div>
+                    <span style="font-size:9px;color:#94a3b8;">Tigo 现网用户</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:4px;">
+                    <div style="width:12px;height:2px;background:#06b6d4;"></div>
+                    <span style="font-size:9px;color:#94a3b8;">Tigo Ookla</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:4px;">
+                    <div style="width:12px;height:2px;background:#f97316;border-top:1px dashed #f97316;"></div>
+                    <span style="font-size:9px;color:#94a3b8;">Claro Ookla</span>
+                  </div>
+                  <button onclick="closeCoverageChart()" style="font-size:10px;color:#94a3b8;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;">✕</button>
+                </div>
+              </div>
+              <!-- 摘要数字 -->
+              <div style="display:flex;gap:16px;margin-bottom:8px;">
+                <div style="font-size:10px;">
+                  <span style="color:#64748b;">好覆盖(≥-100)：</span>
+                  <span style="color:#10b981;font-weight:600;">71.2%</span>
+                </div>
+                <div style="font-size:10px;">
+                  <span style="color:#64748b;">差覆盖(<-100)：</span>
+                  <span style="color:#ef4444;font-weight:600;">28.8% (3.59M人)</span>
+                </div>
+                <div style="font-size:10px;">
+                  <span style="color:#64748b;">vs Claro 好覆盖：</span>
+                  <span style="color:#f97316;font-weight:600;">75.4%</span>
+                  <span style="color:#ef4444;font-size:9px;"> (Claro 更好)</span>
+                </div>
+              </div>
+              <div id="rsrpChart" style="width:100%;height:180px;"></div>
+            </div>
 
             <!-- Dynamic Legend Panel -->
             <div id="mapLegend" style="position:absolute;bottom:12px;right:12px;z-index:1000;
@@ -1507,6 +1552,44 @@
               {city:"Bogotá",value:15,trend:"-1",status:"good"},
             ],
           },
+        };
+
+        const RSRP_DISTRIBUTION = {
+          // Tigo 现网 RRC 连接用户分布（MR 数据，今日全网）
+          tigo_users: [
+            {rsrp:"-70~-80", users:1950000, pct:15.6},
+            {rsrp:"-80~-90", users:3280000, pct:26.2},
+            {rsrp:"-90~-100", users:3680000, pct:29.4},
+            {rsrp:"-100~-110", users:2190000, pct:17.5},
+            {rsrp:"-110~-120", users:1010000, pct:8.1},
+            {rsrp:"-120~-130", users:390000, pct:3.1},
+          ],
+          // Tigo Ookla Speedtest 测试样本分布
+          tigo_ookla: [
+            {rsrp:"-70~-80", samples:1250, pct:15.6},
+            {rsrp:"-80~-90", samples:2100, pct:26.3},
+            {rsrp:"-90~-100", samples:2350, pct:29.4},
+            {rsrp:"-100~-110", samples:1400, pct:17.5},
+            {rsrp:"-110~-120", samples:650, pct:8.1},
+            {rsrp:"-120~-130", samples:250, pct:3.1},
+          ],
+          // Claro Ookla Speedtest 样本分布（竞对参考）
+          claro_ookla: [
+            {rsrp:"-70~-80", samples:1680, pct:18.7},
+            {rsrp:"-80~-90", samples:2580, pct:28.7},
+            {rsrp:"-90~-100", samples:2520, pct:28.0},
+            {rsrp:"-100~-110", samples:1350, pct:15.0},
+            {rsrp:"-110~-120", samples:580, pct:6.4},
+            {rsrp:"-120~-130", samples:290, pct:3.2},
+          ],
+          // 关键指标
+          summary: {
+            totalUsers: 12500000,
+            goodCoverage: 71.2,   // RSRP >= -100 的占比
+            poorCoverage: 28.8,   // RSRP < -100 的占比
+            poorUsers: 3590000,
+            claroGoodCoverage: 75.4,  // Claro 好覆盖占比（竞对更好）
+          }
         };
 
         const COMPETITOR_DATA = {
@@ -2054,6 +2137,12 @@
         function switchMapLayer(layer) {
             currentLayer = layer;
 
+            // Show/hide coverage chart panel
+            document.getElementById('coverageChartPanel').style.display = layer === 'coverageAnalysis' ? 'block' : 'none';
+            if (layer === 'coverageAnalysis') {
+                setTimeout(() => initRsrpChart(), 100);
+            }
+
             // Update button states
             document.querySelectorAll('.map-layer-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('btn-' + layer).classList.add('active');
@@ -2168,6 +2257,18 @@
                         fillColor = h >= 35 ? '#10b981' : h >= 25 ? '#f59e0b' : '#ef4444';
                         label = `HD ${h}%`;
                         break;
+                    case 'coverageAnalysis': {
+                        const covData = EXPERIENCE_METRICS.coverage;
+                        const covCity = covData.cities.find(c => c.city === city);
+                        if (covCity) {
+                            fillColor = covCity.status === 'good' ? '#10b981' : covCity.status === 'warn' ? '#f59e0b' : '#ef4444';
+                            label = `边缘 ${covCity.value}%`;
+                        } else {
+                            fillColor = '#64748b';
+                            label = '覆盖';
+                        }
+                        break;
+                    }
                     default:
                         fillColor = '#3b82f6';
                         label = city;
@@ -2295,6 +2396,19 @@
                         radius = 5;
                         tooltipExtra = `HD: ${h2}%`;
                         break;
+                    case 'coverageAnalysis': {
+                        const covData2 = EXPERIENCE_METRICS.coverage;
+                        const covCity2 = covData2.cities.find(c => c.city === site.city);
+                        if (covCity2) {
+                            color = covCity2.status === 'good' ? '#10b981' : covCity2.status === 'warn' ? '#f59e0b' : '#ef4444';
+                            tooltipExtra = `边缘占比: ${covCity2.value}%`;
+                        } else {
+                            color = '#64748b';
+                            tooltipExtra = '覆盖';
+                        }
+                        radius = 6;
+                        break;
+                    }
                     default:
                         color = '#3b82f6';
                         radius = 5;
@@ -2346,6 +2460,7 @@
                     newUsers:{title:'新增用户',items:[{color:'#3b82f6',label:'圆圈越大 = 新增越多'}]},
                     churn:{title:'流失率',items:[{color:'#10b981',label:'< 1.2% 健康'},{color:'#f59e0b',label:'1.2-2.0% 关注'},{color:'#ef4444',label:'> 2.0% 严重'}]},
                     video:{title:'YouTube HD 占比',items:[{color:'#10b981',label:'≥ 35% 良好'},{color:'#f59e0b',label:'25-35% 一般'},{color:'#ef4444',label:'< 25% 较差'}]},
+                    coverageAnalysis:{title:'覆盖分析',items:[{color:'#10b981',label:'边缘 ≤ 18% 良好'},{color:'#f59e0b',label:'边缘 18-28% 关注'},{color:'#ef4444',label:'边缘 > 28% 较差'}]},
                 }
                 if (layer === 'competitiveness') {
                     const selLC = document.getElementById('expMetricSelect')
@@ -2377,6 +2492,103 @@
                   <span style="font-size:10px;color:#94a3b8;">${item.label}</span>
                 </div>
             `).join('');
+        }
+
+        // ============ COVERAGE ANALYSIS CHART ============
+
+        function initRsrpChart() {
+            const chartDom = document.getElementById('rsrpChart');
+            if (!chartDom) return;
+
+            const chart = echarts.init(chartDom, 'dark');
+            const categories = RSRP_DISTRIBUTION.tigo_users.map(d => d.rsrp);
+
+            chart.setOption({
+                grid: { left: 60, right: 40, top: 10, bottom: 30 },
+                xAxis: {
+                    type: 'category',
+                    data: categories,
+                    axisLabel: { fontSize: 10, color: '#94a3b8', rotate: 0 },
+                    axisLine: { lineStyle: { color: '#334155' } },
+                    axisTick: { show: false },
+                    name: 'RSRP (dBm)',
+                    nameTextStyle: { color: '#64748b', fontSize: 9, padding: [8,0,0,0] },
+                },
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: 'RRC 连接用户数',
+                        nameTextStyle: { color: '#64748b', fontSize: 9 },
+                        axisLabel: { fontSize: 9, color: '#64748b', formatter: v => (v/1000000).toFixed(1)+'M' },
+                        splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } },
+                    },
+                    {
+                        type: 'value',
+                        name: 'Ookla 样本数',
+                        nameTextStyle: { color: '#64748b', fontSize: 9 },
+                        axisLabel: { fontSize: 9, color: '#64748b' },
+                        splitLine: { show: false },
+                    },
+                ],
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: '#1e293b',
+                    borderColor: '#334155',
+                    textStyle: { color: '#f1f5f9', fontSize: 10 },
+                    formatter: params => {
+                        let html = `<b>${params[0].axisValue} dBm</b><br/>`;
+                        params.forEach(p => {
+                            const val = p.seriesName.includes('用户') ? (p.value/1000000).toFixed(2)+'M' : p.value;
+                            html += `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};margin-right:4px;"></span>${p.seriesName}: ${val}<br/>`;
+                        });
+                        return html;
+                    }
+                },
+                series: [
+                    {
+                        name: 'Tigo 现网用户',
+                        type: 'bar',
+                        yAxisIndex: 0,
+                        data: RSRP_DISTRIBUTION.tigo_users.map(d => d.users),
+                        itemStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                {offset: 0, color: '#3b82f6'},
+                                {offset: 1, color: '#1e40af'}
+                            ]),
+                            borderRadius: [4, 4, 0, 0],
+                        },
+                        barWidth: '40%',
+                    },
+                    {
+                        name: 'Tigo Ookla 样本',
+                        type: 'line',
+                        yAxisIndex: 1,
+                        data: RSRP_DISTRIBUTION.tigo_ookla.map(d => d.samples),
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 6,
+                        lineStyle: { color: '#06b6d4', width: 2 },
+                        itemStyle: { color: '#06b6d4' },
+                    },
+                    {
+                        name: 'Claro Ookla 样本',
+                        type: 'line',
+                        yAxisIndex: 1,
+                        data: RSRP_DISTRIBUTION.claro_ookla.map(d => d.samples),
+                        smooth: true,
+                        symbol: 'diamond',
+                        symbolSize: 6,
+                        lineStyle: { color: '#f97316', width: 2, type: 'dashed' },
+                        itemStyle: { color: '#f97316' },
+                    },
+                ],
+            });
+
+            window.addEventListener('resize', () => chart.resize());
+        }
+
+        function closeCoverageChart() {
+            document.getElementById('coverageChartPanel').style.display = 'none';
         }
 
         // ============ MAP INITIALIZATION ============
