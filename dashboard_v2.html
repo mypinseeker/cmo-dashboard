@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tigo Colombia CMO Dashboard</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: #0a0e1a;
+            color: #f1f5f9;
+            overflow: hidden;
+        }
+
+        /* ============ DASHBOARD LAYOUT ============ */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr 280px;
+            grid-template-rows: 48px 1fr 120px;
+            gap: 8px;
+            padding: 8px;
+            height: 100vh;
+            background-color: #0a0e1a;
+        }
+
+        /* ============ HEADER ============ */
+
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #06b6d4, transparent);
+            opacity: 0.3;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .header-date {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .refresh-btn {
+            background: transparent;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .refresh-btn:hover {
+            border-color: #06b6d4;
+            color: #06b6d4;
+            transform: rotate(90deg);
+        }
+
+        /* ============ CARD STYLES ============ */
+
+        .card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #06b6d4, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            background: #1a2332;
+            border-color: #2a3a4a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.08);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.05);
+        }
+
+        .big-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: #f1f5f9;
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+            letter-spacing: -1px;
+            margin-bottom: 4px;
+            animation: countUp 0.6s ease-out;
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .trend-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            width: fit-content;
+        }
+
+        .trend-down {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .trend-neutral {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .separator {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #334155, transparent);
+            margin: 16px 0;
+        }
+
+        .sub-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            margin-top: 8px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .label {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .value-green {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .value-blue {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .value-red {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .value-yellow {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .clickable {
+            cursor: pointer;
+            color: #06b6d4;
+            text-decoration: none;
+            font-size: 12px;
+            margin-top: 8px;
+            padding: 6px 0;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+            font-weight: 500;
+        }
+
+        .clickable:hover {
+            color: #22d3ee;
+            border-bottom-color: rgba(6, 182, 212, 0.6);
+            padding-left: 4px;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .map-container {
+            grid-column: 2;
+            grid-row: 2;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #1f2937;
+            background: #111827;
+            box-shadow: inset 0 0 30px rgba(6, 182, 212, 0.05);
+            position: relative;
+        }
+
+        .map-legend {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            font-size: 11px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            color: #cbd5e1;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        .bottom-row {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        /* ============ APP CARD STYLES ============ */
+
+        .app-card {
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 11px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #334155;
+        }
+
+        .app-card:nth-child(1)::before {
+            background: #ef4444;
+        }
+
+        .app-card:nth-child(2)::before {
+            background: #7c2d12;
+        }
+
+        .app-card:nth-child(3)::before {
+            background: #06b6d4;
+        }
+
+        .app-card:nth-child(4)::before {
+            background: #3b82f6;
+        }
+
+        .app-card:nth-child(5)::before {
+            background: #64748b;
+        }
+
+        .app-card:hover {
+            background: #1a2332;
+            border-color: #2a3a4a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(6, 182, 212, 0.06);
+        }
+
+        .app-name {
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 10px;
+            font-size: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        .app-metric {
+            display: flex;
+            justify-content: space-between;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            font-size: 11px;
+            transition: color 0.2s ease;
+        }
+
+        .app-metric:hover {
+            color: #cbd5e1;
+        }
+
+        .echarts-container {
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+        }
+
+        /* ============ OVERLAY STYLES ============ */
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay-content {
+            background-color: #111827;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            width: 900px;
+            animation: slideUp 0.3s ease-out;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .overlay-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .close-btn {
+            background-color: rgba(51, 65, 85, 0.5);
+            border: 1px solid #475569;
+            color: #f1f5f9;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .close-btn:hover {
+            background-color: rgba(51, 65, 85, 0.8);
+            border-color: #64748b;
+            transform: scale(1.05);
+        }
+
+        .diagnostic-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .diagnostic-item {
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diagnostic-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .diagnostic-item:hover::before {
+            opacity: 1;
+        }
+
+        .diagnostic-item.critical {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+            border-color: #ef4444;
+        }
+
+        .diagnostic-item.warning {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+            border-color: #f59e0b;
+        }
+
+        .diagnostic-item.good {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+            border-color: #10b981;
+        }
+
+        .diagnostic-label {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .diagnostic-value {
+            font-size: 22px;
+            font-weight: 800;
+            color: #f1f5f9;
+            letter-spacing: -0.5px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .kpi-card {
+            background-color: rgba(15, 23, 42, 0.5);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            background-color: rgba(15, 23, 42, 0.8);
+            border-color: #475569;
+            transform: translateY(-2px);
+        }
+
+        .kpi-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #f1f5f9;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .kpi-subtitle {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .section-title {
+            margin-top: 28px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #f1f5f9;
+            letter-spacing: -0.3px;
+        }
+
+        .attribution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+
+        .attribution-item {
+            background-color: rgba(15, 23, 42, 0.5);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .attribution-item:hover {
+            background-color: rgba(15, 23, 42, 0.8);
+            border-color: #475569;
+            transform: translateY(-2px);
+        }
+
+        .attribution-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .attribution-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #f1f5f9;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
+        }
+
+        .attribution-detail {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .action-box {
+            margin-top: 28px;
+            padding: 18px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+            border-radius: 12px;
+            border-left: 4px solid #f59e0b;
+            border: 1px solid #475569;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .action-title {
+            margin-bottom: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #f1f5f9;
+            letter-spacing: -0.3px;
+        }
+
+        .action-item {
+            font-size: 12px;
+            margin-bottom: 6px;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        /* ============ LEAFLET CUSTOMIZATION ============ */
+
+        .leaflet-popup-content-wrapper {
+            background: #1e293b !important;
+            border: 1px solid #334155 !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+            padding: 12px !important;
+        }
+
+        .leaflet-popup-tip {
+            background: #1e293b !important;
+        }
+
+        .leaflet-popup-content {
+            color: #f1f5f9 !important;
+            font-size: 12px !important;
+            margin: 0 !important;
+        }
+
+        .popup-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #f1f5f9;
+            font-size: 13px;
+            letter-spacing: -0.3px;
+        }
+
+        .popup-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            color: #cbd5e1;
+            font-size: 11px;
+        }
+
+        .popup-btn {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            border: none;
+            color: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-top: 10px;
+            width: 100%;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .popup-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+        }
+
+        /* ============ SCROLLBAR ============ */
+
+        .overlay-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .overlay-content::-webkit-scrollbar-track {
+            background: #111827;
+        }
+
+        .overlay-content::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+
+        .overlay-content::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-logo">
+                <span>▣</span> Tigo CMO Dashboard
+            </div>
+            <div class="header-date">
+                <span id="current-date"></span>
+                <button class="refresh-btn" onclick="location.reload()" title="Refresh">↻</button>
+            </div>
+        </div>
+
+        <!-- Left Column -->
+        <div class="left-column">
+            <!-- Users Card -->
+            <div class="card">
+                <div class="card-title">在网用户</div>
+                <div class="big-number">12.5M</div>
+                <div class="trend-indicator">▲ +2.3% MoM</div>
+                <div class="separator"></div>
+                <div class="sub-title">日变化</div>
+                <div class="row">
+                    <div><span class="label">净增</span><div class="value-green">+28K</div></div>
+                    <div><span class="label">新增</span><div class="value-blue">+45K</div></div>
+                </div>
+                <div class="row">
+                    <div><span class="label">流失</span><div class="value-red">-17K</div></div>
+                </div>
+                <div class="separator"></div>
+                <div class="sub-title">高风险城市</div>
+                <div class="clickable" onclick="drilldown('Barranquilla')">Barranquilla → 离网率 2.1%</div>
+            </div>
+
+            <!-- Terminals Card -->
+            <div class="card">
+                <div class="card-title">高价值终端</div>
+                <div class="big-number">4.5M</div>
+                <div style="font-size: 12px; color: #94a3b8; font-weight: 500;">占比 36% | 收入贡献 68%</div>
+                <div class="separator"></div>
+                <div class="sub-title">市场潜力</div>
+                <div style="font-size: 12px; margin-bottom: 8px;">
+                    <div class="row">
+                        <div><span class="label">未覆盖人口</span></div>
+                        <div style="text-align: right; font-weight: 600;">11.5M</div>
+                    </div>
+                    <div class="row">
+                        <div><span class="label">高潜力用户</span></div>
+                        <div style="text-align: right; font-weight: 600; color: #10b981;">4.2M</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Container -->
+        <div class="map-container">
+            <div id="map"></div>
+            <div class="map-legend">
+                <div class="legend-item">
+                    <div class="legend-dot" style="background-color: #10b981;"></div>
+                    <span>优秀 (≥4.0)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background-color: #f59e0b;"></div>
+                    <span>良好 (3.0-4.0)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background-color: #ef4444;"></div>
+                    <span>告警 (&lt;3.0)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+            <!-- Experience Card -->
+            <div class="card">
+                <div class="card-title">体验评分</div>
+                <div class="big-number">4.2</div>
+                <div style="font-size: 12px; color: #94a3b8; font-weight: 500;">/ 5.0</div>
+                <div class="separator"></div>
+                <div class="sub-title">竞争力分析</div>
+                <div class="row">
+                    <div><span class="label">vs Claro</span><div class="value-red">-8%</div></div>
+                    <div><span class="label">趋势</span><div class="value-green">缩小中</div></div>
+                </div>
+                <div class="separator"></div>
+                <div class="sub-title">边缘用户</div>
+                <div style="font-size: 12px; color: #94a3b8; font-weight: 500;">2.5M 人 (20%)</div>
+                <div style="margin-top: 8px;">
+                    <div class="clickable" onclick="drilldown('Cali')">Cali 边缘率最高</div>
+                </div>
+            </div>
+
+            <!-- Churn & Competitors Card -->
+            <div class="card">
+                <div class="card-title">流失与竞对</div>
+                <div class="big-number">15.2K</div>
+                <div style="font-size: 12px; color: #94a3b8; font-weight: 500;">月离网</div>
+                <div class="row">
+                    <div><span class="label">网络因素</span><div class="value-red">62%</div></div>
+                </div>
+                <div class="separator"></div>
+                <div class="sub-title">Ookla 对比 (Mbps)</div>
+                <div style="font-size: 11px; margin-top: 6px;">
+                    <div class="row">
+                        <div>Tigo: <span class="value-blue">35.8</span></div>
+                        <div>Claro: <span style="color: #cbd5e1;">42.1</span></div>
+                    </div>
+                    <div class="row">
+                        <div>Movistar: <span style="color: #cbd5e1;">26.0</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Row: Apps & Traffic -->
+        <div class="bottom-row">
+            <!-- YouTube Card -->
+            <div class="app-card">
+                <div class="app-name">YouTube</div>
+                <div class="app-metric">
+                    <span>HD 质量</span>
+                    <span class="value-red">33% ▼</span>
+                </div>
+                <div class="app-metric">
+                    <span>卡顿率</span>
+                    <span class="value-red">2.8% ▲</span>
+                </div>
+                <div class="app-metric">
+                    <span>缓冲时长</span>
+                    <span style="color: #cbd5e1;">1.2s</span>
+                </div>
+            </div>
+
+            <!-- Netflix Card -->
+            <div class="app-card">
+                <div class="app-name">Netflix</div>
+                <div class="app-metric">
+                    <span>HD 质量</span>
+                    <span class="value-green">43% ▲</span>
+                </div>
+                <div class="app-metric">
+                    <span>卡顿率</span>
+                    <span class="value-green">1.5% ▼</span>
+                </div>
+                <div class="app-metric">
+                    <span>缓冲时长</span>
+                    <span style="color: #cbd5e1;">0.95s</span>
+                </div>
+            </div>
+
+            <!-- TikTok Card -->
+            <div class="app-card">
+                <div class="app-name">TikTok</div>
+                <div class="app-metric">
+                    <span>成功率</span>
+                    <span class="value-green">98.5% ▲</span>
+                </div>
+                <div class="app-metric">
+                    <span>上传速率</span>
+                    <span style="color: #cbd5e1;">6.2 Mbps</span>
+                </div>
+                <div class="app-metric">
+                    <span>日活用户</span>
+                    <span style="color: #cbd5e1;">580K</span>
+                </div>
+            </div>
+
+            <!-- Traffic Distribution Chart -->
+            <div class="app-card">
+                <div class="app-name">流量分布</div>
+                <div id="traffic-chart" style="width: 100%; height: 90px; margin-top: 6px;"></div>
+            </div>
+
+            <!-- City Benchmark -->
+            <div class="app-card">
+                <div class="app-name">城市对标</div>
+                <div style="font-size: 11px; margin-top: 8px;">
+                    <div class="row" style="grid-template-columns: 1fr; gap: 4px;">
+                        <div><span class="label">Bogota</span><span class="value-green">4.5</span></div>
+                        <div><span class="label">Medellin</span><span class="value-blue">3.9</span></div>
+                        <div><span class="label">Cali</span><span class="value-yellow">3.5</span></div>
+                        <div><span class="label">Barranquilla</span><span class="value-red">2.8</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drilldown Overlay -->
+    <div id="drilldown-overlay" class="overlay">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <span id="overlay-city-name">Loading...</span>
+                <button class="close-btn" onclick="closeDrilldown()">✕</button>
+            </div>
+            <div id="overlay-body"></div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- ECharts JS -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+
+    <script>
+        // ============ DATA ============
+
+        const SITES_DATA = [
+            {id:"CO-BOG-082",lat:4.605,lon:-74.025,city:"Bogota",bands:"B2/B4/B7",users:1250,exp:4.5,edge:12,prb:48},
+            {id:"CO-BOG-015",lat:4.713,lon:-74.003,city:"Bogota",bands:"B2/B4/B7",users:1180,exp:4.4,edge:10,prb:45},
+            {id:"CO-BOG-004",lat:4.569,lon:-74.023,city:"Bogota",bands:"B28/B2/B4/B7",users:1320,exp:4.6,edge:14,prb:52},
+            {id:"CO-BOG-095",lat:4.717,lon:-74.015,city:"Bogota",bands:"B2/B4/B7",users:1100,exp:4.3,edge:11,prb:48},
+            {id:"CO-BOG-036",lat:4.713,lon:-74.081,city:"Bogota",bands:"B2/B4/B7",users:1200,exp:4.2,edge:13,prb:50},
+            {id:"CO-BOG-032",lat:4.572,lon:-74.008,city:"Bogota",bands:"B2/B4/B7",users:980,exp:3.8,edge:18,prb:62},
+            {id:"CO-BOG-029",lat:4.736,lon:-74.134,city:"Bogota",bands:"B28/B2/B4",users:1050,exp:3.9,edge:15,prb:55},
+            {id:"CO-BOG-018",lat:4.722,lon:-74.139,city:"Bogota",bands:"B2/B4",users:890,exp:3.6,edge:22,prb:68},
+            {id:"CO-BOG-014",lat:4.648,lon:-74.133,city:"Bogota",bands:"B28/B2/B4",users:1150,exp:4.1,edge:12,prb:48},
+            {id:"CO-BOG-087",lat:4.732,lon:-74.148,city:"Bogota",bands:"B2/B4/B7",users:1280,exp:4.4,edge:10,prb:46},
+            {id:"CO-BOG-070",lat:4.640,lon:-74.084,city:"Bogota",bands:"B2/B4",users:1020,exp:4.0,edge:16,prb:58},
+            {id:"CO-BOG-012",lat:4.603,lon:-74.054,city:"Bogota",bands:"B2/B4",users:1100,exp:4.2,edge:12,prb:50},
+            {id:"CO-BOG-076",lat:4.684,lon:-74.110,city:"Bogota",bands:"B2/B4/B7",users:1200,exp:4.3,edge:11,prb:48},
+            {id:"CO-BOG-055",lat:4.706,lon:-74.052,city:"Bogota",bands:"B2/B4/B7",users:1300,exp:4.5,edge:9,prb:44},
+            {id:"CO-BOG-005",lat:4.716,lon:-74.057,city:"Bogota",bands:"B2/B4/B7",users:1150,exp:4.4,edge:10,prb:46},
+
+            {id:"CO-MED-015",lat:6.260,lon:-75.545,city:"Medellin",bands:"B28/B2/B4/B7",users:950,exp:4.2,edge:14,prb:50},
+            {id:"CO-MED-004",lat:6.263,lon:-75.598,city:"Medellin",bands:"B2/B4/B7",users:880,exp:3.9,edge:16,prb:55},
+            {id:"CO-MED-036",lat:6.221,lon:-75.543,city:"Medellin",bands:"B2/B4/B7",users:920,exp:4.1,edge:15,prb:52},
+            {id:"CO-MED-032",lat:6.185,lon:-75.549,city:"Medellin",bands:"B2/B4/B7",users:850,exp:3.8,edge:18,prb:58},
+            {id:"CO-MED-029",lat:6.216,lon:-75.593,city:"Medellin",bands:"B28/B2/B4/B7",users:980,exp:4.0,edge:16,prb:54},
+            {id:"CO-MED-018",lat:6.284,lon:-75.563,city:"Medellin",bands:"B2/B4/B7",users:910,exp:4.1,edge:14,prb:50},
+            {id:"CO-MED-014",lat:6.192,lon:-75.546,city:"Medellin",bands:"B28/B2/B4/B7",users:1020,exp:4.2,edge:13,prb:48},
+            {id:"CO-MED-070",lat:6.193,lon:-75.596,city:"Medellin",bands:"B2/B4",users:780,exp:3.6,edge:22,prb:65},
+            {id:"CO-MED-012",lat:6.275,lon:-75.609,city:"Medellin",bands:"B2/B4/B7",users:840,exp:3.9,edge:17,prb:56},
+            {id:"CO-MED-055",lat:6.294,lon:-75.612,city:"Medellin",bands:"B28/B2/B4",users:900,exp:4.0,edge:15,prb:52},
+
+            {id:"CO-CAL-015",lat:3.430,lon:-76.488,city:"Cali",bands:"B28/B2/B4",users:750,exp:3.5,edge:22,prb:58},
+            {id:"CO-CAL-004",lat:3.436,lon:-76.485,city:"Cali",bands:"B28/B2/B4",users:720,exp:3.4,edge:24,prb:60},
+            {id:"CO-CAL-036",lat:3.454,lon:-76.523,city:"Cali",bands:"B28/B2/B4",users:680,exp:3.2,edge:28,prb:68},
+            {id:"CO-CAL-032",lat:3.392,lon:-76.480,city:"Cali",bands:"B2/B4/B7",users:800,exp:3.6,edge:20,prb:55},
+            {id:"CO-CAL-029",lat:3.451,lon:-76.496,city:"Cali",bands:"B2/B4",users:650,exp:3.0,edge:32,prb:72},
+            {id:"CO-CAL-018",lat:3.435,lon:-76.520,city:"Cali",bands:"B2/B4/B7",users:700,exp:3.3,edge:26,prb:65},
+            {id:"CO-CAL-014",lat:3.410,lon:-76.502,city:"Cali",bands:"B28/B2/B4",users:740,exp:3.5,edge:23,prb:60},
+            {id:"CO-CAL-044",lat:3.398,lon:-76.492,city:"Cali",bands:"B2/B4/B7",users:710,exp:3.4,edge:25,prb:62},
+            {id:"CO-CAL-048",lat:3.405,lon:-76.554,city:"Cali",bands:"B2/B4",users:620,exp:3.1,edge:30,prb:70},
+            {id:"CO-CAL-058",lat:3.431,lon:-76.486,city:"Cali",bands:"B28/B2/B4/B7",users:780,exp:3.7,edge:21,prb:57},
+
+            {id:"CO-BAR-041",lat:10.955,lon:-74.760,city:"Barranquilla",bands:"B2/B4",users:520,exp:2.8,edge:35,prb:75},
+            {id:"CO-BAR-008",lat:10.982,lon:-74.791,city:"Barranquilla",bands:"B28/B2/B4/B7",users:580,exp:3.0,edge:32,prb:72},
+            {id:"CO-BAR-002",lat:11.003,lon:-74.774,city:"Barranquilla",bands:"B2/B4/B7",users:510,exp:2.7,edge:38,prb:78},
+            {id:"CO-BAR-048",lat:11.006,lon:-74.778,city:"Barranquilla",bands:"B28/B2/B4/B7",users:550,exp:2.9,edge:34,prb:76},
+            {id:"CO-BAR-018",lat:11.016,lon:-74.818,city:"Barranquilla",bands:"B28/B2/B4",users:480,exp:2.6,edge:40,prb:80},
+            {id:"CO-BAR-016",lat:10.965,lon:-74.775,city:"Barranquilla",bands:"B2/B4",users:500,exp:2.8,edge:36,prb:76},
+            {id:"CO-BAR-015",lat:11.004,lon:-74.775,city:"Barranquilla",bands:"B2/B4/B7",users:540,exp:2.9,edge:33,prb:74},
+            {id:"CO-BAR-009",lat:10.965,lon:-74.794,city:"Barranquilla",bands:"B28/B2/B4",users:560,exp:3.1,edge:31,prb:70},
+
+            {id:"CO-CAR-041",lat:10.382,lon:-75.533,city:"Cartagena",bands:"B28/B2/B4",users:420,exp:3.2,edge:28,prb:68},
+            {id:"CO-CAR-008",lat:10.384,lon:-75.527,city:"Cartagena",bands:"B28/B2/B4",users:390,exp:3.0,edge:32,prb:72},
+            {id:"CO-CAR-002",lat:10.409,lon:-75.544,city:"Cartagena",bands:"B28/B2/B4",users:410,exp:3.1,edge:30,prb:70},
+            {id:"CO-CAR-018",lat:10.394,lon:-75.538,city:"Cartagena",bands:"B28/B2/B4/B7",users:450,exp:3.3,edge:26,prb:65},
+            {id:"CO-CAR-016",lat:10.435,lon:-75.509,city:"Cartagena",bands:"B2/B4",users:360,exp:2.9,edge:34,prb:74},
+            {id:"CO-CAR-015",lat:10.392,lon:-75.547,city:"Cartagena",bands:"B28/B2/B4/B7",users:430,exp:3.2,edge:28,prb:67},
+            {id:"CO-CAR-009",lat:10.427,lon:-75.543,city:"Cartagena",bands:"B28/B2/B4/B7",users:440,exp:3.3,edge:27,prb:66}
+        ];
+
+        const CITIES = {
+            "Bogota": {
+                users:"4.2M",trend:"+3.1%",exp:4.3,expTrend:"+0.3",churn:"0.8%",churnTrend:"-0.1%",
+                edge:12,prb:50,vsClaro:"-5%",ytHD:38,sites:15,population:"7.2M"
+            },
+            "Medellin": {
+                users:"2.8M",trend:"+2.5%",exp:3.9,expTrend:"+0.1",churn:"1.0%",churnTrend:"0%",
+                edge:16,prb:52,vsClaro:"-10%",ytHD:35,sites:10,population:"4.1M"
+            },
+            "Cali": {
+                users:"1.9M",trend:"+1.8%",exp:3.5,expTrend:"-0.1",churn:"1.3%",churnTrend:"+0.2%",
+                edge:26,prb:63,vsClaro:"-12%",ytHD:30,sites:10,population:"3.2M"
+            },
+            "Barranquilla": {
+                users:"1.1M",trend:"-1.2%",exp:2.8,expTrend:"-0.5",churn:"2.1%",churnTrend:"+0.4%",
+                edge:34,prb:75,vsClaro:"-22%",ytHD:18,sites:8,population:"2.2M"
+            },
+            "Cartagena": {
+                users:"0.8M",trend:"-0.8%",exp:3.1,expTrend:"-0.2",churn:"1.8%",churnTrend:"+0.3%",
+                edge:30,prb:70,vsClaro:"-18%",ytHD:22,sites:7,population:"1.4M"
+            }
+        };
+
+        // ============ UTILITIES ============
+
+        function getExperienceColor(exp) {
+            if (exp >= 4.0) return "#10b981";
+            if (exp >= 3.0) return "#f59e0b";
+            return "#ef4444";
+        }
+
+        function formatDate() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, "0");
+            const day = String(now.getDate()).padStart(2, "0");
+            document.getElementById("current-date").textContent = `${year}-${month}-${day}`;
+        }
+
+        function drilldown(city) {
+            const data = CITIES[city];
+            if (!data) return;
+
+            document.getElementById("overlay-city-name").textContent = city;
+
+            let diagnosticHTML = "";
+
+            const expStatus = data.exp >= 4.0 ? "good" : data.exp >= 3.0 ? "warning" : "critical";
+            const churnStatus = parseFloat(data.churn) > 1.5 ? "critical" : parseFloat(data.churn) > 1.0 ? "warning" : "good";
+            const edgeStatus = parseFloat(data.edge) > 25 ? "critical" : parseFloat(data.edge) > 18 ? "warning" : "good";
+            const prbStatus = parseFloat(data.prb) > 70 ? "critical" : parseFloat(data.prb) > 55 ? "warning" : "good";
+
+            diagnosticHTML += `<div class="diagnostic-bar">`;
+            diagnosticHTML += `<div class="diagnostic-item ${expStatus}"><div class="diagnostic-label">体验评分</div><div class="diagnostic-value">${data.exp}</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${churnStatus}"><div class="diagnostic-label">离网率</div><div class="diagnostic-value">${data.churn}</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${edgeStatus}"><div class="diagnostic-label">边缘用户</div><div class="diagnostic-value">${data.edge}%</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${prbStatus}"><div class="diagnostic-label">PRB占用</div><div class="diagnostic-value">${data.prb}%</div></div>`;
+            diagnosticHTML += `</div>`;
+
+            diagnosticHTML += `<div class="kpi-grid">`;
+            diagnosticHTML += `<div class="kpi-card">
+                <div class="kpi-title">在网用户</div>
+                <div class="kpi-value">${data.users}</div>
+                <div class="kpi-subtitle">MoM ${data.trend}</div>
+            </div>`;
+            diagnosticHTML += `<div class="kpi-card">
+                <div class="kpi-title">体验评分</div>
+                <div class="kpi-value">${data.exp}</div>
+                <div class="kpi-subtitle">MoM ${data.expTrend}</div>
+            </div>`;
+            diagnosticHTML += `<div class="kpi-card">
+                <div class="kpi-title">月离网率</div>
+                <div class="kpi-value">${data.churn}</div>
+                <div class="kpi-subtitle">MoM ${data.churnTrend}</div>
+            </div>`;
+            diagnosticHTML += `<div class="kpi-card">
+                <div class="kpi-title">vs Claro</div>
+                <div class="kpi-value" style="color: #ef4444;">${data.vsClaro}</div>
+                <div class="kpi-subtitle">体验差距</div>
+            </div>`;
+            diagnosticHTML += `</div>`;
+
+            diagnosticHTML += `<h3 class="section-title">六维诊断</h3>`;
+            diagnosticHTML += `<div class="attribution-grid">`;
+            diagnosticHTML += `<div class="attribution-item">
+                <div class="attribution-label">网络PRB占用</div>
+                <div class="attribution-value">${data.prb}%</div>
+                <div class="attribution-detail">频段拥塞严重程度</div>
+            </div>`;
+            diagnosticHTML += `<div class="attribution-item">
+                <div class="attribution-label">边缘用户</div>
+                <div class="attribution-value">${data.edge}%</div>
+                <div class="attribution-detail">覆盖边缘的用户比例</div>
+            </div>`;
+            diagnosticHTML += `<div class="attribution-item">
+                <div class="attribution-label">YouTube HD</div>
+                <div class="attribution-value">${data.ytHD}%</div>
+                <div class="attribution-detail">高清播放成功率</div>
+            </div>`;
+            diagnosticHTML += `<div class="attribution-item">
+                <div class="attribution-label">vs Claro</div>
+                <div class="attribution-value" style="color: #ef4444;">${data.vsClaro}</div>
+                <div class="attribution-detail">体验竞争力</div>
+            </div>`;
+            diagnosticHTML += `<div class="attribution-item">
+                <div class="attribution-label">离网率</div>
+                <div class="attribution-value">${data.churn}</div>
+                <div class="attribution-detail">月均用户流失</div>
+            </div>`;
+            diagnosticHTML += `<div class="attribution-item">
+                <div class="attribution-label">基站数</div>
+                <div class="attribution-value">${data.sites}</div>
+                <div class="attribution-detail">覆盖密度</div>
+            </div>`;
+            diagnosticHTML += `</div>`;
+
+            diagnosticHTML += `<div class="action-box">`;
+            diagnosticHTML += `<h3 class="action-title">建议行动</h3>`;
+            if (data.exp < 3.5) {
+                diagnosticHTML += `<p class="action-item">• 优先扩容 ${city}，目标提升体验 0.5+ 分</p>`;
+            }
+            if (parseFloat(data.churn) > 1.5) {
+                diagnosticHTML += `<p class="action-item">• 加强离网预防，重点关注流失转移</p>`;
+            }
+            if (parseFloat(data.edge) > 25) {
+                diagnosticHTML += `<p class="action-item">• 增加基站密度，降低边缘用户比例</p>`;
+            }
+            diagnosticHTML += `</div>`;
+
+            document.getElementById("overlay-body").innerHTML = diagnosticHTML;
+            document.getElementById("drilldown-overlay").classList.add("active");
+        }
+
+        function closeDrilldown() {
+            document.getElementById("drilldown-overlay").classList.remove("active");
+        }
+
+        // ============ MAP INITIALIZATION ============
+
+        let map;
+
+        function initMap() {
+            map = L.map('map').setView([5.5, -74.5], 6);
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© CartoDB',
+                maxZoom: 19
+            }).addTo(map);
+
+            SITES_DATA.forEach(site => {
+                const color = getExperienceColor(site.exp);
+                const radius = 3 + site.users / 300;
+
+                const circle = L.circleMarker([site.lat, site.lon], {
+                    radius: radius,
+                    fillColor: color,
+                    color: color,
+                    weight: 2,
+                    opacity: 0.8,
+                    fillOpacity: 0.6
+                }).addTo(map);
+
+                circle.on('mouseover', function() {
+                    this.setRadius(radius * 1.2);
+                    this.setStyle({ opacity: 1, fillOpacity: 0.8 });
+                });
+
+                circle.on('mouseout', function() {
+                    this.setRadius(radius);
+                    this.setStyle({ opacity: 0.8, fillOpacity: 0.6 });
+                });
+
+                const popupContent = `
+                    <div class="popup-title">${site.id}</div>
+                    <div class="popup-row"><span>城市:</span> <span>${site.city}</span></div>
+                    <div class="popup-row"><span>体验:</span> <span>${site.exp}</span></div>
+                    <div class="popup-row"><span>PRB占用:</span> <span>${site.prb}%</span></div>
+                    <div class="popup-row"><span>边缘用户:</span> <span>${site.edge}%</span></div>
+                    <div class="popup-row"><span>频段:</span> <span>${site.bands}</span></div>
+                    <button class="popup-btn" onclick="parent.drilldown('${site.city}')">下钻到 ${site.city}</button>
+                `;
+
+                circle.bindPopup(popupContent, {
+                    maxWidth: 250,
+                    minWidth: 200
+                });
+            });
+        }
+
+        // ============ ECHARTS INITIALIZATION ============
+
+        function initTrafficChart() {
+            const trafficChart = echarts.init(document.getElementById('traffic-chart'), 'dark');
+
+            const option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {c}%'
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        radius: ['35%', '75%'],
+                        data: [
+                            { value: 32, name: '视频' },
+                            { value: 28, name: '社交' },
+                            { value: 18, name: '消息' },
+                            { value: 14, name: '其他' },
+                            { value: 8, name: '游戏' }
+                        ],
+                        itemStyle: {
+                            borderColor: '#111827',
+                            borderWidth: 2
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        },
+                        label: {
+                            fontSize: 10,
+                            color: '#cbd5e1'
+                        }
+                    }
+                ]
+            };
+
+            trafficChart.setOption(option);
+            window.addEventListener('resize', () => trafficChart.resize());
+        }
+
+        // ============ INITIALIZATION ============
+
+        document.addEventListener('DOMContentLoaded', () => {
+            formatDate();
+            initMap();
+            initTrafficChart();
+
+            document.getElementById('drilldown-overlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeDrilldown();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
