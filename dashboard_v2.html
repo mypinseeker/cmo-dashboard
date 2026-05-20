@@ -2337,7 +2337,7 @@
                         break;
                     }
                     case 'newUsers': {
-                        const cityNewUsers = SITES.filter(s => s.city === city).reduce((sum, s) => sum + (s.newUsers || 0), 0);
+                        const cityNewUsers = SITES_DATA.filter(s => s.city === city).reduce((sum, s) => sum + (s.newUsers || 0), 0);
                         const nuStr = cityNewUsers >= 1000 ? (cityNewUsers / 1000).toFixed(1) + 'K' : cityNewUsers;
                         fillColor = cityNewUsers > 2000 ? '#2563eb' : cityNewUsers > 1000 ? '#3b82f6' : '#60a5fa';
                         label = `+${nuStr}`;
@@ -3022,10 +3022,10 @@
             initMap();
             loadGeoJSON();  // Load administrative boundaries asynchronously
             initUserTrendChart();
-            initExpTrendChart();
+            // initExpTrendChart 已被 switchExpMetric 替代，不再单独调用
             initCompTrendChart();
-            initVideoTrends();
-            initTrafficChart();
+            // initVideoTrends 和 initTrafficChart 不再初始化时调用
+            // 它们的图表在上滑弹出面板中动态创建
             renderTerminalLadder();
             switchExpMetric('dl_speed');
 
