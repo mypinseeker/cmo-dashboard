@@ -2336,10 +2336,13 @@
                         label = `${gr > 0 ? '+' : ''}${cd.trend}`;
                         break;
                     }
-                    case 'newUsers':
-                        fillColor = '#3b82f6';
-                        label = '新增用户';
+                    case 'newUsers': {
+                        const cityNewUsers = SITES.filter(s => s.city === city).reduce((sum, s) => sum + (s.newUsers || 0), 0);
+                        const nuStr = cityNewUsers >= 1000 ? (cityNewUsers / 1000).toFixed(1) + 'K' : cityNewUsers;
+                        fillColor = cityNewUsers > 2000 ? '#2563eb' : cityNewUsers > 1000 ? '#3b82f6' : '#60a5fa';
+                        label = `+${nuStr}`;
                         break;
+                    }
                     case 'churn':
                         fillColor = parseFloat(cd.churn) > 1.5 ? '#ef4444' : parseFloat(cd.churn) > 1.0 ? '#f59e0b' : '#10b981';
                         label = `流失 ${cd.churn}`;
@@ -2531,9 +2534,9 @@
                         break;
                     }
                     case 'newUsers':
-                        color = '#3b82f6';
-                        radius = 3 + (site.newUsers||0) / 80;
-                        tooltipExtra = `新增: ${site.newUsers||0}`;
+                        color = (site.newUsers||0) > 250 ? '#2563eb' : (site.newUsers||0) > 150 ? '#3b82f6' : '#60a5fa';
+                        radius = 6;
+                        tooltipExtra = `新增: +${site.newUsers||0}`;
                         break;
                     case 'churn':
                         color = (site.churnRate||0) > 2.0 ? '#ef4444' : (site.churnRate||0) > 1.2 ? '#f59e0b' : '#10b981';
@@ -2631,7 +2634,7 @@
             } else {
                 const staticLegends = {
                     growth:{title:'用户增长率',items:[{color:'#059669',label:'> +2% 强劲增长'},{color:'#10b981',label:'+0.5%~+2% 稳健'},{color:'#f59e0b',label:'-0.5%~+0.5% 持平'},{color:'#f97316',label:'-2%~-0.5% 轻度下降'},{color:'#ef4444',label:'< -2% 严重下降'}]},
-                    newUsers:{title:'新增用户',items:[{color:'#3b82f6',label:'圆圈越大 = 新增越多'}]},
+                    newUsers:{title:'新增用户',items:[{color:'#2563eb',label:'> 2K / > 250 高'},{color:'#3b82f6',label:'1K-2K / 150-250 中'},{color:'#60a5fa',label:'< 1K / < 150 低'}]},
                     churn:{title:'流失率',items:[{color:'#10b981',label:'< 1.2% 健康'},{color:'#f59e0b',label:'1.2-2.0% 关注'},{color:'#ef4444',label:'> 2.0% 严重'}]},
                     video:{title:'YouTube HD 占比',items:[{color:'#10b981',label:'≥ 35% 良好'},{color:'#f59e0b',label:'25-35% 一般'},{color:'#ef4444',label:'< 25% 较差'}]},
                     coverageAnalysis:{title:'覆盖分析',items:[{color:'#10b981',label:'边缘 ≤ 18% 良好'},{color:'#f59e0b',label:'边缘 18-28% 关注'},{color:'#ef4444',label:'边缘 > 28% 较差'}]},
