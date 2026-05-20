@@ -1816,26 +1816,157 @@
             {id:"CO-CAR-009",lat:10.427,lon:-75.543,city:"Cartagena",bands:"B28/B2/B4/B7",users:440,exp:3.3,edge:27,prb:66,growth:-0.9,newUsers:68,churnUsers:72,churnRate:2.1}
         ];
 
+        // ============ EXPAND SITES FROM 50 TO 5000 ============
+
+        // Deterministic random number generator for consistent results
+        function mulberry32(a) {
+          return function() {
+            a |= 0; a = a + 0x6D2B79F5 | 0
+            var t = Math.imul(a ^ a >>> 15, 1 | a)
+            t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t
+            return ((t ^ t >>> 14) >>> 0) / 4294967296
+          }
+        }
+
+        function expandSites(seedSites, targetCount) {
+          const expanded = [...seedSites]  // Keep original seeds
+
+          const cityConfigs = {
+            'Bogota': {latRange:[4.52,4.78], lonRange:[-74.22,-73.95], count:1500, expRange:[3.2,4.8], prbRange:[30,85], edgeRange:[8,28]},
+            'Medellin': {latRange:[6.15,6.35], lonRange:[-75.68,-75.48], count:1000, expRange:[3.0,4.5], prbRange:[32,80], edgeRange:[10,26]},
+            'Cali': {latRange:[3.33,3.52], lonRange:[-76.60,-76.42], count:800, expRange:[2.8,4.2], prbRange:[35,82], edgeRange:[12,30]},
+            'Barranquilla': {latRange:[10.90,11.08], lonRange:[-74.88,-74.70], count:600, expRange:[2.0,3.5], prbRange:[50,95], edgeRange:[22,42]},
+            'Cartagena': {latRange:[10.32,10.50], lonRange:[-75.60,-75.42], count:500, expRange:[2.2,3.8], prbRange:[45,90], edgeRange:[18,38]},
+            'Rural': {latRange:[2.0,11.5], lonRange:[-77.0,-72.0], count:600, expRange:[2.5,4.0], prbRange:[20,60], edgeRange:[15,35]},
+          }
+
+          const bands = ['B2/B4/B7/B28','B2/B4/B7','B28/B2/B4','B2/B4','B2/B4/B7/B28/5G']
+          const rand = mulberry32(12345)
+
+          Object.entries(cityConfigs).forEach(([city, cfg]) => {
+            // Subtract existing seed sites for this city
+            const existing = seedSites.filter(s => s.city === city).length
+            const toGenerate = cfg.count - existing
+
+            for (let i = 0; i < toGenerate; i++) {
+              const lat = cfg.latRange[0] + rand() * (cfg.latRange[1] - cfg.latRange[0])
+              const lon = cfg.lonRange[0] + rand() * (cfg.lonRange[1] - cfg.lonRange[0])
+              const exp = +(cfg.expRange[0] + rand() * (cfg.expRange[1] - cfg.expRange[0])).toFixed(1)
+              const prb = Math.round(cfg.prbRange[0] + rand() * (cfg.prbRange[1] - cfg.prbRange[0]))
+              const edge = Math.round(cfg.edgeRange[0] + rand() * (cfg.edgeRange[1] - cfg.edgeRange[0]))
+              const users = Math.round(300 + rand() * 1500)
+              const growth = +((rand() - 0.3) * 8).toFixed(1)  // -2.4 to +5.6
+              const newUsers = Math.round(50 + rand() * 400)
+              const churnUsers = Math.round(10 + rand() * 120)
+              const churnRate = +(0.3 + rand() * 3.0).toFixed(1)
+
+              // City abbreviation
+              const cityAbbr = city === 'Barranquilla' ? 'BAR' : city === 'Cartagena' ? 'CAR' :
+                                city === 'Medellin' ? 'MED' : city === 'Cali' ? 'CAL' :
+                                city === 'Rural' ? 'RUR' : 'BOG'
+
+              expanded.push({
+                id: `CO-${cityAbbr}-${(existing + i + 1).toString().padStart(4,'0')}`,
+                lat: +lat.toFixed(6),
+                lon: +lon.toFixed(6),
+                city: city,
+                bands: bands[Math.floor(rand() * bands.length)],
+                users: users,
+                exp: exp,
+                edge: edge,
+                prb: prb,
+                growth: growth,
+                newUsers: newUsers,
+                churnUsers: churnUsers,
+                churnRate: churnRate,
+              })
+            }
+          })
+
+          return expanded
+        }
+
+        // Execute expansion and extend SITES_DATA
+        const generatedSites = expandSites(SITES_DATA, 5000)
+        SITES_DATA.push(...generatedSites.filter(s => !SITES_DATA.find(o => o.id === s.id)))
+
+        // Generate terminal heatmap dynamically from sites
+        function generateTerminalHeatmap(sites) {
+          const models = {
+            "iPhone 16 Pro Max": {cityWeight:{Bogota:0.9,Medellin:0.7,Cali:0.5,Barranquilla:0.3,Cartagena:0.3,Rural:0.1}},
+            "Samsung S25 Ultra": {cityWeight:{Bogota:0.8,Medellin:0.65,Cali:0.5,Barranquilla:0.35,Cartagena:0.3,Rural:0.15}},
+            "iPhone 15": {cityWeight:{Bogota:0.85,Medellin:0.7,Cali:0.55,Barranquilla:0.4,Cartagena:0.35,Rural:0.2}},
+            "Samsung A55": {cityWeight:{Bogota:0.5,Medellin:0.5,Cali:0.5,Barranquilla:0.5,Cartagena:0.5,Rural:0.5}},
+            "Xiaomi Redmi Note 13": {cityWeight:{Bogota:0.3,Medellin:0.35,Cali:0.4,Barranquilla:0.55,Cartagena:0.5,Rural:0.7}},
+          }
+
+          const result = {}
+          const rand2 = mulberry32(67890)
+
+          Object.entries(models).forEach(([model, cfg]) => {
+            const points = []
+            sites.forEach(site => {
+              const weight = cfg.cityWeight[site.city] || 0.3
+              if (rand2() < weight * 0.15) {  // Sample by weight
+                points.push([
+                  site.lat + (rand2()-0.5)*0.02,
+                  site.lon + (rand2()-0.5)*0.02,
+                  weight * (0.5 + rand2()*0.5)
+                ])
+              }
+            })
+            result[model] = points
+          })
+
+          return result
+        }
+
+        // Generate MR coverage heatmap dynamically
+        function generateMRHeatmap(sites) {
+          const rand3 = mulberry32(11111)
+          const tigo = [], claro = []
+
+          sites.forEach(site => {
+            // Tigo coverage intensity correlates with experience
+            const tigoIntensity = Math.min(1, Math.max(0.1, site.exp / 5.0 * (0.7 + rand3()*0.3)))
+            tigo.push([site.lat + (rand3()-0.5)*0.01, site.lon + (rand3()-0.5)*0.01, tigoIntensity])
+
+            // Claro coverage: stronger in Barranquilla/Cartagena
+            let claroBase = 0.6 + rand3() * 0.3
+            if (site.city === 'Barranquilla' || site.city === 'Cartagena') claroBase += 0.2
+            if (site.city === 'Medellin') claroBase -= 0.1
+            claro.push([site.lat + (rand3()-0.5)*0.015, site.lon + (rand3()-0.5)*0.015, Math.min(1, claroBase)])
+          })
+
+          return {tigo, claro}
+        }
+
+        // Replace terminal heatmap with generated version
+        const terminalGen = generateTerminalHeatmap(SITES_DATA)
+        Object.keys(terminalGen).forEach(k => {
+          TERMINAL_HEATMAP[k] = terminalGen[k]
+        })
+
         const CITIES = {
             "Bogota": {
                 users:"4.2M",trend:"+3.1%",exp:4.3,expTrend:"+0.3",churn:"0.8%",churnTrend:"-0.1%",
-                edge:12,prb:50,vsClaro:"-5%",ytHD:38,sites:15,population:"7.2M"
+                edge:12,prb:50,vsClaro:"-5%",ytHD:38,sites:1500,population:"7.2M"
             },
             "Medellin": {
                 users:"2.8M",trend:"+2.5%",exp:3.9,expTrend:"+0.1",churn:"1.0%",churnTrend:"0%",
-                edge:16,prb:52,vsClaro:"-10%",ytHD:35,sites:10,population:"4.1M"
+                edge:16,prb:52,vsClaro:"-10%",ytHD:35,sites:1000,population:"4.1M"
             },
             "Cali": {
                 users:"1.9M",trend:"+1.8%",exp:3.5,expTrend:"-0.1",churn:"1.3%",churnTrend:"+0.2%",
-                edge:26,prb:63,vsClaro:"-12%",ytHD:30,sites:10,population:"3.2M"
+                edge:26,prb:63,vsClaro:"-12%",ytHD:30,sites:800,population:"3.2M"
             },
             "Barranquilla": {
                 users:"1.1M",trend:"-1.2%",exp:2.8,expTrend:"-0.5",churn:"2.1%",churnTrend:"+0.4%",
-                edge:34,prb:75,vsClaro:"-22%",ytHD:18,sites:8,population:"2.2M"
+                edge:34,prb:75,vsClaro:"-22%",ytHD:18,sites:600,population:"2.2M"
             },
             "Cartagena": {
                 users:"0.8M",trend:"-0.8%",exp:3.1,expTrend:"-0.2",churn:"1.8%",churnTrend:"+0.3%",
-                edge:30,prb:70,vsClaro:"-18%",ytHD:22,sites:7,population:"1.4M"
+                edge:30,prb:70,vsClaro:"-18%",ytHD:22,sites:500,population:"1.4M"
             }
         };
 
@@ -3260,6 +3391,11 @@
                 [10.42,-75.50,0.68],[10.40,-75.53,0.62],
             ],
         }
+
+        // Replace MR heatmap with generated version
+        const mrGen = generateMRHeatmap(SITES_DATA)
+        MR_HEATMAP.tigo = mrGen.tigo
+        MR_HEATMAP.claro = mrGen.claro
 
         let covHeatLayer = null
 
