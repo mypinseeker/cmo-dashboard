@@ -683,6 +683,30 @@
             color: #ef4444;
         }
 
+        .map-layer-btn {
+            font-size: 10px;
+            padding: 4px 10px;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .map-layer-btn:hover {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+
+        .map-layer-btn.active {
+            background: #06b6d4;
+            color: #0a0e1a;
+            border-color: #06b6d4;
+            font-weight: 600;
+        }
+
         .action-box {
             margin-top: 28px;
             padding: 18px;
@@ -938,7 +962,15 @@
         </div>
 
         <!-- Map Container -->
-        <div class="map-container">
+        <div class="map-container" style="position:relative;">
+            <!-- Map Layer Switch Menu -->
+            <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:1000;
+              display:flex;gap:4px;background:rgba(17,24,39,0.9);padding:4px;border-radius:8px;border:1px solid #334155;">
+              <button class="map-layer-btn active" onclick="switchMapLayer('experience')" id="btn-experience">体验评分</button>
+              <button class="map-layer-btn" onclick="switchMapLayer('growth')" id="btn-growth">用户增长率</button>
+              <button class="map-layer-btn" onclick="switchMapLayer('newUsers')" id="btn-newUsers">新增用户</button>
+              <button class="map-layer-btn" onclick="switchMapLayer('churn')" id="btn-churn">流失分布</button>
+            </div>
             <div id="map"></div>
             <div class="map-legend">
                 <div class="legend-item">
@@ -960,20 +992,58 @@
         <div class="right-column">
             <!-- Experience Card -->
             <div class="card">
-                <div class="card-title">体验评分</div>
-                <div class="big-number">4.2</div>
-                <div style="font-size: 12px; color: #94a3b8; font-weight: 500;">/ 5.0</div>
-                <div class="separator"></div>
-                <div class="sub-title">竞争力分析</div>
-                <div class="row">
-                    <div><span class="label">vs Claro</span><div class="value-red">-8%</div></div>
-                    <div><span class="label">趋势</span><div class="value-green">缩小中</div></div>
+                <div style="margin-bottom:8px;">
+                    <div class="card-label">体验评分</div>
+                    <div style="display:flex;align-items:baseline;gap:8px;">
+                        <span class="big-number" style="font-size:32px;">4.2</span>
+                        <span style="font-size:14px;color:#64748b;">/5.0</span>
+                    </div>
+                    <span class="trend-badge trend-up">▲ +0.2 MoM</span>
+                    <span style="font-size:10px;color:#f59e0b;margin-left:6px;">vs Claro 差 8% · 差距缩小中</span>
                 </div>
-                <div class="separator"></div>
-                <div class="sub-title">边缘用户</div>
-                <div style="font-size: 12px; color: #94a3b8; font-weight: 500;">2.5M 人 (20%)</div>
-                <div style="margin-top: 8px;">
-                    <div class="clickable" onclick="drilldown('Cali')">Cali 边缘率最高</div>
+
+                <!-- 体验趋势图：Tigo vs Claro -->
+                <div id="expTrendChart" style="width:100%;height:110px;"></div>
+
+                <!-- 区域体验排名（差→好排序） -->
+                <div style="border-top:1px solid #1e293b;padding-top:8px;">
+                    <div class="card-label" style="margin-bottom:6px;">区域体验</div>
+                    <!-- Barranquilla 最差排最上 -->
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;" onclick="drilldown('Barranquilla')">
+                        <span style="font-size:11px;color:#ef4444;">Barranquilla</span>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <span style="font-size:12px;font-weight:700;color:#ef4444;">2.8</span>
+                            <span style="font-size:10px;color:#ef4444;">▼-0.5</span>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;" onclick="drilldown('Cartagena')">
+                        <span style="font-size:11px;color:#ef4444;">Cartagena</span>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <span style="font-size:12px;font-weight:700;color:#ef4444;">3.1</span>
+                            <span style="font-size:10px;color:#ef4444;">▼-0.2</span>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;" onclick="drilldown('Cali')">
+                        <span style="font-size:11px;color:#f59e0b;">Cali</span>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <span style="font-size:12px;font-weight:700;color:#f59e0b;">3.5</span>
+                            <span style="font-size:10px;color:#ef4444;">▼-0.1</span>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;" onclick="drilldown('Medellín')">
+                        <span style="font-size:11px;color:#10b981;">Medellín</span>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <span style="font-size:12px;font-weight:700;color:#10b981;">3.9</span>
+                            <span style="font-size:10px;color:#10b981;">▲+0.1</span>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;" onclick="drilldown('Bogota')">
+                        <span style="font-size:11px;color:#10b981;">Bogotá</span>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <span style="font-size:12px;font-weight:700;color:#10b981;">4.3</span>
+                            <span style="font-size:10px;color:#10b981;">▲+0.3</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1160,61 +1230,70 @@
             {week:"W21",users:12500000}
         ];
 
+        const MONTHLY_EXPERIENCE = [
+            {month:"Dec",tigo:3.4,claro:4.0},
+            {month:"Jan",tigo:3.5,claro:4.0},
+            {month:"Feb",tigo:3.6,claro:4.1},
+            {month:"Mar",tigo:3.8,claro:4.1},
+            {month:"Apr",tigo:4.0,claro:4.2},
+            {month:"May",tigo:4.2,claro:4.3},
+        ];
+
         const SITES_DATA = [
-            {id:"CO-BOG-082",lat:4.605,lon:-74.025,city:"Bogota",bands:"B2/B4/B7",users:1250,exp:4.5,edge:12,prb:48},
-            {id:"CO-BOG-015",lat:4.713,lon:-74.003,city:"Bogota",bands:"B2/B4/B7",users:1180,exp:4.4,edge:10,prb:45},
-            {id:"CO-BOG-004",lat:4.569,lon:-74.023,city:"Bogota",bands:"B28/B2/B4/B7",users:1320,exp:4.6,edge:14,prb:52},
-            {id:"CO-BOG-095",lat:4.717,lon:-74.015,city:"Bogota",bands:"B2/B4/B7",users:1100,exp:4.3,edge:11,prb:48},
-            {id:"CO-BOG-036",lat:4.713,lon:-74.081,city:"Bogota",bands:"B2/B4/B7",users:1200,exp:4.2,edge:13,prb:50},
-            {id:"CO-BOG-032",lat:4.572,lon:-74.008,city:"Bogota",bands:"B2/B4/B7",users:980,exp:3.8,edge:18,prb:62},
-            {id:"CO-BOG-029",lat:4.736,lon:-74.134,city:"Bogota",bands:"B28/B2/B4",users:1050,exp:3.9,edge:15,prb:55},
-            {id:"CO-BOG-018",lat:4.722,lon:-74.139,city:"Bogota",bands:"B2/B4",users:890,exp:3.6,edge:22,prb:68},
-            {id:"CO-BOG-014",lat:4.648,lon:-74.133,city:"Bogota",bands:"B28/B2/B4",users:1150,exp:4.1,edge:12,prb:48},
-            {id:"CO-BOG-087",lat:4.732,lon:-74.148,city:"Bogota",bands:"B2/B4/B7",users:1280,exp:4.4,edge:10,prb:46},
-            {id:"CO-BOG-070",lat:4.640,lon:-74.084,city:"Bogota",bands:"B2/B4",users:1020,exp:4.0,edge:16,prb:58},
-            {id:"CO-BOG-012",lat:4.603,lon:-74.054,city:"Bogota",bands:"B2/B4",users:1100,exp:4.2,edge:12,prb:50},
-            {id:"CO-BOG-076",lat:4.684,lon:-74.110,city:"Bogota",bands:"B2/B4/B7",users:1200,exp:4.3,edge:11,prb:48},
-            {id:"CO-BOG-055",lat:4.706,lon:-74.052,city:"Bogota",bands:"B2/B4/B7",users:1300,exp:4.5,edge:9,prb:44},
-            {id:"CO-BOG-005",lat:4.716,lon:-74.057,city:"Bogota",bands:"B2/B4/B7",users:1150,exp:4.4,edge:10,prb:46},
+            {id:"CO-BOG-082",lat:4.605,lon:-74.025,city:"Bogota",bands:"B2/B4/B7",users:1250,exp:4.5,edge:12,prb:48,growth:3.5,newUsers:285,churnUsers:45,churnRate:0.8},
+            {id:"CO-BOG-015",lat:4.713,lon:-74.003,city:"Bogota",bands:"B2/B4/B7",users:1180,exp:4.4,edge:10,prb:45,growth:3.2,newUsers:270,churnUsers:42,churnRate:0.7},
+            {id:"CO-BOG-004",lat:4.569,lon:-74.023,city:"Bogota",bands:"B28/B2/B4/B7",users:1320,exp:4.6,edge:14,prb:52,growth:4.1,newUsers:320,churnUsers:50,churnRate:0.9},
+            {id:"CO-BOG-095",lat:4.717,lon:-74.015,city:"Bogota",bands:"B2/B4/B7",users:1100,exp:4.3,edge:11,prb:48,growth:2.8,newUsers:240,churnUsers:38,churnRate:0.7},
+            {id:"CO-BOG-036",lat:4.713,lon:-74.081,city:"Bogota",bands:"B2/B4/B7",users:1200,exp:4.2,edge:13,prb:50,growth:3.0,newUsers:265,churnUsers:44,churnRate:0.8},
+            {id:"CO-BOG-032",lat:4.572,lon:-74.008,city:"Bogota",bands:"B2/B4/B7",users:980,exp:3.8,edge:18,prb:62,growth:2.2,newUsers:180,churnUsers:35,churnRate:0.9},
+            {id:"CO-BOG-029",lat:4.736,lon:-74.134,city:"Bogota",bands:"B28/B2/B4",users:1050,exp:3.9,edge:15,prb:55,growth:2.5,newUsers:200,churnUsers:38,churnRate:0.9},
+            {id:"CO-BOG-018",lat:4.722,lon:-74.139,city:"Bogota",bands:"B2/B4",users:890,exp:3.6,edge:22,prb:68,growth:1.8,newUsers:120,churnUsers:28,churnRate:1.0},
+            {id:"CO-BOG-014",lat:4.648,lon:-74.133,city:"Bogota",bands:"B28/B2/B4",users:1150,exp:4.1,edge:12,prb:48,growth:3.3,newUsers:280,churnUsers:42,churnRate:0.8},
+            {id:"CO-BOG-087",lat:4.732,lon:-74.148,city:"Bogota",bands:"B2/B4/B7",users:1280,exp:4.4,edge:10,prb:46,growth:4.0,newUsers:315,churnUsers:48,churnRate:0.8},
+            {id:"CO-BOG-070",lat:4.640,lon:-74.084,city:"Bogota",bands:"B2/B4",users:1020,exp:4.0,edge:16,prb:58,growth:2.6,newUsers:220,churnUsers:38,churnRate:0.9},
+            {id:"CO-BOG-012",lat:4.603,lon:-74.054,city:"Bogota",bands:"B2/B4",users:1100,exp:4.2,edge:12,prb:50,growth:3.1,newUsers:275,churnUsers:40,churnRate:0.8},
+            {id:"CO-BOG-076",lat:4.684,lon:-74.110,city:"Bogota",bands:"B2/B4/B7",users:1200,exp:4.3,edge:11,prb:48,growth:3.2,newUsers:285,churnUsers:44,churnRate:0.8},
+            {id:"CO-BOG-055",lat:4.706,lon:-74.052,city:"Bogota",bands:"B2/B4/B7",users:1300,exp:4.5,edge:9,prb:44,growth:4.2,newUsers:330,churnUsers:50,churnRate:0.8},
+            {id:"CO-BOG-005",lat:4.716,lon:-74.057,city:"Bogota",bands:"B2/B4/B7",users:1150,exp:4.4,edge:10,prb:46,growth:3.6,newUsers:295,churnUsers:43,churnRate:0.8},
 
-            {id:"CO-MED-015",lat:6.260,lon:-75.545,city:"Medellin",bands:"B28/B2/B4/B7",users:950,exp:4.2,edge:14,prb:50},
-            {id:"CO-MED-004",lat:6.263,lon:-75.598,city:"Medellin",bands:"B2/B4/B7",users:880,exp:3.9,edge:16,prb:55},
-            {id:"CO-MED-036",lat:6.221,lon:-75.543,city:"Medellin",bands:"B2/B4/B7",users:920,exp:4.1,edge:15,prb:52},
-            {id:"CO-MED-032",lat:6.185,lon:-75.549,city:"Medellin",bands:"B2/B4/B7",users:850,exp:3.8,edge:18,prb:58},
-            {id:"CO-MED-029",lat:6.216,lon:-75.593,city:"Medellin",bands:"B28/B2/B4/B7",users:980,exp:4.0,edge:16,prb:54},
-            {id:"CO-MED-018",lat:6.284,lon:-75.563,city:"Medellin",bands:"B2/B4/B7",users:910,exp:4.1,edge:14,prb:50},
-            {id:"CO-MED-014",lat:6.192,lon:-75.546,city:"Medellin",bands:"B28/B2/B4/B7",users:1020,exp:4.2,edge:13,prb:48},
-            {id:"CO-MED-070",lat:6.193,lon:-75.596,city:"Medellin",bands:"B2/B4",users:780,exp:3.6,edge:22,prb:65},
-            {id:"CO-MED-012",lat:6.275,lon:-75.609,city:"Medellin",bands:"B2/B4/B7",users:840,exp:3.9,edge:17,prb:56},
-            {id:"CO-MED-055",lat:6.294,lon:-75.612,city:"Medellin",bands:"B28/B2/B4",users:900,exp:4.0,edge:15,prb:52},
+            {id:"CO-MED-015",lat:6.260,lon:-75.545,city:"Medellin",bands:"B28/B2/B4/B7",users:950,exp:4.2,edge:14,prb:50,growth:2.8,newUsers:195,churnUsers:38,churnRate:1.0},
+            {id:"CO-MED-004",lat:6.263,lon:-75.598,city:"Medellin",bands:"B2/B4/B7",users:880,exp:3.9,edge:16,prb:55,growth:2.0,newUsers:155,churnUsers:32,churnRate:1.1},
+            {id:"CO-MED-036",lat:6.221,lon:-75.543,city:"Medellin",bands:"B2/B4/B7",users:920,exp:4.1,edge:15,prb:52,growth:2.4,newUsers:175,churnUsers:35,churnRate:1.0},
+            {id:"CO-MED-032",lat:6.185,lon:-75.549,city:"Medellin",bands:"B2/B4/B7",users:850,exp:3.8,edge:18,prb:58,growth:1.6,newUsers:125,churnUsers:28,churnRate:1.1},
+            {id:"CO-MED-029",lat:6.216,lon:-75.593,city:"Medellin",bands:"B28/B2/B4/B7",users:980,exp:4.0,edge:16,prb:54,growth:2.2,newUsers:165,churnUsers:33,churnRate:1.0},
+            {id:"CO-MED-018",lat:6.284,lon:-75.563,city:"Medellin",bands:"B2/B4/B7",users:910,exp:4.1,edge:14,prb:50,growth:2.6,newUsers:185,churnUsers:35,churnRate:1.0},
+            {id:"CO-MED-014",lat:6.192,lon:-75.546,city:"Medellin",bands:"B28/B2/B4/B7",users:1020,exp:4.2,edge:13,prb:48,growth:3.0,newUsers:215,churnUsers:40,churnRate:0.9},
+            {id:"CO-MED-070",lat:6.193,lon:-75.596,city:"Medellin",bands:"B2/B4",users:780,exp:3.6,edge:22,prb:65,growth:1.2,newUsers:100,churnUsers:22,churnRate:1.2},
+            {id:"CO-MED-012",lat:6.275,lon:-75.609,city:"Medellin",bands:"B2/B4/B7",users:840,exp:3.9,edge:17,prb:56,growth:2.2,newUsers:155,churnUsers:30,churnRate:1.1},
+            {id:"CO-MED-055",lat:6.294,lon:-75.612,city:"Medellin",bands:"B28/B2/B4",users:900,exp:4.0,edge:15,prb:52,growth:2.5,newUsers:180,churnUsers:35,churnRate:1.0},
 
-            {id:"CO-CAL-015",lat:3.430,lon:-76.488,city:"Cali",bands:"B28/B2/B4",users:750,exp:3.5,edge:22,prb:58},
-            {id:"CO-CAL-004",lat:3.436,lon:-76.485,city:"Cali",bands:"B28/B2/B4",users:720,exp:3.4,edge:24,prb:60},
-            {id:"CO-CAL-036",lat:3.454,lon:-76.523,city:"Cali",bands:"B28/B2/B4",users:680,exp:3.2,edge:28,prb:68},
-            {id:"CO-CAL-032",lat:3.392,lon:-76.480,city:"Cali",bands:"B2/B4/B7",users:800,exp:3.6,edge:20,prb:55},
-            {id:"CO-CAL-029",lat:3.451,lon:-76.496,city:"Cali",bands:"B2/B4",users:650,exp:3.0,edge:32,prb:72},
-            {id:"CO-CAL-018",lat:3.435,lon:-76.520,city:"Cali",bands:"B2/B4/B7",users:700,exp:3.3,edge:26,prb:65},
-            {id:"CO-CAL-014",lat:3.410,lon:-76.502,city:"Cali",bands:"B28/B2/B4",users:740,exp:3.5,edge:23,prb:60},
-            {id:"CO-CAL-044",lat:3.398,lon:-76.492,city:"Cali",bands:"B2/B4/B7",users:710,exp:3.4,edge:25,prb:62},
-            {id:"CO-CAL-048",lat:3.405,lon:-76.554,city:"Cali",bands:"B2/B4",users:620,exp:3.1,edge:30,prb:70},
-            {id:"CO-CAL-058",lat:3.431,lon:-76.486,city:"Cali",bands:"B28/B2/B4/B7",users:780,exp:3.7,edge:21,prb:57},
+            {id:"CO-CAL-015",lat:3.430,lon:-76.488,city:"Cali",bands:"B28/B2/B4",users:750,exp:3.5,edge:22,prb:58,growth:1.5,newUsers:125,churnUsers:40,churnRate:1.2},
+            {id:"CO-CAL-004",lat:3.436,lon:-76.485,city:"Cali",bands:"B28/B2/B4",users:720,exp:3.4,edge:24,prb:60,growth:1.0,newUsers:110,churnUsers:38,churnRate:1.3},
+            {id:"CO-CAL-036",lat:3.454,lon:-76.523,city:"Cali",bands:"B28/B2/B4",users:680,exp:3.2,edge:28,prb:68,growth:0.5,newUsers:85,churnUsers:38,churnRate:1.4},
+            {id:"CO-CAL-032",lat:3.392,lon:-76.480,city:"Cali",bands:"B2/B4/B7",users:800,exp:3.6,edge:20,prb:55,growth:1.8,newUsers:140,churnUsers:42,churnRate:1.1},
+            {id:"CO-CAL-029",lat:3.451,lon:-76.496,city:"Cali",bands:"B2/B4",users:650,exp:3.0,edge:32,prb:72,growth:0.2,newUsers:65,churnUsers:32,churnRate:1.5},
+            {id:"CO-CAL-018",lat:3.435,lon:-76.520,city:"Cali",bands:"B2/B4/B7",users:700,exp:3.3,edge:26,prb:65,growth:0.8,newUsers:100,churnUtils:35,churnRate:1.3},
+            {id:"CO-CAL-014",lat:3.410,lon:-76.502,city:"Cali",bands:"B28/B2/B4",users:740,exp:3.5,edge:23,prb:60,growth:1.5,newUsers:120,churnUsers:38,churnRate:1.2},
+            {id:"CO-CAL-044",lat:3.398,lon:-76.492,city:"Cali",bands:"B2/B4/B7",users:710,exp:3.4,edge:25,prb:62,growth:1.2,newUsers:115,churnUsers:37,churnRate:1.3},
+            {id:"CO-CAL-048",lat:3.405,lon:-76.554,city:"Cali",bands:"B2/B4",users:620,exp:3.1,edge:30,prb:70,growth:0.5,newUsers:75,churnUsers:30,churnRate:1.5},
+            {id:"CO-CAL-058",lat:3.431,lon:-76.486,city:"Cali",bands:"B28/B2/B4/B7",users:780,exp:3.7,edge:21,prb:57,growth:2.0,newUsers:155,churnUsers:40,churnRate:1.1},
 
-            {id:"CO-BAR-041",lat:10.955,lon:-74.760,city:"Barranquilla",bands:"B2/B4",users:520,exp:2.8,edge:35,prb:75},
-            {id:"CO-BAR-008",lat:10.982,lon:-74.791,city:"Barranquilla",bands:"B28/B2/B4/B7",users:580,exp:3.0,edge:32,prb:72},
-            {id:"CO-BAR-002",lat:11.003,lon:-74.774,city:"Barranquilla",bands:"B2/B4/B7",users:510,exp:2.7,edge:38,prb:78},
-            {id:"CO-BAR-048",lat:11.006,lon:-74.778,city:"Barranquilla",bands:"B28/B2/B4/B7",users:550,exp:2.9,edge:34,prb:76},
-            {id:"CO-BAR-018",lat:11.016,lon:-74.818,city:"Barranquilla",bands:"B28/B2/B4",users:480,exp:2.6,edge:40,prb:80},
-            {id:"CO-BAR-016",lat:10.965,lon:-74.775,city:"Barranquilla",bands:"B2/B4",users:500,exp:2.8,edge:36,prb:76},
-            {id:"CO-BAR-015",lat:11.004,lon:-74.775,city:"Barranquilla",bands:"B2/B4/B7",users:540,exp:2.9,edge:33,prb:74},
-            {id:"CO-BAR-009",lat:10.965,lon:-74.794,city:"Barranquilla",bands:"B28/B2/B4",users:560,exp:3.1,edge:31,prb:70},
+            {id:"CO-BAR-041",lat:10.955,lon:-74.760,city:"Barranquilla",bands:"B2/B4",users:520,exp:2.8,edge:35,prb:75,growth:-2.5,newUsers:65,churnUsers:85,churnRate:2.8},
+            {id:"CO-BAR-008",lat:10.982,lon:-74.791,city:"Barranquilla",bands:"B28/B2/B4/B7",users:580,exp:3.0,edge:32,prb:72,growth:-1.8,newUsers:85,churnUsers:100,churnRate:2.5},
+            {id:"CO-BAR-002",lat:11.003,lon:-74.774,city:"Barranquilla",bands:"B2/B4/B7",users:510,exp:2.7,edge:38,prb:78,growth:-3.2,newUsers:50,churnUsers:95,churnRate:3.0},
+            {id:"CO-BAR-048",lat:11.006,lon:-74.778,city:"Barranquilla",bands:"B28/B2/B4/B7",users:550,exp:2.9,edge:34,prb:76,growth:-2.0,newUsers:70,churnUsers:90,churnRate:2.7},
+            {id:"CO-BAR-018",lat:11.016,lon:-74.818,city:"Barranquilla",bands:"B28/B2/B4",users:480,exp:2.6,edge:40,prb:80,growth:-3.5,newUsers:40,churnUsers:88,churnRate:3.2},
+            {id:"CO-BAR-016",lat:10.965,lon:-74.775,city:"Barranquilla",bands:"B2/B4",users:500,exp:2.8,edge:36,prb:76,growth:-2.8,newUsers:55,churnUsers:82,churnRate:2.9},
+            {id:"CO-BAR-015",lat:11.004,lon:-74.775,city:"Barranquilla",bands:"B2/B4/B7",users:540,exp:2.9,edge:33,prb:74,growth:-2.2,newUsers:75,churnUsers:95,churnRate:2.6},
+            {id:"CO-BAR-009",lat:10.965,lon:-74.794,city:"Barranquilla",bands:"B28/B2/B4",users:560,exp:3.1,edge:31,prb:70,growth:-1.5,newUsers:90,churnUsers:105,churnRate:2.4},
 
-            {id:"CO-CAR-041",lat:10.382,lon:-75.533,city:"Cartagena",bands:"B28/B2/B4",users:420,exp:3.2,edge:28,prb:68},
-            {id:"CO-CAR-008",lat:10.384,lon:-75.527,city:"Cartagena",bands:"B28/B2/B4",users:390,exp:3.0,edge:32,prb:72},
-            {id:"CO-CAR-002",lat:10.409,lon:-75.544,city:"Cartagena",bands:"B28/B2/B4",users:410,exp:3.1,edge:30,prb:70},
-            {id:"CO-CAR-018",lat:10.394,lon:-75.538,city:"Cartagena",bands:"B28/B2/B4/B7",users:450,exp:3.3,edge:26,prb:65},
-            {id:"CO-CAR-016",lat:10.435,lon:-75.509,city:"Cartagena",bands:"B2/B4",users:360,exp:2.9,edge:34,prb:74},
-            {id:"CO-CAR-015",lat:10.392,lon:-75.547,city:"Cartagena",bands:"B28/B2/B4/B7",users:430,exp:3.2,edge:28,prb:67},
-            {id:"CO-CAR-009",lat:10.427,lon:-75.543,city:"Cartagena",bands:"B28/B2/B4/B7",users:440,exp:3.3,edge:27,prb:66}
+            {id:"CO-CAR-041",lat:10.382,lon:-75.533,city:"Cartagena",bands:"B28/B2/B4",users:420,exp:3.2,edge:28,prb:68,growth:-1.8,newUsers:60,churnUsers:65,churnRate:2.2},
+            {id:"CO-CAR-008",lat:10.384,lon:-75.527,city:"Cartagena",bands:"B28/B2/B4",users:390,exp:3.0,edge:32,prb:72,growth:-2.2,newUsers:50,churnUsers:62,churnRate:2.5},
+            {id:"CO-CAR-002",lat:10.409,lon:-75.544,city:"Cartagena",bands:"B28/B2/B4",users:410,exp:3.1,edge:30,prb:70,growth:-1.5,newUsers:58,churnUsers:63,churnRate:2.3},
+            {id:"CO-CAR-018",lat:10.394,lon:-75.538,city:"Cartagena",bands:"B28/B2/B4/B7",users:450,exp:3.3,edge:26,prb:65,growth:-0.8,newUsers:72,churnUsers:70,churnRate:2.0},
+            {id:"CO-CAR-016",lat:10.435,lon:-75.509,city:"Cartagena",bands:"B2/B4",users:360,exp:2.9,edge:34,prb:74,growth:-2.5,newUsers:42,churnUsers:60,churnRate:2.6},
+            {id:"CO-CAR-015",lat:10.392,lon:-75.547,city:"Cartagena",bands:"B28/B2/B4/B7",users:430,exp:3.2,edge:28,prb:67,growth:-1.2,newUsers:65,churnUsers:68,churnRate:2.2},
+            {id:"CO-CAR-009",lat:10.427,lon:-75.543,city:"Cartagena",bands:"B28/B2/B4/B7",users:440,exp:3.3,edge:27,prb:66,growth:-0.9,newUsers:68,churnUsers:72,churnRate:2.1}
         ];
 
         const CITIES = {
@@ -1418,9 +1497,72 @@
           document.getElementById('terminalBreakdown').style.display = 'none'
         }
 
-        // ============ MAP INITIALIZATION ============
+        // ============ MAP LAYER SWITCHING ============
 
         let map;
+        window.siteMarkers = [];
+
+        function switchMapLayer(layer) {
+            // Update button states
+            document.querySelectorAll('.map-layer-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + layer).classList.add('active');
+
+            // Remove existing markers
+            if (window.siteMarkers) {
+                window.siteMarkers.forEach(m => map.removeLayer(m));
+            }
+            window.siteMarkers = [];
+
+            // Re-render with new layer
+            SITES_DATA.forEach(site => {
+                let color, radius, tooltipExtra;
+
+                switch(layer) {
+                    case 'experience':
+                        color = site.exp >= 4.0 ? '#10b981' : site.exp >= 3.0 ? '#f59e0b' : '#ef4444';
+                        radius = 3 + site.users / 300;
+                        tooltipExtra = `体验: ${site.exp}`;
+                        break;
+                    case 'growth':
+                        color = site.growth > 2 ? '#10b981' : site.growth > 0 ? '#f59e0b' : '#ef4444';
+                        radius = 5 + Math.abs(site.growth) * 1.5;
+                        tooltipExtra = `增长率: ${site.growth > 0 ? '+' : ''}${site.growth}%`;
+                        break;
+                    case 'newUsers':
+                        color = '#3b82f6';
+                        radius = 3 + site.newUsers / 80;
+                        tooltipExtra = `新增: ${site.newUsers}`;
+                        break;
+                    case 'churn':
+                        color = site.churnRate > 2.0 ? '#ef4444' : site.churnRate > 1.2 ? '#f59e0b' : '#10b981';
+                        radius = 3 + site.churnRate * 3;
+                        tooltipExtra = `流失率: ${site.churnRate}% (${site.churnUsers}人)`;
+                        break;
+                }
+
+                const marker = L.circleMarker([site.lat, site.lon], {
+                    radius: radius,
+                    fillColor: color,
+                    color: color,
+                    weight: 1,
+                    opacity: 0.9,
+                    fillOpacity: 0.7,
+                }).bindPopup(`
+                    <div style="font-size:11px;color:#f1f5f9;background:#1e293b;padding:4px;border-radius:4px;min-width:140px;">
+                        <b>${site.id}</b><br/>
+                        ${site.city}<br/>
+                        ${tooltipExtra}<br/>
+                        PRB: ${site.prb}% · 边缘: ${site.edge}%<br/>
+                        <a href="#" onclick="drilldown('${site.city}');return false" style="color:#06b6d4;">下钻 →</a>
+                    </div>
+                `, {className:'dark-popup'});
+
+                marker.addTo(map);
+                window.siteMarkers.push(marker);
+            });
+        }
+
+        // ============ MAP INITIALIZATION ============
 
         function initMap() {
             map = L.map('map').setView([5.5, -74.5], 6);
@@ -1430,44 +1572,56 @@
                 maxZoom: 19
             }).addTo(map);
 
-            SITES_DATA.forEach(site => {
-                const color = getExperienceColor(site.exp);
-                const radius = 3 + site.users / 300;
+            // Initialize with experience layer
+            switchMapLayer('experience');
+        }
 
-                const circle = L.circleMarker([site.lat, site.lon], {
-                    radius: radius,
-                    fillColor: color,
-                    color: color,
-                    weight: 2,
-                    opacity: 0.8,
-                    fillOpacity: 0.6
-                }).addTo(map);
+        // ============ EXPERIENCE TREND CHART ============
 
-                circle.on('mouseover', function() {
-                    this.setRadius(radius * 1.2);
-                    this.setStyle({ opacity: 1, fillOpacity: 0.8 });
-                });
-
-                circle.on('mouseout', function() {
-                    this.setRadius(radius);
-                    this.setStyle({ opacity: 0.8, fillOpacity: 0.6 });
-                });
-
-                const popupContent = `
-                    <div class="popup-title">${site.id}</div>
-                    <div class="popup-row"><span>城市:</span> <span>${site.city}</span></div>
-                    <div class="popup-row"><span>体验:</span> <span>${site.exp}</span></div>
-                    <div class="popup-row"><span>PRB占用:</span> <span>${site.prb}%</span></div>
-                    <div class="popup-row"><span>边缘用户:</span> <span>${site.edge}%</span></div>
-                    <div class="popup-row"><span>频段:</span> <span>${site.bands}</span></div>
-                    <button class="popup-btn" onclick="parent.drilldown('${site.city}')">下钻到 ${site.city}</button>
-                `;
-
-                circle.bindPopup(popupContent, {
-                    maxWidth: 250,
-                    minWidth: 200
-                });
+        function initExpTrendChart() {
+            const chart = echarts.init(document.getElementById('expTrendChart'), 'dark');
+            chart.setOption({
+                grid: { left: 5, right: 5, top: 15, bottom: 20 },
+                legend: {
+                    data: ['Tigo', 'Claro'],
+                    textStyle: { color: '#94a3b8', fontSize: 9 },
+                    top: 0, right: 0, itemWidth: 12, itemHeight: 2,
+                },
+                xAxis: {
+                    type: 'category',
+                    data: MONTHLY_EXPERIENCE.map(m => m.month),
+                    axisLabel: { fontSize: 9, color: '#64748b' },
+                    axisLine: { lineStyle: { color: '#1e293b' } },
+                    axisTick: { show: false },
+                },
+                yAxis: {
+                    type: 'value', min: 3.0, max: 4.5,
+                    splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } },
+                    axisLabel: { fontSize: 9, color: '#64748b' },
+                },
+                series: [
+                    {
+                        name: 'Tigo', type: 'line', data: MONTHLY_EXPERIENCE.map(m => m.tigo),
+                        smooth: true, symbol: 'circle', symbolSize: 5,
+                        lineStyle: { color: '#06b6d4', width: 2 },
+                        itemStyle: { color: '#06b6d4' },
+                        areaStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[
+                            {offset:0,color:'rgba(6,182,212,0.2)'},{offset:1,color:'rgba(6,182,212,0)'}
+                        ])},
+                    },
+                    {
+                        name: 'Claro', type: 'line', data: MONTHLY_EXPERIENCE.map(m => m.claro),
+                        smooth: true, symbol: 'circle', symbolSize: 5,
+                        lineStyle: { color: '#f97316', width: 2, type: 'dashed' },
+                        itemStyle: { color: '#f97316' },
+                    },
+                ],
+                tooltip: {
+                    trigger: 'axis', backgroundColor: '#1e293b', borderColor: '#334155',
+                    textStyle: { color: '#f1f5f9', fontSize: 10 },
+                },
             });
+            window.addEventListener('resize', () => chart.resize());
         }
 
         // ============ ECHARTS INITIALIZATION ============
@@ -1565,6 +1719,7 @@
             formatDate();
             initMap();
             initUserTrendChart();
+            initExpTrendChart();
             initTrafficChart();
             renderTerminalLadder();
 
