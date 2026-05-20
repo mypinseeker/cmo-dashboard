@@ -1022,15 +1022,15 @@
               <div style="display:flex;gap:16px;margin-bottom:8px;">
                 <div style="font-size:10px;">
                   <span style="color:#64748b;">好覆盖(≥-100)：</span>
-                  <span style="color:#10b981;font-weight:600;">71.2%</span>
+                  <span style="color:#10b981;font-weight:600;">61.5%</span>
                 </div>
                 <div style="font-size:10px;">
                   <span style="color:#64748b;">差覆盖(<-100)：</span>
-                  <span style="color:#ef4444;font-weight:600;">28.8% (3.59M人)</span>
+                  <span style="color:#ef4444;font-weight:600;">38.5% (4.82M人)</span>
                 </div>
                 <div style="font-size:10px;">
                   <span style="color:#64748b;">vs Claro 好覆盖：</span>
-                  <span style="color:#f97316;font-weight:600;">75.4%</span>
+                  <span style="color:#f97316;font-weight:600;">70.0%</span>
                   <span style="color:#ef4444;font-size:9px;"> (Claro 更好)</span>
                 </div>
               </div>
@@ -1693,38 +1693,41 @@
         const RSRP_DISTRIBUTION = {
           // Tigo 现网 RRC 连接用户分布（MR 数据，今日全网）
           tigo_users: [
-            {rsrp:"-70~-80", users:1950000, pct:15.6},
-            {rsrp:"-80~-90", users:3280000, pct:26.2},
-            {rsrp:"-90~-100", users:3680000, pct:29.4},
-            {rsrp:"-100~-110", users:2190000, pct:17.5},
-            {rsrp:"-110~-120", users:1010000, pct:8.1},
-            {rsrp:"-120~-130", users:390000, pct:3.1},
+            {rsrp:"-70~-80", users:1560000, pct:12.5},
+            {rsrp:"-80~-90", users:2870000, pct:23.0},
+            {rsrp:"-90~-100", users:3250000, pct:26.0},
+            {rsrp:"-100~-110", users:2380000, pct:19.0},
+            {rsrp:"-110~-120", users:1310000, pct:10.5},
+            {rsrp:"-120~-130", users:750000, pct:6.0},
+            {rsrp:"-130~-140", users:380000, pct:3.0},
           ],
           // Tigo Ookla Speedtest 测试样本分布
           tigo_ookla: [
-            {rsrp:"-70~-80", samples:1250, pct:15.6},
-            {rsrp:"-80~-90", samples:2100, pct:26.3},
-            {rsrp:"-90~-100", samples:2350, pct:29.4},
-            {rsrp:"-100~-110", samples:1400, pct:17.5},
-            {rsrp:"-110~-120", samples:650, pct:8.1},
-            {rsrp:"-120~-130", samples:250, pct:3.1},
+            {rsrp:"-70~-80", samples:1050, pct:13.1},
+            {rsrp:"-80~-90", samples:1880, pct:23.5},
+            {rsrp:"-90~-100", samples:2100, pct:26.3},
+            {rsrp:"-100~-110", samples:1480, pct:18.5},
+            {rsrp:"-110~-120", samples:820, pct:10.3},
+            {rsrp:"-120~-130", samples:480, pct:6.0},
+            {rsrp:"-130~-140", samples:190, pct:2.4},
           ],
           // Claro Ookla Speedtest 样本分布（竞对参考）
           claro_ookla: [
-            {rsrp:"-70~-80", samples:1680, pct:18.7},
-            {rsrp:"-80~-90", samples:2580, pct:28.7},
-            {rsrp:"-90~-100", samples:2520, pct:28.0},
-            {rsrp:"-100~-110", samples:1350, pct:15.0},
-            {rsrp:"-110~-120", samples:580, pct:6.4},
-            {rsrp:"-120~-130", samples:290, pct:3.2},
+            {rsrp:"-70~-80", samples:1520, pct:16.9},
+            {rsrp:"-80~-90", samples:2380, pct:26.4},
+            {rsrp:"-90~-100", samples:2400, pct:26.7},
+            {rsrp:"-100~-110", samples:1450, pct:16.1},
+            {rsrp:"-110~-120", samples:680, pct:7.6},
+            {rsrp:"-120~-130", samples:380, pct:4.2},
+            {rsrp:"-130~-140", samples:190, pct:2.1},
           ],
           // 关键指标
           summary: {
             totalUsers: 12500000,
-            goodCoverage: 71.2,   // RSRP >= -100 的占比
-            poorCoverage: 28.8,   // RSRP < -100 的占比
-            poorUsers: 3590000,
-            claroGoodCoverage: 75.4,  // Claro 好覆盖占比（竞对更好）
+            goodCoverage: 61.5,   // RSRP >= -100 的占比（下调，远点多）
+            poorCoverage: 38.5,   // RSRP < -100 的占比（上调）
+            poorUsers: 4820000,
+            claroGoodCoverage: 70.0,  // Claro 好覆盖占比（竞对更好）
           }
         };
 
