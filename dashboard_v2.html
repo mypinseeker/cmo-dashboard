@@ -28,10 +28,10 @@
 
         .dashboard {
             display: grid;
-            grid-template-columns: 340px 1fr 340px;
-            grid-template-rows: 42px minmax(0, 1fr) 320px;
-            gap: 6px;
-            padding: 6px;
+            grid-template-columns: 240px 1fr 240px;
+            grid-template-rows: 40px minmax(0, 1fr) 180px;
+            gap: 10px;
+            padding: 10px;
             height: 100vh;
             background-color: #0a0e1a;
         }
@@ -43,27 +43,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
-            background-color: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 12px;
-            font-size: 16px;
+            padding: 0 16px;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            font-size: 14px;
             font-weight: 700;
             letter-spacing: -0.5px;
-            transition: all 0.3s ease;
+            transition: none;
             position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #06b6d4, transparent);
-            opacity: 0.3;
+            overflow: visible;
         }
 
         .header-logo {
@@ -112,55 +101,36 @@
 
         .card {
             background: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 14px;
+            transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #06b6d4, transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
         .card:hover {
-            background: #1a2332;
-            border-color: #2a3a4a;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.08);
-        }
-
-        .card:hover::before {
-            opacity: 1;
+            border-color: rgba(6,182,212,0.2);
+            box-shadow: 0 2px 12px rgba(6,182,212,0.05);
         }
 
         .card-title {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-            text-shadow: 0 0 10px rgba(6, 182, 212, 0.05);
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
         }
 
         .big-number {
-            font-size: 36px;
+            font-size: 26px;
             font-weight: 800;
             color: #f1f5f9;
-            text-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
+            line-height: 1;
             margin-bottom: 4px;
             animation: countUp 0.6s ease-out;
         }
@@ -201,8 +171,8 @@
 
         .separator {
             height: 1px;
-            background: linear-gradient(90deg, transparent, #334155, transparent);
-            margin: 16px 0;
+            background: rgba(255,255,255,0.04);
+            margin: 10px 0;
         }
 
         .sub-title {
@@ -269,7 +239,7 @@
         .left-column {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 10px;
             grid-column: 1;
             grid-row: 2 / 4;
         }
@@ -277,11 +247,10 @@
         .map-container {
             grid-column: 2;
             grid-row: 2;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            border: 1px solid #1f2937;
-            background: #111827;
-            box-shadow: inset 0 0 30px rgba(6, 182, 212, 0.05);
+            border: none;
+            background: #0d1420;
             position: relative;
             max-height: 100%;
         }
@@ -290,13 +259,13 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            background: rgba(17, 24, 39, 0.95);
-            border: 1px solid #334155;
+            background: rgba(17, 24, 39, 0.92);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 8px;
-            padding: 12px;
+            padding: 8px 10px;
             z-index: 100;
-            backdrop-filter: blur(10px);
-            font-size: 11px;
+            backdrop-filter: blur(8px);
+            font-size: 9px;
         }
 
         .legend-item {
@@ -321,16 +290,16 @@
         .right-column {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 10px;
             grid-column: 3;
             grid-row: 2 / 4;
         }
 
         .bottom-row {
-            grid-column: 1 / -1;
+            grid-column: 2;
             grid-row: 3;
             display: flex;
-            gap: 6px;
+            gap: 10px;
             padding: 0;
             position: static;
             background: transparent;
@@ -342,13 +311,13 @@
 
         .app-card {
             background-color: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 12px;
-            padding: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 10px 12px;
             font-size: 11px;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .app-card::before {
@@ -357,8 +326,8 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: #334155;
+            height: 2px;
+            background: rgba(255,255,255,0.08);
         }
 
         .app-card:nth-child(1)::before {
@@ -366,7 +335,7 @@
         }
 
         .app-card:nth-child(2)::before {
-            background: #7c2d12;
+            background: #e50914;
         }
 
         .app-card:nth-child(3)::before {
@@ -382,10 +351,8 @@
         }
 
         .app-card:hover {
-            background: #1a2332;
-            border-color: #2a3a4a;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(6, 182, 212, 0.06);
+            border-color: rgba(6,182,212,0.2);
+            box-shadow: 0 2px 10px rgba(6,182,212,0.05);
         }
 
         .app-name {
@@ -658,11 +625,11 @@
         }
 
         .card-label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             margin-bottom: 8px;
         }
 
@@ -690,19 +657,21 @@
         }
 
         .map-layer-btn {
-            font-size: 14px;
-            padding: 6px 14px;
-            border: 1px solid #334155;
+            font-size: 11px;
+            padding: 4px 12px;
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 6px;
-            background: transparent;
+            background: rgba(17,24,39,0.8);
             color: #94a3b8;
             cursor: pointer;
+            backdrop-filter: blur(4px);
             transition: all 0.2s;
             font-family: inherit;
         }
 
         .map-layer-btn:hover {
-            background: #1e293b;
+            background: rgba(6,182,212,0.1);
+            color: #e2e8f0;
         }
 
         /* ============ APP PANEL STYLES ============ */
@@ -710,13 +679,11 @@
         #appPanel.open {
             transform: translateY(0) !important;
         }
-            color: #f1f5f9;
-        }
 
         .map-layer-btn.active {
-            background: #06b6d4;
-            color: #0a0e1a;
-            border-color: #06b6d4;
+            background: rgba(6,182,212,0.15);
+            color: #06b6d4;
+            border-color: rgba(6,182,212,0.3);
             font-weight: 600;
         }
 
@@ -818,6 +785,89 @@
         .overlay-content::-webkit-scrollbar-thumb:hover {
             background: #475569;
         }
+
+        /* ============ SUPPLEMENTARY OVERRIDES ============ */
+
+        /* Tighten sub-title spacing */
+        .sub-title {
+            font-size: 10px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+            margin-top: 6px;
+        }
+
+        /* Trend indicator compact */
+        .trend-indicator, .trend-badge {
+            font-size: 11px;
+            padding: 2px 6px;
+        }
+
+        /* Row grid tighter */
+        .row {
+            gap: 6px;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        /* ECharts container default height reduction */
+        .echarts-container {
+            min-height: 140px;
+        }
+
+        /* Scrollable sidebar cards */
+        .left-column .card,
+        .right-column .card {
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Scrollbar for sidebar */
+        .left-column .card::-webkit-scrollbar,
+        .right-column .card::-webkit-scrollbar {
+            width: 3px;
+        }
+        .left-column .card::-webkit-scrollbar-track,
+        .right-column .card::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .left-column .card::-webkit-scrollbar-thumb,
+        .right-column .card::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.08);
+            border-radius: 2px;
+        }
+
+        /* Soften all hard #1f2937 / #1e293b inner borders to subtle lines */
+        .card [style*="border-top:1px solid #1e293b"],
+        .card [style*="border-top: 1px solid #1e293b"] {
+            border-top-color: rgba(255,255,255,0.05) !important;
+        }
+
+        /* Progress bar tracks */
+        .card [style*="background:#1e293b"][style*="border-radius:2px"],
+        .card [style*="background: #1e293b"][style*="border-radius:2px"] {
+            background: rgba(255,255,255,0.06) !important;
+        }
+
+        /* Header logo font size */
+        .header-logo {
+            font-size: 13px;
+        }
+
+        /* Header date font size */
+        .header-date {
+            font-size: 11px;
+        }
+
+        /* Refresh button smaller */
+        .refresh-btn {
+            width: 26px;
+            height: 26px;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
@@ -830,7 +880,7 @@
             <div class="header-date">
                 <span id="current-date"></span>
                 <button class="refresh-btn" onclick="location.reload()" title="Refresh">↻</button>
-                <button onclick="toggleLanguage()" id="langToggle" style="font-size:10px;padding:3px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;font-weight:600;margin-left:8px;transition:all 0.2s;" onmouseover="this.style.background='#06b6d4';this.style.color='#0a0e1a'" onmouseout="this.style.background='#1e293b';this.style.color='#06b6d4'">EN</button>
+                <button onclick="toggleLanguage()" id="langToggle" style="font-size:10px;padding:3px 10px;border-radius:6px;border:1px solid rgba(6,182,212,0.3);background:rgba(6,182,212,0.08);color:#06b6d4;cursor:pointer;font-family:inherit;font-weight:600;margin-left:8px;transition:all 0.2s;" onmouseover="this.style.background='#06b6d4';this.style.color='#0a0e1a'" onmouseout="this.style.background='rgba(6,182,212,0.08)';this.style.color='#06b6d4'">EN</button>
             </div>
         </div>
 
@@ -840,7 +890,7 @@
             <div class="card" style="overflow-y:auto;">
                 <div class="card-title"><span data-i18n="在网用户">在网用户</span></div>
                 <div style="margin-bottom:8px;">
-                    <div class="big-number" style="font-size:32px;">12.5M</div>
+                    <div class="big-number">12.5M</div>
                     <span class="trend-badge trend-up">▲ +2.3% MoM</span>
                 </div>
 
@@ -883,8 +933,8 @@
                 <div style="margin-bottom:8px;">
                     <div class="card-label"><span data-i18n="高价值终端">高价值终端</span></div>
                     <div style="display:flex;align-items:baseline;gap:8px;">
-                        <span class="big-number" style="font-size:28px;">4.5M</span>
-                        <span style="font-size:12px;color:#94a3b8;">占比 36% · 贡献收入 68%</span>
+                        <span class="big-number">4.5M</span>
+                        <span style="font-size:11px;color:#94a3b8;">占比 36% · 收入 68%</span>
                     </div>
                     <div style="margin-top:4px;">
                         <span style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,0.1);padding:2px 8px;border-radius:99px;">
@@ -979,7 +1029,7 @@
         <div class="map-container" style="position:relative;">
             <!-- Map Layer Switch Menu -->
             <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:1000;
-              display:flex;gap:4px;background:rgba(17,24,39,0.9);padding:4px;border-radius:8px;border:1px solid #334155;">
+              display:flex;gap:4px;background:rgba(10,14,26,0.85);padding:4px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);">
               <button class="map-layer-btn active" onclick="switchMapLayer('experience')" id="btn-experience"><span data-i18n="网络指标">网络指标</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('growth')" id="btn-growth"><span data-i18n="用户增长率">用户增长率</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('newUsers')" id="btn-newUsers"><span data-i18n="新增用户">新增用户</span></button>
@@ -1051,8 +1101,8 @@
 
             <!-- Dynamic Legend Panel -->
             <div id="mapLegend" style="position:absolute;bottom:12px;right:12px;z-index:1000;
-              background:rgba(17,24,39,0.92);padding:8px 12px;border-radius:8px;border:1px solid #334155;
-              backdrop-filter:blur(4px);min-width:140px;">
+              background:rgba(10,14,26,0.88);padding:7px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);
+              backdrop-filter:blur(8px);min-width:120px;">
               <div id="legendTitle" style="font-size:9px;color:#64748b;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">体验评分</div>
               <div id="legendItems">
                 <!-- JS 动态生成 -->
@@ -1223,7 +1273,7 @@
             <!-- Churn Distribution Card -->
             <div class="card" style="overflow-y:auto;">
               <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px;">
-                <span class="big-number" style="font-size:22px;">15.2K</span>
+                <span class="big-number">15.2K</span>
                 <span style="font-size:10px;color:#ef4444;">▲ +8% MoM</span>
               </div>
               <div class="card-label" style="margin-bottom:6px;"><span data-i18n="流失分布">流失分布</span></div>
@@ -1255,116 +1305,112 @@
         <!-- Bottom Row: App Pie Charts -->
         <div class="bottom-row">
           <!-- YouTube 饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;">
-            <div id="ytPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
-            <div style="flex:1;">
-              <div style="font-size:12px;font-weight:700;color:#ff0000;margin-bottom:6px;">YouTube</div>
-              <div style="margin-bottom:4px;">
-                <div style="font-size:9px;color:#64748b;">480p 以下占比</div>
-                <div style="display:flex;align-items:baseline;gap:4px;">
-                  <span style="font-size:22px;font-weight:800;color:#f59e0b;">32%</span>
-                  <span style="font-size:10px;color:#ef4444;font-weight:600;">▲ +2.1%</span>
+          <div class="card" style="flex:1;padding:10px 12px;display:flex;align-items:center;gap:8px;">
+            <div id="ytPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:11px;font-weight:700;color:#ff0000;margin-bottom:4px;">YouTube</div>
+              <div style="margin-bottom:3px;">
+                <div style="font-size:9px;color:#64748b;">480p 以下</div>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:20px;font-weight:800;color:#f59e0b;line-height:1;">32%</span>
+                  <span style="font-size:9px;color:#ef4444;font-weight:600;">▲ +2.1%</span>
+                </div>
+              </div>
+              <div style="margin-bottom:3px;">
+                <div style="font-size:9px;color:#64748b;">HD ≥1080p</div>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:14px;font-weight:700;color:#06b6d4;line-height:1;">33%</span>
+                  <span style="font-size:9px;color:#ef4444;">▼ -1.5%</span>
                 </div>
               </div>
               <div style="margin-bottom:4px;">
-                <div style="font-size:9px;color:#64748b;">HD 占比 (≥1080p)</div>
-                <div style="display:flex;align-items:baseline;gap:4px;">
-                  <span style="font-size:18px;font-weight:700;color:#06b6d4;">33%</span>
-                  <span style="font-size:10px;color:#ef4444;font-weight:600;">▼ -1.5%</span>
-                </div>
-              </div>
-              <div>
                 <div style="font-size:9px;color:#64748b;">卡顿率</div>
-                <div style="display:flex;align-items:baseline;gap:4px;">
-                  <span style="font-size:16px;font-weight:700;color:#ef4444;">2.8%</span>
-                  <span style="font-size:10px;color:#ef4444;">▲ +0.3%</span>
-                </div>
+                <span style="font-size:14px;font-weight:700;color:#ef4444;line-height:1;">2.8%</span>
+                <span style="font-size:9px;color:#ef4444;"> ▲</span>
               </div>
-              <button onclick="openAppPanel('youtube')" style="margin-top:6px;font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+              <button onclick="openAppPanel('youtube')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:rgba(17,24,39,0.8);color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
           <!-- Netflix 饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;">
-            <div id="nfPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
-            <div style="flex:1;">
-              <div style="font-size:12px;font-weight:700;color:#e50914;margin-bottom:6px;">Netflix</div>
-              <div style="margin-bottom:4px;">
-                <div style="font-size:9px;color:#64748b;">480p 以下占比</div>
-                <div style="display:flex;align-items:baseline;gap:4px;">
-                  <span style="font-size:22px;font-weight:800;color:#10b981;">25%</span>
-                  <span style="font-size:10px;color:#10b981;font-weight:600;">▼ -1.8%</span>
+          <div class="card" style="flex:1;padding:10px 12px;display:flex;align-items:center;gap:8px;">
+            <div id="nfPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:11px;font-weight:700;color:#e50914;margin-bottom:4px;">Netflix</div>
+              <div style="margin-bottom:3px;">
+                <div style="font-size:9px;color:#64748b;">480p 以下</div>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:20px;font-weight:800;color:#10b981;line-height:1;">25%</span>
+                  <span style="font-size:9px;color:#10b981;font-weight:600;">▼ -1.8%</span>
+                </div>
+              </div>
+              <div style="margin-bottom:3px;">
+                <div style="font-size:9px;color:#64748b;">HD ≥1080p</div>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:14px;font-weight:700;color:#06b6d4;line-height:1;">43%</span>
+                  <span style="font-size:9px;color:#10b981;">▲ +2.0%</span>
                 </div>
               </div>
               <div style="margin-bottom:4px;">
-                <div style="font-size:9px;color:#64748b;">HD 占比 (≥1080p)</div>
-                <div style="display:flex;align-items:baseline;gap:4px;">
-                  <span style="font-size:18px;font-weight:700;color:#06b6d4;">43%</span>
-                  <span style="font-size:10px;color:#10b981;font-weight:600;">▲ +2.0%</span>
-                </div>
-              </div>
-              <div>
                 <div style="font-size:9px;color:#64748b;">卡顿率</div>
-                <div style="display:flex;align-items:baseline;gap:4px;">
-                  <span style="font-size:16px;font-weight:700;color:#10b981;">1.5%</span>
-                  <span style="font-size:10px;color:#10b981;">▼ -0.2%</span>
-                </div>
+                <span style="font-size:14px;font-weight:700;color:#10b981;line-height:1;">1.5%</span>
+                <span style="font-size:9px;color:#10b981;"> ▼</span>
               </div>
-              <button onclick="openAppPanel('netflix')" style="margin-top:6px;font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+              <button onclick="openAppPanel('netflix')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:rgba(17,24,39,0.8);color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
           <!-- TikTok 饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;">
-            <div id="tkPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
-            <div style="flex:1;">
-              <div style="font-size:12px;font-weight:700;color:#00f2ea;margin-bottom:6px;">TikTok</div>
-              <div style="margin-bottom:4px;">
+          <div class="card" style="flex:1;padding:10px 12px;display:flex;align-items:center;gap:8px;">
+            <div id="tkPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:11px;font-weight:700;color:#00f2ea;margin-bottom:4px;">TikTok</div>
+              <div style="margin-bottom:3px;">
                 <div style="font-size:9px;color:#64748b;">播放成功率</div>
-                <div style="display:flex;align-items:baseline;gap:4px;">
-                  <span style="font-size:22px;font-weight:800;color:#10b981;">98.5%</span>
-                  <span style="font-size:10px;color:#10b981;font-weight:600;">▲ +0.2%</span>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:20px;font-weight:800;color:#10b981;line-height:1;">98.5%</span>
+                  <span style="font-size:9px;color:#10b981;">▲</span>
+                </div>
+              </div>
+              <div style="margin-bottom:3px;">
+                <div style="font-size:9px;color:#64748b;">上传速率</div>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:14px;font-weight:700;color:#06b6d4;line-height:1;">6.2</span>
+                  <span style="font-size:9px;color:#94a3b8;">Mbps ▲</span>
                 </div>
               </div>
               <div style="margin-bottom:4px;">
-                <div style="font-size:9px;color:#64748b;">上传速率</div>
-                <div style="display:flex;align-items:baseline;gap:4px;">
-                  <span style="font-size:18px;font-weight:700;color:#06b6d4;">6.2 Mbps</span>
-                  <span style="font-size:10px;color:#10b981;">▲ +0.5</span>
-                </div>
-              </div>
-              <div>
                 <div style="font-size:9px;color:#64748b;">日活用户</div>
-                <span style="font-size:16px;font-weight:700;color:#f1f5f9;">580K</span>
+                <span style="font-size:14px;font-weight:700;color:#f1f5f9;line-height:1;">580K</span>
               </div>
-              <button onclick="openAppPanel('tiktok')" style="margin-top:6px;font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+              <button onclick="openAppPanel('tiktok')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:rgba(17,24,39,0.8);color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
           <!-- 流量分布饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;">
-            <div id="trafficPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
-            <div style="flex:1;">
-              <div style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:6px;"><span data-i18n="流量">流量</span></div>
-              <div style="margin-bottom:4px;">
-                <div style="font-size:9px;color:#64748b;"><span data-i18n="视频">视频</span>流量占比</div>
-                <div style="display:flex;align-items:baseline;gap:4px;">
-                  <span style="font-size:22px;font-weight:800;color:#ef4444;">32%</span>
-                  <span style="font-size:10px;color:#ef4444;font-weight:600;">▲ +1.5%</span>
+          <div class="card" style="flex:1;padding:10px 12px;display:flex;align-items:center;gap:8px;">
+            <div id="trafficPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:11px;font-weight:700;color:#94a3b8;margin-bottom:4px;"><span data-i18n="流量">流量</span></div>
+              <div style="margin-bottom:3px;">
+                <div style="font-size:9px;color:#64748b;"><span data-i18n="视频">视频</span>占比</div>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:20px;font-weight:800;color:#ef4444;line-height:1;">32%</span>
+                  <span style="font-size:9px;color:#ef4444;">▲ +1.5%</span>
                 </div>
               </div>
-              <div style="margin-bottom:4px;">
+              <div style="margin-bottom:3px;">
                 <div style="font-size:9px;color:#64748b;">社交媒体</div>
-                <div style="display:flex;align-items:baseline;gap:4px;">
-                  <span style="font-size:18px;font-weight:700;color:#3b82f6;">28%</span>
-                  <span style="font-size:10px;color:#94a3b8;">→ 持平</span>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:14px;font-weight:700;color:#3b82f6;line-height:1;">28%</span>
+                  <span style="font-size:9px;color:#94a3b8;">持平</span>
                 </div>
               </div>
-              <div>
+              <div style="margin-bottom:4px;">
                 <div style="font-size:9px;color:#64748b;">日总流量</div>
-                <span style="font-size:16px;font-weight:700;color:#f1f5f9;">2.8 PB</span>
+                <span style="font-size:14px;font-weight:700;color:#f1f5f9;line-height:1;">2.8 PB</span>
               </div>
-              <button onclick="openAppPanel('traffic')" style="margin-top:6px;font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+              <button onclick="openAppPanel('traffic')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:rgba(17,24,39,0.8);color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
         </div>
