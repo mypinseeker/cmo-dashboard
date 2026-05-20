@@ -28,8 +28,8 @@
 
         .dashboard {
             display: grid;
-            grid-template-columns: 280px 1fr 280px;
-            grid-template-rows: 42px minmax(0, 1fr) 160px;
+            grid-template-columns: 340px 1fr 340px;
+            grid-template-rows: 42px minmax(0, 1fr) 320px;
             gap: 6px;
             padding: 6px;
             height: 100vh;
@@ -690,8 +690,8 @@
         }
 
         .map-layer-btn {
-            font-size: 10px;
-            padding: 4px 10px;
+            font-size: 14px;
+            padding: 6px 14px;
             border: 1px solid #334155;
             border-radius: 6px;
             background: transparent;
@@ -1255,42 +1255,116 @@
         <!-- Bottom Row: App Pie Charts -->
         <div class="bottom-row">
           <!-- YouTube 饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
-            <div id="ytPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;">
+            <div id="ytPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
             <div style="flex:1;">
-              <div style="font-size:11px;font-weight:600;color:#ff0000;margin-bottom:4px;">YouTube</div>
-              <div style="font-size:10px;color:#94a3b8;">HD 33% · 卡顿 2.8%</div>
-              <button onclick="openAppPanel('youtube')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+              <div style="font-size:12px;font-weight:700;color:#ff0000;margin-bottom:6px;">YouTube</div>
+              <div style="margin-bottom:4px;">
+                <div style="font-size:9px;color:#64748b;">480p 以下占比</div>
+                <div style="display:flex;align-items:baseline;gap:4px;">
+                  <span style="font-size:22px;font-weight:800;color:#f59e0b;">32%</span>
+                  <span style="font-size:10px;color:#ef4444;font-weight:600;">▲ +2.1%</span>
+                </div>
+              </div>
+              <div style="margin-bottom:4px;">
+                <div style="font-size:9px;color:#64748b;">HD 占比 (≥1080p)</div>
+                <div style="display:flex;align-items:baseline;gap:4px;">
+                  <span style="font-size:18px;font-weight:700;color:#06b6d4;">33%</span>
+                  <span style="font-size:10px;color:#ef4444;font-weight:600;">▼ -1.5%</span>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:9px;color:#64748b;">卡顿率</div>
+                <div style="display:flex;align-items:baseline;gap:4px;">
+                  <span style="font-size:16px;font-weight:700;color:#ef4444;">2.8%</span>
+                  <span style="font-size:10px;color:#ef4444;">▲ +0.3%</span>
+                </div>
+              </div>
+              <button onclick="openAppPanel('youtube')" style="margin-top:6px;font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
           <!-- Netflix 饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
-            <div id="nfPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;">
+            <div id="nfPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
             <div style="flex:1;">
-              <div style="font-size:11px;font-weight:600;color:#e50914;margin-bottom:4px;">Netflix</div>
-              <div style="font-size:10px;color:#94a3b8;">HD 43% · 卡顿 1.5%</div>
-              <button onclick="openAppPanel('netflix')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+              <div style="font-size:12px;font-weight:700;color:#e50914;margin-bottom:6px;">Netflix</div>
+              <div style="margin-bottom:4px;">
+                <div style="font-size:9px;color:#64748b;">480p 以下占比</div>
+                <div style="display:flex;align-items:baseline;gap:4px;">
+                  <span style="font-size:22px;font-weight:800;color:#10b981;">25%</span>
+                  <span style="font-size:10px;color:#10b981;font-weight:600;">▼ -1.8%</span>
+                </div>
+              </div>
+              <div style="margin-bottom:4px;">
+                <div style="font-size:9px;color:#64748b;">HD 占比 (≥1080p)</div>
+                <div style="display:flex;align-items:baseline;gap:4px;">
+                  <span style="font-size:18px;font-weight:700;color:#06b6d4;">43%</span>
+                  <span style="font-size:10px;color:#10b981;font-weight:600;">▲ +2.0%</span>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:9px;color:#64748b;">卡顿率</div>
+                <div style="display:flex;align-items:baseline;gap:4px;">
+                  <span style="font-size:16px;font-weight:700;color:#10b981;">1.5%</span>
+                  <span style="font-size:10px;color:#10b981;">▼ -0.2%</span>
+                </div>
+              </div>
+              <button onclick="openAppPanel('netflix')" style="margin-top:6px;font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
           <!-- TikTok 饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
-            <div id="tkPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;">
+            <div id="tkPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
             <div style="flex:1;">
-              <div style="font-size:11px;font-weight:600;color:#00f2ea;margin-bottom:4px;">TikTok</div>
-              <div style="font-size:10px;color:#94a3b8;">成功率 98.5%</div>
-              <button onclick="openAppPanel('tiktok')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+              <div style="font-size:12px;font-weight:700;color:#00f2ea;margin-bottom:6px;">TikTok</div>
+              <div style="margin-bottom:4px;">
+                <div style="font-size:9px;color:#64748b;">播放成功率</div>
+                <div style="display:flex;align-items:baseline;gap:4px;">
+                  <span style="font-size:22px;font-weight:800;color:#10b981;">98.5%</span>
+                  <span style="font-size:10px;color:#10b981;font-weight:600;">▲ +0.2%</span>
+                </div>
+              </div>
+              <div style="margin-bottom:4px;">
+                <div style="font-size:9px;color:#64748b;">上传速率</div>
+                <div style="display:flex;align-items:baseline;gap:4px;">
+                  <span style="font-size:18px;font-weight:700;color:#06b6d4;">6.2 Mbps</span>
+                  <span style="font-size:10px;color:#10b981;">▲ +0.5</span>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:9px;color:#64748b;">日活用户</div>
+                <span style="font-size:16px;font-weight:700;color:#f1f5f9;">580K</span>
+              </div>
+              <button onclick="openAppPanel('tiktok')" style="margin-top:6px;font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
           <!-- 流量分布饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
-            <div id="trafficPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;">
+            <div id="trafficPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
             <div style="flex:1;">
-              <div style="font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:4px;"><span data-i18n="流量">流量</span></div>
-              <div style="font-size:10px;color:#94a3b8;"><span data-i18n="视频">视频</span> 32% · 社交 28%</div>
-              <button onclick="openAppPanel('traffic')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+              <div style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:6px;"><span data-i18n="流量">流量</span></div>
+              <div style="margin-bottom:4px;">
+                <div style="font-size:9px;color:#64748b;"><span data-i18n="视频">视频</span>流量占比</div>
+                <div style="display:flex;align-items:baseline;gap:4px;">
+                  <span style="font-size:22px;font-weight:800;color:#ef4444;">32%</span>
+                  <span style="font-size:10px;color:#ef4444;font-weight:600;">▲ +1.5%</span>
+                </div>
+              </div>
+              <div style="margin-bottom:4px;">
+                <div style="font-size:9px;color:#64748b;">社交媒体</div>
+                <div style="display:flex;align-items:baseline;gap:4px;">
+                  <span style="font-size:18px;font-weight:700;color:#3b82f6;">28%</span>
+                  <span style="font-size:10px;color:#94a3b8;">→ 持平</span>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:9px;color:#64748b;">日总流量</div>
+                <span style="font-size:16px;font-weight:700;color:#f1f5f9;">2.8 PB</span>
+              </div>
+              <button onclick="openAppPanel('traffic')" style="margin-top:6px;font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
         </div>
