@@ -1103,6 +1103,8 @@
               <button class="map-layer-btn" onclick="switchMapLayer('competitiveness')" id="btn-competitiveness"><span data-i18n="vs Claro">vs Claro</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('video')" id="btn-video"><span data-i18n="视频体验">视频体验</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('coverageAnalysis')" id="btn-coverageAnalysis"><span data-i18n="覆盖分析">覆盖分析</span></button>
+              <button class="map-layer-btn" onclick="switchMapLayer('terminal')" id="btn-terminal"><span data-i18n="终端分布">终端分布</span></button>
+              <button class="map-layer-btn" onclick="toggleSplitView()" id="btn-split" style="border-left:2px solid rgba(255,255,255,0.1);margin-left:4px;"><span data-i18n="分屏">分屏</span></button>
             </div>
 
             <!-- Back to National Button -->
@@ -1113,7 +1115,44 @@
               <span id="backCityName" style="color:#f1f5f9;"></span>
             </div>
 
+            <!-- Terminal Selector -->
+            <div id="terminalSelector" style="display:none;position:absolute;top:50px;left:50%;transform:translateX(-50%);z-index:1000;
+              background:rgba(17,24,39,0.95);padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);
+              backdrop-filter:blur(8px);display:flex;align-items:center;gap:8px;">
+              <span style="font-size:18px;color:#94a3b8;"><span data-i18n="终端">终端</span>:</span>
+              <select id="terminalSelect" onchange="switchTerminalHeatmap(this.value)" style="font-size:18px;background:#1e293b;color:#06b6d4;border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:4px 8px;cursor:pointer;font-family:inherit;">
+                <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+                <option value="Samsung S25 Ultra">Samsung S25 Ultra</option>
+                <option value="iPhone 15">iPhone 15</option>
+                <option value="Samsung A55">Samsung A55</option>
+                <option value="Xiaomi Redmi Note 13">Xiaomi Redmi Note 13</option>
+              </select>
+            </div>
+
             <div id="map"></div>
+
+            <!-- Split View Container -->
+            <div id="splitView" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:500;justify-content:stretch;">
+              <div style="flex:1;position:relative;border-right:2px solid #06b6d4;">
+                <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:18px;font-weight:600;color:#06b6d4;background:rgba(17,24,39,0.9);padding:4px 12px;border-radius:6px;">
+                  <span data-i18n="终端分布">终端分布</span>
+                  <select id="splitTerminalSelect" onchange="updateSplitTerminal(this.value)" style="font-size:16px;background:#1e293b;color:#06b6d4;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 6px;margin-left:6px;cursor:pointer;font-family:inherit;">
+                    <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+                    <option value="Samsung S25 Ultra">Samsung S25 Ultra</option>
+                    <option value="iPhone 15">iPhone 15</option>
+                    <option value="Samsung A55">Samsung A55</option>
+                    <option value="Xiaomi Redmi Note 13">Xiaomi Redmi</option>
+                  </select>
+                </div>
+                <div id="splitMapLeft" style="width:100%;height:100%;"></div>
+              </div>
+              <div style="flex:1;position:relative;">
+                <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:18px;font-weight:600;color:#f97316;background:rgba(17,24,39,0.9);padding:4px 12px;border-radius:6px;">
+                  <span data-i18n="网络体验">网络体验</span>
+                </div>
+                <div id="splitMapRight" style="width:100%;height:100%;"></div>
+              </div>
+            </div>
 
             <!-- Coverage Analysis Chart Panel -->
             <div id="coverageChartPanel" style="display:none;position:absolute;bottom:0;left:0;right:0;z-index:1000;
@@ -1513,6 +1552,10 @@
           '体验评分': { zh: '体验评分', en: 'Experience Score' },
           '差距': { zh: '差距', en: 'Gap' },
           '对比': { zh: '对比', en: 'Compare' },
+          '终端分布': { zh: '终端分布', en: 'Device Distribution' },
+          '分屏': { zh: '分屏', en: 'Split' },
+          '终端': { zh: '终端', en: 'Device' },
+          '网络体验': { zh: '网络体验', en: 'Network QoE' },
         };
 
         function getTranslation(key, fallback = key) {
@@ -2501,6 +2544,9 @@
         function switchMapLayer(layer) {
             currentLayer = layer;
 
+            // Show/hide terminal selector
+            document.getElementById('terminalSelector').style.display = layer === 'terminal' ? 'flex' : 'none';
+
             // Show/hide coverage chart panel
             document.getElementById('coverageChartPanel').style.display = layer === 'coverageAnalysis' ? 'block' : 'none';
             if (layer === 'coverageAnalysis') {
@@ -2551,6 +2597,12 @@
 
             // Hide back button
             document.getElementById('backToNational').style.display = 'none';
+
+            // Handle terminal heatmap layer - skip polygon rendering
+            if (layer === 'terminal') {
+                switchTerminalHeatmap(document.getElementById('terminalSelect').value);
+                return;
+            }
 
             // If GeoJSON not loaded yet, show warning and return
             if (!colombiaGeoJSON || !colombiaGeoJSON.features) {
@@ -2649,6 +2701,12 @@
                         }
                         break;
                     }
+                    case 'terminal': {
+                        // Terminal heatmap - don't render polygons, just heatmap
+                        fillColor = '#64748b';
+                        label = getTranslation('终端分布', 'Device Distribution');
+                        break;
+                    }
                     default:
                         fillColor = '#3b82f6';
                         label = city;
@@ -2744,6 +2802,16 @@
             // Show back button
             document.getElementById('backToNational').style.display = 'flex';
             document.getElementById('backCityName').textContent = city;
+
+            // Handle terminal heatmap layer - show heatmap for city
+            if (layer === 'terminal') {
+                const regionInfo = REGION_CONFIG[city];
+                if (regionInfo) {
+                    map.setView(regionInfo.center, regionInfo.zoom);
+                }
+                switchTerminalHeatmap(document.getElementById('terminalSelect').value);
+                return;
+            }
 
             // Zoom to city using REGION_CONFIG center and zoom
             const regionInfo = REGION_CONFIG[city];
@@ -2961,6 +3029,14 @@
                             {color:'#ef4444',label: isEN ? 'Edge > 28% Poor' : '边缘 > 28% 较差'}
                         ]
                     },
+                    terminal:{
+                        title: isEN ? 'Device Distribution' : '终端分布',
+                        items:[
+                            {color:'#ef4444',label: isEN ? 'High Density' : '高密度'},
+                            {color:'#f59e0b',label: isEN ? 'Medium' : '中密度'},
+                            {color:'#10b981',label: isEN ? 'Low' : '低密度'},
+                        ]
+                    },
                 }
                 if (layer === 'competitiveness') {
                     const selLC = document.getElementById('expMetricSelect')
@@ -3087,6 +3163,59 @@
             window.addEventListener('resize', () => chart.resize());
         }
 
+        // ============ TERMINAL HEATMAP DATA ============
+
+        const TERMINAL_HEATMAP = {
+          "iPhone 16 Pro Max": [
+            // Bogota 集中（高端用户多在市中心）
+            [4.65,-74.08,0.95],[4.68,-74.05,0.90],[4.62,-74.06,0.88],
+            [4.70,-74.02,0.85],[4.66,-74.09,0.82],[4.64,-74.07,0.80],
+            [4.67,-74.04,0.78],[4.63,-74.10,0.60],
+            // Medellin
+            [6.25,-75.57,0.80],[6.22,-75.55,0.75],[6.28,-75.54,0.70],
+            // Cali
+            [3.43,-76.52,0.65],[3.40,-76.50,0.60],
+            // Barranquilla（少）
+            [10.98,-74.79,0.40],[10.96,-74.78,0.35],
+            // Cartagena（少）
+            [10.41,-75.52,0.35],[10.39,-75.50,0.30],
+          ],
+          "Samsung S25 Ultra": [
+            [4.65,-74.08,0.85],[4.68,-74.05,0.80],[4.60,-74.10,0.70],
+            [4.72,-74.03,0.75],[4.58,-74.12,0.50],
+            [6.25,-75.57,0.72],[6.22,-75.55,0.68],
+            [3.43,-76.52,0.60],[3.45,-76.50,0.55],
+            [10.98,-74.79,0.45],[10.96,-74.78,0.40],
+            [10.41,-75.52,0.40],[10.39,-75.50,0.35],
+          ],
+          "iPhone 15": [
+            [4.65,-74.08,0.90],[4.68,-74.05,0.85],[4.62,-74.06,0.82],
+            [4.55,-74.12,0.65],[4.72,-74.03,0.78],
+            [6.25,-75.57,0.75],[6.22,-75.55,0.70],[6.20,-75.60,0.62],
+            [3.43,-76.52,0.68],[3.40,-76.50,0.62],[3.45,-76.54,0.55],
+            [10.98,-74.79,0.50],[10.96,-74.78,0.45],[11.00,-74.80,0.40],
+            [10.41,-75.52,0.45],[10.39,-75.50,0.40],
+          ],
+          "Samsung A55": [
+            // 中端机分布更均匀，郊区也有
+            [4.65,-74.08,0.60],[4.68,-74.05,0.58],[4.55,-74.12,0.70],
+            [4.72,-74.03,0.55],[4.58,-74.15,0.65],[4.60,-74.13,0.62],
+            [6.25,-75.57,0.65],[6.22,-75.55,0.60],[6.18,-75.62,0.58],
+            [3.43,-76.52,0.62],[3.40,-76.50,0.58],[3.38,-76.56,0.55],
+            [10.98,-74.79,0.60],[10.96,-74.78,0.58],[10.95,-74.82,0.55],
+            [10.41,-75.52,0.55],[10.39,-75.50,0.52],[10.38,-75.55,0.50],
+          ],
+          "Xiaomi Redmi Note 13": [
+            // 入门机，郊区和农村更多
+            [4.55,-74.12,0.75],[4.58,-74.15,0.70],[4.60,-74.13,0.68],
+            [4.65,-74.08,0.45],[4.68,-74.05,0.40],
+            [6.18,-75.62,0.65],[6.25,-75.57,0.50],[6.20,-75.60,0.55],
+            [3.38,-76.56,0.62],[3.43,-76.52,0.48],[3.40,-76.50,0.45],
+            [10.95,-74.82,0.60],[10.98,-74.79,0.55],[10.96,-74.78,0.52],
+            [10.38,-75.55,0.58],[10.41,-75.52,0.50],[10.39,-75.50,0.48],
+          ],
+        }
+
         // ============ COVERAGE HEATMAP DATA ============
 
         const MR_HEATMAP = {
@@ -3191,6 +3320,99 @@
                 }
                 covHeatLayer = null
             }
+        }
+
+        // ============ TERMINAL HEATMAP FUNCTIONS ============
+
+        let terminalHeatLayer = null
+
+        function switchTerminalHeatmap(model) {
+            if (terminalHeatLayer) { map.removeLayer(terminalHeatLayer); terminalHeatLayer = null }
+
+            const data = TERMINAL_HEATMAP[model]
+            if (!data) return
+
+            terminalHeatLayer = L.heatLayer(data.map(p => [p[0], p[1], p[2]]), {
+                radius: 35,
+                blur: 25,
+                maxZoom: 10,
+                gradient: {
+                    0.2: '#1e3a5f',
+                    0.4: '#06b6d4',
+                    0.6: '#10b981',
+                    0.8: '#f59e0b',
+                    1.0: '#ef4444',
+                }
+            }).addTo(map)
+        }
+
+        // ============ SPLIT VIEW FUNCTIONS ============
+
+        let splitMode = false
+        let splitMapLeft = null
+        let splitMapRight = null
+        let splitHeatLeft = null
+        let splitHeatRight = null
+
+        function toggleSplitView() {
+            splitMode = !splitMode
+            const btn = document.getElementById('btn-split')
+            const splitDiv = document.getElementById('splitView')
+            const mainMap = document.getElementById('map')
+
+            if (splitMode) {
+                btn.style.background = 'rgba(6,182,212,0.15)'
+                btn.style.color = '#06b6d4'
+                splitDiv.style.display = 'flex'
+                mainMap.style.visibility = 'hidden'
+
+                // 初始化左右两个地图
+                if (!splitMapLeft) {
+                    splitMapLeft = L.map('splitMapLeft', {zoomControl: false}).setView([5.5, -74.5], 6)
+                    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(splitMapLeft)
+                }
+                if (!splitMapRight) {
+                    splitMapRight = L.map('splitMapRight', {zoomControl: false}).setView([5.5, -74.5], 6)
+                    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(splitMapRight)
+                }
+
+                // 左边：终端热力图
+                updateSplitTerminal(document.getElementById('splitTerminalSelect').value)
+
+                // 右边：覆盖热力图（Tigo MR）
+                if (splitHeatRight) splitMapRight.removeLayer(splitHeatRight)
+                splitHeatRight = L.heatLayer(MR_HEATMAP.tigo.map(p => [p[0],p[1],p[2]]), {
+                    radius: 30, blur: 20, maxZoom: 10,
+                    gradient: {0.2:'#3b82f6',0.5:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
+                }).addTo(splitMapRight)
+
+                // 同步两个地图的移动和缩放
+                splitMapLeft.on('move', () => {
+                    splitMapRight.setView(splitMapLeft.getCenter(), splitMapLeft.getZoom(), {animate: false})
+                })
+                splitMapRight.on('move', () => {
+                    splitMapLeft.setView(splitMapRight.getCenter(), splitMapRight.getZoom(), {animate: false})
+                })
+
+            } else {
+                btn.style.background = ''
+                btn.style.color = ''
+                splitDiv.style.display = 'none'
+                mainMap.style.visibility = 'visible'
+            }
+        }
+
+        function updateSplitTerminal(model) {
+            if (!splitMapLeft) return
+            if (splitHeatLeft) splitMapLeft.removeLayer(splitHeatLeft)
+
+            const data = TERMINAL_HEATMAP[model]
+            if (!data) return
+
+            splitHeatLeft = L.heatLayer(data.map(p => [p[0],p[1],p[2]]), {
+                radius: 35, blur: 25, maxZoom: 10,
+                gradient: {0.2:'#1e3a5f',0.4:'#06b6d4',0.6:'#10b981',0.8:'#f59e0b',1.0:'#ef4444'}
+            }).addTo(splitMapLeft)
         }
 
         // ============ GEO JSON LOADING ============
