@@ -100,20 +100,21 @@
         /* ============ CARD STYLES ============ */
 
         .card {
-            background: #111827;
+            background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
             border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 14px;
             transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
         }
 
         .card:hover {
             border-color: rgba(6,182,212,0.2);
-            box-shadow: 0 2px 12px rgba(6,182,212,0.05);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 2px 12px rgba(6,182,212,0.08);
         }
 
         .card-title {
@@ -133,7 +134,12 @@
             line-height: 1;
             margin-bottom: 4px;
             animation: countUp 0.6s ease-out;
+            text-shadow: 0 0 20px rgba(6,182,212,0.25);
         }
+
+        .big-number.green { text-shadow: 0 0 20px rgba(16,185,129,0.3); }
+        .big-number.red   { text-shadow: 0 0 20px rgba(239,68,68,0.3); }
+        .big-number.blue  { text-shadow: 0 0 20px rgba(6,182,212,0.3); }
 
         @keyframes countUp {
             from {
@@ -152,8 +158,8 @@
             gap: 4px;
             font-size: 24px;
             font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 6px;
+            padding: 2px 10px;
+            border-radius: 20px;
             background: rgba(16, 185, 129, 0.1);
             color: #10b981;
             width: fit-content;
@@ -171,7 +177,14 @@
 
         .separator {
             height: 1px;
-            background: rgba(255,255,255,0.04);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            margin: 10px 0;
+            border: none;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
             margin: 10px 0;
         }
 
@@ -247,12 +260,13 @@
         .map-container {
             grid-column: 2;
             grid-row: 2;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            border: none;
+            border: 1px solid rgba(255,255,255,0.05);
             background: #0d1420;
             position: relative;
             max-height: 100%;
+            box-shadow: inset 0 0 30px rgba(6,182,212,0.03);
         }
 
         .map-legend {
@@ -310,14 +324,15 @@
         /* ============ APP CARD STYLES ============ */
 
         .app-card {
-            background-color: #111827;
+            background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
             border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 14px 12px;
             font-size: 22px;
             position: relative;
             overflow: hidden;
             transition: all 0.2s ease;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
         }
 
         .app-card::before {
@@ -639,8 +654,8 @@
             gap: 4px;
             font-size: 24px;
             font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 6px;
+            padding: 2px 10px;
+            border-radius: 20px;
             background: rgba(16, 185, 129, 0.1);
             color: #10b981;
             width: fit-content;
@@ -802,7 +817,8 @@
         /* Trend indicator compact */
         .trend-indicator, .trend-badge {
             font-size: 22px;
-            padding: 2px 6px;
+            padding: 2px 10px;
+            border-radius: 20px;
         }
 
         /* Row grid tighter */
@@ -868,13 +884,62 @@
             height: 26px;
             font-size: 26px;
         }
+
+        /* ====== 美化增强 ====== */
+
+        /* 趋势标签药丸 */
+        .trend-pill-up {
+            display: inline-block;
+            color: #10b981;
+            background: rgba(16,185,129,0.1);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .trend-pill-down {
+            display: inline-block;
+            color: #ef4444;
+            background: rgba(239,68,68,0.1);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .trend-pill-neutral {
+            display: inline-block;
+            color: #94a3b8;
+            background: rgba(148,163,184,0.1);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* Header 标题渐变 */
+        .header-gradient-title {
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+
+        /* APP 卡片品牌色顶部条 */
+        .app-brand-youtube { border-top: 3px solid #ff0000 !important; }
+        .app-brand-netflix { border-top: 3px solid #e50914 !important; }
+        .app-brand-tiktok  { border-top: 3px solid #00f2ea !important; }
+        .app-brand-traffic { border-top: 3px solid #3b82f6 !important; }
+
+        /* 地图容器微妙内光 */
+        .map-container-glow {
+            box-shadow: inset 0 0 40px rgba(6,182,212,0.03);
+            border-radius: 12px;
+        }
     </style>
 </head>
 <body>
     <div class="dashboard">
         <!-- Header -->
         <div class="header">
-            <div class="header-logo">
+            <div class="header-logo header-gradient-title">
                 <span>▣</span> Tigo CMO Dashboard
             </div>
             <div class="header-date">
@@ -898,7 +963,8 @@
                 <div id="userTrendChart" style="width:100%;height:120px;margin-bottom:8px;"></div>
 
                 <!-- 区域分布警报 -->
-                <div style="margin-top:8px;border-top:1px solid #1e293b;padding-top:8px;">
+                <div class="separator" style="margin-top:8px;"></div>
+                <div style="padding-top:8px;">
                     <div class="card-label" style="margin-bottom:6px;"><span data-i18n="区域变化">区域变化</span></div>
 
                     <!-- 下降区域（按严重程度排序） -->
@@ -934,11 +1000,11 @@
                     <div class="card-label"><span data-i18n="高价值终端">高价值终端</span></div>
                     <div style="display:flex;align-items:baseline;gap:8px;">
                         <span class="big-number">4.5M</span>
-                        <span style="font-size: 22px;color:#94a3b8;">占比 36% · 收入 68%</span>
+                        <span style="font-size: 22px;color:#94a3b8;"><span data-i18n="占比">占比</span> 36% · <span data-i18n="贡献收入">收入</span> 68%</span>
                     </div>
                     <div style="margin-top:4px;">
                         <span style="font-size: 22px;color:#f59e0b;background:rgba(245,158,11,0.1);padding:2px 8px;border-radius:99px;">
-                            💰 预付费潜力 1.2M（可转后付费）
+                            💰 <span data-i18n="预付费潜力">预付费潜力</span> 1.2M（<span data-i18n="可转后付费">可转后付费</span>）
                         </span>
                     </div>
                 </div>
@@ -953,7 +1019,7 @@
                     <div id="terminalBreakdown" style="display:none;margin-top:6px;padding:8px;background:#0f172a;border-radius:8px;border:1px solid #334155;">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
                             <span id="breakdownTitle" style="font-size: 22px;font-weight:600;color:#06b6d4;"></span>
-                            <span style="font-size: 20px;color:#64748b;cursor:pointer;" onclick="closeBreakdown()">✕ <span data-i18n="关闭">关闭</span></span>
+                            <span style="font-size: 20px;color:#64748b;cursor:pointer;" onclick="closeBreakdown()">✕ <span data-i18n="关闭大区">关闭</span></span>
                         </div>
                         <div id="breakdownBars"></div>
                     </div>
@@ -1019,14 +1085,14 @@
 
                     <!-- 底部洞察 -->
                     <div style="margin-top:6px;padding:6px;background:rgba(245,158,11,0.08);border-radius:6px;border-left:3px solid #f59e0b;">
-                        <p style="font-size: 20px;color:#f59e0b;">💡 B/quilla 高价值终端占 41% 但用户在流失 → 预付费转后付费的优先区域</p>
+                        <p style="font-size: 20px;color:#f59e0b;" id="bquillaInsight">💡 B/quilla 高价值终端占 41% 但用户在流失 → 预付费转后付费的优先区域</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Map Container -->
-        <div class="map-container" style="position:relative;">
+        <div class="map-container map-container-glow" style="position:relative;">
             <!-- Map Layer Switch Menu -->
             <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:1000;
               display:flex;gap:4px;background:rgba(10,14,26,0.85);padding:4px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);">
@@ -1043,7 +1109,7 @@
             <div id="backToNational" style="display:none;position:absolute;top:50px;left:50%;transform:translateX(-50%);z-index:1000;
               background:rgba(17,24,39,0.95);padding:6px 12px;border-radius:6px;border:1px solid #334155;
               cursor:pointer;font-size: 22px;color:#06b6d4;font-weight:600;align-items:center;gap:6px;white-space:nowrap;" onclick="backToNational()">
-              <span id="backLabel">← 返回全国</span>
+              <span id="backLabel" data-i18n="← 返回全国">← 返回全国</span>
               <span id="backCityName" style="color:#f1f5f9;"></span>
             </div>
 
@@ -1061,7 +1127,7 @@
                   <div style="display:flex;gap:4px;margin-left:12px;margin-top:6px;">
                     <button class="cov-op-btn active" id="covOpTigo" onclick="switchCovOperator('tigo')" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;">Tigo</button>
                     <button class="cov-op-btn" id="covOpClaro" onclick="switchCovOperator('claro')" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">Claro</button>
-                    <button class="cov-op-btn" id="covOpBoth" onclick="switchCovOperator('both')" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">对比</button>
+                    <button class="cov-op-btn" id="covOpBoth" onclick="switchCovOperator('both')" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;" data-i18n="对比">对比</button>
                   </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:12px;">
@@ -1083,17 +1149,17 @@
               <!-- 摘要数字 -->
               <div style="display:flex;gap:16px;margin-bottom:8px;">
                 <div style="font-size: 20px;">
-                  <span style="color:#64748b;">好覆盖(≥-100)：</span>
+                  <span style="color:#64748b;"><span data-i18n="好覆盖">好覆盖</span>(≥-100)：</span>
                   <span style="color:#10b981;font-weight:600;">61.5%</span>
                 </div>
                 <div style="font-size: 20px;">
-                  <span style="color:#64748b;">差覆盖(<-100)：</span>
+                  <span style="color:#64748b;"><span data-i18n="差覆盖">差覆盖</span>(&lt;-100)：</span>
                   <span style="color:#ef4444;font-weight:600;">38.5% (4.82M人)</span>
                 </div>
                 <div style="font-size: 20px;">
-                  <span style="color:#64748b;">vs Claro 好覆盖：</span>
+                  <span style="color:#64748b;">vs Claro <span data-i18n="好覆盖">好覆盖</span>：</span>
                   <span style="color:#f97316;font-weight:600;">70.0%</span>
-                  <span style="color:#ef4444;font-size: 18px;"> (Claro 更好)</span>
+                  <span style="color:#ef4444;font-size: 18px;"> (Claro <span data-i18n="更好">更好</span>)</span>
                 </div>
               </div>
               <div id="rsrpChart" style="width:100%;height:180px;"></div>
@@ -1103,26 +1169,14 @@
             <div id="mapLegend" style="position:absolute;bottom:12px;right:12px;z-index:1000;
               background:rgba(10,14,26,0.88);padding:7px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);
               backdrop-filter:blur(8px);min-width:120px;">
-              <div id="legendTitle" style="font-size: 18px;color:#64748b;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">体验评分</div>
+              <div id="legendTitle" style="font-size: 18px;color:#64748b;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;"><span data-i18n="体验评分">体验评分</span></div>
               <div id="legendItems">
                 <!-- JS 动态生成 -->
               </div>
             </div>
 
-            <div class="map-legend" style="display:none;">
-                <div class="legend-item">
-                    <div class="legend-dot" style="background-color: #10b981;"></div>
-                    <span>优秀 (≥4.0)</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background-color: #f59e0b;"></div>
-                    <span>良好 (3.0-4.0)</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background-color: #ef4444;"></div>
-                    <span>告警 (&lt;3.0)</span>
-                </div>
-            </div>
+            <!-- Static legend hidden, dynamic legend used instead -->
+            <div class="map-legend" style="display:none;"></div>
         </div>
 
         <!-- Right Column -->
@@ -1147,7 +1201,8 @@
               <div id="expMetricChart" style="width:100%;height:90px;margin:6px 0;"></div>
 
               <!-- 区域排名 -->
-              <div style="border-top:1px solid #1e293b;padding-top:6px;">
+              <div class="separator"></div>
+              <div style="padding-top:6px;">
                 <div class="card-label" style="margin-bottom:4px;"><span data-i18n="区域排名">区域排名</span></div>
                 <div id="expMetricCities"></div>
               </div>
@@ -1185,28 +1240,29 @@
                     <div id="compTrendChart" style="width:100%;height:70px;"></div>
 
                     <!-- 各城市差距 -->
-                    <div style="border-top:1px solid #1e293b;padding-top:6px;margin-top:4px;">
+                    <div class="separator" style="margin-top:4px;"></div>
+                    <div style="padding-top:6px;">
                         <div style="font-size: 18px;color:#64748b;margin-bottom:4px;" data-i18n="vs Claro 各区域差距">vs Claro 各区域差距</div>
                         <!-- 按差距严重程度排序 -->
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size: 20px;" onclick="drilldown('Barranquilla');switchMapLayer('competitiveness')">
                             <span style="color:#ef4444;">B/quilla</span>
-                            <span style="color:#ef4444;font-weight:600;">-49.8% ▼ 扩大</span>
+                            <span style="color:#ef4444;font-weight:600;">-49.8% ▼ <span data-i18n="扩大">扩大</span></span>
                         </div>
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size: 20px;" onclick="drilldown('Cartagena');switchMapLayer('competitiveness')">
                             <span style="color:#ef4444;">Cartagena</span>
-                            <span style="color:#ef4444;font-weight:600;">-31.7% ▼ 扩大</span>
+                            <span style="color:#ef4444;font-weight:600;">-31.7% ▼ <span data-i18n="扩大">扩大</span></span>
                         </div>
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size: 20px;" onclick="drilldown('Cali')">
                             <span style="color:#f59e0b;">Cali</span>
-                            <span style="color:#f59e0b;">-11.6% → 稳定</span>
+                            <span style="color:#f59e0b;">-11.6% → <span data-i18n="稳定">稳定</span></span>
                         </div>
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size: 20px;" onclick="drilldown('Bogota')">
                             <span style="color:#10b981;">Bogota</span>
-                            <span style="color:#10b981;">-5.8% ▲ 缩小</span>
+                            <span style="color:#10b981;">-5.8% ▲ <span data-i18n="缩小">缩小</span></span>
                         </div>
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size: 20px;" onclick="drilldown('Medellin')">
                             <span style="color:#10b981;">Medellin</span>
-                            <span style="color:#10b981;font-weight:600;">+5.6% 🏆 领先</span>
+                            <span style="color:#10b981;font-weight:600;">+5.6% 🏆 <span data-i18n="领先">领先</span></span>
                         </div>
                     </div>
                 </div>
@@ -1219,7 +1275,7 @@
                         <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Barranquilla')">
                             <div style="display:flex;justify-content:space-between;font-size: 20px;margin-bottom:2px;">
                                 <span style="color:#ef4444;">B/quilla</span>
-                                <span style="color:#ef4444;">差距 -63% · 扩大</span>
+                                <span style="color:#ef4444;"><span data-i18n="差距">Gap</span> -63% · <span data-i18n="扩大">扩大</span></span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
                                 <span style="font-size: 16px;color:#06b6d4;width:30px;">Tigo</span>
@@ -1236,7 +1292,7 @@
                         <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Cartagena')">
                             <div style="display:flex;justify-content:space-between;font-size: 20px;margin-bottom:2px;">
                                 <span style="color:#ef4444;">Cartagena</span>
-                                <span style="color:#ef4444;">差距 -55% · 扩大</span>
+                                <span style="color:#ef4444;"><span data-i18n="差距">Gap</span> -55% · <span data-i18n="扩大">扩大</span></span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
                                 <span style="font-size: 16px;color:#06b6d4;width:30px;">Tigo</span>
@@ -1253,7 +1309,7 @@
                         <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Medellin')">
                             <div style="display:flex;justify-content:space-between;font-size: 20px;margin-bottom:2px;">
                                 <span style="color:#10b981;">Medellin</span>
-                                <span style="color:#10b981;">领先 +8% 🏆</span>
+                                <span style="color:#10b981;"><span data-i18n="领先">领先</span> +8% 🏆</span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
                                 <span style="font-size: 16px;color:#06b6d4;width:30px;">Tigo</span>
@@ -1273,7 +1329,7 @@
             <!-- Churn Distribution Card -->
             <div class="card" style="overflow-y:auto;">
               <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px;">
-                <span class="big-number">15.2K</span>
+                <span class="big-number red">15.2K</span>
                 <span style="font-size: 20px;color:#ef4444;">▲ +8% MoM</span>
               </div>
               <div class="card-label" style="margin-bottom:6px;"><span data-i18n="流失分布">流失分布</span></div>
@@ -1305,45 +1361,45 @@
         <!-- Bottom Row: App Pie Charts - Compact Horizontal Layout -->
         <div class="bottom-row">
           <!-- YouTube -->
-          <div class="card" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('youtube')">
+          <div class="card app-brand-youtube" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('youtube')">
             <div id="ytPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
             <div>
               <div style="font-size:20px;font-weight:700;color:#ff0000;margin-bottom:4px;">YouTube</div>
-              <div style="font-size:16px;color:#64748b;">480p以下</div>
-              <div style="font-size:36px;font-weight:800;color:#f59e0b;line-height:1;">32%</div>
+              <div style="font-size:16px;color:#64748b;" data-i18n="480p以下">480p以下</div>
+              <div style="font-size:36px;font-weight:800;color:#f59e0b;line-height:1;text-shadow:0 0 20px rgba(245,158,11,0.3);">32%</div>
               <div style="font-size:16px;color:#ef4444;font-weight:600;">▲ +2.1%</div>
             </div>
           </div>
 
           <!-- Netflix -->
-          <div class="card" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('netflix')">
+          <div class="card app-brand-netflix" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('netflix')">
             <div id="nfPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
             <div>
               <div style="font-size:20px;font-weight:700;color:#e50914;margin-bottom:4px;">Netflix</div>
-              <div style="font-size:16px;color:#64748b;">HD占比</div>
-              <div style="font-size:36px;font-weight:800;color:#10b981;line-height:1;">43%</div>
+              <div style="font-size:16px;color:#64748b;" data-i18n="HD占比">HD占比</div>
+              <div style="font-size:36px;font-weight:800;color:#10b981;line-height:1;text-shadow:0 0 20px rgba(16,185,129,0.3);">43%</div>
               <div style="font-size:16px;color:#10b981;font-weight:600;">▲ +2.0%</div>
             </div>
           </div>
 
           <!-- TikTok -->
-          <div class="card" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('tiktok')">
+          <div class="card app-brand-tiktok" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('tiktok')">
             <div id="tkPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
             <div>
               <div style="font-size:20px;font-weight:700;color:#00f2ea;margin-bottom:4px;">TikTok</div>
-              <div style="font-size:16px;color:#64748b;">成功率</div>
-              <div style="font-size:36px;font-weight:800;color:#10b981;line-height:1;">98.5%</div>
+              <div style="font-size:16px;color:#64748b;" data-i18n="成功率">成功率</div>
+              <div style="font-size:36px;font-weight:800;color:#10b981;line-height:1;text-shadow:0 0 20px rgba(16,185,129,0.3);">98.5%</div>
               <div style="font-size:16px;color:#10b981;font-weight:600;">▲ +0.2%</div>
             </div>
           </div>
 
           <!-- 流量 -->
-          <div class="card" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('traffic')">
+          <div class="card app-brand-traffic" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('traffic')">
             <div id="trafficPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
             <div>
               <div style="font-size:20px;font-weight:700;color:#94a3b8;margin-bottom:4px;"><span data-i18n="流量">流量</span></div>
-              <div style="font-size:16px;color:#64748b;"><span data-i18n="视频">视频</span>占比</div>
-              <div style="font-size:36px;font-weight:800;color:#ef4444;line-height:1;">32%</div>
+              <div style="font-size:16px;color:#64748b;" data-i18n="视频占比">视频占比</div>
+              <div style="font-size:36px;font-weight:800;color:#ef4444;line-height:1;text-shadow:0 0 20px rgba(239,68,68,0.3);">32%</div>
               <div style="font-size:16px;color:#ef4444;font-weight:600;">▲ +1.5%</div>
             </div>
           </div>
@@ -1360,7 +1416,7 @@
           <div style="width:40px;height:4px;background:#334155;border-radius:2px;"></div>
           <span id="appPanelTitle" style="font-size: 30px;font-weight:700;"></span>
         </div>
-        <button onclick="closeAppPanel()" style="font-size: 24px;color:#94a3b8;background:#1e293b;border:1px solid #334155;border-radius:6px;padding:8px 18px;cursor:pointer;font-family:inherit;"><span data-i18n="收起">收起</span> ▼</button>
+        <button onclick="closeAppPanel()" style="font-size: 24px;color:#94a3b8;background:#1e293b;border:1px solid #334155;border-radius:6px;padding:8px 18px;cursor:pointer;font-family:inherit;"><span data-i18n="收起">收起 ▼</span></button>
       </div>
       <div id="appPanelContent"></div>
     </div>
@@ -1392,7 +1448,7 @@
         const TRANSLATIONS = {
           // Main labels
           '在网用户': { zh: '在网用户', en: 'Active Users' },
-          '区域变化': { zh: '区域变化', en: 'Regional Change' },
+          '区域变化': { zh: '区域变化', en: 'Regional Trend' },
           '高价值终端': { zh: '高价值终端', en: 'High-Value Devices' },
           'Top 终端（点击查看大区分布）': { zh: 'Top 终端（点击查看大区分布）', en: 'Top Devices (click for regional)' },
           '区域分布（高价值终端）': { zh: '区域分布（高价值终端）', en: 'Regional Dist. (High-Value)' },
@@ -1403,7 +1459,7 @@
           'vs Claro': { zh: 'vs Claro', en: 'vs Claro' },
           '视频体验': { zh: '视频体验', en: 'Video QoE' },
           '覆盖分析': { zh: '覆盖分析', en: 'Coverage' },
-          '区域排名': { zh: '区域排名', en: 'Regional Rank' },
+          '区域排名': { zh: '区域排名', en: 'Regional Ranking' },
           '竞对分析 (Ookla)': { zh: '竞对分析 (Ookla)', en: 'Competitor (Ookla)' },
           '速率': { zh: '速率', en: 'Speed' },
           '覆盖': { zh: '覆盖', en: 'Coverage' },
@@ -1411,12 +1467,52 @@
           'RSRP 覆盖分布': { zh: 'RSRP 覆盖分布', en: 'RSRP Coverage Dist.' },
           '今日全网 RRC 连接用户 vs Ookla 测试样本': { zh: '今日全网 RRC 连接用户 vs Ookla 测试样本', en: 'Today RRC Users vs Ookla' },
           'Tigo 现网用户': { zh: 'Tigo 现网用户', en: 'Tigo Live Users' },
-          '卡顿': { zh: '卡顿', en: 'Buffer' },
+          '卡顿': { zh: '卡顿', en: 'Buffering' },
           '流量': { zh: '流量', en: 'Traffic' },
           '视频': { zh: '视频', en: 'Video' },
           '关闭': { zh: '关闭', en: 'Close' },
-          '收起': { zh: '收起', en: 'Collapse' },
+          '关闭大区': { zh: '关闭', en: 'Close' },
+          '收起': { zh: '收起 ▼', en: 'Close ▼' },
+          '月度流失': { zh: '月度流失', en: 'Monthly Churn' },
           '← 返回全国': { zh: '← 返回全国', en: '← Back to National' },
+          // New entries
+          '占比': { zh: '占比', en: 'Share' },
+          '贡献收入': { zh: '收入', en: 'Revenue' },
+          '预付费潜力': { zh: '预付费潜力', en: 'Prepaid Potential' },
+          '可转后付费': { zh: '可转后付费', en: 'Convertible' },
+          '大区分布': { zh: '大区分布', en: 'Regional' },
+          '480p以下': { zh: '480p以下', en: '≤480p' },
+          'HD占比': { zh: 'HD占比', en: 'HD Ratio' },
+          '成功率': { zh: '成功率', en: 'Success Rate' },
+          '视频占比': { zh: '视频占比', en: 'Video Share' },
+          '详情': { zh: '详情', en: 'Details' },
+          '返回全国': { zh: '返回全国', en: 'Back to National' },
+          '边缘': { zh: '边缘', en: 'Edge' },
+          '增长': { zh: '增长', en: 'Growth' },
+          '流失': { zh: '流失', en: 'Churn' },
+          '好覆盖': { zh: '好覆盖', en: 'Good Coverage' },
+          '差覆盖': { zh: '差覆盖', en: 'Poor Coverage' },
+          '更好': { zh: '更好', en: 'Better' },
+          '体验': { zh: '体验', en: 'Experience' },
+          '日变化': { zh: '日变化', en: 'Daily Change' },
+          '净增': { zh: '净增', en: 'Net Add' },
+          '新增': { zh: '新增', en: 'New' },
+          '流失最高': { zh: '流失最高', en: 'Highest Churn' },
+          '离网率': { zh: '离网率', en: 'Churn Rate' },
+          '区域排名2': { zh: '区域排名', en: 'Regional Ranking' },
+          '竞对分析': { zh: '竞对分析', en: 'Competitor Analysis' },
+          '扩大': { zh: '扩大', en: 'Widening' },
+          '缩小': { zh: '缩小', en: 'Closing' },
+          '稳定': { zh: '稳定', en: 'Stable' },
+          '领先': { zh: '领先', en: 'Leading' },
+          '覆盖分析2': { zh: '覆盖分析', en: 'Coverage Analysis' },
+          '卡顿2': { zh: '卡顿', en: 'Buffering' },
+          '流量2': { zh: '流量', en: 'Traffic' },
+          '网络因素': { zh: '网络因素', en: 'Network Factor' },
+          '告警城市': { zh: '告警城市', en: 'Alert Cities' },
+          '体验评分': { zh: '体验评分', en: 'Experience Score' },
+          '差距': { zh: '差距', en: 'Gap' },
+          '对比': { zh: '对比', en: 'Compare' },
         };
 
         function getTranslation(key, fallback = key) {
@@ -1459,6 +1555,12 @@
           const backLabel = document.getElementById('backLabel');
           if (backLabel) {
             backLabel.textContent = currentLang === 'zh' ? '← 返回全国' : '← Back to National';
+          }
+
+          // 刷新网络指标区域内容（包含动态 vsClaro.trend 翻译）
+          const curMetricSel = document.getElementById('expMetricSelect');
+          if (curMetricSel) {
+            switchExpMetric(curMetricSel.value);
           }
 
           // 刷新地图以更新标签
@@ -1737,6 +1839,7 @@
         const EXPERIENCE_METRICS = {
           dl_speed: {
             label: "下行速率",
+            labelEN: "DL Speed",
             unit: "Mbps",
             overall: 38.2,
             mom: "+2.5",
@@ -1752,6 +1855,7 @@
           },
           ul_speed: {
             label: "上行速率",
+            labelEN: "UL Speed",
             unit: "Mbps",
             overall: 8.5,
             mom: "+0.3",
@@ -1767,6 +1871,7 @@
           },
           latency: {
             label: "时延",
+            labelEN: "Latency",
             unit: "ms",
             overall: 32,
             mom: "-2",
@@ -1782,6 +1887,7 @@
           },
           coverage: {
             label: "覆盖（边缘占比）",
+            labelEN: "Coverage (Edge %)",
             unit: "%",
             overall: 20,
             mom: "+0.5",
@@ -1924,80 +2030,81 @@
             const edgeStatus = parseFloat(data.edge) > 25 ? "critical" : parseFloat(data.edge) > 18 ? "warning" : "good";
             const prbStatus = parseFloat(data.prb) > 70 ? "critical" : parseFloat(data.prb) > 55 ? "warning" : "good";
 
+            const t = (zh, en) => currentLang === 'en' ? en : zh;
             diagnosticHTML += `<div class="diagnostic-bar">`;
-            diagnosticHTML += `<div class="diagnostic-item ${expStatus}"><div class="diagnostic-label">体验评分</div><div class="diagnostic-value">${data.exp}</div></div>`;
-            diagnosticHTML += `<div class="diagnostic-item ${churnStatus}"><div class="diagnostic-label">离网率</div><div class="diagnostic-value">${data.churn}</div></div>`;
-            diagnosticHTML += `<div class="diagnostic-item ${edgeStatus}"><div class="diagnostic-label">边缘用户</div><div class="diagnostic-value">${data.edge}%</div></div>`;
-            diagnosticHTML += `<div class="diagnostic-item ${prbStatus}"><div class="diagnostic-label">PRB占用</div><div class="diagnostic-value">${data.prb}%</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${expStatus}"><div class="diagnostic-label">${t('体验评分','Exp Score')}</div><div class="diagnostic-value">${data.exp}</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${churnStatus}"><div class="diagnostic-label">${t('离网率','Churn Rate')}</div><div class="diagnostic-value">${data.churn}</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${edgeStatus}"><div class="diagnostic-label">${t('边缘用户','Edge Users')}</div><div class="diagnostic-value">${data.edge}%</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${prbStatus}"><div class="diagnostic-label">${t('PRB占用','PRB Util.')}</div><div class="diagnostic-value">${data.prb}%</div></div>`;
             diagnosticHTML += `</div>`;
 
             diagnosticHTML += `<div class="kpi-grid">`;
             diagnosticHTML += `<div class="kpi-card">
-                <div class="kpi-title">在网用户</div>
+                <div class="kpi-title">${t('在网用户','Active Users')}</div>
                 <div class="kpi-value">${data.users}</div>
                 <div class="kpi-subtitle">MoM ${data.trend}</div>
             </div>`;
             diagnosticHTML += `<div class="kpi-card">
-                <div class="kpi-title">体验评分</div>
+                <div class="kpi-title">${t('体验评分','Exp Score')}</div>
                 <div class="kpi-value">${data.exp}</div>
                 <div class="kpi-subtitle">MoM ${data.expTrend}</div>
             </div>`;
             diagnosticHTML += `<div class="kpi-card">
-                <div class="kpi-title">月离网率</div>
+                <div class="kpi-title">${t('月离网率','Monthly Churn')}</div>
                 <div class="kpi-value">${data.churn}</div>
                 <div class="kpi-subtitle">MoM ${data.churnTrend}</div>
             </div>`;
             diagnosticHTML += `<div class="kpi-card">
                 <div class="kpi-title">vs Claro</div>
                 <div class="kpi-value" style="color: #ef4444;">${data.vsClaro}</div>
-                <div class="kpi-subtitle">体验差距</div>
+                <div class="kpi-subtitle">${t('体验差距','Exp Gap')}</div>
             </div>`;
             diagnosticHTML += `</div>`;
 
-            diagnosticHTML += `<h3 class="section-title">六维诊断</h3>`;
+            diagnosticHTML += `<h3 class="section-title">${t('六维诊断','6-Dimension Diagnosis')}</h3>`;
             diagnosticHTML += `<div class="attribution-grid">`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">网络PRB占用</div>
+                <div class="attribution-label">${t('网络PRB占用','Network PRB Util.')}</div>
                 <div class="attribution-value">${data.prb}%</div>
-                <div class="attribution-detail">频段拥塞严重程度</div>
+                <div class="attribution-detail">${t('频段拥塞严重程度','Band congestion level')}</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">边缘用户</div>
+                <div class="attribution-label">${t('边缘用户','Edge Users')}</div>
                 <div class="attribution-value">${data.edge}%</div>
-                <div class="attribution-detail">覆盖边缘的用户比例</div>
+                <div class="attribution-detail">${t('覆盖边缘的用户比例','Users at coverage edge')}</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
                 <div class="attribution-label">YouTube HD</div>
                 <div class="attribution-value">${data.ytHD}%</div>
-                <div class="attribution-detail">高清播放成功率</div>
+                <div class="attribution-detail">${t('高清播放成功率','HD playback success')}</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
                 <div class="attribution-label">vs Claro</div>
                 <div class="attribution-value" style="color: #ef4444;">${data.vsClaro}</div>
-                <div class="attribution-detail">体验竞争力</div>
+                <div class="attribution-detail">${t('体验竞争力','Exp. competitiveness')}</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">离网率</div>
+                <div class="attribution-label">${t('离网率','Churn Rate')}</div>
                 <div class="attribution-value">${data.churn}</div>
-                <div class="attribution-detail">月均用户流失</div>
+                <div class="attribution-detail">${t('月均用户流失','Monthly avg churn')}</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">基站数</div>
+                <div class="attribution-label">${t('基站数','Sites')}</div>
                 <div class="attribution-value">${data.sites}</div>
-                <div class="attribution-detail">覆盖密度</div>
+                <div class="attribution-detail">${t('覆盖密度','Coverage density')}</div>
             </div>`;
             diagnosticHTML += `</div>`;
 
             diagnosticHTML += `<div class="action-box">`;
-            diagnosticHTML += `<h3 class="action-title">建议行动</h3>`;
+            diagnosticHTML += `<h3 class="action-title">${t('建议行动','Recommended Actions')}</h3>`;
             if (data.exp < 3.5) {
-                diagnosticHTML += `<p class="action-item">• 优先扩容 ${city}，目标提升体验 0.5+ 分</p>`;
+                diagnosticHTML += `<p class="action-item">• ${t(`优先扩容 ${city}，目标提升体验 0.5+ 分`, `Prioritize capacity expansion in ${city}, target +0.5 Exp score`)}</p>`;
             }
             if (parseFloat(data.churn) > 1.5) {
-                diagnosticHTML += `<p class="action-item">• 加强离网预防，重点关注流失转移</p>`;
+                diagnosticHTML += `<p class="action-item">• ${t('加强离网预防，重点关注流失转移', 'Strengthen churn prevention, focus on high-churn clusters')}</p>`;
             }
             if (parseFloat(data.edge) > 25) {
-                diagnosticHTML += `<p class="action-item">• 增加基站密度，降低边缘用户比例</p>`;
+                diagnosticHTML += `<p class="action-item">• ${t('增加基站密度，降低边缘用户比例', 'Increase site density to reduce edge user ratio')}</p>`;
             }
             diagnosticHTML += `</div>`;
 
@@ -2026,7 +2133,7 @@
           })
 
           const colors = {youtube:'#ff0000',netflix:'#e50914',tiktok:'#00f2ea',traffic:'#3b82f6'}
-          const names = {youtube:'YouTube',netflix:'Netflix',tiktok:'TikTok',traffic:'流量分布'}
+          const names = {youtube:'YouTube',netflix:'Netflix',tiktok:'TikTok',traffic: currentLang === 'en' ? 'Traffic Dist.' : '流量分布'}
           title.textContent = '▶ ' + names[app]
           title.style.color = colors[app]
 
@@ -2034,11 +2141,12 @@
             const vd = app === 'youtube' ? VIDEO_EXPERIENCE.YouTube : VIDEO_EXPERIENCE.Netflix
             const brandColor = colors[app]
 
+            const panelT = (zh, en) => currentLang === 'en' ? en : zh;
             content.innerHTML = `
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <!-- 左列：分辨率分布 + 城市对比 -->
                 <div>
-                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:8px;">分辨率分布</h4>
+                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:8px;">${panelT('分辨率分布','Resolution Dist.')}</h4>
                   <div style="display:flex;height:24px;border-radius:6px;overflow:hidden;margin-bottom:6px;">
                     <div style="width:${vd.current['4K']}%;background:#10b981;" title="4K"></div>
                     <div style="width:${vd.current['1080p']}%;background:#06b6d4;" title="1080p"></div>
@@ -2054,7 +2162,7 @@
                     <span style="color:#ef4444;">≤360p ${vd.current['360p以下']}%</span>
                   </div>
 
-                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:8px;">各区域 HD 占比</h4>
+                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:8px;">${panelT('各区域 HD 占比','HD Ratio by Region')}</h4>
                   ${vd.cityHD.map(c => {
                     const color = parseInt(c.hd) >= 35 ? '#10b981' : parseInt(c.hd) >= 25 ? '#f59e0b' : '#ef4444'
                     const trendColor = c.trend.startsWith('+') ? '#10b981' : '#ef4444'
@@ -2071,10 +2179,10 @@
 
                 <!-- 右列：分辨率分布趋势图 -->
                 <div>
-                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:8px;">分辨率分布趋势（12 周）</h4>
+                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:8px;">${panelT('分辨率分布趋势（12 周）','Resolution Trend (12 Weeks)')}</h4>
                   <div id="panelResolutionTrend" style="width:100%;height:180px;"></div>
                   <div style="margin-top:12px;display:flex;gap:16px;font-size: 22px;">
-                    <div><span style="color:#94a3b8;">卡顿率：</span><span style="color:${parseFloat(vd.rebufferTrend)>0?'#ef4444':'#10b981'};font-weight:600;">${vd.rebuffer}% (${vd.rebufferTrend})</span></div>
+                    <div><span style="color:#94a3b8;">${panelT('卡顿率：','Buffer Rate: ')}</span><span style="color:${parseFloat(vd.rebufferTrend)>0?'#ef4444':'#10b981'};font-weight:600;">${vd.rebuffer}% (${vd.rebufferTrend})</span></div>
                   </div>
                 </div>
               </div>
@@ -2101,47 +2209,57 @@
             }, 100)
 
           } else if (app === 'tiktok') {
+            const tkT = (zh, en) => currentLang === 'en' ? en : zh;
             content.innerHTML = `
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <div>
-                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:12px;">核心指标</h4>
+                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:12px;">${tkT('核心指标','Key Metrics')}</h4>
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
                       <div style="font-size: 42px;font-weight:700;color:#10b981;">98.5%</div>
-                      <div style="font-size: 20px;color:#94a3b8;">播放成功率</div>
+                      <div style="font-size: 20px;color:#94a3b8;">${tkT('播放成功率','Play Success')}</div>
                     </div>
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
                       <div style="font-size: 42px;font-weight:700;color:#06b6d4;">6.2</div>
-                      <div style="font-size: 20px;color:#94a3b8;">上传 Mbps</div>
+                      <div style="font-size: 20px;color:#94a3b8;">${tkT('上传 Mbps','Upload Mbps')}</div>
                     </div>
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
                       <div style="font-size: 42px;font-weight:700;color:#f1f5f9;">580K</div>
-                      <div style="font-size: 20px;color:#94a3b8;">日活用户</div>
+                      <div style="font-size: 20px;color:#94a3b8;">${tkT('日活用户','Daily Active')}</div>
                     </div>
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
                       <div style="font-size: 42px;font-weight:700;color:#f1f5f9;">45min</div>
-                      <div style="font-size: 20px;color:#94a3b8;">人均时长</div>
+                      <div style="font-size: 20px;color:#94a3b8;">${tkT('人均时长','Avg Session')}</div>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:12px;">特征</h4>
+                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:12px;">${tkT('特征','Characteristics')}</h4>
                   <p style="font-size: 22px;color:#94a3b8;line-height:1.8;">
-                    TikTok 上行流量占比持续增长，短视频创作者增多。<br/>
-                    上传速率需求高于其他 APP，需关注上行 PRB 利用率。<br/>
-                    日活用户 580K，人均使用 45 分钟，是流量第三大 APP。
+                    ${tkT(
+                      'TikTok 上行流量占比持续增长，短视频创作者增多。<br/>上传速率需求高于其他 APP，需关注上行 PRB 利用率。<br/>日活用户 580K，人均使用 45 分钟，是流量第三大 APP。',
+                      'TikTok uplink traffic share keeps growing with more short video creators.<br/>Upload speed demand exceeds other apps — monitor UL PRB utilization.<br/>580K DAU, 45 min avg session, #3 traffic app.'
+                    )}
                   </p>
                 </div>
               </div>
             `
           } else if (app === 'traffic') {
+            const trT = (zh, en) => currentLang === 'en' ? en : zh;
+            const trafficCategories = [
+              {n: trT('视频流媒体','Video Streaming'), p:32, c:'#ef4444', d:'YouTube+Netflix+'+trT('其他视频','Other Video')},
+              {n: trT('社交媒体','Social Media'), p:28, c:'#3b82f6', d:'Instagram+Facebook'},
+              {n: trT('即时消息','Messaging'), p:18, c:'#10b981', d:'WhatsApp+Telegram'},
+              {n: trT('游戏','Gaming'), p:8, c:'#f59e0b', d: trT('手游+云游戏','Mobile+Cloud Games')},
+              {n: trT('其他','Other'), p:14, c:'#6b7280', d: trT('浏览器+企业+其他','Browser+Enterprise+Other')}
+            ];
             content.innerHTML = `
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <div id="panelTrafficPie" style="height:250px;"></div>
                 <div>
-                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:12px;">流量结构</h4>
+                  <h4 style="font-size: 24px;color:#94a3b8;margin-bottom:12px;">${trT('流量结构','Traffic Structure')}</h4>
                   <div style="space-y:8px;">
-                    ${[{n:'视频流媒体',p:32,c:'#ef4444',d:'YouTube+Netflix+其他视频'},{n:'社交媒体',p:28,c:'#3b82f6',d:'Instagram+Facebook'},{n:'即时消息',p:18,c:'#10b981',d:'WhatsApp+Telegram'},{n:'游戏',p:8,c:'#f59e0b',d:'手游+云游戏'},{n:'其他',p:14,c:'#6b7280',d:'浏览器+企业+其他'}].map(c => `
+                    ${trafficCategories.map(c => `
                       <div style="margin-bottom:8px;">
                         <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
                           <span style="font-size: 24px;color:${c.c};font-weight:600;">${c.n}</span>
@@ -2162,7 +2280,7 @@
               chart.setOption({
                 series:[{
                   type:'pie',radius:['40%','70%'],center:['50%','50%'],
-                  data:[{value:32,name:'视频',itemStyle:{color:'#ef4444'}},{value:28,name:'社交',itemStyle:{color:'#3b82f6'}},{value:18,name:'消息',itemStyle:{color:'#10b981'}},{value:8,name:'游戏',itemStyle:{color:'#f59e0b'}},{value:14,name:'其他',itemStyle:{color:'#6b7280'}}],
+                  data: trafficCategories.map(c => ({value:c.p, name:c.n, itemStyle:{color:c.c}})),
                   label:{color:'#94a3b8',fontSize:20},
                   emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,0.5)'}},
                 }],
@@ -2269,7 +2387,7 @@
             </div>
             <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
               <span style="font-size: 20px;color:${momColor};font-weight:600;">${momArrow} ${d.mom} MoM</span>
-              <span style="font-size: 18px;color:#f59e0b;">vs Claro: ${d.vsClaro.value}${d.unit} (${d.vsClaro.gap}) · ${d.vsClaro.trend}</span>
+              <span style="font-size: 18px;color:#f59e0b;">vs Claro: ${d.vsClaro.value}${d.unit} (${d.vsClaro.gap}) · ${getTranslation(d.vsClaro.trend, d.vsClaro.trend)}</span>
             </div>
           `
 
@@ -2341,7 +2459,7 @@
           if (!data) return
 
           document.getElementById('terminalBreakdown').style.display = 'block'
-          document.getElementById('breakdownTitle').textContent = '📱 ' + model + ' · 大区分布'
+          document.getElementById('breakdownTitle').textContent = '📱 ' + model + ' · ' + getTranslation('大区分布', 'Regional')
 
           const cities = Object.entries(data.cities).sort((a,b) => b[1] - a[1])
           const maxCity = cities[0][1]
@@ -2457,10 +2575,11 @@
                         const cityData = md.cities.find(c => c.city === city)
                         if (cityData) {
                           fillColor = cityData.status === 'good' ? '#10b981' : cityData.status === 'warn' ? '#f59e0b' : '#ef4444'
-                          label = `${md.label} ${cityData.value}${md.unit}`
+                          const mdLabelDisplay = currentLang === 'en' ? (md.labelEN || md.label) : md.label
+                          label = `${mdLabelDisplay} ${cityData.value}${md.unit}`
                         } else {
                           fillColor = '#64748b'
-                          label = md.label
+                          label = currentLang === 'en' ? (md.labelEN || md.label) : md.label
                         }
                         break
                     }
@@ -2479,7 +2598,7 @@
                     }
                     case 'churn':
                         fillColor = parseFloat(cd.churn) > 1.5 ? '#ef4444' : parseFloat(cd.churn) > 1.0 ? '#f59e0b' : '#10b981';
-                        label = `流失 ${cd.churn}`;
+                        label = `${getTranslation('流失', 'Churn')} ${cd.churn}`;
                         break;
                     case 'competitiveness': {
                         const selM = document.getElementById('expMetricSelect')
@@ -2523,10 +2642,10 @@
                         const covCity = covData.cities.find(c => c.city === city);
                         if (covCity) {
                             fillColor = covCity.status === 'good' ? '#10b981' : covCity.status === 'warn' ? '#f59e0b' : '#ef4444';
-                            label = `边缘 ${covCity.value}%`;
+                            label = `${getTranslation('边缘', 'Edge')} ${covCity.value}%`;
                         } else {
                             fillColor = '#64748b';
-                            label = '覆盖';
+                            label = getTranslation('覆盖', 'Coverage');
                         }
                         break;
                     }
@@ -2664,18 +2783,18 @@
                         const sg = site.growth||0;
                         color = sg > 2 ? '#059669' : sg > 0.5 ? '#10b981' : sg > -0.5 ? '#f59e0b' : sg > -2 ? '#f97316' : '#ef4444';
                         radius = 5 + Math.abs(sg) * 1.5;
-                        tooltipExtra = `增长: ${sg > 0 ? '+' : ''}${sg}%`;
+                        tooltipExtra = `${getTranslation('增长', 'Growth')}: ${sg > 0 ? '+' : ''}${sg}%`;
                         break;
                     }
                     case 'newUsers':
                         color = (site.newUsers||0) > 250 ? '#2563eb' : (site.newUsers||0) > 150 ? '#3b82f6' : '#60a5fa';
                         radius = 6;
-                        tooltipExtra = `新增: +${site.newUsers||0}`;
+                        tooltipExtra = `${getTranslation('新增', 'New')}: +${site.newUsers||0}`;
                         break;
                     case 'churn':
                         color = (site.churnRate||0) > 2.0 ? '#ef4444' : (site.churnRate||0) > 1.2 ? '#f59e0b' : '#10b981';
                         radius = 5 + (site.churnRate||0) * 2.5;
-                        tooltipExtra = `流失: ${site.churnRate||0}%`;
+                        tooltipExtra = `${getTranslation('流失', 'Churn')}: ${site.churnRate||0}%`;
                         break;
                     case 'competitiveness': {
                         const selM3 = document.getElementById('expMetricSelect')
@@ -2712,10 +2831,10 @@
                         const covCity2 = covData2.cities.find(c => c.city === site.city);
                         if (covCity2) {
                             color = covCity2.status === 'good' ? '#10b981' : covCity2.status === 'warn' ? '#f59e0b' : '#ef4444';
-                            tooltipExtra = `边缘占比: ${covCity2.value}%`;
+                            tooltipExtra = `${getTranslation('边缘', 'Edge')} %: ${covCity2.value}%`;
                         } else {
                             color = '#64748b';
-                            tooltipExtra = '覆盖';
+                            tooltipExtra = getTranslation('覆盖', 'Coverage');
                         }
                         radius = 6;
                         break;
@@ -2738,8 +2857,8 @@
                     opacity: 1,
                     fillOpacity: 0.7,
                 }).bindPopup(`<div style="font-size: 22px;color:#f1f5f9;background:#1e293b;padding:6px;border-radius:6px;min-width:140px;">
-                  <b>${site.id}</b><br/>${site.city}<br/>${tooltipExtra}<br/>PRB: ${site.prb}% · 边缘: ${site.edge}%<br/>
-                  <span style="font-size: 20px;color:#64748b;">频段: ${site.bands}</span>
+                  <b>${site.id}</b><br/>${site.city}<br/>${tooltipExtra}<br/>PRB: ${site.prb}% · ${getTranslation('边缘','Edge')}: ${site.edge}%<br/>
+                  <span style="font-size: 20px;color:#64748b;">${currentLang === 'zh' ? '频段' : 'Bands'}: ${site.bands}</span>
                 </div>`, {className:'dark-popup'});
 
                 marker.addTo(map);
@@ -2757,25 +2876,91 @@
             const items = document.getElementById('legendItems');
 
             let legendData;
+            const isEN = currentLang === 'en';
 
             if (layer === 'experience') {
                 const sel = document.getElementById('expMetricSelect')
                 const m = sel ? sel.value : 'dl_speed'
 
                 const legendMap = {
-                    dl_speed: {title:'下行速率 (Mbps)',items:[{color:'#10b981',label:'≥ 40 良好'},{color:'#f59e0b',label:'25-40 一般'},{color:'#ef4444',label:'< 25 较差'}]},
-                    ul_speed: {title:'上行速率 (Mbps)',items:[{color:'#10b981',label:'≥ 9 良好'},{color:'#f59e0b',label:'6-9 一般'},{color:'#ef4444',label:'< 6 较差'}]},
-                    latency: {title:'时延 (ms)',items:[{color:'#10b981',label:'≤ 30 良好'},{color:'#f59e0b',label:'30-45 一般'},{color:'#ef4444',label:'> 45 较差'}]},
-                    coverage: {title:'边缘占比 (%)',items:[{color:'#10b981',label:'≤ 18% 良好'},{color:'#f59e0b',label:'18-28% 一般'},{color:'#ef4444',label:'> 28% 较差'}]},
+                    dl_speed: {
+                        title: isEN ? 'DL Speed (Mbps)' : '下行速率 (Mbps)',
+                        items:[
+                            {color:'#10b981',label: isEN ? '≥ 40 Good' : '≥ 40 良好'},
+                            {color:'#f59e0b',label: isEN ? '25-40 Fair' : '25-40 一般'},
+                            {color:'#ef4444',label: isEN ? '< 25 Poor' : '< 25 较差'}
+                        ]
+                    },
+                    ul_speed: {
+                        title: isEN ? 'UL Speed (Mbps)' : '上行速率 (Mbps)',
+                        items:[
+                            {color:'#10b981',label: isEN ? '≥ 9 Good' : '≥ 9 良好'},
+                            {color:'#f59e0b',label: isEN ? '6-9 Fair' : '6-9 一般'},
+                            {color:'#ef4444',label: isEN ? '< 6 Poor' : '< 6 较差'}
+                        ]
+                    },
+                    latency: {
+                        title: isEN ? 'Latency (ms)' : '时延 (ms)',
+                        items:[
+                            {color:'#10b981',label: isEN ? '≤ 30 Good' : '≤ 30 良好'},
+                            {color:'#f59e0b',label: isEN ? '30-45 Fair' : '30-45 一般'},
+                            {color:'#ef4444',label: isEN ? '> 45 Poor' : '> 45 较差'}
+                        ]
+                    },
+                    coverage: {
+                        title: isEN ? 'Edge User (%)' : '边缘占比 (%)',
+                        items:[
+                            {color:'#10b981',label: isEN ? '≤ 18% Good' : '≤ 18% 良好'},
+                            {color:'#f59e0b',label: isEN ? '18-28% Fair' : '18-28% 一般'},
+                            {color:'#ef4444',label: isEN ? '> 28% Poor' : '> 28% 较差'}
+                        ]
+                    },
                 }
                 legendData = legendMap[m] || legendMap.dl_speed
             } else {
                 const staticLegends = {
-                    growth:{title:'用户增长率',items:[{color:'#059669',label:'> +2% 强劲增长'},{color:'#10b981',label:'+0.5%~+2% 稳健'},{color:'#f59e0b',label:'-0.5%~+0.5% 持平'},{color:'#f97316',label:'-2%~-0.5% 轻度下降'},{color:'#ef4444',label:'< -2% 严重下降'}]},
-                    newUsers:{title:'新增用户',items:[{color:'#2563eb',label:'> 2K / > 250 高'},{color:'#3b82f6',label:'1K-2K / 150-250 中'},{color:'#60a5fa',label:'< 1K / < 150 低'}]},
-                    churn:{title:'流失率',items:[{color:'#10b981',label:'< 1.2% 健康'},{color:'#f59e0b',label:'1.2-2.0% 关注'},{color:'#ef4444',label:'> 2.0% 严重'}]},
-                    video:{title:'YouTube HD 占比',items:[{color:'#10b981',label:'≥ 35% 良好'},{color:'#f59e0b',label:'25-35% 一般'},{color:'#ef4444',label:'< 25% 较差'}]},
-                    coverageAnalysis:{title:'覆盖分析',items:[{color:'#10b981',label:'边缘 ≤ 18% 良好'},{color:'#f59e0b',label:'边缘 18-28% 关注'},{color:'#ef4444',label:'边缘 > 28% 较差'}]},
+                    growth:{
+                        title: isEN ? 'User Growth' : '用户增长率',
+                        items:[
+                            {color:'#059669',label: isEN ? '> +2% Strong' : '> +2% 强劲增长'},
+                            {color:'#10b981',label: isEN ? '+0.5%~+2% Solid' : '+0.5%~+2% 稳健'},
+                            {color:'#f59e0b',label: isEN ? '-0.5%~+0.5% Flat' : '-0.5%~+0.5% 持平'},
+                            {color:'#f97316',label: isEN ? '-2%~-0.5% Mild drop' : '-2%~-0.5% 轻度下降'},
+                            {color:'#ef4444',label: isEN ? '< -2% Severe drop' : '< -2% 严重下降'}
+                        ]
+                    },
+                    newUsers:{
+                        title: isEN ? 'New Users' : '新增用户',
+                        items:[
+                            {color:'#2563eb',label: isEN ? '> 2K / > 250 High' : '> 2K / > 250 高'},
+                            {color:'#3b82f6',label: isEN ? '1K-2K / 150-250 Mid' : '1K-2K / 150-250 中'},
+                            {color:'#60a5fa',label: isEN ? '< 1K / < 150 Low' : '< 1K / < 150 低'}
+                        ]
+                    },
+                    churn:{
+                        title: isEN ? 'Churn Rate' : '流失率',
+                        items:[
+                            {color:'#10b981',label: isEN ? '< 1.2% Healthy' : '< 1.2% 健康'},
+                            {color:'#f59e0b',label: isEN ? '1.2-2.0% Watch' : '1.2-2.0% 关注'},
+                            {color:'#ef4444',label: isEN ? '> 2.0% Critical' : '> 2.0% 严重'}
+                        ]
+                    },
+                    video:{
+                        title: isEN ? 'YouTube HD Ratio' : 'YouTube HD 占比',
+                        items:[
+                            {color:'#10b981',label: isEN ? '≥ 35% Good' : '≥ 35% 良好'},
+                            {color:'#f59e0b',label: isEN ? '25-35% Fair' : '25-35% 一般'},
+                            {color:'#ef4444',label: isEN ? '< 25% Poor' : '< 25% 较差'}
+                        ]
+                    },
+                    coverageAnalysis:{
+                        title: isEN ? 'Coverage Analysis' : '覆盖分析',
+                        items:[
+                            {color:'#10b981',label: isEN ? 'Edge ≤ 18% Good' : '边缘 ≤ 18% 良好'},
+                            {color:'#f59e0b',label: isEN ? 'Edge 18-28% Watch' : '边缘 18-28% 关注'},
+                            {color:'#ef4444',label: isEN ? 'Edge > 28% Poor' : '边缘 > 28% 较差'}
+                        ]
+                    },
                 }
                 if (layer === 'competitiveness') {
                     const selLC = document.getElementById('expMetricSelect')
@@ -2784,15 +2969,15 @@
                     const isLowerLC = mLC === 'latency' || mLC === 'coverage'
 
                     legendData = {
-                        title: `vs Claro · ${mdLC ? mdLC.label : ''}`,
+                        title: `vs Claro · ${mdLC ? (isEN ? (mdLC.labelEN || mdLC.label) : mdLC.label) : ''}`,
                         items: isLowerLC ? [
-                            {color:'#10b981', label:'Tigo 更优 (差距<-5%)'},
-                            {color:'#f59e0b', label:'接近 (-5%~15%)'},
-                            {color:'#ef4444', label:'Tigo 更差 (差距>15%)'},
+                            {color:'#10b981', label: isEN ? 'Tigo Better (<-5%)' : 'Tigo 更优 (差距<-5%)'},
+                            {color:'#f59e0b', label: isEN ? 'Close (-5%~15%)' : '接近 (-5%~15%)'},
+                            {color:'#ef4444', label: isEN ? 'Tigo Worse (>15%)' : 'Tigo 更差 (差距>15%)'},
                         ] : [
-                            {color:'#10b981', label:'Tigo 领先 (>5%)'},
-                            {color:'#f59e0b', label:'接近 (-15%~5%)'},
-                            {color:'#ef4444', label:'Tigo 落后 (<-15%)'},
+                            {color:'#10b981', label: isEN ? 'Tigo Leading (>5%)' : 'Tigo 领先 (>5%)'},
+                            {color:'#f59e0b', label: isEN ? 'Close (-15%~5%)' : '接近 (-15%~5%)'},
+                            {color:'#ef4444', label: isEN ? 'Tigo Behind (<-15%)' : 'Tigo 落后 (<-15%)'},
                         ]
                     }
                 } else {
