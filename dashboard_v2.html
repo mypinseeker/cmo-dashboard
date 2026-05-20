@@ -855,25 +855,19 @@
                     </div>
                 </div>
 
-                <!-- Top 终端型号 -->
+                <!-- Top 终端型号 — 阶梯图 -->
                 <div style="border-top:1px solid #1e293b;padding-top:8px;margin-bottom:8px;">
-                    <div class="card-label" style="margin-bottom:6px;">Top 终端型号</div>
-                    <div style="display:flex;flex-wrap:wrap;gap:3px;">
-                        <span style="font-size:10px;background:#1e293b;color:#94a3b8;padding:2px 6px;border-radius:4px;border:1px solid #334155;">
-                            📱 iPhone 16 Pro Max <b style="color:#06b6d4;">380K</b>
-                        </span>
-                        <span style="font-size:10px;background:#1e293b;color:#94a3b8;padding:2px 6px;border-radius:4px;border:1px solid #334155;">
-                            📱 Samsung S25 Ultra <b style="color:#06b6d4;">290K</b>
-                        </span>
-                        <span style="font-size:10px;background:#1e293b;color:#94a3b8;padding:2px 6px;border-radius:4px;border:1px solid #334155;">
-                            📱 iPhone 15 Pro <b style="color:#06b6d4;">270K</b>
-                        </span>
-                        <span style="font-size:10px;background:#1e293b;color:#94a3b8;padding:2px 6px;border-radius:4px;border:1px solid #334155;">
-                            📱 iPhone 15 <b style="color:#06b6d4;">350K</b>
-                        </span>
-                        <span style="font-size:10px;background:#1e293b;color:#94a3b8;padding:2px 6px;border-radius:4px;border:1px solid #334155;">
-                            📱 Samsung S24 <b style="color:#06b6d4;">310K</b>
-                        </span>
+                    <div class="card-label" style="margin-bottom:6px;">Top 终端（点击查看大区分布）</div>
+                    <div id="terminalLadder">
+                        <!-- JS 动态生成 -->
+                    </div>
+                    <!-- 展开的大区分布面板 -->
+                    <div id="terminalBreakdown" style="display:none;margin-top:6px;padding:8px;background:#0f172a;border-radius:8px;border:1px solid #334155;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                            <span id="breakdownTitle" style="font-size:11px;font-weight:600;color:#06b6d4;"></span>
+                            <span style="font-size:10px;color:#64748b;cursor:pointer;" onclick="closeBreakdown()">✕ 关闭</span>
+                        </div>
+                        <div id="breakdownBars"></div>
                     </div>
                 </div>
 
@@ -1130,6 +1124,19 @@
           ]
         };
 
+        const TERMINAL_CITY_BREAKDOWN = {
+          "iPhone 16 Pro Max": {total:380000, cities:{Bogotá:165000,Medellín:82000,Cali:55000,Barranquilla:42000,Cartagena:28000,Other:8000}},
+          "iPhone 15": {total:350000, cities:{Bogotá:148000,Medellín:76000,Cali:52000,Barranquilla:40000,Cartagena:26000,Other:8000}},
+          "Samsung S24": {total:310000, cities:{Bogotá:132000,Medellín:68000,Cali:46000,Barranquilla:35000,Cartagena:22000,Other:7000}},
+          "Samsung S25 Ultra": {total:290000, cities:{Bogotá:125000,Medellín:62000,Cali:42000,Barranquilla:33000,Cartagena:21000,Other:7000}},
+          "iPhone 16 Pro": {total:320000, cities:{Bogotá:138000,Medellín:70000,Cali:48000,Barranquilla:36000,Cartagena:22000,Other:6000}},
+          "iPhone 15 Pro": {total:270000, cities:{Bogotá:118000,Medellín:58000,Cali:38000,Barranquilla:30000,Cartagena:20000,Other:6000}},
+          "Samsung S25+": {total:250000, cities:{Bogotá:108000,Medellín:55000,Cali:36000,Barranquilla:28000,Cartagena:18000,Other:5000}},
+          "Samsung S24 Ultra": {total:230000, cities:{Bogotá:100000,Medellín:50000,Cali:33000,Barranquilla:26000,Cartagena:16000,Other:5000}},
+          "Xiaomi 14 Pro": {total:220000, cities:{Bogotá:92000,Medellín:48000,Cali:32000,Barranquilla:26000,Cartagena:17000,Other:5000}},
+          "Google Pixel 9 Pro": {total:180000, cities:{Bogotá:78000,Medellín:40000,Cali:26000,Barranquilla:20000,Cartagena:12000,Other:4000}},
+        };
+
         const WEEKLY_USERS = [
             // 52 周数据，从 2025-W22 到 2026-W21
             // 整体从 11.8M 缓慢增长到 12.5M，中间有波动
@@ -1347,6 +1354,70 @@
             document.getElementById("drilldown-overlay").classList.remove("active");
         }
 
+        // ============ TERMINAL LADDER FUNCTIONS ============
+
+        function renderTerminalLadder() {
+          const container = document.getElementById('terminalLadder')
+          // 按数量排序
+          const sorted = Object.entries(TERMINAL_CITY_BREAKDOWN).sort((a,b) => b[1].total - a[1].total)
+          const maxTotal = sorted[0][1].total
+
+          let html = ''
+          sorted.forEach(([model, data], idx) => {
+            const widthPct = (data.total / maxTotal * 100).toFixed(0)
+            const countStr = data.total >= 1000000 ? (data.total/1000000).toFixed(1)+'M' : (data.total/1000).toFixed(0)+'K'
+            // 梯子效果：居中对齐，越往下越窄
+            html += `
+              <div style="display:flex;align-items:center;justify-content:center;margin-bottom:2px;cursor:pointer;" onclick="showBreakdown('${model}')">
+                <div style="width:${widthPct}%;min-width:60%;background:linear-gradient(90deg,rgba(6,182,212,${0.3-idx*0.02}),rgba(59,130,246,${0.25-idx*0.02}));
+                  height:18px;border-radius:3px;display:flex;align-items:center;justify-content:space-between;padding:0 6px;
+                  transition:all 0.2s;border:1px solid rgba(6,182,212,${0.15-idx*0.01});"
+                  onmouseover="this.style.background='linear-gradient(90deg,rgba(6,182,212,0.5),rgba(59,130,246,0.4))';this.style.transform='scaleX(1.02)'"
+                  onmouseout="this.style.background='linear-gradient(90deg,rgba(6,182,212,${0.3-idx*0.02}),rgba(59,130,246,${0.25-idx*0.02}))';this.style.transform='scaleX(1)'">
+                  <span style="font-size:9px;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${model}</span>
+                  <span style="font-size:9px;color:#06b6d4;font-weight:700;flex-shrink:0;margin-left:4px;">${countStr}</span>
+                </div>
+              </div>`
+          })
+          container.innerHTML = html
+        }
+
+        function showBreakdown(model) {
+          const data = TERMINAL_CITY_BREAKDOWN[model]
+          if (!data) return
+
+          document.getElementById('terminalBreakdown').style.display = 'block'
+          document.getElementById('breakdownTitle').textContent = '📱 ' + model + ' · 大区分布'
+
+          const cities = Object.entries(data.cities).sort((a,b) => b[1] - a[1])
+          const maxCity = cities[0][1]
+
+          let html = ''
+          cities.forEach(([city, count]) => {
+            const pct = (count / data.total * 100).toFixed(1)
+            const barW = (count / maxCity * 100).toFixed(0)
+            const countStr = count >= 1000000 ? (count/1000000).toFixed(1)+'M' : (count/1000).toFixed(0)+'K'
+            const isDecline = city === 'Barranquilla' || city === 'Cartagena'
+            const barColor = isDecline ? 'linear-gradient(90deg,#f59e0b,#ef4444)' : 'linear-gradient(90deg,#06b6d4,#3b82f6)'
+            const nameColor = isDecline ? '#ef4444' : '#e2e8f0'
+
+            html += `
+              <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;cursor:pointer;" onclick="drilldown('${city}')">
+                <span style="font-size:10px;color:${nameColor};width:65px;flex-shrink:0;">${city === 'Barranquilla' ? 'B/quilla' : city}</span>
+                <div style="flex:1;background:#1e293b;border-radius:2px;height:6px;">
+                  <div style="width:${barW}%;height:100%;background:${barColor};border-radius:2px;"></div>
+                </div>
+                <span style="font-size:9px;color:#94a3b8;width:30px;text-align:right;">${countStr}</span>
+                <span style="font-size:9px;color:#64748b;width:28px;text-align:right;">${pct}%</span>
+              </div>`
+          })
+          document.getElementById('breakdownBars').innerHTML = html
+        }
+
+        function closeBreakdown() {
+          document.getElementById('terminalBreakdown').style.display = 'none'
+        }
+
         // ============ MAP INITIALIZATION ============
 
         let map;
@@ -1495,6 +1566,7 @@
             initMap();
             initUserTrendChart();
             initTrafficChart();
+            renderTerminalLadder();
 
             document.getElementById('drilldown-overlay').addEventListener('click', function(e) {
                 if (e.target === this) {
