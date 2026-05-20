@@ -839,21 +839,105 @@
                 </div>
             </div>
 
-            <!-- Terminals Card -->
+            <!-- High-Value Terminals Card -->
             <div class="card">
-                <div class="card-title">高价值终端</div>
-                <div class="big-number">4.5M</div>
-                <div style="font-size: 12px; color: #94a3b8; font-weight: 500;">占比 36% | 收入贡献 68%</div>
-                <div class="separator"></div>
-                <div class="sub-title">市场潜力</div>
-                <div style="font-size: 12px; margin-bottom: 8px;">
-                    <div class="row">
-                        <div><span class="label">未覆盖人口</span></div>
-                        <div style="text-align: right; font-weight: 600;">11.5M</div>
+                <!-- 标题和总数 -->
+                <div style="margin-bottom:8px;">
+                    <div class="card-label">高价值终端</div>
+                    <div style="display:flex;align-items:baseline;gap:8px;">
+                        <span class="big-number" style="font-size:28px;">4.5M</span>
+                        <span style="font-size:12px;color:#94a3b8;">占比 36% · 贡献收入 68%</span>
                     </div>
-                    <div class="row">
-                        <div><span class="label">高潜力用户</span></div>
-                        <div style="text-align: right; font-weight: 600; color: #10b981;">4.2M</div>
+                    <div style="margin-top:4px;">
+                        <span style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,0.1);padding:2px 8px;border-radius:99px;">
+                            💰 预付费潜力 1.2M（可转后付费）
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Top 终端型号 -->
+                <div style="border-top:1px solid #1e293b;padding-top:8px;margin-bottom:8px;">
+                    <div class="card-label" style="margin-bottom:6px;">Top 终端型号</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:3px;">
+                        <span style="font-size:10px;background:#1e293b;color:#94a3b8;padding:2px 6px;border-radius:4px;border:1px solid #334155;">
+                            📱 iPhone 16 Pro Max <b style="color:#06b6d4;">380K</b>
+                        </span>
+                        <span style="font-size:10px;background:#1e293b;color:#94a3b8;padding:2px 6px;border-radius:4px;border:1px solid #334155;">
+                            📱 Samsung S25 Ultra <b style="color:#06b6d4;">290K</b>
+                        </span>
+                        <span style="font-size:10px;background:#1e293b;color:#94a3b8;padding:2px 6px;border-radius:4px;border:1px solid #334155;">
+                            📱 iPhone 15 Pro <b style="color:#06b6d4;">270K</b>
+                        </span>
+                        <span style="font-size:10px;background:#1e293b;color:#94a3b8;padding:2px 6px;border-radius:4px;border:1px solid #334155;">
+                            📱 iPhone 15 <b style="color:#06b6d4;">350K</b>
+                        </span>
+                        <span style="font-size:10px;background:#1e293b;color:#94a3b8;padding:2px 6px;border-radius:4px;border:1px solid #334155;">
+                            📱 Samsung S24 <b style="color:#06b6d4;">310K</b>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 区域分布 -->
+                <div style="border-top:1px solid #1e293b;padding-top:8px;">
+                    <div class="card-label" style="margin-bottom:6px;">区域分布（高价值终端）</div>
+
+                    <!-- 每个城市一行 -->
+                    <div style="space-y:4px;" id="hvTerminalCityList">
+                        <!-- Bogota -->
+                        <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;cursor:pointer;" onclick="drilldown('Bogota')">
+                            <span style="font-size:11px;color:#f1f5f9;width:75px;flex-shrink:0;">Bogotá</span>
+                            <span style="font-size:10px;color:#06b6d4;width:40px;flex-shrink:0;">1.85M</span>
+                            <div style="flex:1;background:#1e293b;border-radius:2px;height:8px;position:relative;">
+                                <div style="width:44%;height:100%;background:linear-gradient(90deg,#06b6d4,#3b82f6);border-radius:2px;"></div>
+                            </div>
+                            <span style="font-size:10px;color:#94a3b8;width:28px;text-align:right;">44%</span>
+                            <span style="font-size:10px;color:#10b981;width:35px;text-align:right;">+3.2%</span>
+                        </div>
+                        <!-- Medellin -->
+                        <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;cursor:pointer;" onclick="drilldown('Medellin')">
+                            <span style="font-size:11px;color:#f1f5f9;width:75px;flex-shrink:0;">Medellín</span>
+                            <span style="font-size:10px;color:#06b6d4;width:40px;flex-shrink:0;">1.02M</span>
+                            <div style="flex:1;background:#1e293b;border-radius:2px;height:8px;position:relative;">
+                                <div style="width:36%;height:100%;background:linear-gradient(90deg,#06b6d4,#3b82f6);border-radius:2px;"></div>
+                            </div>
+                            <span style="font-size:10px;color:#94a3b8;width:28px;text-align:right;">36%</span>
+                            <span style="font-size:10px;color:#10b981;width:35px;text-align:right;">+2.8%</span>
+                        </div>
+                        <!-- Cali -->
+                        <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;cursor:pointer;" onclick="drilldown('Cali')">
+                            <span style="font-size:11px;color:#f1f5f9;width:75px;flex-shrink:0;">Cali</span>
+                            <span style="font-size:10px;color:#06b6d4;width:40px;flex-shrink:0;">680K</span>
+                            <div style="flex:1;background:#1e293b;border-radius:2px;height:8px;position:relative;">
+                                <div style="width:36%;height:100%;background:linear-gradient(90deg,#06b6d4,#3b82f6);border-radius:2px;"></div>
+                            </div>
+                            <span style="font-size:10px;color:#94a3b8;width:28px;text-align:right;">36%</span>
+                            <span style="font-size:10px;color:#10b981;width:35px;text-align:right;">+1.5%</span>
+                        </div>
+                        <!-- Barranquilla - 下降，标红 -->
+                        <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;cursor:pointer;" onclick="drilldown('Barranquilla')">
+                            <span style="font-size:11px;color:#ef4444;width:75px;flex-shrink:0;">B/quilla</span>
+                            <span style="font-size:10px;color:#06b6d4;width:40px;flex-shrink:0;">450K</span>
+                            <div style="flex:1;background:#1e293b;border-radius:2px;height:8px;position:relative;">
+                                <div style="width:41%;height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:2px;"></div>
+                            </div>
+                            <span style="font-size:10px;color:#94a3b8;width:28px;text-align:right;">41%</span>
+                            <span style="font-size:10px;color:#ef4444;width:35px;text-align:right;">-0.5%</span>
+                        </div>
+                        <!-- Cartagena - 下降 -->
+                        <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;cursor:pointer;" onclick="drilldown('Cartagena')">
+                            <span style="font-size:11px;color:#ef4444;width:75px;flex-shrink:0;">Cartagena</span>
+                            <span style="font-size:10px;color:#06b6d4;width:40px;flex-shrink:0;">320K</span>
+                            <div style="flex:1;background:#1e293b;border-radius:2px;height:8px;position:relative;">
+                                <div style="width:40%;height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:2px;"></div>
+                            </div>
+                            <span style="font-size:10px;color:#94a3b8;width:28px;text-align:right;">40%</span>
+                            <span style="font-size:10px;color:#ef4444;width:35px;text-align:right;">-0.3%</span>
+                        </div>
+                    </div>
+
+                    <!-- 底部洞察 -->
+                    <div style="margin-top:6px;padding:6px;background:rgba(245,158,11,0.08);border-radius:6px;border-left:3px solid #f59e0b;">
+                        <p style="font-size:10px;color:#f59e0b;">💡 B/quilla 高价值终端占 41% 但用户在流失 → 预付费转后付费的优先区域</p>
                     </div>
                 </div>
             </div>
@@ -1014,6 +1098,37 @@
 
     <script>
         // ============ DATA ============
+
+        const HIGH_VALUE_TERMINALS = {
+          total: 4500000,
+          pct: 36,
+          revenueShare: 68,
+          prepaidConvertible: 1200000,  // 预付费中的高价值终端，可转后付费
+
+          // Top 10 终端型号
+          topModels: [
+            {model:"iPhone 16 Pro Max", count:380000, pct:8.4},
+            {model:"iPhone 16 Pro", count:320000, pct:7.1},
+            {model:"Samsung S25 Ultra", count:290000, pct:6.4},
+            {model:"iPhone 15 Pro", count:270000, pct:6.0},
+            {model:"Samsung S25+", count:250000, pct:5.6},
+            {model:"Samsung S24 Ultra", count:230000, pct:5.1},
+            {model:"Google Pixel 9 Pro", count:180000, pct:4.0},
+            {model:"iPhone 15", count:350000, pct:7.8},
+            {model:"Samsung S24", count:310000, pct:6.9},
+            {model:"Xiaomi 14 Pro", count:220000, pct:4.9},
+          ],
+
+          // 按城市分布
+          cityDistribution: [
+            {city:"Bogotá", count:1850000, pct:41.1, cityPct:44.0, prepaidHV:480000, trend:"+3.2%"},
+            {city:"Medellín", count:1020000, pct:22.7, cityPct:36.4, prepaidHV:265000, trend:"+2.8%"},
+            {city:"Cali", count:680000, pct:15.1, cityPct:35.8, prepaidHV:177000, trend:"+1.5%"},
+            {city:"Barranquilla", count:450000, pct:10.0, cityPct:40.9, prepaidHV:135000, trend:"-0.5%"},
+            {city:"Cartagena", count:320000, pct:7.1, cityPct:40.0, prepaidHV:98000, trend:"-0.3%"},
+            {city:"Other", count:180000, pct:4.0, cityPct:10.6, prepaidHV:45000, trend:"+0.8%"},
+          ]
+        };
 
         const WEEKLY_USERS = [
             // 52 周数据，从 2025-W22 到 2026-W21
