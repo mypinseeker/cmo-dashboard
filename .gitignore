@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/
+node_modules/
+.next/
+*.db
+
+# 大数据文件不提交（可通过生成器重新生成）
+data/dpi.json
+data/radio_kpi.json
+data/network_kpi.json
