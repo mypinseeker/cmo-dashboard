@@ -1491,6 +1491,60 @@
             }
         };
 
+        // Region polygon coordinates for national map view
+        const REGION_POLYGONS = {
+            "Bogota": {
+                coords: [
+                    [5.05, -74.35], [5.05, -73.75],
+                    [4.85, -73.65], [4.45, -73.70],
+                    [4.35, -74.00], [4.40, -74.30],
+                    [4.60, -74.40], [4.85, -74.40],
+                ],
+                center: [4.65, -74.08],
+                zoom: 11,
+            },
+            "Medellin": {
+                coords: [
+                    [6.55, -75.85], [6.55, -75.35],
+                    [6.35, -75.25], [6.05, -75.30],
+                    [5.95, -75.55], [6.00, -75.80],
+                    [6.20, -75.90], [6.40, -75.90],
+                ],
+                center: [6.25, -75.57],
+                zoom: 11,
+            },
+            "Cali": {
+                coords: [
+                    [3.70, -76.75], [3.70, -76.30],
+                    [3.50, -76.20], [3.20, -76.25],
+                    [3.15, -76.50], [3.20, -76.70],
+                    [3.40, -76.80], [3.60, -76.80],
+                ],
+                center: [3.43, -76.52],
+                zoom: 12,
+            },
+            "Barranquilla": {
+                coords: [
+                    [11.15, -75.00], [11.15, -74.65],
+                    [11.00, -74.55], [10.80, -74.60],
+                    [10.75, -74.80], [10.85, -74.95],
+                    [11.00, -75.05], [11.10, -75.05],
+                ],
+                center: [10.98, -74.79],
+                zoom: 12,
+            },
+            "Cartagena": {
+                coords: [
+                    [10.55, -75.70], [10.55, -75.35],
+                    [10.40, -75.25], [10.22, -75.30],
+                    [10.18, -75.50], [10.22, -75.65],
+                    [10.35, -75.75], [10.48, -75.75],
+                ],
+                center: [10.41, -75.52],
+                zoom: 12,
+            },
+        };
+
         const EXPERIENCE_METRICS = {
           dl_speed: {
             label: "下行速率",
@@ -2175,17 +2229,8 @@
             // Hide back button
             document.getElementById('backToNational').style.display = 'none';
 
-            // Define city zones with larger radius for national view
-            const cityPositions = {
-                'Bogota': {lat:4.65,lon:-74.08,radius:25000},
-                'Medellin': {lat:6.25,lon:-75.57,radius:20000},
-                'Cali': {lat:3.43,lon:-76.52,radius:18000},
-                'Barranquilla': {lat:10.98,lon:-74.79,radius:15000},
-                'Cartagena': {lat:10.41,lon:-75.52,radius:13000},
-            };
-
-            Object.entries(cityPositions).forEach(([city, pos]) => {
-                let fillColor, borderColor, label;
+            Object.entries(REGION_POLYGONS).forEach(([city, region]) => {
+                let fillColor, label;
                 const cd = CITIES[city];
 
                 switch(layer) {
@@ -2274,34 +2319,41 @@
                         label = city;
                 }
 
-                // Zone circle with solid color
-                const zone = L.circle([pos.lat, pos.lon], {
-                    radius: pos.radius,
+                // Draw polygon for region
+                const polygon = L.polygon(region.coords, {
                     fillColor: fillColor,
-                    fillOpacity: 0.25,
+                    fillOpacity: 0.35,
                     color: fillColor,
                     weight: 2,
-                    opacity: 0.6,
+                    opacity: 0.7,
                 }).addTo(map);
 
                 // Click to drill down to city
-                zone.on('click', () => {
+                polygon.on('click', () => {
                     currentView = city;
                     switchMapLayer(currentLayer);
                 });
 
-                window.cityZones.push(zone);
+                // Hover effect
+                polygon.on('mouseover', function() {
+                    this.setStyle({ fillOpacity: 0.5, weight: 3 });
+                });
+                polygon.on('mouseout', function() {
+                    this.setStyle({ fillOpacity: 0.35, weight: 2 });
+                });
+
+                window.cityZones.push(polygon);
 
                 // City name label using divIcon
-                const labelMarker = L.marker([pos.lat, pos.lon], {
+                const labelMarker = L.marker(region.center, {
                     icon: L.divIcon({
                         className: '',
-                        html: `<div style="text-align:center;white-space:nowrap;">
-                          <div style="font-size:12px;font-weight:700;color:#f1f5f9;text-shadow:0 1px 3px rgba(0,0,0,0.8);">${city}</div>
-                          <div style="font-size:10px;color:${fillColor};font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,0.8);">${label}</div>
+                        html: `<div style="text-align:center;white-space:nowrap;pointer-events:none;">
+                          <div style="font-size:13px;font-weight:700;color:#f1f5f9;text-shadow:0 1px 4px rgba(0,0,0,0.9);">${city}</div>
+                          <div style="font-size:10px;color:${fillColor};font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,0.9);">${label}</div>
                         </div>`,
-                        iconSize: [100, 30],
-                        iconAnchor: [50, 15],
+                        iconSize: [120, 30],
+                        iconAnchor: [60, 15],
                     })
                 }).addTo(map);
 
@@ -2320,13 +2372,16 @@
             document.getElementById('backToNational').style.display = 'flex';
             document.getElementById('backCityName').textContent = city;
 
-            // Zoom to city
-            const zoomLevels = {'Bogota':12,'Medellin':12,'Cali':12,'Barranquilla':13,'Cartagena':13};
+            // Zoom to city using REGION_POLYGONS center and zoom
+            const regionInfo = REGION_POLYGONS[city];
             const citySites = SITES_DATA.filter(s => s.city === city);
-            if (citySites.length > 0) {
+            if (regionInfo) {
+                map.setView(regionInfo.center, regionInfo.zoom);
+            } else if (citySites.length > 0) {
+                // Fallback: calculate center from sites
                 const avgLat = citySites.reduce((sum, s) => sum + s.lat, 0) / citySites.length;
                 const avgLon = citySites.reduce((sum, s) => sum + s.lon, 0) / citySites.length;
-                map.setView([avgLat, avgLon], zoomLevels[city] || 12);
+                map.setView([avgLat, avgLon], 12);
             }
 
             // Render site markers for this city
