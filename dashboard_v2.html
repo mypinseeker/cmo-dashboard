@@ -651,6 +651,38 @@
             font-weight: 500;
         }
 
+        .card-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .trend-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            width: fit-content;
+        }
+
+        .trend-badge.trend-up {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .trend-badge.trend-down {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
         .action-box {
             margin-top: 28px;
             padding: 18px;
@@ -769,20 +801,42 @@
             <!-- Users Card -->
             <div class="card">
                 <div class="card-title">在网用户</div>
-                <div class="big-number">12.5M</div>
-                <div class="trend-indicator">▲ +2.3% MoM</div>
-                <div class="separator"></div>
-                <div class="sub-title">日变化</div>
-                <div class="row">
-                    <div><span class="label">净增</span><div class="value-green">+28K</div></div>
-                    <div><span class="label">新增</span><div class="value-blue">+45K</div></div>
+                <div style="margin-bottom:8px;">
+                    <div class="big-number" style="font-size:32px;">12.5M</div>
+                    <span class="trend-badge trend-up">▲ +2.3% MoM</span>
                 </div>
-                <div class="row">
-                    <div><span class="label">流失</span><div class="value-red">-17K</div></div>
+
+                <!-- 周趋势图 -->
+                <div id="userTrendChart" style="width:100%;height:120px;margin-bottom:8px;"></div>
+
+                <!-- 区域分布警报 -->
+                <div style="margin-top:8px;border-top:1px solid #1e293b;padding-top:8px;">
+                    <div class="card-label" style="margin-bottom:6px;">区域变化</div>
+
+                    <!-- 下降区域（按严重程度排序） -->
+                    <div style="margin-bottom:6px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                            <span style="font-size:12px;cursor:pointer;color:#ef4444;" onclick="drilldown('Barranquilla')">🔴 Barranquilla</span>
+                            <span style="font-size:11px;color:#ef4444;font-weight:600;">-1.2% ▼</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                            <span style="font-size:12px;cursor:pointer;color:#ef4444;" onclick="drilldown('Cartagena')">🔴 Cartagena</span>
+                            <span style="font-size:11px;color:#ef4444;font-weight:600;">-0.8% ▼</span>
+                        </div>
+                    </div>
+
+                    <!-- 增长区域 -->
+                    <div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                            <span style="font-size:12px;cursor:pointer;color:#10b981;" onclick="drilldown('Bogota')">🟢 Bogotá</span>
+                            <span style="font-size:11px;color:#10b981;font-weight:600;">+3.1% ▲</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                            <span style="font-size:12px;cursor:pointer;color:#10b981;" onclick="drilldown('Medellin')">🟢 Medellín</span>
+                            <span style="font-size:11px;color:#10b981;font-weight:600;">+2.5% ▲</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="separator"></div>
-                <div class="sub-title">高风险城市</div>
-                <div class="clickable" onclick="drilldown('Barranquilla')">Barranquilla → 离网率 2.1%</div>
             </div>
 
             <!-- Terminals Card -->
@@ -960,6 +1014,29 @@
 
     <script>
         // ============ DATA ============
+
+        const WEEKLY_USERS = [
+            // 52 周数据，从 2025-W22 到 2026-W21
+            // 整体从 11.8M 缓慢增长到 12.5M，中间有波动
+            {week:"W22",users:11800000},{week:"W23",users:11820000},{week:"W24",users:11850000},
+            {week:"W25",users:11870000},{week:"W26",users:11900000},{week:"W27",users:11880000},
+            {week:"W28",users:11910000},{week:"W29",users:11940000},{week:"W30",users:11960000},
+            {week:"W31",users:11950000},{week:"W32",users:11980000},{week:"W33",users:12000000},
+            {week:"W34",users:12010000},{week:"W35",users:12030000},{week:"W36",users:12050000},
+            {week:"W37",users:12020000},{week:"W38",users:12040000},{week:"W39",users:12060000},
+            {week:"W40",users:12080000},{week:"W41",users:12100000},{week:"W42",users:12090000},
+            {week:"W43",users:12110000},{week:"W44",users:12130000},{week:"W45",users:12150000},
+            {week:"W46",users:12140000},{week:"W47",users:12160000},{week:"W48",users:12180000},
+            {week:"W49",users:12200000},{week:"W50",users:12190000},{week:"W51",users:12210000},
+            {week:"W52",users:12230000},{week:"W01",users:12220000},{week:"W02",users:12240000},
+            {week:"W03",users:12260000},{week:"W04",users:12250000},{week:"W05",users:12270000},
+            {week:"W06",users:12290000},{week:"W07",users:12280000},{week:"W08",users:12300000},
+            {week:"W09",users:12320000},{week:"W10",users:12310000},{week:"W11",users:12330000},
+            {week:"W12",users:12350000},{week:"W13",users:12340000},{week:"W14",users:12360000},
+            {week:"W15",users:12380000},{week:"W16",users:12370000},{week:"W17",users:12390000},
+            {week:"W18",users:12420000},{week:"W19",users:12450000},{week:"W20",users:12480000},
+            {week:"W21",users:12500000}
+        ];
 
         const SITES_DATA = [
             {id:"CO-BOG-082",lat:4.605,lon:-74.025,city:"Bogota",bands:"B2/B4/B7",users:1250,exp:4.5,edge:12,prb:48},
@@ -1209,6 +1286,51 @@
 
         // ============ ECHARTS INITIALIZATION ============
 
+        function initUserTrendChart() {
+            const userTrendChart = echarts.init(document.getElementById('userTrendChart'), 'dark');
+
+            userTrendChart.setOption({
+                grid: { left: 5, right: 5, top: 10, bottom: 20 },
+                xAxis: {
+                    type: 'category',
+                    data: WEEKLY_USERS.map(w => w.week),
+                    axisLabel: { fontSize: 9, color: '#64748b', interval: 12 },
+                    axisLine: { lineStyle: { color: '#1e293b' } },
+                    axisTick: { show: false },
+                },
+                yAxis: {
+                    type: 'value',
+                    min: 'dataMin',
+                    max: 'dataMax',
+                    splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } },
+                    axisLabel: { fontSize: 9, color: '#64748b', formatter: v => (v/1000000).toFixed(1)+'M' },
+                },
+                series: [{
+                    type: 'line',
+                    data: WEEKLY_USERS.map(w => w.users),
+                    smooth: true,
+                    symbol: 'none',
+                    lineStyle: { color: '#06b6d4', width: 2 },
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: 'rgba(6,182,212,0.25)' },
+                            { offset: 1, color: 'rgba(6,182,212,0.02)' }
+                        ])
+                    },
+                }],
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: '#1e293b',
+                    borderColor: '#334155',
+                    textStyle: { color: '#f1f5f9', fontSize: 11 },
+                    formatter: p => `${p[0].axisValue}<br/>用户: ${(p[0].value/1000000).toFixed(2)}M`
+                },
+            });
+
+            window.userTrendChart = userTrendChart;
+            return userTrendChart;
+        }
+
         function initTrafficChart() {
             const trafficChart = echarts.init(document.getElementById('traffic-chart'), 'dark');
 
@@ -1256,11 +1378,19 @@
         document.addEventListener('DOMContentLoaded', () => {
             formatDate();
             initMap();
+            initUserTrendChart();
             initTrafficChart();
 
             document.getElementById('drilldown-overlay').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeDrilldown();
+                }
+            });
+
+            // Handle resize for all charts
+            window.addEventListener('resize', () => {
+                if (window.userTrendChart) {
+                    window.userTrendChart.resize();
                 }
             });
         });
