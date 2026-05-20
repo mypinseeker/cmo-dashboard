@@ -1071,11 +1071,6 @@
                             <div style="font-size:16px;font-weight:700;color:#f97316;">42.5</div>
                             <div style="font-size:8px;color:#64748b;">Mbps</div>
                         </div>
-                        <div style="text-align:center;flex:1;">
-                            <div style="font-size:9px;color:#a855f7;">Movistar</div>
-                            <div style="font-size:16px;font-weight:700;color:#a855f7;">28.1</div>
-                            <div style="font-size:8px;color:#64748b;">Mbps</div>
-                        </div>
                     </div>
 
                     <!-- 周趋势小图 -->
@@ -1517,13 +1512,13 @@
         const COMPETITOR_DATA = {
             // 速率对比（Ookla 基准，按城市）
             speed: {
-                overall: {tigo:38.2, claro:42.5, movistar:28.1},
+                overall: {tigo:38.2, claro:42.5},
                 cities: [
-                    {city:"Bogota",tigo:43.5,claro:46.2,movistar:25.3,gap:-5.8,trend:"closing"},
-                    {city:"Medellin",tigo:41.8,claro:36.2,movistar:26.8,gap:5.6,trend:"leading"},
-                    {city:"Cali",tigo:35.2,claro:39.8,movistar:32.5,gap:-11.6,trend:"stable"},
-                    {city:"Barranquilla",tigo:22.5,claro:44.8,movistar:24.2,gap:-49.8,trend:"widening"},
-                    {city:"Cartagena",tigo:26.3,claro:38.5,movistar:22.8,gap:-31.7,trend:"widening"},
+                    {city:"Bogota",tigo:43.5,claro:46.2,gap:-5.8,trend:"closing"},
+                    {city:"Medellin",tigo:41.8,claro:36.2,gap:5.6,trend:"leading"},
+                    {city:"Cali",tigo:35.2,claro:39.8,gap:-11.6,trend:"stable"},
+                    {city:"Barranquilla",tigo:22.5,claro:44.8,gap:-49.8,trend:"widening"},
+                    {city:"Cartagena",tigo:26.3,claro:38.5,gap:-31.7,trend:"widening"},
                 ],
             },
             // 覆盖对比（Ookla 样本密度≈覆盖代理指标）
