@@ -977,7 +977,7 @@
               <button class="map-layer-btn" onclick="switchMapLayer('growth')" id="btn-growth">用户增长率</button>
               <button class="map-layer-btn" onclick="switchMapLayer('newUsers')" id="btn-newUsers">新增用户</button>
               <button class="map-layer-btn" onclick="switchMapLayer('churn')" id="btn-churn">流失分布</button>
-              <button class="map-layer-btn" onclick="switchMapLayer('competitiveness')" id="btn-competitiveness">竞争力</button>
+              <button class="map-layer-btn" onclick="switchMapLayer('competitiveness')" id="btn-competitiveness">vs Claro</button>
               <button class="map-layer-btn" onclick="switchMapLayer('video')" id="btn-video">视频体验</button>
             </div>
 
@@ -1540,6 +1540,30 @@
                 {week:"W18",tigo:37.8,claro:42.5},{week:"W19",tigo:38.0,claro:42.4},
                 {week:"W20",tigo:38.2,claro:42.5},{week:"W21",tigo:38.5,claro:42.6},
             ],
+            // 上行速率城市对比
+            ul_speed_cities: [
+              {city:"Bogota",tigo:10.2,claro:11.0,gap:-7.3},
+              {city:"Medellin",tigo:9.5,claro:8.8,gap:8.0},
+              {city:"Cali",tigo:8.0,claro:9.0,gap:-11.1},
+              {city:"Barranquilla",tigo:5.2,claro:8.5,gap:-38.8},
+              {city:"Cartagena",tigo:6.1,claro:7.8,gap:-21.8},
+            ],
+            // 时延城市对比
+            latency_cities: [
+              {city:"Bogota",tigo:25,claro:22,gap:13.6},
+              {city:"Medellin",tigo:28,claro:30,gap:-6.7},
+              {city:"Cali",tigo:35,claro:32,gap:9.4},
+              {city:"Barranquilla",tigo:52,claro:30,gap:73.3},
+              {city:"Cartagena",tigo:45,claro:32,gap:40.6},
+            ],
+            // 边缘占比城市对比
+            coverage_cities: [
+              {city:"Bogota",tigo:15,claro:12,gap:25.0},
+              {city:"Medellin",tigo:18,claro:20,gap:-10.0},
+              {city:"Cali",tigo:22,claro:18,gap:22.2},
+              {city:"Barranquilla",tigo:32,claro:15,gap:113.3},
+              {city:"Cartagena",tigo:28,claro:18,gap:55.6},
+            ],
         };
 
         // ============ UTILITIES ============
@@ -1949,9 +1973,9 @@
             </div>`
           }).join('')
 
-          // 如果当前地图图层是 experience，则刷新地图着色
-          if (currentLayer === 'experience') {
-            switchMapLayer('experience')
+          // 如果当前地图图层是 experience 或 competitiveness，则刷新地图着色
+          if (currentLayer === 'experience' || currentLayer === 'competitiveness') {
+            switchMapLayer(currentLayer)
           }
         }
 
@@ -2104,12 +2128,40 @@
                         fillColor = parseFloat(cd.churn) > 1.5 ? '#ef4444' : parseFloat(cd.churn) > 1.0 ? '#f59e0b' : '#10b981';
                         label = `流失 ${cd.churn}`;
                         break;
-                    case 'competitiveness':
-                        const gaps = {'Bogota':-5.8,'Medellin':5.6,'Cali':-11.6,'Barranquilla':-49.8,'Cartagena':-31.7};
-                        const g = gaps[city] || 0;
-                        fillColor = g > 0 ? '#10b981' : g > -15 ? '#f59e0b' : '#ef4444';
-                        label = `vs Claro ${g>0?'+':''}${g}%`;
-                        break;
+                    case 'competitiveness': {
+                        const selM = document.getElementById('expMetricSelect')
+                        const curMetric = selM ? selM.value : 'dl_speed'
+
+                        // 根据指标找对应的城市级竞对数据
+                        let cityCompData
+                        if (curMetric === 'dl_speed') {
+                            cityCompData = COMPETITOR_DATA.speed.cities
+                        } else if (curMetric === 'ul_speed') {
+                            cityCompData = COMPETITOR_DATA.ul_speed_cities
+                        } else if (curMetric === 'latency') {
+                            cityCompData = COMPETITOR_DATA.latency_cities
+                        } else if (curMetric === 'coverage') {
+                            cityCompData = COMPETITOR_DATA.coverage_cities
+                        }
+
+                        const compCity = cityCompData ? cityCompData.find(c => c.city === city) : null
+
+                        if (compCity) {
+                            const gap = compCity.gap
+                            const isLower = curMetric === 'latency' || curMetric === 'coverage'
+                            // 对时延和覆盖：gap>0 表示 Tigo 更差（时延更高/边缘占比更高）
+                            // 对速率：gap<0 表示 Tigo 更差
+                            const isGood = isLower ? gap < -5 : gap > 5
+                            const isBad = isLower ? gap > 15 : gap < -15
+
+                            fillColor = isGood ? '#10b981' : isBad ? '#ef4444' : '#f59e0b'
+                            label = `vs Claro ${gap > 0 ? '+' : ''}${gap.toFixed(0)}%`
+                        } else {
+                            fillColor = '#64748b'
+                            label = 'vs Claro'
+                        }
+                        break
+                    }
                     case 'video':
                         const hds = {'Bogota':38,'Medellin':35,'Cali':30,'Barranquilla':18,'Cartagena':22};
                         const h = hds[city] || 25;
@@ -2213,13 +2265,29 @@
                         radius = 5 + (site.churnRate||0) * 2.5;
                         tooltipExtra = `流失: ${site.churnRate||0}%`;
                         break;
-                    case 'competitiveness':
-                        const gaps2 = {'Bogota':-5.8,'Medellin':5.6,'Cali':-11.6,'Barranquilla':-49.8,'Cartagena':-31.7};
-                        const g2 = gaps2[site.city] || 0;
-                        color = g2 > 0 ? '#10b981' : g2 > -15 ? '#f59e0b' : '#ef4444';
-                        radius = 6;
-                        tooltipExtra = `vs Claro: ${g2>0?'+':''}${g2}%`;
-                        break;
+                    case 'competitiveness': {
+                        const selM3 = document.getElementById('expMetricSelect')
+                        const curM3 = selM3 ? selM3.value : 'dl_speed'
+                        let compData3
+                        if (curM3 === 'dl_speed') compData3 = COMPETITOR_DATA.speed.cities
+                        else if (curM3 === 'ul_speed') compData3 = COMPETITOR_DATA.ul_speed_cities
+                        else if (curM3 === 'latency') compData3 = COMPETITOR_DATA.latency_cities
+                        else if (curM3 === 'coverage') compData3 = COMPETITOR_DATA.coverage_cities
+
+                        const cc3 = compData3 ? compData3.find(c => c.city === site.city) : null
+                        if (cc3) {
+                            const isLower3 = curM3 === 'latency' || curM3 === 'coverage'
+                            const isGood3 = isLower3 ? cc3.gap < -5 : cc3.gap > 5
+                            const isBad3 = isLower3 ? cc3.gap > 15 : cc3.gap < -15
+                            color = isGood3 ? '#10b981' : isBad3 ? '#ef4444' : '#f59e0b'
+                            tooltipExtra = `vs Claro: ${cc3.gap > 0 ? '+' : ''}${cc3.gap.toFixed(1)}%`
+                        } else {
+                            color = '#64748b'
+                            tooltipExtra = 'vs Claro'
+                        }
+                        radius = 6
+                        break
+                    }
                     case 'video':
                         const hds2 = {'Bogota':38,'Medellin':35,'Cali':30,'Barranquilla':18,'Cartagena':22};
                         const h2 = hds2[site.city] || 25;
@@ -2277,10 +2345,29 @@
                     growth:{title:'用户增长率',items:[{color:'#10b981',label:'> 0% 增长'},{color:'#ef4444',label:'< 0% 下降'}]},
                     newUsers:{title:'新增用户',items:[{color:'#3b82f6',label:'圆圈越大 = 新增越多'}]},
                     churn:{title:'流失率',items:[{color:'#10b981',label:'< 1.2% 健康'},{color:'#f59e0b',label:'1.2-2.0% 关注'},{color:'#ef4444',label:'> 2.0% 严重'}]},
-                    competitiveness:{title:'vs Claro 竞争力',items:[{color:'#10b981',label:'领先 (Tigo > Claro)'},{color:'#f59e0b',label:'接近 (差距<15%)'},{color:'#ef4444',label:'落后 (差距>15%)'}]},
                     video:{title:'YouTube HD 占比',items:[{color:'#10b981',label:'≥ 35% 良好'},{color:'#f59e0b',label:'25-35% 一般'},{color:'#ef4444',label:'< 25% 较差'}]},
                 }
-                legendData = staticLegends[layer] || {title:'',items:[]}
+                if (layer === 'competitiveness') {
+                    const selLC = document.getElementById('expMetricSelect')
+                    const mLC = selLC ? selLC.value : 'dl_speed'
+                    const mdLC = EXPERIENCE_METRICS[mLC]
+                    const isLowerLC = mLC === 'latency' || mLC === 'coverage'
+
+                    legendData = {
+                        title: `vs Claro · ${mdLC ? mdLC.label : ''}`,
+                        items: isLowerLC ? [
+                            {color:'#10b981', label:'Tigo 更优 (差距<-5%)'},
+                            {color:'#f59e0b', label:'接近 (-5%~15%)'},
+                            {color:'#ef4444', label:'Tigo 更差 (差距>15%)'},
+                        ] : [
+                            {color:'#10b981', label:'Tigo 领先 (>5%)'},
+                            {color:'#f59e0b', label:'接近 (-15%~5%)'},
+                            {color:'#ef4444', label:'Tigo 落后 (<-15%)'},
+                        ]
+                    }
+                } else {
+                    legendData = staticLegends[layer] || {title:'',items:[]}
+                }
             }
 
             title.textContent = legendData.title;
