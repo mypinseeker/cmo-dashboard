@@ -1,0 +1,68 @@
+[
+  {
+    "city": "Barranquilla",
+    "total_churned": 3472,
+    "avg_churn_experience": 3.09,
+    "avg_active_experience": 3.8,
+    "network_factor_pct": 46.8,
+    "network_factor_users": 1626,
+    "recoverable_users": 813,
+    "avg_churn_arpu": 16.77,
+    "recoverable_revenue_monthly": 13638.0
+  },
+  {
+    "city": "Cartagena",
+    "total_churned": 3055,
+    "avg_churn_experience": 3.1,
+    "avg_active_experience": 3.8,
+    "network_factor_pct": 46.4,
+    "network_factor_users": 1417,
+    "recoverable_users": 708,
+    "avg_churn_arpu": 17.63,
+    "recoverable_revenue_monthly": 12482.0
+  },
+  {
+    "city": "Rural",
+    "total_churned": 2500,
+    "avg_churn_experience": 3.09,
+    "avg_active_experience": 3.8,
+    "network_factor_pct": 46.0,
+    "network_factor_users": 1150,
+    "recoverable_users": 575,
+    "avg_churn_arpu": 12.67,
+    "recoverable_revenue_monthly": 7286.0
+  },
+  {
+    "city": "Cali",
+    "total_churned": 2222,
+    "avg_churn_experience": 3.07,
+    "avg_active_experience": 3.8,
+    "network_factor_pct": 48.3,
+    "network_factor_users": 1073,
+    "recoverable_users": 536,
+    "avg_churn_arpu": 19.63,
+    "recoverable_revenue_monthly": 10522.0
+  },
+  {
+    "city": "Medellin",
+    "total_churned": 2083,
+    "avg_churn_experience": 3.09,
+    "avg_active_experience": 3.8,
+    "network_factor_pct": 47.5,
+    "network_factor_users": 990,
+    "recoverable_users": 495,
+    "avg_churn_arpu": 22.98,
+    "recoverable_revenue_monthly": 11374.0
+  },
+  {
+    "city": "Bogota",
+    "total_churned": 1666,
+    "avg_churn_experience": 3.09,
+    "avg_active_experience": 3.8,
+    "network_factor_pct": 47.1,
+    "network_factor_users": 785,
+    "recoverable_users": 392,
+    "avg_churn_arpu": 26.7,
+    "recoverable_revenue_monthly": 10466.0
+  }
+]
