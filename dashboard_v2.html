@@ -973,7 +973,7 @@
             <!-- Map Layer Switch Menu -->
             <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:1000;
               display:flex;gap:4px;background:rgba(17,24,39,0.9);padding:4px;border-radius:8px;border:1px solid #334155;">
-              <button class="map-layer-btn active" onclick="switchMapLayer('experience')" id="btn-experience">体验评分</button>
+              <button class="map-layer-btn active" onclick="switchMapLayer('experience')" id="btn-experience">网络指标</button>
               <button class="map-layer-btn" onclick="switchMapLayer('growth')" id="btn-growth">用户增长率</button>
               <button class="map-layer-btn" onclick="switchMapLayer('newUsers')" id="btn-newUsers">新增用户</button>
               <button class="map-layer-btn" onclick="switchMapLayer('churn')" id="btn-churn">流失分布</button>
@@ -1953,6 +1953,11 @@
               </div>
             </div>`
           }).join('')
+
+          // 如果当前地图图层是 experience，则刷新地图着色
+          if (currentLayer === 'experience') {
+            switchMapLayer('experience')
+          }
         }
 
         // ============ TERMINAL LADDER FUNCTIONS ============
@@ -2076,10 +2081,22 @@
                 const cd = CITIES[city];
 
                 switch(layer) {
-                    case 'experience':
-                        fillColor = cd.exp >= 4.0 ? '#10b981' : cd.exp >= 3.0 ? '#f59e0b' : '#ef4444';
-                        label = `体验 ${cd.exp}`;
-                        break;
+                    case 'experience': {
+                        const selMetric = document.getElementById('expMetricSelect')
+                        const metric = selMetric ? selMetric.value : 'dl_speed'
+                        const md = EXPERIENCE_METRICS[metric]
+                        if (!md) break
+
+                        const cityData = md.cities.find(c => c.city === city)
+                        if (cityData) {
+                          fillColor = cityData.status === 'good' ? '#10b981' : cityData.status === 'warn' ? '#f59e0b' : '#ef4444'
+                          label = `${md.label} ${cityData.value}${md.unit}`
+                        } else {
+                          fillColor = '#64748b'
+                          label = md.label
+                        }
+                        break
+                    }
                     case 'growth':
                         fillColor = parseFloat(cd.trend) > 0 ? '#10b981' : '#ef4444';
                         label = `增长 ${cd.trend}`;
@@ -2169,11 +2186,23 @@
                 let color, radius, tooltipExtra;
 
                 switch(layer) {
-                    case 'experience':
-                        color = site.exp >= 4.0 ? '#10b981' : site.exp >= 3.0 ? '#f59e0b' : '#ef4444';
-                        radius = 5 + site.users / 200;
-                        tooltipExtra = `体验: ${site.exp}`;
-                        break;
+                    case 'experience': {
+                        const selMetric2 = document.getElementById('expMetricSelect')
+                        const metric2 = selMetric2 ? selMetric2.value : 'dl_speed'
+                        const md2 = EXPERIENCE_METRICS[metric2]
+                        if (!md2) break
+
+                        const cityMetric = md2.cities.find(c => c.city === site.city)
+                        if (cityMetric) {
+                          color = cityMetric.status === 'good' ? '#10b981' : cityMetric.status === 'warn' ? '#f59e0b' : '#ef4444'
+                          tooltipExtra = `${md2.label}: ${cityMetric.value}${md2.unit}`
+                        } else {
+                          color = '#64748b'
+                          tooltipExtra = md2.label
+                        }
+                        radius = 6
+                        break
+                    }
                     case 'growth':
                         color = (site.growth||0) > 2 ? '#10b981' : (site.growth||0) > 0 ? '#f59e0b' : '#ef4444';
                         radius = 6 + Math.abs(site.growth||0) * 1.5;
@@ -2235,57 +2264,32 @@
             const title = document.getElementById('legendTitle');
             const items = document.getElementById('legendItems');
 
-            const legends = {
-                experience: {
-                    title: '体验评分',
-                    items: [
-                        {color:'#10b981',label:'≥ 4.0 优秀'},
-                        {color:'#f59e0b',label:'3.0-4.0 一般'},
-                        {color:'#ef4444',label:'< 3.0 较差'},
-                    ]
-                },
-                growth: {
-                    title: '用户增长率',
-                    items: [
-                        {color:'#10b981',label:'> 0% 增长'},
-                        {color:'#ef4444',label:'< 0% 下降'},
-                    ]
-                },
-                newUsers: {
-                    title: '新增用户',
-                    items: [
-                        {color:'#3b82f6',label:'圆圈越大 = 新增越多'},
-                    ]
-                },
-                churn: {
-                    title: '流失率',
-                    items: [
-                        {color:'#10b981',label:'< 1.2% 健康'},
-                        {color:'#f59e0b',label:'1.2-2.0% 关注'},
-                        {color:'#ef4444',label:'> 2.0% 严重'},
-                    ]
-                },
-                competitiveness: {
-                    title: 'vs Claro 竞争力',
-                    items: [
-                        {color:'#10b981',label:'领先 (Tigo > Claro)'},
-                        {color:'#f59e0b',label:'接近 (差距<15%)'},
-                        {color:'#ef4444',label:'落后 (差距>15%)'},
-                    ]
-                },
-                video: {
-                    title: 'YouTube HD 占比',
-                    items: [
-                        {color:'#10b981',label:'≥ 35% 良好'},
-                        {color:'#f59e0b',label:'25-35% 一般'},
-                        {color:'#ef4444',label:'< 25% 较差'},
-                    ]
-                },
-            };
+            let legendData;
 
-            const legend = legends[layer] || legends.experience;
-            title.textContent = legend.title;
-            items.innerHTML = legend.items.map(item => `
+            if (layer === 'experience') {
+                const sel = document.getElementById('expMetricSelect')
+                const m = sel ? sel.value : 'dl_speed'
+
+                const legendMap = {
+                    dl_speed: {title:'下行速率 (Mbps)',items:[{color:'#10b981',label:'≥ 40 良好'},{color:'#f59e0b',label:'25-40 一般'},{color:'#ef4444',label:'< 25 较差'}]},
+                    ul_speed: {title:'上行速率 (Mbps)',items:[{color:'#10b981',label:'≥ 9 良好'},{color:'#f59e0b',label:'6-9 一般'},{color:'#ef4444',label:'< 6 较差'}]},
+                    latency: {title:'时延 (ms)',items:[{color:'#10b981',label:'≤ 30 良好'},{color:'#f59e0b',label:'30-45 一般'},{color:'#ef4444',label:'> 45 较差'}]},
+                    coverage: {title:'边缘占比 (%)',items:[{color:'#10b981',label:'≤ 18% 良好'},{color:'#f59e0b',label:'18-28% 一般'},{color:'#ef4444',label:'> 28% 较差'}]},
+                }
+                legendData = legendMap[m] || legendMap.dl_speed
+            } else {
+                const staticLegends = {
+                    growth:{title:'用户增长率',items:[{color:'#10b981',label:'> 0% 增长'},{color:'#ef4444',label:'< 0% 下降'}]},
+                    newUsers:{title:'新增用户',items:[{color:'#3b82f6',label:'圆圈越大 = 新增越多'}]},
+                    churn:{title:'流失率',items:[{color:'#10b981',label:'< 1.2% 健康'},{color:'#f59e0b',label:'1.2-2.0% 关注'},{color:'#ef4444',label:'> 2.0% 严重'}]},
+                    competitiveness:{title:'vs Claro 竞争力',items:[{color:'#10b981',label:'领先 (Tigo > Claro)'},{color:'#f59e0b',label:'接近 (差距<15%)'},{color:'#ef4444',label:'落后 (差距>15%)'}]},
+                    video:{title:'YouTube HD 占比',items:[{color:'#10b981',label:'≥ 35% 良好'},{color:'#f59e0b',label:'25-35% 一般'},{color:'#ef4444',label:'< 25% 较差'}]},
+                }
+                legendData = staticLegends[layer] || {title:'',items:[]}
+            }
+
+            title.textContent = legendData.title;
+            items.innerHTML = legendData.items.map(item => `
                 <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
                   <div style="width:10px;height:10px;border-radius:50%;background:${item.color};flex-shrink:0;"></div>
                   <span style="font-size:10px;color:#94a3b8;">${item.label}</span>
