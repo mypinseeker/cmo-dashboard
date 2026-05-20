@@ -2906,8 +2906,10 @@
         }
 
         function initVideoTrends() {
-            // YouTube HD 趋势
-            const ytChart = echarts.init(document.getElementById('ytHDTrend'), 'dark');
+            // 图表在上滑弹出面板中动态创建，初始化时 DOM 不存在，跳过
+            const el = document.getElementById('ytHDTrend');
+            if (!el) return;
+            const ytChart = echarts.init(el, 'dark');
             ytChart.setOption({
                 grid: { left: 0, right: 0, top: 5, bottom: 15 },
                 xAxis: {
@@ -2936,7 +2938,9 @@
             });
 
             // Netflix HD 趋势
-            const nfChart = echarts.init(document.getElementById('nfHDTrend'), 'dark');
+            const nfEl = document.getElementById('nfHDTrend');
+            if (!nfEl) return;
+            const nfChart = echarts.init(nfEl, 'dark');
             nfChart.setOption({
                 grid: { left: 0, right: 0, top: 5, bottom: 15 },
                 xAxis: {
@@ -2968,7 +2972,9 @@
         }
 
         function initTrafficChart() {
-            const trafficChart = echarts.init(document.getElementById('trafficPie'), 'dark');
+            const el = document.getElementById('trafficPie');
+            if (!el) return;
+            const trafficChart = echarts.init(el, 'dark');
 
             const option = {
                 tooltip: {
