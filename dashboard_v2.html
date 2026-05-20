@@ -29,10 +29,9 @@
         .dashboard {
             display: grid;
             grid-template-columns: 280px 1fr 280px;
-            grid-template-rows: 48px 1fr;
-            padding-bottom: 44px; /* 为固定底部 APP 栏留空间 */
-            gap: 8px;
-            padding: 8px;
+            grid-template-rows: 42px minmax(0, 1fr) 160px;
+            gap: 6px;
+            padding: 6px;
             height: 100vh;
             background-color: #0a0e1a;
         }
@@ -270,9 +269,9 @@
         .left-column {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             grid-column: 1;
-            grid-row: 2;
+            grid-row: 2 / 4;
         }
 
         .map-container {
@@ -284,6 +283,7 @@
             background: #111827;
             box-shadow: inset 0 0 30px rgba(6, 182, 212, 0.05);
             position: relative;
+            max-height: 100%;
         }
 
         .map-legend {
@@ -321,16 +321,21 @@
         .right-column {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             grid-column: 3;
-            grid-row: 2;
+            grid-row: 2 / 4;
         }
 
         .bottom-row {
             grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
+            grid-row: 3;
+            display: flex;
+            gap: 6px;
+            padding: 0;
+            position: static;
+            background: transparent;
+            border: none;
+            z-index: auto;
         }
 
         /* ============ APP CARD STYLES ============ */
@@ -1002,6 +1007,12 @@
                 <div>
                   <span style="font-size:12px;font-weight:700;color:#06b6d4;" data-i18n="RSRP 覆盖分布">RSRP 覆盖分布</span>
                   <span style="font-size:10px;color:#64748b;margin-left:8px;" data-i18n="今日全网 RRC 连接用户 vs Ookla 测试样本">今日全网 RRC 连接用户 vs Ookla 测试样本</span>
+                  <!-- 运营商切换按钮 -->
+                  <div style="display:flex;gap:4px;margin-left:12px;margin-top:6px;">
+                    <button class="cov-op-btn active" id="covOpTigo" onclick="switchCovOperator('tigo')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;">Tigo</button>
+                    <button class="cov-op-btn" id="covOpClaro" onclick="switchCovOperator('claro')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">Claro</button>
+                    <button class="cov-op-btn" id="covOpBoth" onclick="switchCovOperator('both')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">对比</button>
+                  </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:12px;">
                   <div style="display:flex;align-items:center;gap:4px;">
@@ -1208,27 +1219,79 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Churn Distribution Card -->
+            <div class="card" style="overflow-y:auto;">
+              <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px;">
+                <span class="big-number" style="font-size:22px;">15.2K</span>
+                <span style="font-size:10px;color:#ef4444;">▲ +8% MoM</span>
+              </div>
+              <div class="card-label" style="margin-bottom:6px;"><span data-i18n="流失分布">流失分布</span></div>
+
+              <!-- 城市分布 -->
+              <div style="margin-bottom:6px;">
+                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Barranquilla')">
+                  <span style="color:#ef4444;">B/quilla</span><span style="color:#ef4444;font-weight:600;">3,200</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Cartagena')">
+                  <span style="color:#ef4444;">Cartagena</span><span style="color:#ef4444;font-weight:600;">2,100</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Cali')">
+                  <span style="color:#f59e0b;">Cali</span><span style="color:#f59e0b;">1,800</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Medellín')">
+                  <span style="color:#10b981;">Medellín</span><span style="color:#10b981;">1,200</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Bogotá')">
+                  <span style="color:#10b981;">Bogotá</span><span style="color:#10b981;">950</span>
+                </div>
+              </div>
+
+              <!-- 周趋势柱状图 -->
+              <div id="churnWeeklyChart" style="width:100%;height:70px;"></div>
+            </div>
         </div>
 
-        <!-- Bottom Row: App Summary Tabs — 固定在屏幕底部 -->
-        <div class="bottom-row" style="position:fixed;bottom:0;left:0;right:0;z-index:999;display:flex;gap:6px;padding:4px 8px;background:rgba(10,14,26,0.95);backdrop-filter:blur(8px);border-top:1px solid #1f2937;">
-          <div class="app-tab" onclick="openAppPanel('youtube')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#111827;border:1px solid #1f2937;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#ff0000';this.style.background='#1a1a2e'" onmouseout="this.style.borderColor='#1f2937';this.style.background='#111827'">
-            <span style="font-size:11px;font-weight:600;color:#ff0000;">▶ YouTube</span>
-            <span style="font-size:11px;color:#f59e0b;">HD 33%</span>
-            <span style="font-size:10px;color:#ef4444;"><span data-i18n="卡顿">卡顿</span> 2.8%</span>
+        <!-- Bottom Row: App Pie Charts -->
+        <div class="bottom-row">
+          <!-- YouTube 饼图 -->
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+            <div id="ytPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-size:11px;font-weight:600;color:#ff0000;margin-bottom:4px;">YouTube</div>
+              <div style="font-size:10px;color:#94a3b8;">HD 33% · 卡顿 2.8%</div>
+              <button onclick="openAppPanel('youtube')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+            </div>
           </div>
-          <div class="app-tab" onclick="openAppPanel('netflix')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#111827;border:1px solid #1f2937;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#e50914';this.style.background='#1a1a2e'" onmouseout="this.style.borderColor='#1f2937';this.style.background='#111827'">
-            <span style="font-size:11px;font-weight:600;color:#e50914;">▶ Netflix</span>
-            <span style="font-size:11px;color:#10b981;">HD 43%</span>
-            <span style="font-size:10px;color:#10b981;">卡顿 1.5%</span>
+
+          <!-- Netflix 饼图 -->
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+            <div id="nfPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-size:11px;font-weight:600;color:#e50914;margin-bottom:4px;">Netflix</div>
+              <div style="font-size:10px;color:#94a3b8;">HD 43% · 卡顿 1.5%</div>
+              <button onclick="openAppPanel('netflix')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+            </div>
           </div>
-          <div class="app-tab" onclick="openAppPanel('tiktok')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#111827;border:1px solid #1f2937;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#00f2ea';this.style.background='#1a1a2e'" onmouseout="this.style.borderColor='#1f2937';this.style.background='#111827'">
-            <span style="font-size:11px;font-weight:600;color:#00f2ea;">▶ TikTok</span>
-            <span style="font-size:11px;color:#10b981;">98.5%</span>
+
+          <!-- TikTok 饼图 -->
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+            <div id="tkPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-size:11px;font-weight:600;color:#00f2ea;margin-bottom:4px;">TikTok</div>
+              <div style="font-size:10px;color:#94a3b8;">成功率 98.5%</div>
+              <button onclick="openAppPanel('tiktok')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+            </div>
           </div>
-          <div class="app-tab" onclick="openAppPanel('traffic')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#111827;border:1px solid #1f2937;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#3b82f6';this.style.background='#1a1a2e'" onmouseout="this.style.borderColor='#1f2937';this.style.background='#111827'">
-            <span style="font-size:11px;font-weight:600;color:#94a3b8;">📊 <span data-i18n="流量">流量</span></span>
-            <span style="font-size:11px;color:#94a3b8;"><span data-i18n="视频">视频</span> 32%</span>
+
+          <!-- 流量分布饼图 -->
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+            <div id="trafficPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:4px;"><span data-i18n="流量">流量</span></div>
+              <div style="font-size:10px;color:#94a3b8;"><span data-i18n="视频">视频</span> 32% · 社交 28%</div>
+              <button onclick="openAppPanel('traffic')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+            </div>
           </div>
         </div>
     </div>
@@ -1261,6 +1324,9 @@
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Leaflet Heat -->
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
 
     <!-- ECharts JS -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
@@ -2266,7 +2332,20 @@
             // Show/hide coverage chart panel
             document.getElementById('coverageChartPanel').style.display = layer === 'coverageAnalysis' ? 'block' : 'none';
             if (layer === 'coverageAnalysis') {
-                setTimeout(() => initRsrpChart(), 100);
+                setTimeout(() => {
+                    initRsrpChart();
+                    switchCovOperator('tigo'); // 激活覆盖分析时显示Tigo热力图
+                }, 100);
+            } else {
+                // 切换到其他图层时清除热力图
+                if (covHeatLayer) {
+                    if (Array.isArray(covHeatLayer._layers)) {
+                        covHeatLayer.eachLayer(layer => map.removeLayer(layer))
+                    } else {
+                        map.removeLayer(covHeatLayer)
+                    }
+                    covHeatLayer = null
+                }
             }
 
             // Update button states
@@ -2593,12 +2672,16 @@
                         tooltipExtra = '';
                 }
 
+                // 添加告警边框着色
+                const alertStatus = site.prb > 85 || site.exp < 3.0 ? 'red' : site.prb > 70 || site.exp < 3.5 ? 'yellow' : 'green'
+                const alertBorder = alertStatus === 'red' ? '#ef4444' : alertStatus === 'yellow' ? '#f59e0b' : '#10b981'
+
                 const marker = L.circleMarker([site.lat, site.lon], {
                     radius,
                     fillColor: color,
-                    color,
-                    weight: 1,
-                    opacity: 0.9,
+                    color: alertBorder,
+                    weight: 2,
+                    opacity: 1,
                     fillOpacity: 0.7,
                 }).bindPopup(`<div style="font-size:11px;color:#f1f5f9;background:#1e293b;padding:6px;border-radius:6px;min-width:140px;">
                   <b>${site.id}</b><br/>${site.city}<br/>${tooltipExtra}<br/>PRB: ${site.prb}% · 边缘: ${site.edge}%<br/>
@@ -2765,8 +2848,110 @@
             window.addEventListener('resize', () => chart.resize());
         }
 
+        // ============ COVERAGE HEATMAP DATA ============
+
+        const MR_HEATMAP = {
+            tigo: [
+                // 博哥大 Bogota
+                [4.65,-74.08,0.9],[4.68,-74.05,0.85],[4.60,-74.10,0.7],
+                [4.62,-74.06,0.88],[4.70,-74.02,0.82],[4.55,-74.12,0.6],
+                [4.63,-74.07,0.86],[4.67,-74.04,0.80],[4.58,-74.11,0.65],
+                // 麦德林 Medellín
+                [6.25,-75.57,0.8],[6.22,-75.55,0.75],
+                [6.28,-75.54,0.78],[6.20,-75.60,0.72],
+                [6.24,-75.56,0.77],[6.23,-75.58,0.74],
+                // 卡利 Cali
+                [3.43,-76.52,0.7],[3.40,-76.50,0.65],
+                [3.45,-76.50,0.68],[3.42,-76.54,0.62],
+                [3.44,-76.51,0.67],[3.41,-76.53,0.63],
+                // 巴兰基亚 Barranquilla
+                [10.98,-74.79,0.4],[10.96,-74.78,0.35],[11.00,-74.80,0.3],
+                [10.99,-74.77,0.38],[10.97,-74.81,0.32],
+                // 卡塔赫纳 Cartagena
+                [10.41,-75.52,0.45],[10.39,-75.50,0.4],
+                [10.42,-75.50,0.42],[10.40,-75.53,0.38],
+            ],
+            claro: [
+                // 博哥大 Bogota
+                [4.65,-74.08,0.85],[4.68,-74.05,0.9],[4.60,-74.10,0.8],
+                [4.62,-74.06,0.82],[4.70,-74.02,0.88],[4.55,-74.12,0.75],
+                [4.63,-74.07,0.83],[4.67,-74.04,0.87],[4.58,-74.11,0.78],
+                // 麦德林 Medellín
+                [6.25,-75.57,0.65],[6.22,-75.55,0.6],
+                [6.28,-75.54,0.62],[6.20,-75.60,0.58],
+                [6.24,-75.56,0.63],[6.23,-75.58,0.59],
+                // 卡利 Cali
+                [3.43,-76.52,0.8],[3.40,-76.50,0.75],
+                [3.45,-76.50,0.78],[3.42,-76.54,0.72],
+                [3.44,-76.51,0.77],[3.41,-76.53,0.73],
+                // 巴兰基亚 Barranquilla
+                [10.98,-74.79,0.85],[10.96,-74.78,0.8],[11.00,-74.80,0.75],
+                [10.99,-74.77,0.82],[10.97,-74.81,0.78],
+                // 卡塔赫纳 Cartagena
+                [10.41,-75.52,0.7],[10.39,-75.50,0.65],
+                [10.42,-75.50,0.68],[10.40,-75.53,0.62],
+            ],
+        }
+
+        let covHeatLayer = null
+
+        function switchCovOperator(op) {
+            // 更新按钮状态
+            document.querySelectorAll('.cov-op-btn').forEach(b => {
+                b.style.background='transparent'
+                b.style.color='#94a3b8'
+            })
+            const btnMap = {tigo:'covOpTigo',claro:'covOpClaro',both:'covOpBoth'}
+            const btn = document.getElementById(btnMap[op])
+            if(btn){
+                btn.style.background='#06b6d4'
+                btn.style.color='#0a0e1a'
+            }
+
+            // 清除旧热力图
+            if (covHeatLayer) {
+                if (Array.isArray(covHeatLayer._layers)) {
+                    covHeatLayer.eachLayer(layer => map.removeLayer(layer))
+                } else {
+                    map.removeLayer(covHeatLayer)
+                }
+                covHeatLayer = null
+            }
+
+            if (op === 'tigo') {
+                covHeatLayer = L.heatLayer(MR_HEATMAP.tigo.map(p=>[p[0],p[1],p[2]]),{
+                    radius:30,blur:20,maxZoom:10,
+                    gradient:{0.2:'#3b82f6',0.5:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
+                }).addTo(map)
+            } else if (op === 'claro') {
+                covHeatLayer = L.heatLayer(MR_HEATMAP.claro.map(p=>[p[0],p[1],p[2]]),{
+                    radius:30,blur:20,maxZoom:10,
+                    gradient:{0.2:'#f97316',0.5:'#fb923c',0.8:'#fdba74',1.0:'#fed7aa'}
+                }).addTo(map)
+            } else if (op === 'both') {
+                const tigoLayer = L.heatLayer(MR_HEATMAP.tigo.map(p=>[p[0],p[1],p[2]]),{
+                    radius:25,blur:18,maxZoom:10,
+                    gradient:{0.2:'#3b82f6',0.5:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
+                })
+                const claroLayer = L.heatLayer(MR_HEATMAP.claro.map(p=>[p[0],p[1],p[2]]),{
+                    radius:25,blur:18,maxZoom:10,
+                    gradient:{0.2:'#f97316',0.5:'#fb923c',0.8:'#fdba74',1.0:'#fed7aa'}
+                })
+                covHeatLayer = L.layerGroup([tigoLayer, claroLayer]).addTo(map)
+            }
+        }
+
         function closeCoverageChart() {
             document.getElementById('coverageChartPanel').style.display = 'none';
+            // 清除热力图
+            if (covHeatLayer) {
+                if (Array.isArray(covHeatLayer._layers)) {
+                    covHeatLayer.eachLayer(layer => map.removeLayer(layer))
+                } else {
+                    map.removeLayer(covHeatLayer)
+                }
+                covHeatLayer = null
+            }
         }
 
         // ============ GEO JSON LOADING ============
@@ -2972,6 +3157,103 @@
             window.addEventListener('resize', () => { ytChart.resize(); nfChart.resize() });
         }
 
+        // ============ SMALL PIE CHARTS (BOTTOM ROW) ============
+
+        const WEEKLY_CHURN = [
+            {week:"W14",churn:3200},{week:"W15",churn:3350},{week:"W16",churn:3100},
+            {week:"W17",churn:3400},{week:"W18",churn:3550},{week:"W19",churn:3600},
+            {week:"W20",churn:3750},{week:"W21",churn:3800},
+        ]
+
+        function initSmallPies() {
+            // YouTube 分辨率饼图
+            const ytPie = echarts.init(document.getElementById('ytPieSmall'))
+            ytPie.setOption({
+                series:[{type:'pie',radius:['40%','75%'],center:['50%','50%'],
+                    data:[
+                        {value:5,name:'4K',itemStyle:{color:'#10b981'}},
+                        {value:28,name:'1080p',itemStyle:{color:'#06b6d4'}},
+                        {value:35,name:'720p',itemStyle:{color:'#3b82f6'}},
+                        {value:22,name:'480p',itemStyle:{color:'#f59e0b'}},
+                        {value:10,name:'≤360p',itemStyle:{color:'#ef4444'}},
+                    ],
+                    label:{show:false},
+                    emphasis:{scale:false},
+                }],
+                tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
+            })
+
+            // Netflix 分辨率饼图
+            const nfPie = echarts.init(document.getElementById('nfPieSmall'))
+            nfPie.setOption({
+                series:[{type:'pie',radius:['40%','75%'],center:['50%','50%'],
+                    data:[
+                        {value:8,name:'4K',itemStyle:{color:'#10b981'}},
+                        {value:35,name:'1080p',itemStyle:{color:'#06b6d4'}},
+                        {value:32,name:'720p',itemStyle:{color:'#3b82f6'}},
+                        {value:18,name:'480p',itemStyle:{color:'#f59e0b'}},
+                        {value:7,name:'≤360p',itemStyle:{color:'#ef4444'}},
+                    ],
+                    label:{show:false},emphasis:{scale:false},
+                }],
+                tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
+            })
+
+            // TikTok 成功率/失败率
+            const tkPie = echarts.init(document.getElementById('tkPieSmall'))
+            tkPie.setOption({
+                series:[{type:'pie',radius:['40%','75%'],center:['50%','50%'],
+                    data:[
+                        {value:98.5,name:'成功',itemStyle:{color:'#10b981'}},
+                        {value:1.5,name:'失败',itemStyle:{color:'#ef4444'}},
+                    ],
+                    label:{show:false},emphasis:{scale:false},
+                }],
+                tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
+            })
+
+            // 流量分布
+            const trPie = echarts.init(document.getElementById('trafficPieSmall'))
+            trPie.setOption({
+                series:[{type:'pie',radius:['40%','75%'],center:['50%','50%'],
+                    data:[
+                        {value:32,name:'视频',itemStyle:{color:'#ef4444'}},
+                        {value:28,name:'社交',itemStyle:{color:'#3b82f6'}},
+                        {value:18,name:'消息',itemStyle:{color:'#10b981'}},
+                        {value:8,name:'游戏',itemStyle:{color:'#f59e0b'}},
+                        {value:14,name:'其他',itemStyle:{color:'#6b7280'}},
+                    ],
+                    label:{show:false},emphasis:{scale:false},
+                }],
+                tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
+            })
+
+            window.addEventListener('resize', () => {
+                ytPie.resize(); nfPie.resize(); tkPie.resize(); trPie.resize()
+            })
+        }
+
+        function initChurnChart() {
+            const el = document.getElementById('churnWeeklyChart')
+            if (!el) return
+            const chart = echarts.init(el)
+            chart.setOption({
+                grid:{left:30,right:5,top:5,bottom:18},
+                xAxis:{type:'category',data:WEEKLY_CHURN.map(w=>w.week),
+                    axisLabel:{fontSize:8,color:'#64748b'},axisLine:{lineStyle:{color:'#1e293b'}},axisTick:{show:false}},
+                yAxis:{type:'value',splitLine:{lineStyle:{color:'#1e293b',type:'dashed'}},
+                    axisLabel:{fontSize:8,color:'#64748b'}},
+                series:[{type:'bar',data:WEEKLY_CHURN.map(w=>w.churn),
+                    itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[
+                        {offset:0,color:'#ef4444'},{offset:1,color:'#991b1b'}
+                    ]),borderRadius:[3,3,0,0]},
+                    barWidth:'50%',
+                }],
+                tooltip:{trigger:'axis',backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
+            })
+            window.addEventListener('resize',()=>chart.resize())
+        }
+
         function initTrafficChart() {
             const el = document.getElementById('trafficPie');
             if (!el) return;
@@ -3027,6 +3309,8 @@
             initCompTrendChart();
             // initVideoTrends 和 initTrafficChart 不再初始化时调用
             // 它们的图表在上滑弹出面板中动态创建
+            initSmallPies();  // 初始化底部 4 个饼图
+            initChurnChart(); // 初始化流失分布周趋势图
             renderTerminalLadder();
             switchExpMetric('dl_speed');
 
