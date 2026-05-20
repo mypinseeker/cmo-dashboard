@@ -29,7 +29,7 @@
         .dashboard {
             display: grid;
             grid-template-columns: 280px 1fr 280px;
-            grid-template-rows: 48px 1fr 120px;
+            grid-template-rows: 48px 1fr 160px;
             gap: 8px;
             padding: 8px;
             height: 100vh;
@@ -971,6 +971,7 @@
               <button class="map-layer-btn" onclick="switchMapLayer('newUsers')" id="btn-newUsers">新增用户</button>
               <button class="map-layer-btn" onclick="switchMapLayer('churn')" id="btn-churn">流失分布</button>
               <button class="map-layer-btn" onclick="switchMapLayer('competitiveness')" id="btn-competitiveness">竞争力</button>
+              <button class="map-layer-btn" onclick="switchMapLayer('video')" id="btn-video">视频体验</button>
             </div>
             <div id="map"></div>
             <div class="map-legend">
@@ -1173,61 +1174,84 @@
 
         <!-- Bottom Row: Apps & Traffic -->
         <div class="bottom-row">
-            <!-- YouTube Card -->
-            <div class="app-card">
-                <div class="app-name">YouTube</div>
-                <div class="app-metric">
-                    <span>HD 质量</span>
-                    <span class="value-red">33% ▼</span>
-                </div>
-                <div class="app-metric">
-                    <span>卡顿率</span>
-                    <span class="value-red">2.8% ▲</span>
-                </div>
-                <div class="app-metric">
-                    <span>缓冲时长</span>
-                    <span style="color: #cbd5e1;">1.2s</span>
-                </div>
-            </div>
+            <!-- 底部 APP 体验带 -->
+            <div style="grid-column:1/-1;display:flex;gap:8px;height:160px;">
 
-            <!-- Netflix Card -->
-            <div class="app-card">
-                <div class="app-name">Netflix</div>
-                <div class="app-metric">
-                    <span>HD 质量</span>
-                    <span class="value-green">43% ▲</span>
+              <!-- YouTube 卡片 -->
+              <div class="card" style="flex:1.2;padding:12px;overflow:hidden;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                  <span style="font-size:11px;font-weight:700;color:#ff0000;">▶ YouTube</span>
+                  <span style="font-size:9px;color:#64748b;">HD 33% · 卡顿 2.8%</span>
                 </div>
-                <div class="app-metric">
-                    <span>卡顿率</span>
-                    <span class="value-green">1.5% ▼</span>
+                <!-- 分辨率分布堆叠条 -->
+                <div style="display:flex;height:14px;border-radius:4px;overflow:hidden;margin-bottom:4px;">
+                  <div style="width:5%;background:#10b981;" title="4K: 5%"></div>
+                  <div style="width:28%;background:#06b6d4;" title="1080p: 28%"></div>
+                  <div style="width:35%;background:#3b82f6;" title="720p: 35%"></div>
+                  <div style="width:22%;background:#f59e0b;" title="480p: 22%"></div>
+                  <div style="width:10%;background:#ef4444;" title="360p以下: 10%"></div>
                 </div>
-                <div class="app-metric">
-                    <span>缓冲时长</span>
-                    <span style="color: #cbd5e1;">0.95s</span>
+                <div style="display:flex;justify-content:space-between;font-size:8px;color:#64748b;margin-bottom:6px;">
+                  <span>4K 5%</span><span>1080p 28%</span><span>720p 35%</span><span>480p 22%</span><span>≤360p 10%</span>
                 </div>
-            </div>
+                <!-- HD 占比 12 周趋势 -->
+                <div id="ytHDTrend" style="width:100%;height:55px;"></div>
+              </div>
 
-            <!-- TikTok Card -->
-            <div class="app-card">
-                <div class="app-name">TikTok</div>
-                <div class="app-metric">
-                    <span>成功率</span>
-                    <span class="value-green">98.5% ▲</span>
+              <!-- Netflix 卡片 -->
+              <div class="card" style="flex:1.2;padding:12px;overflow:hidden;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                  <span style="font-size:11px;font-weight:700;color:#e50914;">▶ Netflix</span>
+                  <span style="font-size:9px;color:#64748b;">HD 43% · 卡顿 1.5%</span>
                 </div>
-                <div class="app-metric">
-                    <span>上传速率</span>
-                    <span style="color: #cbd5e1;">6.2 Mbps</span>
+                <!-- 分辨率分布堆叠条 -->
+                <div style="display:flex;height:14px;border-radius:4px;overflow:hidden;margin-bottom:4px;">
+                  <div style="width:8%;background:#10b981;" title="4K: 8%"></div>
+                  <div style="width:35%;background:#06b6d4;" title="1080p: 35%"></div>
+                  <div style="width:32%;background:#3b82f6;" title="720p: 32%"></div>
+                  <div style="width:18%;background:#f59e0b;" title="480p: 18%"></div>
+                  <div style="width:7%;background:#ef4444;" title="360p以下: 7%"></div>
                 </div>
-                <div class="app-metric">
-                    <span>日活用户</span>
-                    <span style="color: #cbd5e1;">580K</span>
+                <div style="display:flex;justify-content:space-between;font-size:8px;color:#64748b;margin-bottom:6px;">
+                  <span>4K 8%</span><span>1080p 35%</span><span>720p 32%</span><span>480p 18%</span><span>≤360p 7%</span>
                 </div>
-            </div>
+                <!-- HD 占比 12 周趋势 -->
+                <div id="nfHDTrend" style="width:100%;height:55px;"></div>
+              </div>
 
-            <!-- Traffic Distribution Chart -->
-            <div class="app-card">
-                <div class="app-name">流量分布</div>
-                <div id="traffic-chart" style="width: 100%; height: 90px; margin-top: 6px;"></div>
+              <!-- TikTok 卡片（保持简洁） -->
+              <div class="card" style="flex:0.8;padding:12px;">
+                <div style="margin-bottom:6px;">
+                  <span style="font-size:11px;font-weight:700;color:#00f2ea;">▶ TikTok</span>
+                </div>
+                <div style="space-y:6px;">
+                  <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;">
+                    <span style="color:#94a3b8;">播放成功率</span>
+                    <span style="color:#10b981;font-weight:600;">98.5% ▲</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;">
+                    <span style="color:#94a3b8;">上传速率</span>
+                    <span style="color:#10b981;font-weight:600;">6.2Mbps ▲</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;">
+                    <span style="color:#94a3b8;">日活用户</span>
+                    <span style="color:#f1f5f9;font-weight:600;">580K</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:10px;">
+                    <span style="color:#94a3b8;">人均时长</span>
+                    <span style="color:#f1f5f9;font-weight:600;">45min</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 流量分布饼图 -->
+              <div class="card" style="flex:0.8;padding:12px;">
+                <div style="margin-bottom:4px;">
+                  <span style="font-size:11px;font-weight:700;color:#94a3b8;">流量分布</span>
+                </div>
+                <div id="trafficPie" style="width:100%;height:120px;"></div>
+              </div>
+
             </div>
 
             <!-- City Benchmark -->
@@ -1331,6 +1355,47 @@
             {week:"W18",users:12420000},{week:"W19",users:12450000},{week:"W20",users:12480000},
             {week:"W21",users:12500000}
         ];
+
+        const VIDEO_EXPERIENCE = {
+          YouTube: {
+            current: {
+              "4K": 5, "1080p": 28, "720p": 35, "480p": 22, "360p以下": 10
+            },
+            weeklyHD: [
+              {week:"W10",hd:30},{week:"W11",hd:31},{week:"W12",hd:32},{week:"W13",hd:31},
+              {week:"W14",hd:30},{week:"W15",hd:29},{week:"W16",hd:30},{week:"W17",hd:31},
+              {week:"W18",hd:32},{week:"W19",hd:33},{week:"W20",hd:33},{week:"W21",hd:33},
+            ],
+            rebuffer: 2.8,
+            rebufferTrend: "+0.3",
+            cityHD: [
+              {city:"Bogotá",hd:38,trend:"+2%"},
+              {city:"Medellín",hd:35,trend:"+1%"},
+              {city:"Cali",hd:30,trend:"-1%"},
+              {city:"Barranquilla",hd:18,trend:"-3%"},
+              {city:"Cartagena",hd:22,trend:"-2%"},
+            ],
+          },
+          Netflix: {
+            current: {
+              "4K": 8, "1080p": 35, "720p": 32, "480p": 18, "360p以下": 7
+            },
+            weeklyHD: [
+              {week:"W10",hd:38},{week:"W11",hd:39},{week:"W12",hd:40},{week:"W13",hd:40},
+              {week:"W14",hd:41},{week:"W15",hd:41},{week:"W16",hd:42},{week:"W17",hd:42},
+              {week:"W18",hd:42},{week:"W19",hd:43},{week:"W20",hd:43},{week:"W21",hd:43},
+            ],
+            rebuffer: 1.5,
+            rebufferTrend: "-0.2",
+            cityHD: [
+              {city:"Bogotá",hd:48,trend:"+3%"},
+              {city:"Medellín",hd:45,trend:"+2%"},
+              {city:"Cali",hd:40,trend:"+1%"},
+              {city:"Barranquilla",hd:25,trend:"-2%"},
+              {city:"Cartagena",hd:30,trend:"-1%"},
+            ],
+          },
+        };
 
         const MONTHLY_EXPERIENCE = [
             {month:"Dec",tigo:3.4,claro:4.0},
@@ -1749,6 +1814,11 @@
                         const g = gap[city] || 0;
                         zoneColor = g > 0 ? 'rgba(16,185,129,0.1)' : g > -15 ? 'rgba(245,158,11,0.08)' : 'rgba(239,68,68,0.1)';
                         break;
+                    case 'video':
+                        const hdVal = {'Bogota':38,'Medellin':35,'Cali':30,'Barranquilla':18,'Cartagena':22};
+                        const h = hdVal[city] || 25;
+                        zoneColor = h >= 35 ? 'rgba(16,185,129,0.08)' : h >= 25 ? 'rgba(245,158,11,0.08)' : 'rgba(239,68,68,0.1)';
+                        break;
                     default:
                         zoneColor = 'rgba(100,116,139,0.05)';
                 }
@@ -1800,6 +1870,13 @@
                         color = cg.gap > 0 ? '#10b981' : cg.gap > -15 ? '#f59e0b' : '#ef4444';
                         radius = 5 + Math.abs(cg.gap) / 8;
                         tooltipExtra = `vs Claro: ${cg.gap > 0 ? '+' : ''}${cg.gap}% · ${cg.trend === 'leading' ? '🏆 领先' : cg.trend === 'closing' ? '↑ 缩小' : cg.trend === 'widening' ? '↓ 扩大' : '→ 稳定'}`;
+                        break;
+                    case 'video':
+                        const cityHD = {'Bogota':38,'Medellin':35,'Cali':30,'Barranquilla':18,'Cartagena':22};
+                        const hd = cityHD[site.city] || 25;
+                        color = hd >= 35 ? '#10b981' : hd >= 25 ? '#f59e0b' : '#ef4444';
+                        radius = 4 + hd / 6;
+                        tooltipExtra = `YouTube HD: ${hd}%`;
                         break;
                 }
 
@@ -1934,8 +2011,70 @@
             return userTrendChart;
         }
 
+        function initVideoTrends() {
+            // YouTube HD 趋势
+            const ytChart = echarts.init(document.getElementById('ytHDTrend'), 'dark');
+            ytChart.setOption({
+                grid: { left: 0, right: 0, top: 5, bottom: 15 },
+                xAxis: {
+                    type: 'category', data: VIDEO_EXPERIENCE.YouTube.weeklyHD.map(w => w.week),
+                    axisLabel: { fontSize: 8, color: '#64748b', interval: 3 },
+                    axisLine: { lineStyle: { color: '#1e293b' } }, axisTick: { show: false },
+                },
+                yAxis: {
+                    type: 'value', min: 25, max: 40,
+                    splitLine: { show: false },
+                    axisLabel: { show: false },
+                },
+                series: [{
+                    type: 'line', data: VIDEO_EXPERIENCE.YouTube.weeklyHD.map(w => w.hd),
+                    smooth: true, symbol: 'none',
+                    lineStyle: { color: '#ff0000', width: 1.5 },
+                    areaStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[
+                        {offset:0,color:'rgba(255,0,0,0.15)'},{offset:1,color:'rgba(255,0,0,0)'}
+                    ])},
+                }],
+                tooltip: {
+                    trigger: 'axis', backgroundColor: '#1e293b', borderColor: '#334155',
+                    textStyle: { color: '#f1f5f9', fontSize: 9 },
+                    formatter: p => `${p[0].axisValue}<br/>HD占比: ${p[0].value}%`
+                },
+            });
+
+            // Netflix HD 趋势
+            const nfChart = echarts.init(document.getElementById('nfHDTrend'), 'dark');
+            nfChart.setOption({
+                grid: { left: 0, right: 0, top: 5, bottom: 15 },
+                xAxis: {
+                    type: 'category', data: VIDEO_EXPERIENCE.Netflix.weeklyHD.map(w => w.week),
+                    axisLabel: { fontSize: 8, color: '#64748b', interval: 3 },
+                    axisLine: { lineStyle: { color: '#1e293b' } }, axisTick: { show: false },
+                },
+                yAxis: {
+                    type: 'value', min: 35, max: 50,
+                    splitLine: { show: false },
+                    axisLabel: { show: false },
+                },
+                series: [{
+                    type: 'line', data: VIDEO_EXPERIENCE.Netflix.weeklyHD.map(w => w.hd),
+                    smooth: true, symbol: 'none',
+                    lineStyle: { color: '#e50914', width: 1.5 },
+                    areaStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[
+                        {offset:0,color:'rgba(229,9,20,0.15)'},{offset:1,color:'rgba(229,9,20,0)'}
+                    ])},
+                }],
+                tooltip: {
+                    trigger: 'axis', backgroundColor: '#1e293b', borderColor: '#334155',
+                    textStyle: { color: '#f1f5f9', fontSize: 9 },
+                    formatter: p => `${p[0].axisValue}<br/>HD占比: ${p[0].value}%`
+                },
+            });
+
+            window.addEventListener('resize', () => { ytChart.resize(); nfChart.resize() });
+        }
+
         function initTrafficChart() {
-            const trafficChart = echarts.init(document.getElementById('traffic-chart'), 'dark');
+            const trafficChart = echarts.init(document.getElementById('trafficPie'), 'dark');
 
             const option = {
                 tooltip: {
@@ -1984,6 +2123,7 @@
             initUserTrendChart();
             initExpTrendChart();
             initCompTrendChart();
+            initVideoTrends();
             initTrafficChart();
             renderTerminalLadder();
 
