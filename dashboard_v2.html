@@ -29,7 +29,7 @@
         .dashboard {
             display: grid;
             grid-template-columns: 280px 1fr 280px;
-            grid-template-rows: 48px 1fr 160px;
+            grid-template-rows: 48px 1fr 42px;
             gap: 8px;
             padding: 8px;
             height: 100vh;
@@ -697,6 +697,13 @@
 
         .map-layer-btn:hover {
             background: #1e293b;
+        }
+
+        /* ============ APP PANEL STYLES ============ */
+
+        #appPanel.open {
+            transform: translateY(0) !important;
+        }
             color: #f1f5f9;
         }
 
@@ -1172,101 +1179,42 @@
             </div>
         </div>
 
-        <!-- Bottom Row: Apps & Traffic -->
-        <div class="bottom-row">
-            <!-- 底部 APP 体验带 -->
-            <div style="grid-column:1/-1;display:flex;gap:8px;height:160px;">
-
-              <!-- YouTube 卡片 -->
-              <div class="card" style="flex:1.2;padding:12px;overflow:hidden;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                  <span style="font-size:11px;font-weight:700;color:#ff0000;">▶ YouTube</span>
-                  <span style="font-size:9px;color:#64748b;">HD 33% · 卡顿 2.8%</span>
-                </div>
-                <!-- 分辨率分布堆叠条 -->
-                <div style="display:flex;height:14px;border-radius:4px;overflow:hidden;margin-bottom:4px;">
-                  <div style="width:5%;background:#10b981;" title="4K: 5%"></div>
-                  <div style="width:28%;background:#06b6d4;" title="1080p: 28%"></div>
-                  <div style="width:35%;background:#3b82f6;" title="720p: 35%"></div>
-                  <div style="width:22%;background:#f59e0b;" title="480p: 22%"></div>
-                  <div style="width:10%;background:#ef4444;" title="360p以下: 10%"></div>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:8px;color:#64748b;margin-bottom:6px;">
-                  <span>4K 5%</span><span>1080p 28%</span><span>720p 35%</span><span>480p 22%</span><span>≤360p 10%</span>
-                </div>
-                <!-- HD 占比 12 周趋势 -->
-                <div id="ytHDTrend" style="width:100%;height:55px;"></div>
-              </div>
-
-              <!-- Netflix 卡片 -->
-              <div class="card" style="flex:1.2;padding:12px;overflow:hidden;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                  <span style="font-size:11px;font-weight:700;color:#e50914;">▶ Netflix</span>
-                  <span style="font-size:9px;color:#64748b;">HD 43% · 卡顿 1.5%</span>
-                </div>
-                <!-- 分辨率分布堆叠条 -->
-                <div style="display:flex;height:14px;border-radius:4px;overflow:hidden;margin-bottom:4px;">
-                  <div style="width:8%;background:#10b981;" title="4K: 8%"></div>
-                  <div style="width:35%;background:#06b6d4;" title="1080p: 35%"></div>
-                  <div style="width:32%;background:#3b82f6;" title="720p: 32%"></div>
-                  <div style="width:18%;background:#f59e0b;" title="480p: 18%"></div>
-                  <div style="width:7%;background:#ef4444;" title="360p以下: 7%"></div>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:8px;color:#64748b;margin-bottom:6px;">
-                  <span>4K 8%</span><span>1080p 35%</span><span>720p 32%</span><span>480p 18%</span><span>≤360p 7%</span>
-                </div>
-                <!-- HD 占比 12 周趋势 -->
-                <div id="nfHDTrend" style="width:100%;height:55px;"></div>
-              </div>
-
-              <!-- TikTok 卡片（保持简洁） -->
-              <div class="card" style="flex:0.8;padding:12px;">
-                <div style="margin-bottom:6px;">
-                  <span style="font-size:11px;font-weight:700;color:#00f2ea;">▶ TikTok</span>
-                </div>
-                <div style="space-y:6px;">
-                  <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;">
-                    <span style="color:#94a3b8;">播放成功率</span>
-                    <span style="color:#10b981;font-weight:600;">98.5% ▲</span>
-                  </div>
-                  <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;">
-                    <span style="color:#94a3b8;">上传速率</span>
-                    <span style="color:#10b981;font-weight:600;">6.2Mbps ▲</span>
-                  </div>
-                  <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;">
-                    <span style="color:#94a3b8;">日活用户</span>
-                    <span style="color:#f1f5f9;font-weight:600;">580K</span>
-                  </div>
-                  <div style="display:flex;justify-content:space-between;font-size:10px;">
-                    <span style="color:#94a3b8;">人均时长</span>
-                    <span style="color:#f1f5f9;font-weight:600;">45min</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 流量分布饼图 -->
-              <div class="card" style="flex:0.8;padding:12px;">
-                <div style="margin-bottom:4px;">
-                  <span style="font-size:11px;font-weight:700;color:#94a3b8;">流量分布</span>
-                </div>
-                <div id="trafficPie" style="width:100%;height:120px;"></div>
-              </div>
-
-            </div>
-
-            <!-- City Benchmark -->
-            <div class="app-card">
-                <div class="app-name">城市对标</div>
-                <div style="font-size: 11px; margin-top: 8px;">
-                    <div class="row" style="grid-template-columns: 1fr; gap: 4px;">
-                        <div><span class="label">Bogota</span><span class="value-green">4.5</span></div>
-                        <div><span class="label">Medellin</span><span class="value-blue">3.9</span></div>
-                        <div><span class="label">Cali</span><span class="value-yellow">3.5</span></div>
-                        <div><span class="label">Barranquilla</span><span class="value-red">2.8</span></div>
-                    </div>
-                </div>
-            </div>
+        <!-- Bottom Row: Compact App Summary Tabs -->
+        <div class="bottom-row" style="grid-column:1/-1;display:flex;gap:6px;height:36px;">
+          <div class="app-tab" onclick="openAppPanel('youtube')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#111827;border:1px solid #1f2937;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#ff0000';this.style.background='#1a1a2e'" onmouseout="this.style.borderColor='#1f2937';this.style.background='#111827'">
+            <span style="font-size:11px;font-weight:600;color:#ff0000;">▶ YouTube</span>
+            <span style="font-size:11px;color:#f59e0b;">HD 33%</span>
+            <span style="font-size:10px;color:#ef4444;">卡顿 2.8%</span>
+          </div>
+          <div class="app-tab" onclick="openAppPanel('netflix')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#111827;border:1px solid #1f2937;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#e50914';this.style.background='#1a1a2e'" onmouseout="this.style.borderColor='#1f2937';this.style.background='#111827'">
+            <span style="font-size:11px;font-weight:600;color:#e50914;">▶ Netflix</span>
+            <span style="font-size:11px;color:#10b981;">HD 43%</span>
+            <span style="font-size:10px;color:#10b981;">卡顿 1.5%</span>
+          </div>
+          <div class="app-tab" onclick="openAppPanel('tiktok')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#111827;border:1px solid #1f2937;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#00f2ea';this.style.background='#1a1a2e'" onmouseout="this.style.borderColor='#1f2937';this.style.background='#111827'">
+            <span style="font-size:11px;font-weight:600;color:#00f2ea;">▶ TikTok</span>
+            <span style="font-size:11px;color:#10b981;">98.5%</span>
+          </div>
+          <div class="app-tab" onclick="openAppPanel('traffic')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#111827;border:1px solid #1f2937;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#3b82f6';this.style.background='#1a1a2e'" onmouseout="this.style.borderColor='#1f2937';this.style.background='#111827'">
+            <span style="font-size:11px;font-weight:600;color:#94a3b8;">📊 流量</span>
+            <span style="font-size:11px;color:#94a3b8;">视频 32%</span>
+          </div>
         </div>
+    </div>
+
+    <!-- APP 详情上滑面板 -->
+    <div id="appPanelOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:2000;backdrop-filter:blur(4px);" onclick="closeAppPanel()">
+    </div>
+    <div id="appPanel" style="display:none;position:fixed;bottom:0;left:0;right:0;height:55vh;background:#0f172a;border-top:2px solid #06b6d4;border-radius:16px 16px 0 0;z-index:2001;padding:20px 30px;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);">
+      <!-- 顶部拖拽条 + 标题 + 关闭 -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:40px;height:4px;background:#334155;border-radius:2px;"></div>
+          <span id="appPanelTitle" style="font-size:16px;font-weight:700;"></span>
+        </div>
+        <button onclick="closeAppPanel()" style="font-size:12px;color:#94a3b8;background:#1e293b;border:1px solid #334155;border-radius:6px;padding:4px 12px;cursor:pointer;font-family:inherit;">收起 ▼</button>
+      </div>
+      <div id="appPanelContent"></div>
     </div>
 
     <!-- Drilldown Overlay -->
@@ -1631,6 +1579,188 @@
 
         function closeDrilldown() {
             document.getElementById("drilldown-overlay").classList.remove("active");
+        }
+
+        // ============ APP PANEL FUNCTIONS ============
+
+        function openAppPanel(app) {
+          const overlay = document.getElementById('appPanelOverlay')
+          const panel = document.getElementById('appPanel')
+          const title = document.getElementById('appPanelTitle')
+          const content = document.getElementById('appPanelContent')
+
+          overlay.style.display = 'block'
+          panel.style.display = 'block'
+
+          // 触发动画
+          requestAnimationFrame(() => {
+            panel.style.transform = 'translateY(0)'
+          })
+
+          const colors = {youtube:'#ff0000',netflix:'#e50914',tiktok:'#00f2ea',traffic:'#3b82f6'}
+          const names = {youtube:'YouTube',netflix:'Netflix',tiktok:'TikTok',traffic:'流量分布'}
+          title.textContent = '▶ ' + names[app]
+          title.style.color = colors[app]
+
+          if (app === 'youtube' || app === 'netflix') {
+            const vd = app === 'youtube' ? VIDEO_EXPERIENCE.YouTube : VIDEO_EXPERIENCE.Netflix
+            const brandColor = colors[app]
+
+            content.innerHTML = `
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+                <!-- 左列：分辨率分布 + 城市对比 -->
+                <div>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">分辨率分布</h4>
+                  <div style="display:flex;height:24px;border-radius:6px;overflow:hidden;margin-bottom:6px;">
+                    <div style="width:${vd.current['4K']}%;background:#10b981;" title="4K"></div>
+                    <div style="width:${vd.current['1080p']}%;background:#06b6d4;" title="1080p"></div>
+                    <div style="width:${vd.current['720p']}%;background:#3b82f6;" title="720p"></div>
+                    <div style="width:${vd.current['480p']}%;background:#f59e0b;" title="480p"></div>
+                    <div style="width:${vd.current['360p以下']}%;background:#ef4444;" title="360p以下"></div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:10px;color:#94a3b8;margin-bottom:16px;">
+                    <span style="color:#10b981;">4K ${vd.current['4K']}%</span>
+                    <span style="color:#06b6d4;">1080p ${vd.current['1080p']}%</span>
+                    <span style="color:#3b82f6;">720p ${vd.current['720p']}%</span>
+                    <span style="color:#f59e0b;">480p ${vd.current['480p']}%</span>
+                    <span style="color:#ef4444;">≤360p ${vd.current['360p以下']}%</span>
+                  </div>
+
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">各区域 HD 占比</h4>
+                  ${vd.cityHD.map(c => {
+                    const color = parseInt(c.hd) >= 35 ? '#10b981' : parseInt(c.hd) >= 25 ? '#f59e0b' : '#ef4444'
+                    const trendColor = c.trend.startsWith('+') ? '#10b981' : '#ef4444'
+                    return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer;" onclick="closeAppPanel();drilldown('${c.city}')">
+                      <span style="font-size:11px;color:${color};width:80px;">${c.city}</span>
+                      <div style="flex:1;background:#1e293b;height:8px;border-radius:3px;">
+                        <div style="width:${c.hd}%;max-width:100%;height:100%;background:${color};border-radius:3px;"></div>
+                      </div>
+                      <span style="font-size:10px;color:${color};width:30px;text-align:right;">${c.hd}%</span>
+                      <span style="font-size:10px;color:${trendColor};width:30px;text-align:right;">${c.trend}</span>
+                    </div>`
+                  }).join('')}
+                </div>
+
+                <!-- 右列：HD 趋势图 -->
+                <div>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">HD 占比趋势（12 周）</h4>
+                  <div id="panelHDTrend" style="width:100%;height:180px;"></div>
+                  <div style="margin-top:12px;display:flex;gap:16px;font-size:11px;">
+                    <div><span style="color:#94a3b8;">卡顿率：</span><span style="color:${parseFloat(vd.rebufferTrend)>0?'#ef4444':'#10b981'};font-weight:600;">${vd.rebuffer}% (${vd.rebufferTrend})</span></div>
+                  </div>
+                </div>
+              </div>
+            `
+
+            // 渲染 HD 趋势图
+            setTimeout(() => {
+              const chart = echarts.init(document.getElementById('panelHDTrend'))
+              chart.setOption({
+                grid: { left: 30, right: 10, top: 10, bottom: 25 },
+                xAxis: {
+                  type:'category', data:vd.weeklyHD.map(w=>w.week),
+                  axisLabel:{fontSize:10,color:'#64748b'},
+                  axisLine:{lineStyle:{color:'#1e293b'}}, axisTick:{show:false},
+                },
+                yAxis: {
+                  type:'value', min:Math.min(...vd.weeklyHD.map(w=>w.hd))-5,
+                  max:Math.max(...vd.weeklyHD.map(w=>w.hd))+5,
+                  splitLine:{lineStyle:{color:'#1e293b',type:'dashed'}},
+                  axisLabel:{fontSize:10,color:'#64748b',formatter:v=>v+'%'},
+                },
+                series:[{
+                  type:'line',data:vd.weeklyHD.map(w=>w.hd),smooth:true,
+                  symbol:'circle',symbolSize:6,
+                  lineStyle:{color:brandColor,width:2},
+                  itemStyle:{color:brandColor},
+                  areaStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[
+                    {offset:0,color:brandColor==='#ff0000'?'rgba(255,0,0,0.2)':brandColor==='#e50914'?'rgba(229,9,20,0.2)':'rgba(0,0,0,0)'},
+                    {offset:1,color:'rgba(0,0,0,0)'}
+                  ])},
+                }],
+                tooltip:{trigger:'axis',backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:11}},
+              })
+            }, 100)
+
+          } else if (app === 'tiktok') {
+            content.innerHTML = `
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+                <div>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">核心指标</h4>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
+                      <div style="font-size:24px;font-weight:700;color:#10b981;">98.5%</div>
+                      <div style="font-size:10px;color:#94a3b8;">播放成功率</div>
+                    </div>
+                    <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
+                      <div style="font-size:24px;font-weight:700;color:#06b6d4;">6.2</div>
+                      <div style="font-size:10px;color:#94a3b8;">上传 Mbps</div>
+                    </div>
+                    <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
+                      <div style="font-size:24px;font-weight:700;color:#f1f5f9;">580K</div>
+                      <div style="font-size:10px;color:#94a3b8;">日活用户</div>
+                    </div>
+                    <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
+                      <div style="font-size:24px;font-weight:700;color:#f1f5f9;">45min</div>
+                      <div style="font-size:10px;color:#94a3b8;">人均时长</div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">特征</h4>
+                  <p style="font-size:11px;color:#94a3b8;line-height:1.8;">
+                    TikTok 上行流量占比持续增长，短视频创作者增多。<br/>
+                    上传速率需求高于其他 APP，需关注上行 PRB 利用率。<br/>
+                    日活用户 580K，人均使用 45 分钟，是流量第三大 APP。
+                  </p>
+                </div>
+              </div>
+            `
+          } else if (app === 'traffic') {
+            content.innerHTML = `
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+                <div id="panelTrafficPie" style="height:250px;"></div>
+                <div>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">流量结构</h4>
+                  <div style="space-y:8px;">
+                    ${[{n:'视频流媒体',p:32,c:'#ef4444',d:'YouTube+Netflix+其他视频'},{n:'社交媒体',p:28,c:'#3b82f6',d:'Instagram+Facebook'},{n:'即时消息',p:18,c:'#10b981',d:'WhatsApp+Telegram'},{n:'游戏',p:8,c:'#f59e0b',d:'手游+云游戏'},{n:'其他',p:14,c:'#6b7280',d:'浏览器+企业+其他'}].map(c => `
+                      <div style="margin-bottom:8px;">
+                        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+                          <span style="font-size:12px;color:${c.c};font-weight:600;">${c.n}</span>
+                          <span style="font-size:12px;color:#f1f5f9;font-weight:700;">${c.p}%</span>
+                        </div>
+                        <div style="background:#1e293b;height:6px;border-radius:3px;">
+                          <div style="width:${c.p}%;height:100%;background:${c.c};border-radius:3px;"></div>
+                        </div>
+                        <div style="font-size:9px;color:#64748b;margin-top:2px;">${c.d}</div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              </div>
+            `
+            setTimeout(() => {
+              const chart = echarts.init(document.getElementById('panelTrafficPie'))
+              chart.setOption({
+                series:[{
+                  type:'pie',radius:['40%','70%'],center:['50%','50%'],
+                  data:[{value:32,name:'视频',itemStyle:{color:'#ef4444'}},{value:28,name:'社交',itemStyle:{color:'#3b82f6'}},{value:18,name:'消息',itemStyle:{color:'#10b981'}},{value:8,name:'游戏',itemStyle:{color:'#f59e0b'}},{value:14,name:'其他',itemStyle:{color:'#6b7280'}}],
+                  label:{color:'#94a3b8',fontSize:10},
+                  emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,0.5)'}},
+                }],
+                tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9'}},
+              })
+            },100)
+          }
+        }
+
+        function closeAppPanel() {
+          const panel = document.getElementById('appPanel')
+          panel.style.transform = 'translateY(100%)'
+          setTimeout(() => {
+            panel.style.display = 'none'
+            document.getElementById('appPanelOverlay').style.display = 'none'
+          }, 350)
         }
 
         // ============ COMPETITOR TAB & TREND CHART ============
