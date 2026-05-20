@@ -970,6 +970,7 @@
               <button class="map-layer-btn" onclick="switchMapLayer('growth')" id="btn-growth">用户增长率</button>
               <button class="map-layer-btn" onclick="switchMapLayer('newUsers')" id="btn-newUsers">新增用户</button>
               <button class="map-layer-btn" onclick="switchMapLayer('churn')" id="btn-churn">流失分布</button>
+              <button class="map-layer-btn" onclick="switchMapLayer('competitiveness')" id="btn-competitiveness">竞争力</button>
             </div>
             <div id="map"></div>
             <div class="map-legend">
@@ -1047,23 +1048,124 @@
                 </div>
             </div>
 
-            <!-- Churn & Competitors Card -->
+            <!-- Competitor Analysis Card -->
             <div class="card">
-                <div class="card-title">流失与竞对</div>
-                <div class="big-number">15.2K</div>
-                <div style="font-size: 12px; color: #94a3b8; font-weight: 500;">月离网</div>
-                <div class="row">
-                    <div><span class="label">网络因素</span><div class="value-red">62%</div></div>
+                <div style="margin-bottom:6px;">
+                    <div class="card-label">竞对分析 (Ookla)</div>
                 </div>
-                <div class="separator"></div>
-                <div class="sub-title">Ookla 对比 (Mbps)</div>
-                <div style="font-size: 11px; margin-top: 6px;">
-                    <div class="row">
-                        <div>Tigo: <span class="value-blue">35.8</span></div>
-                        <div>Claro: <span style="color: #cbd5e1;">42.1</span></div>
+
+                <!-- Tab 切换：速率 / 覆盖 -->
+                <div style="display:flex;gap:4px;margin-bottom:8px;">
+                    <button class="comp-tab active" id="compTabSpeed" onclick="switchCompTab('speed')" style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;">速率</button>
+                    <button class="comp-tab" id="compTabCoverage" onclick="switchCompTab('coverage')" style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">覆盖</button>
+                </div>
+
+                <!-- 速率对比（默认显示） -->
+                <div id="compSpeedPanel">
+                    <!-- 整体速率 -->
+                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                        <div style="text-align:center;flex:1;">
+                            <div style="font-size:9px;color:#06b6d4;">Tigo</div>
+                            <div style="font-size:16px;font-weight:700;color:#06b6d4;">38.2</div>
+                            <div style="font-size:8px;color:#64748b;">Mbps</div>
+                        </div>
+                        <div style="text-align:center;flex:1;">
+                            <div style="font-size:9px;color:#f97316;">Claro</div>
+                            <div style="font-size:16px;font-weight:700;color:#f97316;">42.5</div>
+                            <div style="font-size:8px;color:#64748b;">Mbps</div>
+                        </div>
+                        <div style="text-align:center;flex:1;">
+                            <div style="font-size:9px;color:#a855f7;">Movistar</div>
+                            <div style="font-size:16px;font-weight:700;color:#a855f7;">28.1</div>
+                            <div style="font-size:8px;color:#64748b;">Mbps</div>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div>Movistar: <span style="color: #cbd5e1;">26.0</span></div>
+
+                    <!-- 周趋势小图 -->
+                    <div id="compTrendChart" style="width:100%;height:70px;"></div>
+
+                    <!-- 各城市差距 -->
+                    <div style="border-top:1px solid #1e293b;padding-top:6px;margin-top:4px;">
+                        <div style="font-size:9px;color:#64748b;margin-bottom:4px;">vs Claro 各区域差距</div>
+                        <!-- 按差距严重程度排序 -->
+                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Barranquilla');switchMapLayer('competitiveness')">
+                            <span style="color:#ef4444;">B/quilla</span>
+                            <span style="color:#ef4444;font-weight:600;">-49.8% ▼ 扩大</span>
+                        </div>
+                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Cartagena');switchMapLayer('competitiveness')">
+                            <span style="color:#ef4444;">Cartagena</span>
+                            <span style="color:#ef4444;font-weight:600;">-31.7% ▼ 扩大</span>
+                        </div>
+                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Cali')">
+                            <span style="color:#f59e0b;">Cali</span>
+                            <span style="color:#f59e0b;">-11.6% → 稳定</span>
+                        </div>
+                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Bogota')">
+                            <span style="color:#10b981;">Bogota</span>
+                            <span style="color:#10b981;">-5.8% ▲ 缩小</span>
+                        </div>
+                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Medellin')">
+                            <span style="color:#10b981;">Medellin</span>
+                            <span style="color:#10b981;font-weight:600;">+5.6% 🏆 领先</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 覆盖对比（默认隐藏） -->
+                <div id="compCoveragePanel" style="display:none;">
+                    <div style="font-size:9px;color:#64748b;margin-bottom:6px;">Ookla 测速样本量 ≈ 覆盖代理指标</div>
+                    <div id="coverageCityList">
+                        <!-- 各城市覆盖对比 -->
+                        <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Barranquilla')">
+                            <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;">
+                                <span style="color:#ef4444;">B/quilla</span>
+                                <span style="color:#ef4444;">差距 -63% · 扩大</span>
+                            </div>
+                            <div style="display:flex;gap:4px;align-items:center;">
+                                <span style="font-size:8px;color:#06b6d4;width:30px;">Tigo</span>
+                                <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:27%;height:100%;background:#06b6d4;border-radius:2px;"></div></div>
+                                <span style="font-size:8px;color:#64748b;width:25px;">450</span>
+                            </div>
+                            <div style="display:flex;gap:4px;align-items:center;">
+                                <span style="font-size:8px;color:#f97316;width:30px;">Claro</span>
+                                <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:72%;height:100%;background:#f97316;border-radius:2px;"></div></div>
+                                <span style="font-size:8px;color:#64748b;width:25px;">1200</span>
+                            </div>
+                        </div>
+
+                        <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Cartagena')">
+                            <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;">
+                                <span style="color:#ef4444;">Cartagena</span>
+                                <span style="color:#ef4444;">差距 -55% · 扩大</span>
+                            </div>
+                            <div style="display:flex;gap:4px;align-items:center;">
+                                <span style="font-size:8px;color:#06b6d4;width:30px;">Tigo</span>
+                                <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:31%;height:100%;background:#06b6d4;border-radius:2px;"></div></div>
+                                <span style="font-size:8px;color:#64748b;width:25px;">380</span>
+                            </div>
+                            <div style="display:flex;gap:4px;align-items:center;">
+                                <span style="font-size:8px;color:#f97316;width:30px;">Claro</span>
+                                <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:68%;height:100%;background:#f97316;border-radius:2px;"></div></div>
+                                <span style="font-size:8px;color:#64748b;width:25px;">850</span>
+                            </div>
+                        </div>
+
+                        <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Medellin')">
+                            <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;">
+                                <span style="color:#10b981;">Medellin</span>
+                                <span style="color:#10b981;">领先 +8% 🏆</span>
+                            </div>
+                            <div style="display:flex;gap:4px;align-items:center;">
+                                <span style="font-size:8px;color:#06b6d4;width:30px;">Tigo</span>
+                                <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:52%;height:100%;background:#06b6d4;border-radius:2px;"></div></div>
+                                <span style="font-size:8px;color:#64748b;width:25px;">1400</span>
+                            </div>
+                            <div style="display:flex;gap:4px;align-items:center;">
+                                <span style="font-size:8px;color:#f97316;width:30px;">Claro</span>
+                                <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:48%;height:100%;background:#f97316;border-radius:2px;"></div></div>
+                                <span style="font-size:8px;color:#64748b;width:25px;">1300</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1319,6 +1421,39 @@
             }
         };
 
+        const COMPETITOR_DATA = {
+            // 速率对比（Ookla 基准，按城市）
+            speed: {
+                overall: {tigo:38.2, claro:42.5, movistar:28.1},
+                cities: [
+                    {city:"Bogota",tigo:43.5,claro:46.2,movistar:25.3,gap:-5.8,trend:"closing"},
+                    {city:"Medellin",tigo:41.8,claro:36.2,movistar:26.8,gap:5.6,trend:"leading"},
+                    {city:"Cali",tigo:35.2,claro:39.8,movistar:32.5,gap:-11.6,trend:"stable"},
+                    {city:"Barranquilla",tigo:22.5,claro:44.8,movistar:24.2,gap:-49.8,trend:"widening"},
+                    {city:"Cartagena",tigo:26.3,claro:38.5,movistar:22.8,gap:-31.7,trend:"widening"},
+                ],
+            },
+            // 覆盖对比（Ookla 样本密度≈覆盖代理指标）
+            coverage: {
+                cities: [
+                    {city:"Bogota",tigoSamples:2200,claroSamples:2500,gap:"-12%",trend:"closing"},
+                    {city:"Medellin",tigoSamples:1400,claroSamples:1300,gap:"+8%",trend:"leading"},
+                    {city:"Cali",tigoSamples:900,claroSamples:1100,gap:"-18%",trend:"stable"},
+                    {city:"Barranquilla",tigoSamples:450,claroSamples:1200,gap:"-63%",trend:"widening"},
+                    {city:"Cartagena",tigoSamples:380,claroSamples:850,gap:"-55%",trend:"widening"},
+                ],
+            },
+            // 周趋势（最近 12 周）
+            weeklyTrend: [
+                {week:"W10",tigo:35.5,claro:42.0},{week:"W11",tigo:35.8,claro:42.1},
+                {week:"W12",tigo:36.2,claro:42.0},{week:"W13",tigo:36.5,claro:42.2},
+                {week:"W14",tigo:36.8,claro:42.3},{week:"W15",tigo:37.0,claro:42.1},
+                {week:"W16",tigo:37.2,claro:42.4},{week:"W17",tigo:37.5,claro:42.3},
+                {week:"W18",tigo:37.8,claro:42.5},{week:"W19",tigo:38.0,claro:42.4},
+                {week:"W20",tigo:38.2,claro:42.5},{week:"W21",tigo:38.5,claro:42.6},
+            ],
+        };
+
         // ============ UTILITIES ============
 
         function getExperienceColor(exp) {
@@ -1433,6 +1568,74 @@
             document.getElementById("drilldown-overlay").classList.remove("active");
         }
 
+        // ============ COMPETITOR TAB & TREND CHART ============
+
+        function switchCompTab(tab) {
+            document.getElementById('compSpeedPanel').style.display = tab === 'speed' ? 'block' : 'none';
+            document.getElementById('compCoveragePanel').style.display = tab === 'coverage' ? 'block' : 'none';
+            document.getElementById('compTabSpeed').style.background = tab === 'speed' ? '#06b6d4' : 'transparent';
+            document.getElementById('compTabSpeed').style.color = tab === 'speed' ? '#0a0e1a' : '#94a3b8';
+            document.getElementById('compTabCoverage').style.background = tab === 'coverage' ? '#06b6d4' : 'transparent';
+            document.getElementById('compTabCoverage').style.color = tab === 'coverage' ? '#0a0e1a' : '#94a3b8';
+        }
+
+        function initCompTrendChart() {
+            const chart = echarts.init(document.getElementById('compTrendChart'), 'dark');
+            chart.setOption({
+                grid: { left: 5, right: 5, top: 5, bottom: 18 },
+                xAxis: {
+                    type: 'category',
+                    data: COMPETITOR_DATA.weeklyTrend.map(w => w.week),
+                    axisLabel: { fontSize: 8, color: '#64748b', interval: 3 },
+                    axisLine: { lineStyle: { color: '#1e293b' } },
+                    axisTick: { show: false },
+                },
+                yAxis: {
+                    type: 'value',
+                    min: 34,
+                    max: 44,
+                    splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } },
+                    axisLabel: { fontSize: 8, color: '#64748b' },
+                },
+                series: [
+                    {
+                        type: 'line',
+                        data: COMPETITOR_DATA.weeklyTrend.map(w => w.tigo),
+                        smooth: true,
+                        symbol: 'none',
+                        lineStyle: { color: '#06b6d4', width: 2 },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0,0,0,1,[
+                                {offset: 0, color: 'rgba(6,182,212,0.15)'},
+                                {offset: 1, color: 'rgba(6,182,212,0)'}
+                            ])
+                        }
+                    },
+                    {
+                        type: 'line',
+                        data: COMPETITOR_DATA.weeklyTrend.map(w => w.claro),
+                        smooth: true,
+                        symbol: 'none',
+                        lineStyle: { color: '#f97316', width: 2, type: 'dashed' }
+                    },
+                ],
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: '#1e293b',
+                    borderColor: '#334155',
+                    textStyle: { color: '#f1f5f9', fontSize: 9 },
+                    formatter: function(params) {
+                        if (!params || params.length === 0) return '';
+                        const axisValue = params[0].axisValue;
+                        const tigoValue = params[0].value;
+                        const claroValue = params[1] ? params[1].value : 'N/A';
+                        return `${axisValue}<br/><span style="color:#06b6d4">Tigo: ${tigoValue}</span><br/><span style="color:#f97316">Claro: ${claroValue}</span>`;
+                    }
+                },
+            });
+            window.addEventListener('resize', () => chart.resize());
+        }
+
         // ============ TERMINAL LADDER FUNCTIONS ============
 
         function renderTerminalLadder() {
@@ -1513,6 +1716,53 @@
             }
             window.siteMarkers = [];
 
+            // 清除旧的区域底色
+            if (window.cityZones) window.cityZones.forEach(z => map.removeLayer(z));
+            window.cityZones = [];
+
+            // 城市区域底色
+            const cityPositions = {
+                'Bogota': {lat:4.65,lon:-74.08,radius:12000},
+                'Medellin': {lat:6.25,lon:-75.57,radius:10000},
+                'Cali': {lat:3.43,lon:-76.52,radius:9000},
+                'Barranquilla': {lat:10.98,lon:-74.79,radius:8000},
+                'Cartagena': {lat:10.41,lon:-75.52,radius:7000},
+            };
+
+            Object.entries(cityPositions).forEach(([city, pos]) => {
+                let zoneColor;
+                switch(layer) {
+                    case 'experience':
+                        const ce = CITIES[city];
+                        zoneColor = ce && ce.exp >= 4.0 ? 'rgba(16,185,129,0.08)' : ce && ce.exp >= 3.0 ? 'rgba(245,158,11,0.08)' : 'rgba(239,68,68,0.08)';
+                        break;
+                    case 'growth':
+                        const cg2 = CITIES[city];
+                        zoneColor = cg2 && parseFloat(cg2.trend) > 0 ? 'rgba(16,185,129,0.08)' : 'rgba(239,68,68,0.08)';
+                        break;
+                    case 'churn':
+                        const cc = CITIES[city];
+                        zoneColor = cc && parseFloat(cc.churn) > 1.5 ? 'rgba(239,68,68,0.1)' : parseFloat(cc.churn) > 1.0 ? 'rgba(245,158,11,0.08)' : 'rgba(16,185,129,0.06)';
+                        break;
+                    case 'competitiveness':
+                        const gap = {Bogota:-5.8,Medellin:5.6,Cali:-11.6,Barranquilla:-49.8,Cartagena:-31.7};
+                        const g = gap[city] || 0;
+                        zoneColor = g > 0 ? 'rgba(16,185,129,0.1)' : g > -15 ? 'rgba(245,158,11,0.08)' : 'rgba(239,68,68,0.1)';
+                        break;
+                    default:
+                        zoneColor = 'rgba(100,116,139,0.05)';
+                }
+
+                const zone = L.circle([pos.lat, pos.lon], {
+                    radius: pos.radius,
+                    fillColor: zoneColor.replace(/rgba\((\d+),(\d+),(\d+),[\d.]+\)/, 'rgb($1,$2,$3)'),
+                    fillOpacity: parseFloat(zoneColor.match(/,([\d.]+)\)/)[1]),
+                    color: 'transparent',
+                    weight: 0,
+                }).addTo(map);
+                window.cityZones.push(zone);
+            });
+
             // Re-render with new layer
             SITES_DATA.forEach(site => {
                 let color, radius, tooltipExtra;
@@ -1537,6 +1787,19 @@
                         color = site.churnRate > 2.0 ? '#ef4444' : site.churnRate > 1.2 ? '#f59e0b' : '#10b981';
                         radius = 3 + site.churnRate * 3;
                         tooltipExtra = `流失率: ${site.churnRate}% (${site.churnUsers}人)`;
+                        break;
+                    case 'competitiveness':
+                        const cityGap = {
+                            'Bogota': {gap:-5.8,trend:'closing'},
+                            'Medellin': {gap:5.6,trend:'leading'},
+                            'Cali': {gap:-11.6,trend:'stable'},
+                            'Barranquilla': {gap:-49.8,trend:'widening'},
+                            'Cartagena': {gap:-31.7,trend:'widening'},
+                        };
+                        const cg = cityGap[site.city] || {gap:0,trend:'stable'};
+                        color = cg.gap > 0 ? '#10b981' : cg.gap > -15 ? '#f59e0b' : '#ef4444';
+                        radius = 5 + Math.abs(cg.gap) / 8;
+                        tooltipExtra = `vs Claro: ${cg.gap > 0 ? '+' : ''}${cg.gap}% · ${cg.trend === 'leading' ? '🏆 领先' : cg.trend === 'closing' ? '↑ 缩小' : cg.trend === 'widening' ? '↓ 扩大' : '→ 稳定'}`;
                         break;
                 }
 
@@ -1720,6 +1983,7 @@
             initMap();
             initUserTrendChart();
             initExpTrendChart();
+            initCompTrendChart();
             initTrafficChart();
             renderTerminalLadder();
 
