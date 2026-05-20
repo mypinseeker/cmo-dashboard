@@ -1573,59 +1573,45 @@
             }
         };
 
-        // Region polygon coordinates for national map view
-        const REGION_POLYGONS = {
+        // Region configuration with department mapping for GeoJSON matching
+        const REGION_CONFIG = {
             "Bogota": {
-                coords: [
-                    [5.05, -74.35], [5.05, -73.75],
-                    [4.85, -73.65], [4.45, -73.70],
-                    [4.35, -74.00], [4.40, -74.30],
-                    [4.60, -74.40], [4.85, -74.40],
-                ],
+                departments: ["CUNDINAMARCA", "BOGOTA D.C.", "BOGOTA"],
                 center: [4.65, -74.08],
                 zoom: 11,
             },
             "Medellin": {
-                coords: [
-                    [6.55, -75.85], [6.55, -75.35],
-                    [6.35, -75.25], [6.05, -75.30],
-                    [5.95, -75.55], [6.00, -75.80],
-                    [6.20, -75.90], [6.40, -75.90],
-                ],
+                departments: ["ANTIOQUIA"],
                 center: [6.25, -75.57],
-                zoom: 11,
+                zoom: 9,
             },
             "Cali": {
-                coords: [
-                    [3.70, -76.75], [3.70, -76.30],
-                    [3.50, -76.20], [3.20, -76.25],
-                    [3.15, -76.50], [3.20, -76.70],
-                    [3.40, -76.80], [3.60, -76.80],
-                ],
+                departments: ["VALLE DEL CAUCA"],
                 center: [3.43, -76.52],
-                zoom: 12,
+                zoom: 9,
             },
             "Barranquilla": {
-                coords: [
-                    [11.15, -75.00], [11.15, -74.65],
-                    [11.00, -74.55], [10.80, -74.60],
-                    [10.75, -74.80], [10.85, -74.95],
-                    [11.00, -75.05], [11.10, -75.05],
-                ],
+                departments: ["ATLANTICO"],
                 center: [10.98, -74.79],
-                zoom: 12,
+                zoom: 10,
             },
             "Cartagena": {
-                coords: [
-                    [10.55, -75.70], [10.55, -75.35],
-                    [10.40, -75.25], [10.22, -75.30],
-                    [10.18, -75.50], [10.22, -75.65],
-                    [10.35, -75.75], [10.48, -75.75],
-                ],
+                departments: ["BOLIVAR"],
                 center: [10.41, -75.52],
-                zoom: 12,
+                zoom: 9,
             },
         };
+
+        // Reverse mapping from department name to city
+        const DEPT_TO_CITY = {};
+        Object.entries(REGION_CONFIG).forEach(([city, cfg]) => {
+            cfg.departments.forEach(dept => {
+                DEPT_TO_CITY[dept.toUpperCase()] = city;
+            });
+        });
+
+        // GeoJSON data (loaded asynchronously)
+        let colombiaGeoJSON = null;
 
         const EXPERIENCE_METRICS = {
           dl_speed: {
@@ -2314,7 +2300,16 @@
             // Hide back button
             document.getElementById('backToNational').style.display = 'none';
 
-            Object.entries(REGION_POLYGONS).forEach(([city, region]) => {
+            // If GeoJSON not loaded yet, show warning and return
+            if (!colombiaGeoJSON || !colombiaGeoJSON.features) {
+                console.warn('GeoJSON not loaded yet, cannot render administrative boundaries');
+                return;
+            }
+
+            // Build color map for all cities/departments
+            const cityColorMap = {};
+
+            Object.entries(REGION_CONFIG).forEach(([city, cfg]) => {
                 let fillColor, label;
                 const cd = CITIES[city];
 
@@ -2353,7 +2348,6 @@
                         const selM = document.getElementById('expMetricSelect')
                         const curMetric = selM ? selM.value : 'dl_speed'
 
-                        // 根据指标找对应的城市级竞对数据
                         let cityCompData
                         if (curMetric === 'dl_speed') {
                             cityCompData = COMPETITOR_DATA.speed.cities
@@ -2370,8 +2364,6 @@
                         if (compCity) {
                             const gap = compCity.gap
                             const isLower = curMetric === 'latency' || curMetric === 'coverage'
-                            // 对时延和覆盖：gap>0 表示 Tigo 更差（时延更高/边缘占比更高）
-                            // 对速率：gap<0 表示 Tigo 更差
                             const isGood = isLower ? gap < -5 : gap > 5
                             const isBad = isLower ? gap > 15 : gap < -15
 
@@ -2406,33 +2398,72 @@
                         label = city;
                 }
 
-                // Draw polygon for region
-                const polygon = L.polygon(region.coords, {
-                    fillColor: fillColor,
-                    fillOpacity: 0.35,
-                    color: fillColor,
-                    weight: 2,
-                    opacity: 0.7,
+                cityColorMap[city] = { fillColor, label };
+            });
+
+            // Track which departments we've rendered (to avoid duplicates)
+            const renderedDepts = new Set();
+
+            // First pass: render focused regions with real admin boundaries
+            colombiaGeoJSON.features.forEach(feature => {
+                const deptName = getDeptName(feature);
+                if (!deptName) return;
+
+                const city = DEPT_TO_CITY[deptName];
+                if (!city) return; // Not a focused region
+
+                const { fillColor, label } = cityColorMap[city];
+
+                // Create GeoJSON layer with proper styling
+                const geoLayer = L.geoJSON(feature, {
+                    style: {
+                        fillColor: fillColor,
+                        fillOpacity: 0.35,
+                        color: fillColor,
+                        weight: 2,
+                        opacity: 0.7,
+                    },
+                    onEachFeature: (feat, lyr) => {
+                        lyr.on('click', () => {
+                            currentView = city;
+                            switchMapLayer(currentLayer);
+                        });
+                        lyr.on('mouseover', function() {
+                            this.setStyle({ fillOpacity: 0.55, weight: 3 });
+                        });
+                        lyr.on('mouseout', function() {
+                            this.setStyle({ fillOpacity: 0.35, weight: 2 });
+                        });
+                    }
                 }).addTo(map);
 
-                // Click to drill down to city
-                polygon.on('click', () => {
-                    currentView = city;
-                    switchMapLayer(currentLayer);
-                });
+                window.cityZones.push(geoLayer);
+                renderedDepts.add(deptName);
+            });
 
-                // Hover effect
-                polygon.on('mouseover', function() {
-                    this.setStyle({ fillOpacity: 0.5, weight: 3 });
-                });
-                polygon.on('mouseout', function() {
-                    this.setStyle({ fillOpacity: 0.35, weight: 2 });
-                });
+            // Second pass: render non-focused departments as gray background
+            colombiaGeoJSON.features.forEach(feature => {
+                const deptName = getDeptName(feature);
+                if (!deptName || renderedDepts.has(deptName)) return;
 
-                window.cityZones.push(polygon);
+                const grayLayer = L.geoJSON(feature, {
+                    style: {
+                        fillColor: '#1e293b',
+                        fillOpacity: 0.15,
+                        color: '#334155',
+                        weight: 1,
+                        opacity: 0.4,
+                    }
+                }).addTo(map);
 
-                // City name label using divIcon
-                const labelMarker = L.marker(region.center, {
+                window.cityZones.push(grayLayer);
+            });
+
+            // Add city labels at configured centers
+            Object.entries(REGION_CONFIG).forEach(([city, cfg]) => {
+                const { fillColor, label } = cityColorMap[city] || { fillColor: '#64748b', label: city };
+
+                const labelMarker = L.marker(cfg.center, {
                     icon: L.divIcon({
                         className: '',
                         html: `<div style="text-align:center;white-space:nowrap;pointer-events:none;">
@@ -2444,7 +2475,6 @@
                     })
                 }).addTo(map);
 
-                // Click label to drill down
                 labelMarker.on('click', () => {
                     currentView = city;
                     switchMapLayer(currentLayer);
@@ -2459,8 +2489,8 @@
             document.getElementById('backToNational').style.display = 'flex';
             document.getElementById('backCityName').textContent = city;
 
-            // Zoom to city using REGION_POLYGONS center and zoom
-            const regionInfo = REGION_POLYGONS[city];
+            // Zoom to city using REGION_CONFIG center and zoom
+            const regionInfo = REGION_CONFIG[city];
             const citySites = SITES_DATA.filter(s => s.city === city);
             if (regionInfo) {
                 map.setView(regionInfo.center, regionInfo.zoom);
@@ -2735,6 +2765,34 @@
             document.getElementById('coverageChartPanel').style.display = 'none';
         }
 
+        // ============ GEO JSON LOADING ============
+
+        function getDeptName(feature) {
+            // Try multiple field names for department name
+            const name = (feature.properties.NOMBRE_DPT ||
+                         feature.properties.DPTO ||
+                         feature.properties.name ||
+                         feature.properties.NAME_1 ||
+                         '').toUpperCase();
+            return name;
+        }
+
+        async function loadGeoJSON() {
+            try {
+                const resp = await fetch('https://gist.githubusercontent.com/john-guerra/43c7656821069d00dcbc/raw/be6a6e239cd5b5b803c6e7c2ec405b793a9064dd/Colombia.geo.json');
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                colombiaGeoJSON = await resp.json();
+                console.log('GeoJSON loaded successfully:', colombiaGeoJSON.features?.length || 0, 'features');
+                // Refresh map if already switched to national view
+                if (currentView === 'national') {
+                    switchMapLayer(currentLayer);
+                }
+            } catch(e) {
+                console.error('Failed to load GeoJSON:', e);
+                // Fallback: use simplified polygons or skip GeoJSON rendering
+            }
+        }
+
         // ============ MAP INITIALIZATION ============
 
         function initMap() {
@@ -2953,6 +3011,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             formatDate();
             initMap();
+            loadGeoJSON();  // Load administrative boundaries asynchronously
             initUserTrendChart();
             initExpTrendChart();
             initCompTrendChart();
