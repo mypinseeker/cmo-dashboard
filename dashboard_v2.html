@@ -1154,6 +1154,30 @@
               </div>
             </div>
 
+            <!-- Coverage Split View Container -->
+            <div id="coverageSplitView" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:500;">
+              <div style="display:flex;width:100%;height:100%;">
+                <!-- 左边 Tigo -->
+                <div style="flex:1;position:relative;border-right:2px solid #06b6d4;">
+                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:20px;font-weight:700;color:#06b6d4;background:rgba(17,24,39,0.9);padding:6px 14px;border-radius:8px;backdrop-filter:blur(4px);">
+                    Tigo
+                  </div>
+                  <div id="covSplitMapLeft" style="width:100%;height:100%;"></div>
+                </div>
+                <!-- 右边 Claro -->
+                <div style="flex:1;position:relative;">
+                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:20px;font-weight:700;color:#f97316;background:rgba(17,24,39,0.9);padding:6px 14px;border-radius:8px;backdrop-filter:blur(4px);">
+                    Claro
+                  </div>
+                  <div id="covSplitMapRight" style="width:100%;height:100%;"></div>
+                </div>
+              </div>
+              <!-- 关闭按钮 -->
+              <button onclick="toggleCoverageSplit()" style="position:absolute;top:8px;right:8px;z-index:1001;font-size:18px;color:#94a3b8;background:rgba(17,24,39,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:4px 12px;cursor:pointer;font-family:inherit;backdrop-filter:blur(4px);">
+                ✕ <span data-i18n="退出分屏">退出分屏</span>
+              </button>
+            </div>
+
             <!-- Coverage Analysis Chart Panel -->
             <div id="coverageChartPanel" style="display:none;position:absolute;bottom:0;left:0;right:0;z-index:1000;
               background:rgba(15,23,42,0.95);border-top:2px solid #06b6d4;border-radius:12px 12px 0 0;
@@ -1167,6 +1191,7 @@
                     <button class="cov-op-btn active" id="covOpTigo" onclick="switchCovOperator('tigo')" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;">Tigo</button>
                     <button class="cov-op-btn" id="covOpClaro" onclick="switchCovOperator('claro')" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">Claro</button>
                     <button class="cov-op-btn" id="covOpBoth" onclick="switchCovOperator('both')" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;" data-i18n="对比">对比</button>
+                    <button class="cov-op-btn" id="covOpSplit" onclick="toggleCoverageSplit()" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;margin-left:8px;border-left:2px solid rgba(255,255,255,0.1);" data-i18n="分屏对比">分屏对比</button>
                   </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:12px;">
@@ -1552,6 +1577,8 @@
           '体验评分': { zh: '体验评分', en: 'Experience Score' },
           '差距': { zh: '差距', en: 'Gap' },
           '对比': { zh: '对比', en: 'Compare' },
+          '分屏对比': { zh: '分屏对比', en: 'Split View' },
+          '退出分屏': { zh: '退出分屏', en: 'Exit Split' },
           '终端分布': { zh: '终端分布', en: 'Device Distribution' },
           '分屏': { zh: '分屏', en: 'Split' },
           '终端': { zh: '终端', en: 'Device' },
@@ -2686,7 +2713,7 @@
                     switchCovOperator('tigo'); // 激活覆盖分析时显示Tigo热力图
                 }, 100);
             } else {
-                // 切换到其他图层时清除热力图
+                // 切换到其他图层时清除热力图和分屏
                 if (covHeatLayer) {
                     if (Array.isArray(covHeatLayer._layers)) {
                         covHeatLayer.eachLayer(layer => map.removeLayer(layer))
@@ -2694,6 +2721,10 @@
                         map.removeLayer(covHeatLayer)
                     }
                     covHeatLayer = null
+                }
+                // 关闭覆盖分屏
+                if (layer !== 'coverageAnalysis' && covSplitMode) {
+                    toggleCoverageSplit()
                 }
             }
 
@@ -3455,6 +3486,74 @@
                     map.removeLayer(covHeatLayer)
                 }
                 covHeatLayer = null
+            }
+        }
+
+        // ============ COVERAGE SPLIT VIEW FUNCTIONS ============
+
+        let covSplitMode = false
+        let covSplitMapLeft = null
+        let covSplitMapRight = null
+        let covSplitHeatLeft = null
+        let covSplitHeatRight = null
+
+        function toggleCoverageSplit() {
+            covSplitMode = !covSplitMode
+            const splitDiv = document.getElementById('coverageSplitView')
+            const mainMap = document.getElementById('map')
+            const btn = document.getElementById('covOpSplit')
+
+            if (covSplitMode) {
+                splitDiv.style.display = 'flex'
+                mainMap.style.visibility = 'hidden'
+                if (btn) { btn.style.background = 'rgba(6,182,212,0.15)'; btn.style.color = '#06b6d4' }
+
+                // 初始化左边地图（Tigo）
+                if (!covSplitMapLeft) {
+                    covSplitMapLeft = L.map('covSplitMapLeft', {zoomControl: false}).setView([5.5, -74.5], 6)
+                    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {attribution:''}).addTo(covSplitMapLeft)
+                }
+
+                // 初始化右边地图（Claro）
+                if (!covSplitMapRight) {
+                    covSplitMapRight = L.map('covSplitMapRight', {zoomControl: false}).setView([5.5, -74.5], 6)
+                    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {attribution:''}).addTo(covSplitMapRight)
+                }
+
+                // 左边加 Tigo 热力图
+                if (covSplitHeatLeft) covSplitMapLeft.removeLayer(covSplitHeatLeft)
+                covSplitHeatLeft = L.heatLayer(MR_HEATMAP.tigo.map(p => [p[0],p[1],p[2]]), {
+                    radius: 25, blur: 18, maxZoom: 10,
+                    gradient: {0.2:'#1e3a5f', 0.4:'#3b82f6', 0.6:'#06b6d4', 0.8:'#10b981', 1.0:'#059669'}
+                }).addTo(covSplitMapLeft)
+
+                // 右边加 Claro 热力图
+                if (covSplitHeatRight) covSplitMapRight.removeLayer(covSplitHeatRight)
+                covSplitHeatRight = L.heatLayer(MR_HEATMAP.claro.map(p => [p[0],p[1],p[2]]), {
+                    radius: 25, blur: 18, maxZoom: 10,
+                    gradient: {0.2:'#7c2d12', 0.4:'#ea580c', 0.6:'#f97316', 0.8:'#fb923c', 1.0:'#fdba74'}
+                }).addTo(covSplitMapRight)
+
+                // 同步两个地图
+                covSplitMapLeft.on('move', () => {
+                    if (!covSplitMode) return
+                    covSplitMapRight.setView(covSplitMapLeft.getCenter(), covSplitMapLeft.getZoom(), {animate: false})
+                })
+                covSplitMapRight.on('move', () => {
+                    if (!covSplitMode) return
+                    covSplitMapLeft.setView(covSplitMapRight.getCenter(), covSplitMapRight.getZoom(), {animate: false})
+                })
+
+                // 延迟 invalidateSize（确保容器大小正确）
+                setTimeout(() => {
+                    covSplitMapLeft.invalidateSize()
+                    covSplitMapRight.invalidateSize()
+                }, 200)
+
+            } else {
+                splitDiv.style.display = 'none'
+                mainMap.style.visibility = 'visible'
+                if (btn) { btn.style.background = ''; btn.style.color = '' }
             }
         }
 
