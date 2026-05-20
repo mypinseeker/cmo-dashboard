@@ -29,7 +29,7 @@
         .dashboard {
             display: grid;
             grid-template-columns: 240px 1fr 240px;
-            grid-template-rows: 40px minmax(0, 1fr) 180px;
+            grid-template-rows: 40px minmax(0, 1fr) 160px;
             gap: 14px;
             padding: 14px;
             height: 100vh;
@@ -1302,115 +1302,49 @@
             </div>
         </div>
 
-        <!-- Bottom Row: App Pie Charts -->
+        <!-- Bottom Row: App Pie Charts - Compact Horizontal Layout -->
         <div class="bottom-row">
-          <!-- YouTube 饼图 -->
-          <div class="card" style="flex:1;padding:14px 12px;display:flex;align-items:center;gap:8px;">
-            <div id="ytPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size: 22px;font-weight:700;color:#ff0000;margin-bottom:4px;">YouTube</div>
-              <div style="margin-bottom:3px;">
-                <div style="font-size: 18px;color:#64748b;">480p 以下</div>
-                <div style="display:flex;align-items:baseline;gap:3px;">
-                  <span style="font-size: 36px;font-weight:800;color:#f59e0b;line-height:1;">32%</span>
-                  <span style="font-size: 18px;color:#ef4444;font-weight:600;">▲ +2.1%</span>
-                </div>
-              </div>
-              <div style="margin-bottom:3px;">
-                <div style="font-size: 18px;color:#64748b;">HD ≥1080p</div>
-                <div style="display:flex;align-items:baseline;gap:3px;">
-                  <span style="font-size: 28px;font-weight:700;color:#06b6d4;line-height:1;">33%</span>
-                  <span style="font-size: 18px;color:#ef4444;">▼ -1.5%</span>
-                </div>
-              </div>
-              <div style="margin-bottom:4px;">
-                <div style="font-size: 18px;color:#64748b;">卡顿率</div>
-                <span style="font-size: 28px;font-weight:700;color:#ef4444;line-height:1;">2.8%</span>
-                <span style="font-size: 18px;color:#ef4444;"> ▲</span>
-              </div>
-              <button onclick="openAppPanel('youtube')" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:rgba(17,24,39,0.8);color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+          <!-- YouTube -->
+          <div class="card" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('youtube')">
+            <div id="ytPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
+            <div>
+              <div style="font-size:20px;font-weight:700;color:#ff0000;margin-bottom:4px;">YouTube</div>
+              <div style="font-size:16px;color:#64748b;">480p以下</div>
+              <div style="font-size:36px;font-weight:800;color:#f59e0b;line-height:1;">32%</div>
+              <div style="font-size:16px;color:#ef4444;font-weight:600;">▲ +2.1%</div>
             </div>
           </div>
 
-          <!-- Netflix 饼图 -->
-          <div class="card" style="flex:1;padding:14px 12px;display:flex;align-items:center;gap:8px;">
-            <div id="nfPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size: 22px;font-weight:700;color:#e50914;margin-bottom:4px;">Netflix</div>
-              <div style="margin-bottom:3px;">
-                <div style="font-size: 18px;color:#64748b;">480p 以下</div>
-                <div style="display:flex;align-items:baseline;gap:3px;">
-                  <span style="font-size: 36px;font-weight:800;color:#10b981;line-height:1;">25%</span>
-                  <span style="font-size: 18px;color:#10b981;font-weight:600;">▼ -1.8%</span>
-                </div>
-              </div>
-              <div style="margin-bottom:3px;">
-                <div style="font-size: 18px;color:#64748b;">HD ≥1080p</div>
-                <div style="display:flex;align-items:baseline;gap:3px;">
-                  <span style="font-size: 28px;font-weight:700;color:#06b6d4;line-height:1;">43%</span>
-                  <span style="font-size: 18px;color:#10b981;">▲ +2.0%</span>
-                </div>
-              </div>
-              <div style="margin-bottom:4px;">
-                <div style="font-size: 18px;color:#64748b;">卡顿率</div>
-                <span style="font-size: 28px;font-weight:700;color:#10b981;line-height:1;">1.5%</span>
-                <span style="font-size: 18px;color:#10b981;"> ▼</span>
-              </div>
-              <button onclick="openAppPanel('netflix')" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:rgba(17,24,39,0.8);color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+          <!-- Netflix -->
+          <div class="card" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('netflix')">
+            <div id="nfPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
+            <div>
+              <div style="font-size:20px;font-weight:700;color:#e50914;margin-bottom:4px;">Netflix</div>
+              <div style="font-size:16px;color:#64748b;">HD占比</div>
+              <div style="font-size:36px;font-weight:800;color:#10b981;line-height:1;">43%</div>
+              <div style="font-size:16px;color:#10b981;font-weight:600;">▲ +2.0%</div>
             </div>
           </div>
 
-          <!-- TikTok 饼图 -->
-          <div class="card" style="flex:1;padding:14px 12px;display:flex;align-items:center;gap:8px;">
-            <div id="tkPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size: 22px;font-weight:700;color:#00f2ea;margin-bottom:4px;">TikTok</div>
-              <div style="margin-bottom:3px;">
-                <div style="font-size: 18px;color:#64748b;">播放成功率</div>
-                <div style="display:flex;align-items:baseline;gap:3px;">
-                  <span style="font-size: 36px;font-weight:800;color:#10b981;line-height:1;">98.5%</span>
-                  <span style="font-size: 18px;color:#10b981;">▲</span>
-                </div>
-              </div>
-              <div style="margin-bottom:3px;">
-                <div style="font-size: 18px;color:#64748b;">上传速率</div>
-                <div style="display:flex;align-items:baseline;gap:3px;">
-                  <span style="font-size: 28px;font-weight:700;color:#06b6d4;line-height:1;">6.2</span>
-                  <span style="font-size: 18px;color:#94a3b8;">Mbps ▲</span>
-                </div>
-              </div>
-              <div style="margin-bottom:4px;">
-                <div style="font-size: 18px;color:#64748b;">日活用户</div>
-                <span style="font-size: 28px;font-weight:700;color:#f1f5f9;line-height:1;">580K</span>
-              </div>
-              <button onclick="openAppPanel('tiktok')" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:rgba(17,24,39,0.8);color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+          <!-- TikTok -->
+          <div class="card" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('tiktok')">
+            <div id="tkPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
+            <div>
+              <div style="font-size:20px;font-weight:700;color:#00f2ea;margin-bottom:4px;">TikTok</div>
+              <div style="font-size:16px;color:#64748b;">成功率</div>
+              <div style="font-size:36px;font-weight:800;color:#10b981;line-height:1;">98.5%</div>
+              <div style="font-size:16px;color:#10b981;font-weight:600;">▲ +0.2%</div>
             </div>
           </div>
 
-          <!-- 流量分布饼图 -->
-          <div class="card" style="flex:1;padding:14px 12px;display:flex;align-items:center;gap:8px;">
-            <div id="trafficPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size: 22px;font-weight:700;color:#94a3b8;margin-bottom:4px;"><span data-i18n="流量">流量</span></div>
-              <div style="margin-bottom:3px;">
-                <div style="font-size: 18px;color:#64748b;"><span data-i18n="视频">视频</span>占比</div>
-                <div style="display:flex;align-items:baseline;gap:3px;">
-                  <span style="font-size: 36px;font-weight:800;color:#ef4444;line-height:1;">32%</span>
-                  <span style="font-size: 18px;color:#ef4444;">▲ +1.5%</span>
-                </div>
-              </div>
-              <div style="margin-bottom:3px;">
-                <div style="font-size: 18px;color:#64748b;">社交媒体</div>
-                <div style="display:flex;align-items:baseline;gap:3px;">
-                  <span style="font-size: 28px;font-weight:700;color:#3b82f6;line-height:1;">28%</span>
-                  <span style="font-size: 18px;color:#94a3b8;">持平</span>
-                </div>
-              </div>
-              <div style="margin-bottom:4px;">
-                <div style="font-size: 18px;color:#64748b;">日总流量</div>
-                <span style="font-size: 28px;font-weight:700;color:#f1f5f9;line-height:1;">2.8 PB</span>
-              </div>
-              <button onclick="openAppPanel('traffic')" style="font-size: 18px;padding:2px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:rgba(17,24,39,0.8);color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
+          <!-- 流量 -->
+          <div class="card" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('traffic')">
+            <div id="trafficPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
+            <div>
+              <div style="font-size:20px;font-weight:700;color:#94a3b8;margin-bottom:4px;"><span data-i18n="流量">流量</span></div>
+              <div style="font-size:16px;color:#64748b;"><span data-i18n="视频">视频</span>占比</div>
+              <div style="font-size:36px;font-weight:800;color:#ef4444;line-height:1;">32%</div>
+              <div style="font-size:16px;color:#ef4444;font-weight:600;">▲ +1.5%</div>
             </div>
           </div>
         </div>
@@ -3300,6 +3234,18 @@
                     label:{show:false},
                     emphasis:{scale:false},
                 }],
+                graphic:[{
+                    type:'text',
+                    left:'center',
+                    top:'center',
+                    style:{
+                        text:'33%',
+                        fill:'#06b6d4',
+                        fontSize:20,
+                        fontWeight:700,
+                        textAlign:'center',
+                    }
+                }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:20}},
             })
 
@@ -3316,6 +3262,18 @@
                     ],
                     label:{show:false},emphasis:{scale:false},
                 }],
+                graphic:[{
+                    type:'text',
+                    left:'center',
+                    top:'center',
+                    style:{
+                        text:'43%',
+                        fill:'#10b981',
+                        fontSize:20,
+                        fontWeight:700,
+                        textAlign:'center',
+                    }
+                }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:20}},
             })
 
@@ -3328,6 +3286,18 @@
                         {value:1.5,name:'失败',itemStyle:{color:'#ef4444'}},
                     ],
                     label:{show:false},emphasis:{scale:false},
+                }],
+                graphic:[{
+                    type:'text',
+                    left:'center',
+                    top:'center',
+                    style:{
+                        text:'98.5%',
+                        fill:'#10b981',
+                        fontSize:18,
+                        fontWeight:700,
+                        textAlign:'center',
+                    }
                 }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:20}},
             })
@@ -3344,6 +3314,18 @@
                         {value:14,name:'其他',itemStyle:{color:'#6b7280'}},
                     ],
                     label:{show:false},emphasis:{scale:false},
+                }],
+                graphic:[{
+                    type:'text',
+                    left:'center',
+                    top:'center',
+                    style:{
+                        text:'2.8PB',
+                        fill:'#f1f5f9',
+                        fontSize:18,
+                        fontWeight:700,
+                        textAlign:'center',
+                    }
                 }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:20}},
             })
