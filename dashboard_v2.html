@@ -1020,60 +1020,29 @@
         <!-- Right Column -->
         <div class="right-column">
             <!-- Experience Card -->
-            <div class="card">
-                <div style="margin-bottom:8px;">
-                    <div class="card-label">体验评分</div>
-                    <div style="display:flex;align-items:baseline;gap:8px;">
-                        <span class="big-number" style="font-size:32px;">4.2</span>
-                        <span style="font-size:14px;color:#64748b;">/5.0</span>
-                    </div>
-                    <span class="trend-badge trend-up">▲ +0.2 MoM</span>
-                    <span style="font-size:10px;color:#f59e0b;margin-left:6px;">vs Claro 差 8% · 差距缩小中</span>
-                </div>
+            <div class="card" style="overflow:auto;">
+              <!-- 下拉菜单 -->
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div class="card-label">网络指标</div>
+                <select id="expMetricSelect" onchange="switchExpMetric(this.value)" style="font-size:10px;background:#1e293b;color:#06b6d4;border:1px solid #334155;border-radius:4px;padding:2px 6px;cursor:pointer;font-family:inherit;">
+                  <option value="dl_speed">下行速率</option>
+                  <option value="ul_speed">上行速率</option>
+                  <option value="latency">时延</option>
+                  <option value="coverage">覆盖（边缘占比）</option>
+                </select>
+              </div>
 
-                <!-- 体验趋势图：Tigo vs Claro -->
-                <div id="expTrendChart" style="width:100%;height:110px;"></div>
+              <!-- 动态内容区 -->
+              <div id="expMetricContent"></div>
 
-                <!-- 区域体验排名（差→好排序） -->
-                <div style="border-top:1px solid #1e293b;padding-top:8px;">
-                    <div class="card-label" style="margin-bottom:6px;">区域体验</div>
-                    <!-- Barranquilla 最差排最上 -->
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;" onclick="drilldown('Barranquilla')">
-                        <span style="font-size:11px;color:#ef4444;">Barranquilla</span>
-                        <div style="display:flex;align-items:center;gap:6px;">
-                            <span style="font-size:12px;font-weight:700;color:#ef4444;">2.8</span>
-                            <span style="font-size:10px;color:#ef4444;">▼-0.5</span>
-                        </div>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;" onclick="drilldown('Cartagena')">
-                        <span style="font-size:11px;color:#ef4444;">Cartagena</span>
-                        <div style="display:flex;align-items:center;gap:6px;">
-                            <span style="font-size:12px;font-weight:700;color:#ef4444;">3.1</span>
-                            <span style="font-size:10px;color:#ef4444;">▼-0.2</span>
-                        </div>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;" onclick="drilldown('Cali')">
-                        <span style="font-size:11px;color:#f59e0b;">Cali</span>
-                        <div style="display:flex;align-items:center;gap:6px;">
-                            <span style="font-size:12px;font-weight:700;color:#f59e0b;">3.5</span>
-                            <span style="font-size:10px;color:#ef4444;">▼-0.1</span>
-                        </div>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;" onclick="drilldown('Medellín')">
-                        <span style="font-size:11px;color:#10b981;">Medellín</span>
-                        <div style="display:flex;align-items:center;gap:6px;">
-                            <span style="font-size:12px;font-weight:700;color:#10b981;">3.9</span>
-                            <span style="font-size:10px;color:#10b981;">▲+0.1</span>
-                        </div>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;" onclick="drilldown('Bogota')">
-                        <span style="font-size:11px;color:#10b981;">Bogotá</span>
-                        <div style="display:flex;align-items:center;gap:6px;">
-                            <span style="font-size:12px;font-weight:700;color:#10b981;">4.3</span>
-                            <span style="font-size:10px;color:#10b981;">▲+0.3</span>
-                        </div>
-                    </div>
-                </div>
+              <!-- 趋势图 -->
+              <div id="expMetricChart" style="width:100%;height:90px;margin:6px 0;"></div>
+
+              <!-- 区域排名 -->
+              <div style="border-top:1px solid #1e293b;padding-top:6px;">
+                <div class="card-label" style="margin-bottom:4px;">区域排名</div>
+                <div id="expMetricCities"></div>
+              </div>
             </div>
 
             <!-- Competitor Analysis Card -->
@@ -1334,6 +1303,20 @@
               {week:"W14",hd:30},{week:"W15",hd:29},{week:"W16",hd:30},{week:"W17",hd:31},
               {week:"W18",hd:32},{week:"W19",hd:33},{week:"W20",hd:33},{week:"W21",hd:33},
             ],
+            weeklyResolution: [
+              {week:"W10",r4k:3,r1080:25,r720:37,r480:24,r360:11},
+              {week:"W11",r4k:3,r1080:26,r720:36,r480:24,r360:11},
+              {week:"W12",r4k:4,r1080:26,r720:36,r480:23,r360:11},
+              {week:"W13",r4k:4,r1080:25,r720:37,r480:23,r360:11},
+              {week:"W14",r4k:4,r1080:24,r720:37,r480:24,r360:11},
+              {week:"W15",r4k:4,r1080:24,r720:36,r480:25,r360:11},
+              {week:"W16",r4k:4,r1080:25,r720:36,r480:24,r360:11},
+              {week:"W17",r4k:4,r1080:26,r720:36,r480:23,r360:11},
+              {week:"W18",r4k:5,r1080:27,r720:35,r480:23,r360:10},
+              {week:"W19",r4k:5,r1080:27,r720:35,r480:23,r360:10},
+              {week:"W20",r4k:5,r1080:28,r720:35,r480:22,r360:10},
+              {week:"W21",r4k:5,r1080:28,r720:35,r480:22,r360:10},
+            ],
             rebuffer: 2.8,
             rebufferTrend: "+0.3",
             cityHD: [
@@ -1352,6 +1335,20 @@
               {week:"W10",hd:38},{week:"W11",hd:39},{week:"W12",hd:40},{week:"W13",hd:40},
               {week:"W14",hd:41},{week:"W15",hd:41},{week:"W16",hd:42},{week:"W17",hd:42},
               {week:"W18",hd:42},{week:"W19",hd:43},{week:"W20",hd:43},{week:"W21",hd:43},
+            ],
+            weeklyResolution: [
+              {week:"W10",r4k:5,r1080:31,r720:34,r480:21,r360:9},
+              {week:"W11",r4k:5,r1080:32,r720:34,r480:20,r360:9},
+              {week:"W12",r4k:6,r1080:33,r720:33,r480:20,r360:8},
+              {week:"W13",r4k:6,r1080:33,r720:33,r480:20,r360:8},
+              {week:"W14",r4k:6,r1080:34,r720:33,r480:19,r360:8},
+              {week:"W15",r4k:7,r1080:33,r720:33,r480:19,r360:8},
+              {week:"W16",r4k:7,r1080:34,r720:32,r480:19,r360:8},
+              {week:"W17",r4k:7,r1080:34,r720:32,r480:19,r360:8},
+              {week:"W18",r4k:7,r1080:34,r720:32,r480:19,r360:8},
+              {week:"W19",r4k:8,r1080:35,r720:32,r480:18,r360:7},
+              {week:"W20",r4k:8,r1080:35,r720:32,r480:18,r360:7},
+              {week:"W21",r4k:8,r1080:35,r720:32,r480:18,r360:7},
             ],
             rebuffer: 1.5,
             rebufferTrend: "-0.2",
@@ -1452,6 +1449,69 @@
                 users:"0.8M",trend:"-0.8%",exp:3.1,expTrend:"-0.2",churn:"1.8%",churnTrend:"+0.3%",
                 edge:30,prb:70,vsClaro:"-18%",ytHD:22,sites:7,population:"1.4M"
             }
+        };
+
+        const EXPERIENCE_METRICS = {
+          dl_speed: {
+            label: "下行速率",
+            unit: "Mbps",
+            overall: 38.2,
+            mom: "+2.5",
+            vsClaro: {value:42.5,gap:"-10%",trend:"缩小"},
+            monthly: [{m:"Dec",v:33},{m:"Jan",v:34},{m:"Feb",v:35},{m:"Mar",v:36},{m:"Apr",v:37},{m:"May",v:38.2}],
+            cities: [
+              {city:"Barranquilla",value:22.5,trend:"-1.2",status:"bad"},
+              {city:"Cartagena",value:26.3,trend:"-0.5",status:"bad"},
+              {city:"Cali",value:35.2,trend:"+0.8",status:"warn"},
+              {city:"Medellín",value:41.8,trend:"+1.5",status:"good"},
+              {city:"Bogotá",value:43.5,trend:"+2.0",status:"good"},
+            ],
+          },
+          ul_speed: {
+            label: "上行速率",
+            unit: "Mbps",
+            overall: 8.5,
+            mom: "+0.3",
+            vsClaro: {value:9.2,gap:"-8%",trend:"稳定"},
+            monthly: [{m:"Dec",v:7.8},{m:"Jan",v:7.9},{m:"Feb",v:8.0},{m:"Mar",v:8.2},{m:"Apr",v:8.3},{m:"May",v:8.5}],
+            cities: [
+              {city:"Barranquilla",value:5.2,trend:"-0.3",status:"bad"},
+              {city:"Cartagena",value:6.1,trend:"-0.1",status:"warn"},
+              {city:"Cali",value:8.0,trend:"+0.2",status:"warn"},
+              {city:"Medellín",value:9.5,trend:"+0.4",status:"good"},
+              {city:"Bogotá",value:10.2,trend:"+0.5",status:"good"},
+            ],
+          },
+          latency: {
+            label: "时延",
+            unit: "ms",
+            overall: 32,
+            mom: "-2",
+            vsClaro: {value:28,gap:"+14%",trend:"缩小"},
+            monthly: [{m:"Dec",v:38},{m:"Jan",v:37},{m:"Feb",v:36},{m:"Mar",v:35},{m:"Apr",v:33},{m:"May",v:32}],
+            cities: [
+              {city:"Barranquilla",value:52,trend:"+3",status:"bad"},
+              {city:"Cartagena",value:45,trend:"+2",status:"bad"},
+              {city:"Cali",value:35,trend:"-1",status:"warn"},
+              {city:"Medellín",value:28,trend:"-2",status:"good"},
+              {city:"Bogotá",value:25,trend:"-3",status:"good"},
+            ],
+          },
+          coverage: {
+            label: "覆盖（边缘占比）",
+            unit: "%",
+            overall: 20,
+            mom: "+0.5",
+            vsClaro: {value:18,gap:"+11%",trend:"扩大"},
+            monthly: [{m:"Dec",v:18},{m:"Jan",v:18.5},{m:"Feb",v:19},{m:"Mar",v:19.2},{m:"Apr",v:19.8},{m:"May",v:20}],
+            cities: [
+              {city:"Barranquilla",value:32,trend:"+3",status:"bad"},
+              {city:"Cartagena",value:28,trend:"+2",status:"bad"},
+              {city:"Cali",value:22,trend:"+1",status:"warn"},
+              {city:"Medellín",value:18,trend:"0",status:"warn"},
+              {city:"Bogotá",value:15,trend:"-1",status:"good"},
+            ],
+          },
         };
 
         const COMPETITOR_DATA = {
@@ -1661,10 +1721,10 @@
                   }).join('')}
                 </div>
 
-                <!-- 右列：HD 趋势图 -->
+                <!-- 右列：分辨率分布趋势图 -->
                 <div>
-                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">HD 占比趋势（12 周）</h4>
-                  <div id="panelHDTrend" style="width:100%;height:180px;"></div>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">分辨率分布趋势（12 周）</h4>
+                  <div id="panelResolutionTrend" style="width:100%;height:180px;"></div>
                   <div style="margin-top:12px;display:flex;gap:16px;font-size:11px;">
                     <div><span style="color:#94a3b8;">卡顿率：</span><span style="color:${parseFloat(vd.rebufferTrend)>0?'#ef4444':'#10b981'};font-weight:600;">${vd.rebuffer}% (${vd.rebufferTrend})</span></div>
                   </div>
@@ -1672,33 +1732,23 @@
               </div>
             `
 
-            // 渲染 HD 趋势图
+            // 渲染分辨率分布趋势堆叠面积图
             setTimeout(() => {
-              const chart = echarts.init(document.getElementById('panelHDTrend'))
+              const resData = vd.weeklyResolution || []
+              const chart = echarts.init(document.getElementById('panelResolutionTrend'))
               chart.setOption({
-                grid: { left: 30, right: 10, top: 10, bottom: 25 },
-                xAxis: {
-                  type:'category', data:vd.weeklyHD.map(w=>w.week),
-                  axisLabel:{fontSize:10,color:'#64748b'},
-                  axisLine:{lineStyle:{color:'#1e293b'}}, axisTick:{show:false},
-                },
-                yAxis: {
-                  type:'value', min:Math.min(...vd.weeklyHD.map(w=>w.hd))-5,
-                  max:Math.max(...vd.weeklyHD.map(w=>w.hd))+5,
-                  splitLine:{lineStyle:{color:'#1e293b',type:'dashed'}},
-                  axisLabel:{fontSize:10,color:'#64748b',formatter:v=>v+'%'},
-                },
-                series:[{
-                  type:'line',data:vd.weeklyHD.map(w=>w.hd),smooth:true,
-                  symbol:'circle',symbolSize:6,
-                  lineStyle:{color:brandColor,width:2},
-                  itemStyle:{color:brandColor},
-                  areaStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[
-                    {offset:0,color:brandColor==='#ff0000'?'rgba(255,0,0,0.2)':brandColor==='#e50914'?'rgba(229,9,20,0.2)':'rgba(0,0,0,0)'},
-                    {offset:1,color:'rgba(0,0,0,0)'}
-                  ])},
-                }],
-                tooltip:{trigger:'axis',backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:11}},
+                grid:{left:35,right:10,top:30,bottom:25},
+                legend:{data:['4K','1080p','720p','480p','≤360p'],textStyle:{color:'#94a3b8',fontSize:9},top:0,left:0,itemWidth:10,itemHeight:3},
+                xAxis:{type:'category',data:resData.map(w=>w.week),axisLabel:{fontSize:9,color:'#64748b',interval:2},axisLine:{lineStyle:{color:'#1e293b'}},axisTick:{show:false}},
+                yAxis:{type:'value',max:100,splitLine:{lineStyle:{color:'#1e293b',type:'dashed'}},axisLabel:{fontSize:9,color:'#64748b',formatter:v=>v+'%'}},
+                tooltip:{trigger:'axis',backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
+                series:[
+                  {name:'4K',type:'line',stack:'t',areaStyle:{opacity:0.6},data:resData.map(w=>w.r4k),lineStyle:{width:0},itemStyle:{color:'#10b981'},symbol:'none'},
+                  {name:'1080p',type:'line',stack:'t',areaStyle:{opacity:0.6},data:resData.map(w=>w.r1080),lineStyle:{width:0},itemStyle:{color:'#06b6d4'},symbol:'none'},
+                  {name:'720p',type:'line',stack:'t',areaStyle:{opacity:0.6},data:resData.map(w=>w.r720),lineStyle:{width:0},itemStyle:{color:'#3b82f6'},symbol:'none'},
+                  {name:'480p',type:'line',stack:'t',areaStyle:{opacity:0.6},data:resData.map(w=>w.r480),lineStyle:{width:0},itemStyle:{color:'#f59e0b'},symbol:'none'},
+                  {name:'≤360p',type:'line',stack:'t',areaStyle:{opacity:0.6},data:resData.map(w=>w.r360),lineStyle:{width:0},itemStyle:{color:'#ef4444'},symbol:'none'},
+                ],
               })
             }, 100)
 
@@ -1849,6 +1899,60 @@
                 },
             });
             window.addEventListener('resize', () => chart.resize());
+        }
+
+        // ============ EXPERIENCE METRICS SWITCHER ============
+
+        let expMetricChart = null
+
+        function switchExpMetric(metric) {
+          const d = EXPERIENCE_METRICS[metric]
+          if (!d) return
+
+          // 更新大数字
+          const isLower = metric === 'latency' || metric === 'coverage'
+          const momColor = (isLower && parseFloat(d.mom) < 0) || (!isLower && parseFloat(d.mom) > 0) ? '#10b981' : '#ef4444'
+          const momArrow = parseFloat(d.mom) > 0 ? '▲' : parseFloat(d.mom) < 0 ? '▼' : '→'
+
+          document.getElementById('expMetricContent').innerHTML = `
+            <div style="display:flex;align-items:baseline;gap:6px;">
+              <span class="big-number" style="font-size:28px;">${d.overall}</span>
+              <span style="font-size:12px;color:#64748b;">${d.unit}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
+              <span style="font-size:10px;color:${momColor};font-weight:600;">${momArrow} ${d.mom} MoM</span>
+              <span style="font-size:9px;color:#f59e0b;">vs Claro: ${d.vsClaro.value}${d.unit} (${d.vsClaro.gap}) · ${d.vsClaro.trend}</span>
+            </div>
+          `
+
+          // 更新趋势图
+          if (!expMetricChart) {
+            expMetricChart = echarts.init(document.getElementById('expMetricChart'))
+            window.addEventListener('resize', () => expMetricChart && expMetricChart.resize())
+          }
+          expMetricChart.setOption({
+            grid:{left:30,right:5,top:8,bottom:18},
+            xAxis:{type:'category',data:d.monthly.map(m=>m.m),axisLabel:{fontSize:9,color:'#64748b'},axisLine:{lineStyle:{color:'#1e293b'}},axisTick:{show:false}},
+            yAxis:{type:'value',min:'dataMin',max:'dataMax',splitLine:{lineStyle:{color:'#1e293b',type:'dashed'}},axisLabel:{fontSize:9,color:'#64748b'}},
+            series:[{type:'line',data:d.monthly.map(m=>m.v),smooth:true,symbol:'circle',symbolSize:4,
+              lineStyle:{color:'#06b6d4',width:2},itemStyle:{color:'#06b6d4'},
+              areaStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'rgba(6,182,212,0.2)'},{offset:1,color:'rgba(6,182,212,0)'}])},
+            }],
+            tooltip:{trigger:'axis',backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10},formatter:p=>`${p[0].axisValue}: ${p[0].value} ${d.unit}`},
+          })
+
+          // 更新区域排名
+          document.getElementById('expMetricCities').innerHTML = d.cities.map(c => {
+            const color = c.status === 'good' ? '#10b981' : c.status === 'warn' ? '#f59e0b' : '#ef4444'
+            const tColor = parseFloat(c.trend) > 0 ? (isLower ? '#ef4444' : '#10b981') : parseFloat(c.trend) < 0 ? (isLower ? '#10b981' : '#ef4444') : '#94a3b8'
+            return `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;font-size:10px;" onclick="drilldown('${c.city}')">
+              <span style="color:${color};">${c.city}</span>
+              <div style="display:flex;gap:6px;">
+                <span style="font-weight:600;color:${color};">${c.value}${d.unit}</span>
+                <span style="color:${tColor};">${parseFloat(c.trend)>0?'▲':'▼'}${c.trend}</span>
+              </div>
+            </div>`
+          }).join('')
         }
 
         // ============ TERMINAL LADDER FUNCTIONS ============
@@ -2413,6 +2517,7 @@
             initVideoTrends();
             initTrafficChart();
             renderTerminalLadder();
+            switchExpMetric('dl_speed');
 
             document.getElementById('drilldown-overlay').addEventListener('click', function(e) {
                 if (e.target === this) {
