@@ -3036,7 +3036,6 @@
 
         // ============ SPLIT VIEW FUNCTIONS ============
         let splitMode = false, splitMapLeft = null, splitMapRight = null, splitHeatLeft = null, splitHeatRight = null;
-        let _splitSyncBound = false, _splitSyncing = false;
 
         function toggleSplitView() {
           splitMode = !splitMode;
@@ -3045,47 +3044,41 @@
           if (splitMode) {
             sv.style.display = 'flex'; mm.style.visibility = 'hidden';
             if (!splitMapLeft) {
-              splitMapLeft = L.map('splitMapLeft',{zoomControl:false}).setView([5.5,-74.5],6);
+              splitMapLeft = L.map('splitMapLeft',{zoomControl:true}).setView([5.5,-74.5],6);
               L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(splitMapLeft);
             }
             if (!splitMapRight) {
-              splitMapRight = L.map('splitMapRight',{zoomControl:false}).setView([5.5,-74.5],6);
+              splitMapRight = L.map('splitMapRight',{zoomControl:true}).setView([5.5,-74.5],6);
               L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(splitMapRight);
-            }
-            updateSplitTerminal(document.getElementById('splitTerminalSelect').value);
-            if (splitHeatRight) splitMapRight.removeLayer(splitHeatRight);
-            splitHeatRight = L.heatLayer(MR_HEATMAP.tigo.map(p=>[p[0],p[1],p[2]]),{radius:30,blur:20,maxZoom:10,gradient:{0.2:'#3b82f6',0.5:'#06b6d4',0.8:'#10b981',1.0:'#059669'}}).addTo(splitMapRight);
-            // Sync — bind only once with lock
-            if (!_splitSyncBound) {
-              _splitSyncBound = true;
-              splitMapLeft.on('moveend', function(){
-                if(_splitSyncing||!splitMode) return; _splitSyncing=true;
-                splitMapRight.setView(splitMapLeft.getCenter(),splitMapLeft.getZoom(),{animate:false});
-                setTimeout(function(){_splitSyncing=false;},50);
-              });
-              splitMapLeft.on('zoomend', function(){
-                if(_splitSyncing||!splitMode) return; _splitSyncing=true;
-                splitMapRight.setView(splitMapLeft.getCenter(),splitMapLeft.getZoom(),{animate:false});
-                setTimeout(function(){_splitSyncing=false;},50);
-              });
-              splitMapRight.on('moveend', function(){
-                if(_splitSyncing||!splitMode) return; _splitSyncing=true;
-                splitMapLeft.setView(splitMapRight.getCenter(),splitMapRight.getZoom(),{animate:false});
-                setTimeout(function(){_splitSyncing=false;},50);
-              });
-              splitMapRight.on('zoomend', function(){
-                if(_splitSyncing||!splitMode) return; _splitSyncing=true;
-                splitMapLeft.setView(splitMapRight.getCenter(),splitMapRight.getZoom(),{animate:false});
-                setTimeout(function(){_splitSyncing=false;},50);
-              });
             }
             // Sync initial view from main map
             if (window.map) {
-              const c = window.map.getCenter(), z = window.map.getZoom();
+              var c = window.map.getCenter(), z = window.map.getZoom();
               splitMapLeft.setView(c, z, {animate:false});
               splitMapRight.setView(c, z, {animate:false});
             }
-            setTimeout(function(){splitMapLeft.invalidateSize();splitMapRight.invalidateSize();},300);
+            setTimeout(function(){
+              splitMapLeft.invalidateSize();
+              splitMapRight.invalidateSize();
+              // Render heatmaps after layout
+              updateSplitTerminal(document.getElementById('splitTerminalSelect').value);
+              if (splitHeatRight) splitMapRight.removeLayer(splitHeatRight);
+              splitHeatRight = L.heatLayer(MR_HEATMAP.tigo.map(function(p){return [p[0],p[1],p[2]]}),{radius:30,blur:20,maxZoom:10,gradient:{0.2:'#3b82f6',0.5:'#06b6d4',0.8:'#10b981',1.0:'#059669'}}).addTo(splitMapRight);
+              // Bidirectional sync
+              splitMapLeft.off('move');
+              splitMapRight.off('move');
+              var syncing = false;
+              splitMapLeft.on('move', function(){
+                if(syncing) return; syncing=true;
+                _syncMaps(splitMapLeft, splitMapRight);
+                syncing=false;
+              });
+              splitMapRight.on('move', function(){
+                if(syncing) return; syncing=true;
+                _syncMaps(splitMapRight, splitMapLeft);
+                syncing=false;
+              });
+            }, 400);
           } else {
             sv.style.display = 'none'; mm.style.visibility = 'visible';
           }
@@ -3100,7 +3093,10 @@
 
         // ============ COVERAGE SPLIT VIEW FUNCTIONS ============
         let covSplitMode=false,covSplitMapLeft=null,covSplitMapRight=null,covSplitHeatLeft=null,covSplitHeatRight=null;
-        let _covSyncBound=false, _covSyncing=false;
+
+        function _syncMaps(source, target) {
+          target.setView(source.getCenter(), source.getZoom(), {animate:false});
+        }
 
         function toggleCoverageSplit() {
           covSplitMode = !covSplitMode;
@@ -3108,63 +3104,61 @@
           const mm = document.getElementById('map');
           if (covSplitMode) {
             sv.style.display='flex'; mm.style.visibility='hidden';
+
+            // Create maps if first time
             if (!covSplitMapLeft){
-              covSplitMapLeft=L.map('covSplitMapLeft',{zoomControl:false}).setView([5.5,-74.5],6);
+              covSplitMapLeft=L.map('covSplitMapLeft',{zoomControl:true}).setView([5.5,-74.5],6);
               L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(covSplitMapLeft);
             }
             if (!covSplitMapRight){
-              covSplitMapRight=L.map('covSplitMapRight',{zoomControl:false}).setView([5.5,-74.5],6);
+              covSplitMapRight=L.map('covSplitMapRight',{zoomControl:true}).setView([5.5,-74.5],6);
               L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(covSplitMapRight);
             }
-            // Render Tigo MR heatmap (left)
-            if (covSplitHeatLeft) covSplitMapLeft.removeLayer(covSplitHeatLeft);
-            covSplitHeatLeft=L.heatLayer(MR_HEATMAP.tigo.map(p=>[p[0],p[1],p[2]]),{
-              radius:25,blur:18,maxZoom:10,minOpacity:0.3,
-              gradient:{0.2:'#1e3a5f',0.4:'#3b82f6',0.6:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
-            }).addTo(covSplitMapLeft);
-            // Render Claro MR heatmap (right)
-            if (covSplitHeatRight) covSplitMapRight.removeLayer(covSplitHeatRight);
-            covSplitHeatRight=L.heatLayer(MR_HEATMAP.claro.map(p=>[p[0],p[1],p[2]]),{
-              radius:25,blur:18,maxZoom:10,minOpacity:0.3,
-              gradient:{0.2:'#7c2d12',0.4:'#ea580c',0.6:'#f97316',0.8:'#fb923c',1.0:'#fdba74'}
-            }).addTo(covSplitMapRight);
-            // Sync pan/zoom — bind only once, use lock to prevent infinite loop
-            if (!_covSyncBound) {
-              _covSyncBound = true;
-              covSplitMapLeft.on('moveend', function(){
-                if(_covSyncing||!covSplitMode) return; _covSyncing=true;
-                covSplitMapRight.setView(covSplitMapLeft.getCenter(),covSplitMapLeft.getZoom(),{animate:false});
-                setTimeout(function(){_covSyncing=false;},50);
-              });
-              covSplitMapLeft.on('zoomend', function(){
-                if(_covSyncing||!covSplitMode) return; _covSyncing=true;
-                covSplitMapRight.setView(covSplitMapLeft.getCenter(),covSplitMapLeft.getZoom(),{animate:false});
-                setTimeout(function(){_covSyncing=false;},50);
-              });
-              covSplitMapRight.on('moveend', function(){
-                if(_covSyncing||!covSplitMode) return; _covSyncing=true;
-                covSplitMapLeft.setView(covSplitMapRight.getCenter(),covSplitMapRight.getZoom(),{animate:false});
-                setTimeout(function(){_covSyncing=false;},50);
-              });
-              covSplitMapRight.on('zoomend', function(){
-                if(_covSyncing||!covSplitMode) return; _covSyncing=true;
-                covSplitMapLeft.setView(covSplitMapRight.getCenter(),covSplitMapRight.getZoom(),{animate:false});
-                setTimeout(function(){_covSyncing=false;},50);
-              });
-            }
-            // Sync initial view from main map
+
+            // Sync initial view from main map BEFORE invalidateSize
             if (window.map) {
-              const c = window.map.getCenter(), z = window.map.getZoom();
+              var c = window.map.getCenter(), z = window.map.getZoom();
               covSplitMapLeft.setView(c, z, {animate:false});
               covSplitMapRight.setView(c, z, {animate:false});
             }
+
+            // invalidateSize first, then add heatmaps
             setTimeout(function(){
               covSplitMapLeft.invalidateSize();
               covSplitMapRight.invalidateSize();
-              // Re-render heatmaps after resize to ensure visibility
-              if (covSplitHeatLeft) { covSplitMapLeft.removeLayer(covSplitHeatLeft); covSplitHeatLeft.addTo(covSplitMapLeft); }
-              if (covSplitHeatRight) { covSplitMapRight.removeLayer(covSplitHeatRight); covSplitHeatRight.addTo(covSplitMapRight); }
-            },300);
+
+              // Render Tigo MR heatmap (left)
+              if (covSplitHeatLeft) covSplitMapLeft.removeLayer(covSplitHeatLeft);
+              covSplitHeatLeft=L.heatLayer(MR_HEATMAP.tigo.map(function(p){return [p[0],p[1],p[2]]}),{
+                radius:25,blur:18,maxZoom:10,minOpacity:0.3,
+                gradient:{0.2:'#1e3a5f',0.4:'#3b82f6',0.6:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
+              }).addTo(covSplitMapLeft);
+
+              // Render Claro MR heatmap (right)
+              if (covSplitHeatRight) covSplitMapRight.removeLayer(covSplitHeatRight);
+              covSplitHeatRight=L.heatLayer(MR_HEATMAP.claro.map(function(p){return [p[0],p[1],p[2]]}),{
+                radius:25,blur:18,maxZoom:10,minOpacity:0.3,
+                gradient:{0.2:'#7c2d12',0.4:'#ea580c',0.6:'#f97316',0.8:'#fb923c',1.0:'#fdba74'}
+              }).addTo(covSplitMapRight);
+
+              // Bidirectional sync using 'move' event (fires during drag, most reliable)
+              // Remove old listeners first to prevent stacking
+              covSplitMapLeft.off('move');
+              covSplitMapRight.off('move');
+              var syncing = false;
+              covSplitMapLeft.on('move', function(){
+                if(syncing) return; syncing=true;
+                _syncMaps(covSplitMapLeft, covSplitMapRight);
+                syncing=false;
+              });
+              covSplitMapRight.on('move', function(){
+                if(syncing) return; syncing=true;
+                _syncMaps(covSplitMapRight, covSplitMapLeft);
+                syncing=false;
+              });
+
+              console.log('Coverage split: L='+MR_HEATMAP.tigo.length+' pts, R='+MR_HEATMAP.claro.length+' pts, sync bound');
+            }, 400);
           } else {
             sv.style.display='none'; mm.style.visibility='visible';
           }
