@@ -2211,7 +2211,9 @@
           return {tigo, claro};
         }
         const mrGen = generateMRHeatmap(SITES_DATA);
+        const MR_HEATMAP = mrGen;
         window.MR_HEATMAP_GENERATED = true;
+        console.log('MR_HEATMAP ready:', MR_HEATMAP.tigo.length, 'tigo points,', MR_HEATMAP.claro.length, 'claro points');
 
         // ============ TERMINAL HEATMAP ============
         function generateTerminalHeatmap(sites) {
@@ -3613,8 +3615,7 @@
         }
 
         // ============ COVERAGE HEATMAP DATA ============
-
-        const MR_HEATMAP = mrGen;
+        // MR_HEATMAP is already declared near generateMRHeatmap()
 
         let covHeatLayer = null
 
