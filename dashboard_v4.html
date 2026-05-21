@@ -3076,6 +3076,8 @@
           }
         }
 
+        let covHeatLayer = null;
+
         function switchMapLayer(layer) {
             currentLayer = layer;
 
@@ -3616,8 +3618,7 @@
 
         // ============ COVERAGE HEATMAP DATA ============
         // MR_HEATMAP is already declared near generateMRHeatmap()
-
-        let covHeatLayer = null
+        // covHeatLayer is declared earlier (before switchMapLayer)
 
         function switchCovOperator(op) {
             // 更新按钮状态
