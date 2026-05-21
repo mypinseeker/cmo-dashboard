@@ -987,6 +987,8 @@
               <button class="map-layer-btn" onclick="switchMapLayer('competitiveness')" id="btn-competitiveness"><span data-i18n="vs Claro">vs Claro</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('video')" id="btn-video"><span data-i18n="视频体验">视频体验</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('coverageAnalysis')" id="btn-coverageAnalysis"><span data-i18n="覆盖分析">覆盖分析</span></button>
+              <button class="map-layer-btn" onclick="switchMapLayer('terminal')" id="btn-terminal">终端分布</button>
+              <button class="map-layer-btn" onclick="toggleSplitView()" id="btn-split" style="border-left:2px solid rgba(255,255,255,0.1);margin-left:4px;">分屏</button>
             </div>
 
             <!-- Back to National Button -->
@@ -998,6 +1000,56 @@
             </div>
 
             <div id="map"></div>
+
+            <!-- Terminal Selector -->
+            <div id="terminalSelector" style="display:none;position:absolute;top:50px;left:50%;transform:translateX(-50%);z-index:1000;background:rgba(17,24,39,0.95);padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(8px);align-items:center;gap:6px;">
+              <span style="font-size:10px;color:#94a3b8;">终端:</span>
+              <select id="terminalSelect" onchange="switchTerminalHeatmap(this.value)" style="font-size:10px;background:#1e293b;color:#06b6d4;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 6px;cursor:pointer;font-family:inherit;">
+                <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+                <option value="Samsung S25 Ultra">Samsung S25 Ultra</option>
+                <option value="iPhone 15">iPhone 15</option>
+                <option value="Samsung A55">Samsung A55 (中端)</option>
+                <option value="Xiaomi Redmi Note 13">Xiaomi Redmi (入门)</option>
+              </select>
+            </div>
+
+            <!-- Split View Container -->
+            <div id="splitView" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:500;">
+              <div style="display:flex;width:100%;height:100%;">
+                <div style="flex:1;position:relative;border-right:2px solid #06b6d4;">
+                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:10px;font-weight:600;color:#06b6d4;background:rgba(17,24,39,0.9);padding:4px 10px;border-radius:6px;">终端分布
+                    <select id="splitTerminalSelect" onchange="updateSplitTerminal(this.value)" style="font-size:9px;background:#1e293b;color:#06b6d4;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:1px 4px;margin-left:4px;cursor:pointer;font-family:inherit;">
+                      <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+                      <option value="Samsung S25 Ultra">Samsung S25 Ultra</option>
+                      <option value="iPhone 15">iPhone 15</option>
+                      <option value="Samsung A55">Samsung A55</option>
+                      <option value="Xiaomi Redmi Note 13">Xiaomi Redmi</option>
+                    </select>
+                  </div>
+                  <div id="splitMapLeft" style="width:100%;height:100%;"></div>
+                </div>
+                <div style="flex:1;position:relative;">
+                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:10px;font-weight:600;color:#f97316;background:rgba(17,24,39,0.9);padding:4px 10px;border-radius:6px;">网络覆盖</div>
+                  <div id="splitMapRight" style="width:100%;height:100%;"></div>
+                </div>
+              </div>
+              <button onclick="toggleSplitView()" style="position:absolute;top:8px;right:8px;z-index:1001;font-size:10px;color:#94a3b8;background:rgba(17,24,39,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;">退出分屏</button>
+            </div>
+
+            <!-- Coverage Split View Container -->
+            <div id="coverageSplitView" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:500;">
+              <div style="display:flex;width:100%;height:100%;">
+                <div style="flex:1;position:relative;border-right:2px solid #06b6d4;">
+                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:12px;font-weight:700;color:#06b6d4;background:rgba(17,24,39,0.9);padding:4px 10px;border-radius:6px;">Tigo</div>
+                  <div id="covSplitMapLeft" style="width:100%;height:100%;"></div>
+                </div>
+                <div style="flex:1;position:relative;">
+                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:12px;font-weight:700;color:#f97316;background:rgba(17,24,39,0.9);padding:4px 10px;border-radius:6px;">Claro</div>
+                  <div id="covSplitMapRight" style="width:100%;height:100%;"></div>
+                </div>
+              </div>
+              <button onclick="toggleCoverageSplit()" style="position:absolute;top:8px;right:8px;z-index:1001;font-size:10px;color:#94a3b8;background:rgba(17,24,39,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;">退出分屏</button>
+            </div>
 
             <!-- Coverage Analysis Chart Panel -->
             <div id="coverageChartPanel" style="display:none;position:absolute;bottom:0;left:0;right:0;z-index:1000;
@@ -1012,6 +1064,7 @@
                     <button class="cov-op-btn active" id="covOpTigo" onclick="switchCovOperator('tigo')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;">Tigo</button>
                     <button class="cov-op-btn" id="covOpClaro" onclick="switchCovOperator('claro')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">Claro</button>
                     <button class="cov-op-btn" id="covOpBoth" onclick="switchCovOperator('both')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">对比</button>
+                    <button class="cov-op-btn" id="covOpSplit" onclick="toggleCoverageSplit()" style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;margin-left:6px;border-left:2px solid rgba(255,255,255,0.1);">分屏对比</button>
                   </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:12px;">
@@ -1617,26 +1670,116 @@
             {id:"CO-CAR-009",lat:10.427,lon:-75.543,city:"Cartagena",bands:"B28/B2/B4/B7",users:440,exp:3.3,edge:27,prb:66,growth:-0.9,newUsers:68,churnUsers:72,churnRate:2.1}
         ];
 
+        // ============ EXPAND SITES FROM 50 TO 5000 ============
+        function mulberry32(a) {
+          return function() {
+            a |= 0; a = a + 0x6D2B79F5 | 0;
+            var t = Math.imul(a ^ a >>> 15, 1 | a);
+            t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+            return ((t ^ t >>> 14) >>> 0) / 4294967296;
+          }
+        }
+
+        function expandSites(seedSites) {
+          const cityConfigs = {
+            'Bogota': {latRange:[4.52,4.78], lonRange:[-74.22,-73.95], count:1500, expRange:[3.2,4.8], prbRange:[30,85], edgeRange:[8,28]},
+            'Medellin': {latRange:[6.15,6.35], lonRange:[-75.68,-75.48], count:1000, expRange:[3.0,4.5], prbRange:[32,80], edgeRange:[10,26]},
+            'Cali': {latRange:[3.33,3.52], lonRange:[-76.60,-76.42], count:800, expRange:[2.8,4.2], prbRange:[35,82], edgeRange:[12,30]},
+            'Barranquilla': {latRange:[10.90,11.08], lonRange:[-74.88,-74.70], count:600, expRange:[2.0,3.5], prbRange:[50,95], edgeRange:[22,42]},
+            'Cartagena': {latRange:[10.32,10.50], lonRange:[-75.60,-75.42], count:500, expRange:[2.2,3.8], prbRange:[45,90], edgeRange:[18,38]},
+            'Rural': {latRange:[2.0,11.5], lonRange:[-77.0,-72.0], count:600, expRange:[2.5,4.0], prbRange:[20,60], edgeRange:[15,35]},
+          };
+          const bands = ['B2/B4/B7/B28','B2/B4/B7','B28/B2/B4','B2/B4','B2/B4/B7/B28/5G'];
+          const rand = mulberry32(12345);
+          const result = [];
+
+          Object.entries(cityConfigs).forEach(([city, cfg]) => {
+            const existing = seedSites.filter(s => s.city === city).length;
+            for (let i = 0; i < cfg.count - existing; i++) {
+              const cityAbbr = city==='Barranquilla'?'BAR':city==='Cartagena'?'CAR':city==='Medellin'?'MED':city==='Cali'?'CAL':city==='Rural'?'RUR':'BOG';
+              result.push({
+                id: 'CO-'+cityAbbr+'-'+(existing+i+1).toString().padStart(4,'0'),
+                lat: +(cfg.latRange[0]+rand()*(cfg.latRange[1]-cfg.latRange[0])).toFixed(6),
+                lon: +(cfg.lonRange[0]+rand()*(cfg.lonRange[1]-cfg.lonRange[0])).toFixed(6),
+                city: city, bands: bands[Math.floor(rand()*bands.length)],
+                users: Math.round(300+rand()*1500),
+                exp: +(cfg.expRange[0]+rand()*(cfg.expRange[1]-cfg.expRange[0])).toFixed(1),
+                edge: Math.round(cfg.edgeRange[0]+rand()*(cfg.edgeRange[1]-cfg.edgeRange[0])),
+                prb: Math.round(cfg.prbRange[0]+rand()*(cfg.prbRange[1]-cfg.prbRange[0])),
+                growth: +((rand()-0.3)*8).toFixed(1),
+                newUsers: Math.round(50+rand()*400),
+                churnUsers: Math.round(10+rand()*120),
+                churnRate: +(0.3+rand()*3.0).toFixed(1),
+              });
+            }
+          });
+          return result;
+        }
+        SITES_DATA.push(...expandSites(SITES_DATA));
+        console.log('Sites expanded to', SITES_DATA.length);
+
+        // Generate MR heatmap data from expanded sites
+        function generateMRHeatmap(sites) {
+          const rand3 = mulberry32(11111);
+          const tigo = [], claro = [];
+          sites.forEach(site => {
+            const ti = Math.min(1, Math.max(0.1, site.exp/5.0*(0.7+rand3()*0.3)));
+            tigo.push([site.lat+(rand3()-0.5)*0.01, site.lon+(rand3()-0.5)*0.01, ti]);
+            let cb = 0.6+rand3()*0.3;
+            if (site.city==='Barranquilla'||site.city==='Cartagena') cb+=0.2;
+            if (site.city==='Medellin') cb-=0.1;
+            claro.push([site.lat+(rand3()-0.5)*0.015, site.lon+(rand3()-0.5)*0.015, Math.min(1,cb)]);
+          });
+          return {tigo, claro};
+        }
+        const mrGen = generateMRHeatmap(SITES_DATA);
+        window.MR_HEATMAP_GENERATED = true;
+
+        // ============ TERMINAL HEATMAP ============
+        function generateTerminalHeatmap(sites) {
+          const models = {
+            "iPhone 16 Pro Max": {Bogota:0.9,Medellin:0.7,Cali:0.5,Barranquilla:0.3,Cartagena:0.3,Rural:0.1},
+            "Samsung S25 Ultra": {Bogota:0.8,Medellin:0.65,Cali:0.5,Barranquilla:0.35,Cartagena:0.3,Rural:0.15},
+            "iPhone 15": {Bogota:0.85,Medellin:0.7,Cali:0.55,Barranquilla:0.4,Cartagena:0.35,Rural:0.2},
+            "Samsung A55": {Bogota:0.5,Medellin:0.5,Cali:0.5,Barranquilla:0.5,Cartagena:0.5,Rural:0.5},
+            "Xiaomi Redmi Note 13": {Bogota:0.3,Medellin:0.35,Cali:0.4,Barranquilla:0.55,Cartagena:0.5,Rural:0.7},
+          };
+          const rand2 = mulberry32(67890);
+          const result = {};
+          Object.entries(models).forEach(([model, weights]) => {
+            const points = [];
+            sites.forEach(site => {
+              const w = weights[site.city] || 0.3;
+              if (rand2() < w * 0.15) {
+                points.push([site.lat+(rand2()-0.5)*0.02, site.lon+(rand2()-0.5)*0.02, w*(0.5+rand2()*0.5)]);
+              }
+            });
+            result[model] = points;
+          });
+          return result;
+        }
+        const TERMINAL_HEATMAP = generateTerminalHeatmap(SITES_DATA);
+
         const CITIES = {
             "Bogota": {
                 users:"4.2M",trend:"+3.1%",exp:4.3,expTrend:"+0.3",churn:"0.8%",churnTrend:"-0.1%",
-                edge:12,prb:50,vsClaro:"-5%",ytHD:38,sites:15,population:"7.2M"
+                edge:12,prb:50,vsClaro:"-5%",ytHD:38,sites:1500,population:"7.2M"
             },
             "Medellin": {
                 users:"2.8M",trend:"+2.5%",exp:3.9,expTrend:"+0.1",churn:"1.0%",churnTrend:"0%",
-                edge:16,prb:52,vsClaro:"-10%",ytHD:35,sites:10,population:"4.1M"
+                edge:16,prb:52,vsClaro:"-10%",ytHD:35,sites:1000,population:"4.1M"
             },
             "Cali": {
                 users:"1.9M",trend:"+1.8%",exp:3.5,expTrend:"-0.1",churn:"1.3%",churnTrend:"+0.2%",
-                edge:26,prb:63,vsClaro:"-12%",ytHD:30,sites:10,population:"3.2M"
+                edge:26,prb:63,vsClaro:"-12%",ytHD:30,sites:800,population:"3.2M"
             },
             "Barranquilla": {
                 users:"1.1M",trend:"-1.2%",exp:2.8,expTrend:"-0.5",churn:"2.1%",churnTrend:"+0.4%",
-                edge:34,prb:75,vsClaro:"-22%",ytHD:18,sites:8,population:"2.2M"
+                edge:34,prb:75,vsClaro:"-22%",ytHD:18,sites:600,population:"2.2M"
             },
             "Cartagena": {
                 users:"0.8M",trend:"-0.8%",exp:3.1,expTrend:"-0.2",churn:"1.8%",churnTrend:"+0.3%",
-                edge:30,prb:70,vsClaro:"-18%",ytHD:22,sites:7,population:"1.4M"
+                edge:30,prb:70,vsClaro:"-18%",ytHD:22,sites:500,population:"1.4M"
             }
         };
 
@@ -2326,8 +2469,89 @@
         let currentView = 'national';  // 'national' 或城市名
         let currentLayer = 'experience';
 
+        // ============ TERMINAL HEATMAP FUNCTIONS ============
+        let terminalHeatLayer = null;
+
+        function switchTerminalHeatmap(model) {
+          if (terminalHeatLayer) { map.removeLayer(terminalHeatLayer); terminalHeatLayer = null; }
+          const data = TERMINAL_HEATMAP[model];
+          if (!data) return;
+          terminalHeatLayer = L.heatLayer(data.map(p=>[p[0],p[1],p[2]]),{
+            radius:35, blur:25, maxZoom:10,
+            gradient:{0.2:'#1e3a5f',0.4:'#06b6d4',0.6:'#10b981',0.8:'#f59e0b',1.0:'#ef4444'}
+          }).addTo(map);
+        }
+
+        // ============ SPLIT VIEW FUNCTIONS ============
+        let splitMode = false, splitMapLeft = null, splitMapRight = null, splitHeatLeft = null, splitHeatRight = null;
+
+        function toggleSplitView() {
+          splitMode = !splitMode;
+          const sv = document.getElementById('splitView');
+          const mm = document.getElementById('map');
+          if (splitMode) {
+            sv.style.display = 'flex'; mm.style.visibility = 'hidden';
+            if (!splitMapLeft) {
+              splitMapLeft = L.map('splitMapLeft',{zoomControl:false}).setView([5.5,-74.5],6);
+              L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(splitMapLeft);
+            }
+            if (!splitMapRight) {
+              splitMapRight = L.map('splitMapRight',{zoomControl:false}).setView([5.5,-74.5],6);
+              L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(splitMapRight);
+            }
+            updateSplitTerminal(document.getElementById('splitTerminalSelect').value);
+            if (splitHeatRight) splitMapRight.removeLayer(splitHeatRight);
+            splitHeatRight = L.heatLayer(MR_HEATMAP.tigo.map(p=>[p[0],p[1],p[2]]),{radius:30,blur:20,maxZoom:10,gradient:{0.2:'#3b82f6',0.5:'#06b6d4',0.8:'#10b981',1.0:'#059669'}}).addTo(splitMapRight);
+            splitMapLeft.on('move',()=>{splitMapRight.setView(splitMapLeft.getCenter(),splitMapLeft.getZoom(),{animate:false});});
+            splitMapRight.on('move',()=>{splitMapLeft.setView(splitMapRight.getCenter(),splitMapRight.getZoom(),{animate:false});});
+            setTimeout(()=>{splitMapLeft.invalidateSize();splitMapRight.invalidateSize();},200);
+          } else {
+            sv.style.display = 'none'; mm.style.visibility = 'visible';
+          }
+        }
+
+        function updateSplitTerminal(model) {
+          if (!splitMapLeft) return;
+          if (splitHeatLeft) splitMapLeft.removeLayer(splitHeatLeft);
+          const data = TERMINAL_HEATMAP[model]; if (!data) return;
+          splitHeatLeft = L.heatLayer(data.map(p=>[p[0],p[1],p[2]]),{radius:35,blur:25,maxZoom:10,gradient:{0.2:'#1e3a5f',0.4:'#06b6d4',0.6:'#10b981',0.8:'#f59e0b',1.0:'#ef4444'}}).addTo(splitMapLeft);
+        }
+
+        // ============ COVERAGE SPLIT VIEW FUNCTIONS ============
+        let covSplitMode=false,covSplitMapLeft=null,covSplitMapRight=null,covSplitHeatLeft=null,covSplitHeatRight=null;
+
+        function toggleCoverageSplit() {
+          covSplitMode = !covSplitMode;
+          const sv = document.getElementById('coverageSplitView');
+          const mm = document.getElementById('map');
+          if (covSplitMode) {
+            sv.style.display='block'; mm.style.visibility='hidden';
+            if (!covSplitMapLeft){covSplitMapLeft=L.map('covSplitMapLeft',{zoomControl:false}).setView([5.5,-74.5],6);L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(covSplitMapLeft);}
+            if (!covSplitMapRight){covSplitMapRight=L.map('covSplitMapRight',{zoomControl:false}).setView([5.5,-74.5],6);L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(covSplitMapRight);}
+            if (covSplitHeatLeft) covSplitMapLeft.removeLayer(covSplitHeatLeft);
+            covSplitHeatLeft=L.heatLayer(MR_HEATMAP.tigo.map(p=>[p[0],p[1],p[2]]),{radius:25,blur:18,maxZoom:10,gradient:{0.2:'#1e3a5f',0.4:'#3b82f6',0.6:'#06b6d4',0.8:'#10b981',1.0:'#059669'}}).addTo(covSplitMapLeft);
+            if (covSplitHeatRight) covSplitMapRight.removeLayer(covSplitHeatRight);
+            covSplitHeatRight=L.heatLayer(MR_HEATMAP.claro.map(p=>[p[0],p[1],p[2]]),{radius:25,blur:18,maxZoom:10,gradient:{0.2:'#7c2d12',0.4:'#ea580c',0.6:'#f97316',0.8:'#fb923c',1.0:'#fdba74'}}).addTo(covSplitMapRight);
+            covSplitMapLeft.on('move',()=>{if(covSplitMode)covSplitMapRight.setView(covSplitMapLeft.getCenter(),covSplitMapLeft.getZoom(),{animate:false});});
+            covSplitMapRight.on('move',()=>{if(covSplitMode)covSplitMapLeft.setView(covSplitMapRight.getCenter(),covSplitMapRight.getZoom(),{animate:false});});
+            setTimeout(()=>{covSplitMapLeft.invalidateSize();covSplitMapRight.invalidateSize();},200);
+          } else {
+            sv.style.display='none'; mm.style.visibility='visible';
+          }
+        }
+
         function switchMapLayer(layer) {
             currentLayer = layer;
+
+            // Close coverage split view if switching from coverage analysis
+            if(layer!=='coverageAnalysis'&&covSplitMode){toggleCoverageSplit();}
+
+            // Clear terminal heatmap and selector when switching from terminal
+            document.getElementById('terminalSelector').style.display = layer === 'terminal' ? 'flex' : 'none';
+            if (terminalHeatLayer && layer !== 'terminal') {
+                map.removeLayer(terminalHeatLayer);
+                terminalHeatLayer = null;
+            }
 
             // Show/hide coverage chart panel
             document.getElementById('coverageChartPanel').style.display = layer === 'coverageAnalysis' ? 'block' : 'none';
@@ -2475,6 +2699,11 @@
                             label = '覆盖';
                         }
                         break;
+                    }
+                    case 'terminal': {
+                        document.getElementById('terminalSelector').style.display = 'flex';
+                        switchTerminalHeatmap(document.getElementById('terminalSelect').value);
+                        return;
                     }
                     default:
                         fillColor = '#3b82f6';
@@ -2722,6 +2951,7 @@
                     churn:{title:'流失率',items:[{color:'#10b981',label:'< 1.2% 健康'},{color:'#f59e0b',label:'1.2-2.0% 关注'},{color:'#ef4444',label:'> 2.0% 严重'}]},
                     video:{title:'YouTube HD 占比',items:[{color:'#10b981',label:'≥ 35% 良好'},{color:'#f59e0b',label:'25-35% 一般'},{color:'#ef4444',label:'< 25% 较差'}]},
                     coverageAnalysis:{title:'覆盖分析',items:[{color:'#10b981',label:'边缘 ≤ 18% 良好'},{color:'#f59e0b',label:'边缘 18-28% 关注'},{color:'#ef4444',label:'边缘 > 28% 较差'}]},
+                    terminal:{title:'终端分布',items:[{color:'#ef4444',label:'高密度'},{color:'#f59e0b',label:'中密度'},{color:'#10b981',label:'低密度'}]},
                 }
                 if (layer === 'competitiveness') {
                     const selLC = document.getElementById('expMetricSelect')
@@ -2850,48 +3080,7 @@
 
         // ============ COVERAGE HEATMAP DATA ============
 
-        const MR_HEATMAP = {
-            tigo: [
-                // 博哥大 Bogota
-                [4.65,-74.08,0.9],[4.68,-74.05,0.85],[4.60,-74.10,0.7],
-                [4.62,-74.06,0.88],[4.70,-74.02,0.82],[4.55,-74.12,0.6],
-                [4.63,-74.07,0.86],[4.67,-74.04,0.80],[4.58,-74.11,0.65],
-                // 麦德林 Medellín
-                [6.25,-75.57,0.8],[6.22,-75.55,0.75],
-                [6.28,-75.54,0.78],[6.20,-75.60,0.72],
-                [6.24,-75.56,0.77],[6.23,-75.58,0.74],
-                // 卡利 Cali
-                [3.43,-76.52,0.7],[3.40,-76.50,0.65],
-                [3.45,-76.50,0.68],[3.42,-76.54,0.62],
-                [3.44,-76.51,0.67],[3.41,-76.53,0.63],
-                // 巴兰基亚 Barranquilla
-                [10.98,-74.79,0.4],[10.96,-74.78,0.35],[11.00,-74.80,0.3],
-                [10.99,-74.77,0.38],[10.97,-74.81,0.32],
-                // 卡塔赫纳 Cartagena
-                [10.41,-75.52,0.45],[10.39,-75.50,0.4],
-                [10.42,-75.50,0.42],[10.40,-75.53,0.38],
-            ],
-            claro: [
-                // 博哥大 Bogota
-                [4.65,-74.08,0.85],[4.68,-74.05,0.9],[4.60,-74.10,0.8],
-                [4.62,-74.06,0.82],[4.70,-74.02,0.88],[4.55,-74.12,0.75],
-                [4.63,-74.07,0.83],[4.67,-74.04,0.87],[4.58,-74.11,0.78],
-                // 麦德林 Medellín
-                [6.25,-75.57,0.65],[6.22,-75.55,0.6],
-                [6.28,-75.54,0.62],[6.20,-75.60,0.58],
-                [6.24,-75.56,0.63],[6.23,-75.58,0.59],
-                // 卡利 Cali
-                [3.43,-76.52,0.8],[3.40,-76.50,0.75],
-                [3.45,-76.50,0.78],[3.42,-76.54,0.72],
-                [3.44,-76.51,0.77],[3.41,-76.53,0.73],
-                // 巴兰基亚 Barranquilla
-                [10.98,-74.79,0.85],[10.96,-74.78,0.8],[11.00,-74.80,0.75],
-                [10.99,-74.77,0.82],[10.97,-74.81,0.78],
-                // 卡塔赫纳 Cartagena
-                [10.41,-75.52,0.7],[10.39,-75.50,0.65],
-                [10.42,-75.50,0.68],[10.40,-75.53,0.62],
-            ],
-        }
+        const MR_HEATMAP = mrGen;
 
         let covHeatLayer = null
 
