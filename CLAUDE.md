@@ -105,6 +105,7 @@ for tag in ['div','span','script','style']:
 | **5e. 无重复声明** | 同一个 `const`/`let` 变量名只能声明一次，不允许在不同位置重复声明 |
 | **5f. onclick 引用检查** | HTML 中每个 `onclick="funcName()"` 的 funcName 必须在 JS 中有 `function funcName` 定义 |
 | **5g. 数据键名一致性** | 同一个实体（城市/区域/指标）在不同数据结构中必须用完全相同的字符串。禁止混用带重音和不带重音的拼写（如 `Medellín` vs `Medellin`），统一用不带重音的 ASCII 拼写 |
+| **5h. Leaflet 事件绑定** | ① 禁止空格分隔事件名（`.on('move zoom')` 无效），必须分开绑定；② 禁止裸 `.off('event')` 清除全部监听器（会破坏 Leaflet 内部事件），必须用 `.off('event', namedHandler)` 指定具体 handler；③ 分屏联动必须用命名函数引用（如 `_covSyncLeft`）而非匿名函数，否则无法安全解绑 |
 
 **自动化检查脚本（TDZ + 重复声明）**：
 ```python

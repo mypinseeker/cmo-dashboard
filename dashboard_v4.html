@@ -3036,6 +3036,7 @@
 
         // ============ SPLIT VIEW FUNCTIONS ============
         let splitMode = false, splitMapLeft = null, splitMapRight = null, splitHeatLeft = null, splitHeatRight = null;
+        var _termSyncLeft=null, _termSyncRight=null;
 
         function toggleSplitView() {
           splitMode = !splitMode;
@@ -3053,31 +3054,36 @@
             }
             // Sync initial view from main map
             if (window.map) {
-              var c = window.map.getCenter(), z = window.map.getZoom();
-              splitMapLeft.setView(c, z, {animate:false});
-              splitMapRight.setView(c, z, {animate:false});
+              splitMapLeft.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
+              splitMapRight.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
             }
             setTimeout(function(){
               splitMapLeft.invalidateSize();
               splitMapRight.invalidateSize();
+              if (window.map) {
+                splitMapLeft.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
+                splitMapRight.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
+              }
               // Render heatmaps after layout
               updateSplitTerminal(document.getElementById('splitTerminalSelect').value);
               if (splitHeatRight) splitMapRight.removeLayer(splitHeatRight);
               splitHeatRight = L.heatLayer(MR_HEATMAP.tigo.map(function(p){return [p[0],p[1],p[2]]}),{radius:30,blur:20,maxZoom:10,gradient:{0.2:'#3b82f6',0.5:'#06b6d4',0.8:'#10b981',1.0:'#059669'}}).addTo(splitMapRight);
-              // Bidirectional sync
-              splitMapLeft.off('move');
-              splitMapRight.off('move');
+              // Named handler sync (safe unbind without removing Leaflet internals)
+              if (_termSyncLeft) splitMapLeft.off('move', _termSyncLeft);
+              if (_termSyncRight) splitMapRight.off('move', _termSyncRight);
               var syncing = false;
-              splitMapLeft.on('move', function(){
+              _termSyncLeft = function(){
                 if(syncing) return; syncing=true;
-                _syncMaps(splitMapLeft, splitMapRight);
+                splitMapRight.setView(splitMapLeft.getCenter(), splitMapLeft.getZoom(), {animate:false});
                 syncing=false;
-              });
-              splitMapRight.on('move', function(){
+              };
+              _termSyncRight = function(){
                 if(syncing) return; syncing=true;
-                _syncMaps(splitMapRight, splitMapLeft);
+                splitMapLeft.setView(splitMapRight.getCenter(), splitMapRight.getZoom(), {animate:false});
                 syncing=false;
-              });
+              };
+              splitMapLeft.on('move', _termSyncLeft);
+              splitMapRight.on('move', _termSyncRight);
             }, 400);
           } else {
             sv.style.display = 'none'; mm.style.visibility = 'visible';
@@ -3093,10 +3099,7 @@
 
         // ============ COVERAGE SPLIT VIEW FUNCTIONS ============
         let covSplitMode=false,covSplitMapLeft=null,covSplitMapRight=null,covSplitHeatLeft=null,covSplitHeatRight=null;
-
-        function _syncMaps(source, target) {
-          target.setView(source.getCenter(), source.getZoom(), {animate:false});
-        }
+        var _covSyncLeft=null, _covSyncRight=null; // named handler references for safe unbinding
 
         function toggleCoverageSplit() {
           covSplitMode = !covSplitMode;
@@ -3115,17 +3118,22 @@
               L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(covSplitMapRight);
             }
 
-            // Sync initial view from main map BEFORE invalidateSize
+            // Sync initial view from main map
             if (window.map) {
-              var c = window.map.getCenter(), z = window.map.getZoom();
-              covSplitMapLeft.setView(c, z, {animate:false});
-              covSplitMapRight.setView(c, z, {animate:false});
+              covSplitMapLeft.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
+              covSplitMapRight.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
             }
 
-            // invalidateSize first, then add heatmaps
+            // invalidateSize first, then add heatmaps + sync
             setTimeout(function(){
               covSplitMapLeft.invalidateSize();
               covSplitMapRight.invalidateSize();
+
+              // Re-set view after invalidateSize (container size may have changed)
+              if (window.map) {
+                covSplitMapLeft.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
+                covSplitMapRight.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
+              }
 
               // Render Tigo MR heatmap (left)
               if (covSplitHeatLeft) covSplitMapLeft.removeLayer(covSplitHeatLeft);
@@ -3141,23 +3149,26 @@
                 gradient:{0.2:'#7c2d12',0.4:'#ea580c',0.6:'#f97316',0.8:'#fb923c',1.0:'#fdba74'}
               }).addTo(covSplitMapRight);
 
-              // Bidirectional sync using 'move' event (fires during drag, most reliable)
-              // Remove old listeners first to prevent stacking
-              covSplitMapLeft.off('move');
-              covSplitMapRight.off('move');
-              var syncing = false;
-              covSplitMapLeft.on('move', function(){
-                if(syncing) return; syncing=true;
-                _syncMaps(covSplitMapLeft, covSplitMapRight);
-                syncing=false;
-              });
-              covSplitMapRight.on('move', function(){
-                if(syncing) return; syncing=true;
-                _syncMaps(covSplitMapRight, covSplitMapLeft);
-                syncing=false;
-              });
+              // Bidirectional sync: use named handlers so we can safely unbind only ours
+              // (off('move') without handler would remove ALL move handlers including Leaflet internals)
+              if (_covSyncLeft) covSplitMapLeft.off('move', _covSyncLeft);
+              if (_covSyncRight) covSplitMapRight.off('move', _covSyncRight);
 
-              console.log('Coverage split: L='+MR_HEATMAP.tigo.length+' pts, R='+MR_HEATMAP.claro.length+' pts, sync bound');
+              var syncing = false;
+              _covSyncLeft = function(){
+                if(syncing) return; syncing=true;
+                covSplitMapRight.setView(covSplitMapLeft.getCenter(), covSplitMapLeft.getZoom(), {animate:false});
+                syncing=false;
+              };
+              _covSyncRight = function(){
+                if(syncing) return; syncing=true;
+                covSplitMapLeft.setView(covSplitMapRight.getCenter(), covSplitMapRight.getZoom(), {animate:false});
+                syncing=false;
+              };
+              covSplitMapLeft.on('move', _covSyncLeft);
+              covSplitMapRight.on('move', _covSyncRight);
+
+              console.log('Coverage split ready: Tigo='+MR_HEATMAP.tigo.length+' pts, Claro='+MR_HEATMAP.claro.length+' pts');
             }, 400);
           } else {
             sv.style.display='none'; mm.style.visibility='visible';
