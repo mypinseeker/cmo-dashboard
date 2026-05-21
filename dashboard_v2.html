@@ -818,6 +818,22 @@
         .overlay-content::-webkit-scrollbar-thumb:hover {
             background: #475569;
         }
+
+        /* ====== Phase 5 美化 ====== */
+        .card {
+            background: linear-gradient(135deg, #111827 0%, #0f172a 100%) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 2px 8px rgba(0,0,0,0.3) !important;
+        }
+
+        .big-number { text-shadow: 0 0 20px rgba(6,182,212,0.15) !important; }
+
+        .header .header-logo,
+        .header > div:first-child {
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
     </style>
 </head>
 <body>
@@ -987,8 +1003,8 @@
               <button class="map-layer-btn" onclick="switchMapLayer('competitiveness')" id="btn-competitiveness"><span data-i18n="vs Claro">vs Claro</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('video')" id="btn-video"><span data-i18n="视频体验">视频体验</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('coverageAnalysis')" id="btn-coverageAnalysis"><span data-i18n="覆盖分析">覆盖分析</span></button>
-              <button class="map-layer-btn" onclick="switchMapLayer('terminal')" id="btn-terminal">终端分布</button>
-              <button class="map-layer-btn" onclick="toggleSplitView()" id="btn-split" style="border-left:2px solid rgba(255,255,255,0.1);margin-left:4px;">分屏</button>
+              <button class="map-layer-btn" onclick="switchMapLayer('terminal')" id="btn-terminal"><span data-i18n="终端分布">终端分布</span></button>
+              <button class="map-layer-btn" onclick="toggleSplitView()" id="btn-split" style="border-left:2px solid rgba(255,255,255,0.1);margin-left:4px;"><span data-i18n="分屏">分屏</span></button>
             </div>
 
             <!-- Back to National Button -->
@@ -1033,7 +1049,7 @@
                   <div id="splitMapRight" style="width:100%;height:100%;"></div>
                 </div>
               </div>
-              <button onclick="toggleSplitView()" style="position:absolute;top:8px;right:8px;z-index:1001;font-size:10px;color:#94a3b8;background:rgba(17,24,39,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;">退出分屏</button>
+              <button onclick="toggleSplitView()" style="position:absolute;top:8px;right:8px;z-index:1001;font-size:10px;color:#94a3b8;background:rgba(17,24,39,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;"><span data-i18n="退出分屏">退出分屏</span></button>
             </div>
 
             <!-- Coverage Split View Container -->
@@ -1048,7 +1064,7 @@
                   <div id="covSplitMapRight" style="width:100%;height:100%;"></div>
                 </div>
               </div>
-              <button onclick="toggleCoverageSplit()" style="position:absolute;top:8px;right:8px;z-index:1001;font-size:10px;color:#94a3b8;background:rgba(17,24,39,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;">退出分屏</button>
+              <button onclick="toggleCoverageSplit()" style="position:absolute;top:8px;right:8px;z-index:1001;font-size:10px;color:#94a3b8;background:rgba(17,24,39,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;"><span data-i18n="退出分屏">退出分屏</span></button>
             </div>
 
             <!-- Coverage Analysis Chart Panel -->
@@ -1064,7 +1080,7 @@
                     <button class="cov-op-btn active" id="covOpTigo" onclick="switchCovOperator('tigo')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;">Tigo</button>
                     <button class="cov-op-btn" id="covOpClaro" onclick="switchCovOperator('claro')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">Claro</button>
                     <button class="cov-op-btn" id="covOpBoth" onclick="switchCovOperator('both')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">对比</button>
-                    <button class="cov-op-btn" id="covOpSplit" onclick="toggleCoverageSplit()" style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;margin-left:6px;border-left:2px solid rgba(255,255,255,0.1);">分屏对比</button>
+                    <button class="cov-op-btn" id="covOpSplit" onclick="toggleCoverageSplit()" style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;margin-left:6px;border-left:2px solid rgba(255,255,255,0.1);"><span data-i18n="分屏对比">分屏对比</span></button>
                   </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:12px;">
@@ -1086,11 +1102,11 @@
               <!-- 摘要数字 -->
               <div style="display:flex;gap:16px;margin-bottom:8px;">
                 <div style="font-size:10px;">
-                  <span style="color:#64748b;">好覆盖(≥-100)：</span>
+                  <span style="color:#64748b;"><span data-i18n="好覆盖">好覆盖</span>(≥-100)：</span>
                   <span style="color:#10b981;font-weight:600;">61.5%</span>
                 </div>
                 <div style="font-size:10px;">
-                  <span style="color:#64748b;">差覆盖(<-100)：</span>
+                  <span style="color:#64748b;"><span data-i18n="差覆盖">差覆盖</span>(<-100)：</span>
                   <span style="color:#ef4444;font-weight:600;">38.5% (4.82M人)</span>
                 </div>
                 <div style="font-size:10px;">
@@ -1193,11 +1209,11 @@
                         <!-- 按差距严重程度排序 -->
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Barranquilla');switchMapLayer('competitiveness')">
                             <span style="color:#ef4444;">B/quilla</span>
-                            <span style="color:#ef4444;font-weight:600;">-49.8% ▼ 扩大</span>
+                            <span style="color:#ef4444;font-weight:600;">-49.8% ▼ <span data-i18n="扩大">扩大</span></span>
                         </div>
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Cartagena');switchMapLayer('competitiveness')">
                             <span style="color:#ef4444;">Cartagena</span>
-                            <span style="color:#ef4444;font-weight:600;">-31.7% ▼ 扩大</span>
+                            <span style="color:#ef4444;font-weight:600;">-31.7% ▼ <span data-i18n="扩大">扩大</span></span>
                         </div>
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Cali')">
                             <span style="color:#f59e0b;">Cali</span>
@@ -1205,11 +1221,11 @@
                         </div>
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Bogota')">
                             <span style="color:#10b981;">Bogota</span>
-                            <span style="color:#10b981;">-5.8% ▲ 缩小</span>
+                            <span style="color:#10b981;">-5.8% ▲ <span data-i18n="缩小">缩小</span></span>
                         </div>
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Medellin')">
                             <span style="color:#10b981;">Medellin</span>
-                            <span style="color:#10b981;font-weight:600;">+5.6% 🏆 领先</span>
+                            <span style="color:#10b981;font-weight:600;">+5.6% 🏆 <span data-i18n="领先">领先</span></span>
                         </div>
                     </div>
                 </div>
@@ -1222,7 +1238,7 @@
                         <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Barranquilla')">
                             <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;">
                                 <span style="color:#ef4444;">B/quilla</span>
-                                <span style="color:#ef4444;">差距 -63% · 扩大</span>
+                                <span style="color:#ef4444;">差距 -63% · <span data-i18n="扩大">扩大</span></span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
                                 <span style="font-size:8px;color:#06b6d4;width:30px;">Tigo</span>
@@ -1239,7 +1255,7 @@
                         <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Cartagena')">
                             <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;">
                                 <span style="color:#ef4444;">Cartagena</span>
-                                <span style="color:#ef4444;">差距 -55% · 扩大</span>
+                                <span style="color:#ef4444;">差距 -55% · <span data-i18n="扩大">扩大</span></span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
                                 <span style="font-size:8px;color:#06b6d4;width:30px;">Tigo</span>
@@ -1256,7 +1272,7 @@
                         <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Medellin')">
                             <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;">
                                 <span style="color:#10b981;">Medellin</span>
-                                <span style="color:#10b981;">领先 +8% 🏆</span>
+                                <span style="color:#10b981;"><span data-i18n="领先">领先</span> +8% 🏆</span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
                                 <span style="font-size:8px;color:#06b6d4;width:30px;">Tigo</span>
@@ -1308,41 +1324,41 @@
         <!-- Bottom Row: App Pie Charts -->
         <div class="bottom-row">
           <!-- YouTube 饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;border-top:3px solid #ff0000;">
             <div id="ytPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
             <div style="flex:1;">
               <div style="font-size:11px;font-weight:600;color:#ff0000;margin-bottom:4px;">YouTube</div>
-              <div style="font-size:10px;color:#94a3b8;">HD 33% · 卡顿 2.8%</div>
+              <div style="font-size:10px;color:#94a3b8;"><span data-i18n="HD占比">HD</span> 33% · <span data-i18n="卡顿">卡顿</span> 2.8%</div>
               <button onclick="openAppPanel('youtube')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
           <!-- Netflix 饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;border-top:3px solid #e50914;">
             <div id="nfPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
             <div style="flex:1;">
               <div style="font-size:11px;font-weight:600;color:#e50914;margin-bottom:4px;">Netflix</div>
-              <div style="font-size:10px;color:#94a3b8;">HD 43% · 卡顿 1.5%</div>
+              <div style="font-size:10px;color:#94a3b8;"><span data-i18n="HD占比">HD</span> 43% · <span data-i18n="卡顿">卡顿</span> 1.5%</div>
               <button onclick="openAppPanel('netflix')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
           <!-- TikTok 饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;border-top:3px solid #00f2ea;">
             <div id="tkPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
             <div style="flex:1;">
               <div style="font-size:11px;font-weight:600;color:#00f2ea;margin-bottom:4px;">TikTok</div>
-              <div style="font-size:10px;color:#94a3b8;">成功率 98.5%</div>
+              <div style="font-size:10px;color:#94a3b8;"><span data-i18n="成功率">成功率</span> 98.5%</div>
               <button onclick="openAppPanel('tiktok')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
           <!-- 流量分布饼图 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;border-top:3px solid #3b82f6;">
             <div id="trafficPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
             <div style="flex:1;">
               <div style="font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:4px;"><span data-i18n="流量">流量</span></div>
-              <div style="font-size:10px;color:#94a3b8;"><span data-i18n="视频">视频</span> 32% · 社交 28%</div>
+              <div style="font-size:10px;color:#94a3b8;"><span data-i18n="视频">视频</span> 32% · <span data-i18n="社交">社交</span> 28%</div>
               <button onclick="openAppPanel('traffic')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
@@ -1416,6 +1432,32 @@
           '关闭': { zh: '关闭', en: 'Close' },
           '收起': { zh: '收起', en: 'Collapse' },
           '← 返回全国': { zh: '← 返回全国', en: '← Back to National' },
+          '480p以下': { zh: '480p以下', en: '≤480p' },
+          'HD占比': { zh: 'HD占比', en: 'HD Ratio' },
+          '成功率': { zh: '成功率', en: 'Success Rate' },
+          '视频占比': { zh: '视频占比', en: 'Video Share' },
+          '日变化': { zh: '日变化', en: 'Daily' },
+          '净增': { zh: '净增', en: 'Net' },
+          '新增': { zh: '新增', en: 'New' },
+          '流失最高': { zh: '流失最高', en: 'Top Churn' },
+          '离网率': { zh: '离网率', en: 'Churn Rate' },
+          '竞对分析 (Ookla)': { zh: '竞对分析 (Ookla)', en: 'Competitor (Ookla)' },
+          'vs Claro 各区域差距': { zh: 'vs Claro 各区域差距', en: 'vs Claro Gap' },
+          '扩大': { zh: '扩大', en: 'Widening' },
+          '缩小': { zh: '缩小', en: 'Closing' },
+          '领先': { zh: '领先', en: 'Leading' },
+          '网络因素': { zh: '网络因素', en: 'Network' },
+          '月度流失': { zh: '月度流失', en: 'Monthly Churn' },
+          '好覆盖': { zh: '好覆盖', en: 'Good Cov.' },
+          '差覆盖': { zh: '差覆盖', en: 'Poor Cov.' },
+          'RSRP 覆盖分布': { zh: 'RSRP 覆盖分布', en: 'RSRP Distribution' },
+          '终端分布': { zh: '终端分布', en: 'Devices' },
+          '分屏': { zh: '分屏', en: 'Split' },
+          '分屏对比': { zh: '分屏对比', en: 'Split View' },
+          '退出分屏': { zh: '退出分屏', en: 'Exit Split' },
+          '终端': { zh: '终端', en: 'Device' },
+          '网络体验': { zh: '网络体验', en: 'Network QoE' },
+          '社交': { zh: '社交', en: 'Social' },
         };
 
         function getTranslation(key, fallback = key) {
@@ -1459,6 +1501,8 @@
           if (backLabel) {
             backLabel.textContent = currentLang === 'zh' ? '← 返回全国' : '← Back to National';
           }
+
+          // 图层按钮已通过 data-i18n span 自动更新
 
           // 刷新地图以更新标签
           if (window.currentLayer) {
