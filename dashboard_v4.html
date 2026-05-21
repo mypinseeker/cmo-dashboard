@@ -3273,6 +3273,7 @@
             Object.entries(REGION_CONFIG).forEach(([city, cfg]) => {
                 let fillColor, label;
                 const cd = CITIES[city];
+                if (!cd) { fillColor = '#334155'; label = city; cityColorMap[city] = {fillColor, label}; return; }
 
                 switch(layer) {
                     case 'experience': {
@@ -4206,10 +4207,12 @@
               const inst = echarts.getInstanceByDom(el);
               if (inst) inst.resize();
             });
-            // Resize Leaflet maps
-            if (map) map.invalidateSize();
-            if (window.splitMapLeft) window.splitMapLeft.invalidateSize();
-            if (window.splitMapRight) window.splitMapRight.invalidateSize();
+            // Resize Leaflet maps (use local vars, not window refs)
+            if (map && map.invalidateSize) map.invalidateSize();
+            if (splitMapLeft && splitMapLeft.invalidateSize) splitMapLeft.invalidateSize();
+            if (splitMapRight && splitMapRight.invalidateSize) splitMapRight.invalidateSize();
+            if (covSplitMapLeft && covSplitMapLeft.invalidateSize) covSplitMapLeft.invalidateSize();
+            if (covSplitMapRight && covSplitMapRight.invalidateSize) covSplitMapRight.invalidateSize();
           }, 200);
         });
     </script>
