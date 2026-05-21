@@ -77,3 +77,61 @@ latLngToContainerPoint @ Map.js:1061
 _redraw @ leaflet-heat.js:11
 _reset @ leaflet-heat.js:11
 fire @ Events.js:195
+
+
+new log v3
+dashboard_v4 (9).html:2229 Sites expanded to 5657
+dashboard_v4 (9).html:2248 MR_HEATMAP ready: 5657 tigo points, 5657 claro points
+dashboard_v4 (9).html:3266 GeoJSON not loaded yet, cannot render administrative boundaries
+renderNationalView @ dashboard_v4 (9).html:3266
+dashboard_v4 (9).html:3266 GeoJSON not loaded yet, cannot render administrative boundaries
+renderNationalView @ dashboard_v4 (9).html:3266
+dashboard_v4 (9).html:3819 GeoJSON loaded successfully: 33 features
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+leaflet-heat.js:6 Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently
+draw @ leaflet-heat.js:6
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+dashboard_v4 (9).html:1 Unsafe attempt to load URL file:///C:/Users/l00888347/Downloads/dashboard_v4%20(9).html from frame with URL file:///C:/Users/l00888347/Downloads/dashboard_v4%20(9).html. 'file:' URLs are treated as unique security origins.
+
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng @ LatLng.js:32
+(anonymous) @ LatLng.js:120
+latLngToContainerPoint @ Map.js:1061
+_redraw @ leaflet-heat.js:11
+_reset @ leaflet-heat.js:11
+fire @ Events.js:195
+invalidateSize @ Map.js:590
+(anonymous) @ dashboard_v4 (9).html:4211
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng @ LatLng.js:32
+(anonymous) @ LatLng.js:120
+latLngToContainerPoint @ Map.js:1061
+_redraw @ leaflet-heat.js:11
+_reset @ leaflet-heat.js:11
+fire @ Events.js:195
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng @ LatLng.js:32
+(anonymous) @ LatLng.js:120
+latLngToContainerPoint @ Map.js:1061
+_redraw @ leaflet-heat.js:11
+_reset @ leaflet-heat.js:11
+fire @ Events.js:195
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng @ LatLng.js:32
+(anonymous) @ LatLng.js:120
+latLngToContainerPoint @ Map.js:1061
+_redraw @ leaflet-heat.js:11
+_reset @ leaflet-heat.js:11
+fire @ Events.js:195
