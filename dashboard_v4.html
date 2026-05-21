@@ -2110,11 +2110,36 @@
             'Leticia':       {lat:-4.215, lon:-69.941, radius:0.10, count:15, expRange:[1.8,3.0], prbRange:[30,60], edgeRange:[20,35]},
             'San Andres':    {lat:12.585, lon:-81.706, radius:0.05, count:15, expRange:[2.5,3.8], prbRange:[35,70], edgeRange:[15,28]},
 
-            // Rural/Highway distribution (radius expanded for natural spread)
-            'Rural_Andes':   {lat:5.0, lon:-75.5, radius:1.5, count:100, expRange:[2.0,3.5], prbRange:[20,55], edgeRange:[20,38]},
-            'Rural_Costa':   {lat:9.5, lon:-75.0, radius:1.5, count:80, expRange:[2.0,3.2], prbRange:[22,58], edgeRange:[22,40]},
-            'Rural_Llanos':  {lat:4.5, lon:-72.0, radius:2.0, count:60, expRange:[1.8,3.0], prbRange:[18,50], edgeRange:[25,42]},
-            'Rural_Sur':     {lat:2.0, lon:-76.0, radius:1.5, count:60, expRange:[1.8,3.2], prbRange:[20,52], edgeRange:[22,38]},
+            // Tier-4: Remaining departamento capitals (coverage in all 32 departments)
+            'Arauca':        {lat:7.091, lon:-70.762, radius:0.15, count:25, expRange:[1.8,3.0], prbRange:[35,70], edgeRange:[22,38]},
+            'Mocoa':         {lat:1.149, lon:-76.649, radius:0.12, count:20, expRange:[1.8,3.0], prbRange:[38,75], edgeRange:[24,40]},
+            'San Jose Guaviare':{lat:2.572, lon:-72.644, radius:0.15, count:15, expRange:[1.6,2.8], prbRange:[30,60], edgeRange:[25,42]},
+            'Inirida':       {lat:3.866, lon:-67.924, radius:0.10, count:10, expRange:[1.5,2.5], prbRange:[25,55], edgeRange:[28,45]},
+            'Mitu':          {lat:1.198, lon:-70.174, radius:0.10, count:8, expRange:[1.4,2.4], prbRange:[22,50], edgeRange:[30,48]},
+            'Puerto Carreno':{lat:6.189, lon:-67.486, radius:0.12, count:10, expRange:[1.5,2.6], prbRange:[25,55], edgeRange:[28,45]},
+            'Providencia':   {lat:13.348, lon:-81.375, radius:0.03, count:5, expRange:[2.2,3.5], prbRange:[30,60], edgeRange:[15,28]},
+            'Sogamoso':      {lat:5.714, lon:-72.934, radius:0.12, count:40, expRange:[2.4,3.6], prbRange:[30,65], edgeRange:[14,28]},
+            'Girardot':      {lat:4.302, lon:-74.804, radius:0.10, count:35, expRange:[2.5,3.8], prbRange:[32,68], edgeRange:[14,30]},
+            'Barrancabermeja':{lat:7.065, lon:-73.855, radius:0.15, count:50, expRange:[2.4,3.6], prbRange:[35,72], edgeRange:[16,32]},
+            'Tuluá':         {lat:4.085, lon:-76.199, radius:0.12, count:35, expRange:[2.5,3.8], prbRange:[32,68], edgeRange:[14,28]},
+            'Apartado':      {lat:7.883, lon:-76.626, radius:0.15, count:30, expRange:[2.0,3.2], prbRange:[40,78], edgeRange:[20,36]},
+            'Turbo':         {lat:8.093, lon:-76.728, radius:0.12, count:20, expRange:[1.8,3.0], prbRange:[42,80], edgeRange:[22,38]},
+            'Magangue':      {lat:9.242, lon:-74.754, radius:0.12, count:25, expRange:[2.0,3.2], prbRange:[38,75], edgeRange:[20,35]},
+            'Ipiales':       {lat:0.828, lon:-77.643, radius:0.12, count:20, expRange:[2.2,3.4], prbRange:[35,70], edgeRange:[18,34]},
+            'Tumaco':        {lat:1.799, lon:-78.764, radius:0.15, count:20, expRange:[1.8,2.8], prbRange:[40,78], edgeRange:[25,42]},
+            'Buenaventura':  {lat:3.880, lon:-77.020, radius:0.15, count:30, expRange:[2.0,3.2], prbRange:[38,75], edgeRange:[20,36]},
+            'Aguachica':     {lat:8.309, lon:-73.616, radius:0.10, count:20, expRange:[2.0,3.2], prbRange:[38,72], edgeRange:[20,35]},
+            'Ocana':         {lat:8.237, lon:-73.357, radius:0.10, count:20, expRange:[2.0,3.2], prbRange:[36,70], edgeRange:[18,34]},
+
+            // Rural/Highway distribution (expanded for full national coverage)
+            'Rural_Andes':     {lat:5.0, lon:-75.5, radius:1.5, count:120, expRange:[2.0,3.5], prbRange:[20,55], edgeRange:[20,38]},
+            'Rural_Costa':     {lat:9.5, lon:-75.0, radius:1.5, count:100, expRange:[2.0,3.2], prbRange:[22,58], edgeRange:[22,40]},
+            'Rural_Llanos':    {lat:4.5, lon:-72.0, radius:2.5, count:80, expRange:[1.8,3.0], prbRange:[18,50], edgeRange:[25,42]},
+            'Rural_Sur':       {lat:2.0, lon:-76.0, radius:1.5, count:70, expRange:[1.8,3.2], prbRange:[20,52], edgeRange:[22,38]},
+            'Rural_Amazonia':  {lat:0.5, lon:-72.0, radius:2.5, count:30, expRange:[1.2,2.5], prbRange:[15,40], edgeRange:[30,50]},
+            'Rural_Orinoquia': {lat:5.5, lon:-70.0, radius:2.0, count:40, expRange:[1.5,2.8], prbRange:[18,45], edgeRange:[28,45]},
+            'Rural_Pacifico':  {lat:3.5, lon:-77.5, radius:1.5, count:30, expRange:[1.4,2.6], prbRange:[20,48], edgeRange:[28,45]},
+            'Rural_Santanderes':{lat:7.5, lon:-73.0, radius:1.2, count:50, expRange:[2.0,3.2], prbRange:[22,55], edgeRange:[20,36]},
 
             // Major highway corridors connecting cities
             'Hwy_Bogota_Medellin': {lat:5.5, lon:-74.8, radius:0.3, count:40, expRange:[2.2,3.5], prbRange:[25,55], edgeRange:[18,35]},
@@ -2128,12 +2153,14 @@
           // Mapping cities to major regions (for CITIES card aggregation)
           const cityToRegion = {
             'Bogota':'Bogota', 'Cucuta':'Bogota', 'Bucaramanga':'Bogota', 'Ibague':'Bogota',
-            'Villavicencio':'Bogota', 'Tunja':'Bogota', 'Yopal':'Bogota',
-            'Medellin':'Medellin', 'Pereira':'Medellin', 'Manizales':'Medellin', 'Armenia':'Medellin', 'Monteria':'Medellin', 'Quibdo':'Medellin',
-            'Cali':'Cali', 'Pasto':'Cali', 'Popayan':'Cali', 'Neiva':'Cali', 'Florencia':'Cali', 'Leticia':'Cali',
-            'Barranquilla':'Barranquilla', 'Soledad':'Barranquilla', 'Santa Marta':'Barranquilla', 'Valledupar':'Barranquilla', 'Sincelejo':'Barranquilla', 'Riohacha':'Barranquilla',
-            'Cartagena':'Cartagena', 'San Andres':'Cartagena',
+            'Villavicencio':'Bogota', 'Tunja':'Bogota', 'Yopal':'Bogota', 'Sogamoso':'Bogota', 'Girardot':'Bogota',
+            'Medellin':'Medellin', 'Pereira':'Medellin', 'Manizales':'Medellin', 'Armenia':'Medellin', 'Monteria':'Medellin', 'Quibdo':'Medellin', 'Apartado':'Medellin', 'Turbo':'Medellin',
+            'Cali':'Cali', 'Pasto':'Cali', 'Popayan':'Cali', 'Neiva':'Cali', 'Florencia':'Cali', 'Leticia':'Cali', 'Tuluá':'Cali', 'Buenaventura':'Cali', 'Ipiales':'Cali', 'Tumaco':'Cali',
+            'Barranquilla':'Barranquilla', 'Soledad':'Barranquilla', 'Santa Marta':'Barranquilla', 'Valledupar':'Barranquilla', 'Sincelejo':'Barranquilla', 'Riohacha':'Barranquilla', 'Magangue':'Barranquilla', 'Aguachica':'Barranquilla', 'Ocana':'Barranquilla',
+            'Cartagena':'Cartagena', 'San Andres':'Cartagena', 'Providencia':'Cartagena',
+            'Arauca':'Bogota', 'Barrancabermeja':'Bogota', 'Mocoa':'Cali', 'San Jose Guaviare':'Rural', 'Inirida':'Rural', 'Mitu':'Rural', 'Puerto Carreno':'Rural',
             'Rural_Andes':'Rural', 'Rural_Costa':'Rural', 'Rural_Llanos':'Rural', 'Rural_Sur':'Rural',
+            'Rural_Amazonia':'Rural', 'Rural_Orinoquia':'Rural', 'Rural_Pacifico':'Rural', 'Rural_Santanderes':'Rural',
             'Hwy_Bogota_Medellin':'Rural', 'Hwy_Bogota_Cali':'Rural', 'Hwy_Bogota_Bucaramanga':'Rural',
             'Hwy_Costa_Caribe':'Rural', 'Hwy_Cali_Pasto':'Rural', 'Hwy_Medellin_Costa':'Rural',
           };
@@ -2145,7 +2172,12 @@
             'Santa Marta':'SMA', 'Villavicencio':'VIL', 'Pasto':'PAS', 'Manizales':'MAN', 'Monteria':'MON',
             'Valledupar':'VAL', 'Neiva':'NEI', 'Armenia':'ARM', 'Popayan':'POP', 'Sincelejo':'SIN',
             'Tunja':'TUN', 'Florencia':'FLO', 'Riohacha':'RIO', 'Quibdo':'QUI', 'Yopal':'YOP',
-            'Leticia':'LET', 'San Andres':'SAN', 'Rural_Andes':'RAN', 'Rural_Costa':'RCO', 'Rural_Llanos':'RLL', 'Rural_Sur':'RSU',
+            'Leticia':'LET', 'San Andres':'SAN',
+            'Arauca':'ARA', 'Mocoa':'MOC', 'San Jose Guaviare':'SJG', 'Inirida':'INI', 'Mitu':'MIT', 'Puerto Carreno':'PCA', 'Providencia':'PRO',
+            'Sogamoso':'SOG', 'Girardot':'GIR', 'Barrancabermeja':'BMJ', 'Tuluá':'TUL', 'Apartado':'APT', 'Turbo':'TUR',
+            'Magangue':'MAG', 'Ipiales':'IPI', 'Tumaco':'TUM', 'Buenaventura':'BUE', 'Aguachica':'AGU', 'Ocana':'OCA',
+            'Rural_Andes':'RAN', 'Rural_Costa':'RCO', 'Rural_Llanos':'RLL', 'Rural_Sur':'RSU',
+            'Rural_Amazonia':'RAM', 'Rural_Orinoquia':'ROR', 'Rural_Pacifico':'RPA', 'Rural_Santanderes':'RSA',
             'Hwy_Bogota_Medellin':'HBM', 'Hwy_Bogota_Cali':'HBC', 'Hwy_Bogota_Bucaramanga':'HBB',
             'Hwy_Costa_Caribe':'HCC', 'Hwy_Cali_Pasto':'HCP', 'Hwy_Medellin_Costa':'HMC'
           };
