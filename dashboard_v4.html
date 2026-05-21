@@ -2201,10 +2201,13 @@
               const u1 = rand() + 0.001; // avoid log(0)
               const u2 = rand();
               const gauss = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-              const dist = Math.abs(gauss) * cfg.radius * 0.4; // 0.4 controls spread width
+              const dist = Math.min(Math.abs(gauss), 3.5) * cfg.radius * 0.4; // clamp to ±3.5σ
               const angle = rand() * 2 * Math.PI;
               const lat = cfg.lat + dist * Math.cos(angle);
               const lon = cfg.lon + dist * Math.sin(angle);
+
+              // Skip if coordinates are invalid
+              if (isNaN(lat) || isNaN(lon) || !isFinite(lat) || !isFinite(lon)) continue;
 
               result.push({
                 id: 'CO-'+cityAbbr+'-'+(siteCounterByCity[regionName]).toString().padStart(4,'0'),
@@ -2233,6 +2236,8 @@
           const rand3 = mulberry32(11111);
           const tigo = [], claro = [];
           sites.forEach(site => {
+            // Skip sites with invalid coordinates
+            if (site.lat == null || site.lon == null || isNaN(site.lat) || isNaN(site.lon)) return;
             const ti = Math.min(1, Math.max(0.1, site.exp/5.0*(0.7+rand3()*0.3)));
             tigo.push([site.lat+(rand3()-0.5)*0.01, site.lon+(rand3()-0.5)*0.01, ti]);
             let cb = 0.6+rand3()*0.3;
@@ -2245,7 +2250,6 @@
         const mrGen = generateMRHeatmap(SITES_DATA);
         const MR_HEATMAP = mrGen;
         window.MR_HEATMAP_GENERATED = true;
-        console.log('MR_HEATMAP ready:', MR_HEATMAP.tigo.length, 'tigo points,', MR_HEATMAP.claro.length, 'claro points');
 
         // ============ TERMINAL HEATMAP ============
         function generateTerminalHeatmap(sites) {
@@ -3106,6 +3110,15 @@
           const sv = document.getElementById('coverageSplitView');
           const mm = document.getElementById('map');
           if (covSplitMode) {
+            // CRITICAL: Remove main map heatmap BEFORE hiding, otherwise Leaflet
+            // tries to render in hidden container → NaN LatLng error
+            if (covHeatLayer) {
+              try {
+                if (covHeatLayer.eachLayer) covHeatLayer.eachLayer(function(l){ map.removeLayer(l); });
+                else map.removeLayer(covHeatLayer);
+              } catch(e) {}
+              covHeatLayer = null;
+            }
             sv.style.display='block'; mm.style.visibility='hidden';
 
             // Create maps if first time
@@ -3118,36 +3131,42 @@
               L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(covSplitMapRight);
             }
 
-            // Sync initial view from main map
-            if (map) {
-              covSplitMapLeft.setView(map.getCenter(), map.getZoom(), {animate:false});
-              covSplitMapRight.setView(map.getCenter(), map.getZoom(), {animate:false});
-            }
+            // Remove old heatmaps BEFORE any setView (prevents NaN from stale layer redraw)
+            if (covSplitHeatLeft) { try { covSplitMapLeft.removeLayer(covSplitHeatLeft); } catch(e){} covSplitHeatLeft=null; }
+            if (covSplitHeatRight) { try { covSplitMapRight.removeLayer(covSplitHeatRight); } catch(e){} covSplitHeatRight=null; }
 
-            // invalidateSize first, then add heatmaps + sync
+            // invalidateSize + setView + add heatmaps (all in one timeout after container is visible)
             setTimeout(function(){
+              try {
               covSplitMapLeft.invalidateSize();
               covSplitMapRight.invalidateSize();
 
-              // Re-set view after invalidateSize (container size may have changed)
-              if (map) {
-                covSplitMapLeft.setView(map.getCenter(), map.getZoom(), {animate:false});
-                covSplitMapRight.setView(map.getCenter(), map.getZoom(), {animate:false});
+              covSplitMapLeft.setView([5.5, -74.5], 6, {animate:false});
+              covSplitMapRight.setView([5.5, -74.5], 6, {animate:false});
+
+              // Sync view from main map if available
+              if (map && map.getCenter) {
+                var mc = map.getCenter();
+                if (!isNaN(mc.lat) && !isNaN(mc.lng)) {
+                  covSplitMapLeft.setView(mc, map.getZoom(), {animate:false});
+                  covSplitMapRight.setView(mc, map.getZoom(), {animate:false});
+                }
               }
 
-              // Render Tigo MR heatmap (left)
-              if (covSplitHeatLeft) covSplitMapLeft.removeLayer(covSplitHeatLeft);
-              covSplitHeatLeft=L.heatLayer(MR_HEATMAP.tigo.map(function(p){return [p[0],p[1],p[2]]}),{
-                radius:25,blur:18,maxZoom:10,minOpacity:0.3,
-                gradient:{0.2:'#1e3a5f',0.4:'#3b82f6',0.6:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
-              }).addTo(covSplitMapLeft);
+              // Add heatmaps in next frame (after map projection is ready)
+              requestAnimationFrame(function(){
+                try {
+                  covSplitHeatLeft=L.heatLayer(MR_HEATMAP.tigo,{
+                    radius:25,blur:18,maxZoom:10,minOpacity:0.3,
+                    gradient:{0.2:'#1e3a5f',0.4:'#3b82f6',0.6:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
+                  }).addTo(covSplitMapLeft);
 
-              // Render Claro MR heatmap (right)
-              if (covSplitHeatRight) covSplitMapRight.removeLayer(covSplitHeatRight);
-              covSplitHeatRight=L.heatLayer(MR_HEATMAP.claro.map(function(p){return [p[0],p[1],p[2]]}),{
-                radius:25,blur:18,maxZoom:10,minOpacity:0.3,
-                gradient:{0.2:'#7c2d12',0.4:'#ea580c',0.6:'#f97316',0.8:'#fb923c',1.0:'#fdba74'}
-              }).addTo(covSplitMapRight);
+                  covSplitHeatRight=L.heatLayer(MR_HEATMAP.claro,{
+                    radius:25,blur:18,maxZoom:10,minOpacity:0.3,
+                    gradient:{0.2:'#7c2d12',0.4:'#ea580c',0.6:'#f97316',0.8:'#fb923c',1.0:'#fdba74'}
+                  }).addTo(covSplitMapRight);
+                } catch(e) { console.error('[CovSplit] heatmap error:', e.message); }
+              });
 
               // Bidirectional sync: use named handlers so we can safely unbind only ours
               // (off('move') without handler would remove ALL move handlers including Leaflet internals)
@@ -3168,30 +3187,12 @@
               covSplitMapLeft.on('move', _covSyncLeft);
               covSplitMapRight.on('move', _covSyncRight);
 
-              // Verify maps rendered correctly
-              var lSz = covSplitMapLeft.getSize();
-              var rSz = covSplitMapRight.getSize();
-              console.log('[CovSplit] LEFT size:'+lSz.x+'x'+lSz.y+' RIGHT size:'+rSz.x+'x'+rSz.y);
-              console.log('[CovSplit] Tigo='+MR_HEATMAP.tigo.length+' Claro='+MR_HEATMAP.claro.length+' sync=OK');
-
-              // Retry if map has 0 size (container not yet visible)
-              if (lSz.x === 0 || lSz.y === 0 || rSz.x === 0 || rSz.y === 0) {
-                console.warn('[CovSplit] Map 0-size detected, retrying...');
-                setTimeout(function(){
-                  covSplitMapLeft.invalidateSize();
-                  covSplitMapRight.invalidateSize();
-                  if (map) {
-                    covSplitMapLeft.setView(map.getCenter(), map.getZoom(), {animate:false});
-                    covSplitMapRight.setView(map.getCenter(), map.getZoom(), {animate:false});
-                  }
-                  // Re-add heatmaps
-                  if (covSplitHeatLeft) { covSplitMapLeft.removeLayer(covSplitHeatLeft); covSplitHeatLeft.addTo(covSplitMapLeft); }
-                  if (covSplitHeatRight) { covSplitMapRight.removeLayer(covSplitHeatRight); covSplitHeatRight.addTo(covSplitMapRight); }
-                }, 600);
-              }
+              } catch(err) { console.error('[CovSplit] init error:', err.message); }
             }, 400);
           } else {
             sv.style.display='none'; mm.style.visibility='visible';
+            // Restore main map heatmap
+            setTimeout(function(){ switchCovOperator('tigo'); }, 200);
           }
         }
 
@@ -3214,8 +3215,9 @@
             document.getElementById('coverageChartPanel').style.display = layer === 'coverageAnalysis' ? 'block' : 'none';
             if (layer === 'coverageAnalysis') {
                 setTimeout(() => {
+                    if (covSplitMode) return; // Skip if split view opened before this fires
                     initRsrpChart();
-                    switchCovOperator('tigo'); // 激活覆盖分析时显示Tigo热力图
+                    switchCovOperator('tigo');
                 }, 100);
             } else {
                 // 切换到其他图层时清除热力图
@@ -3747,6 +3749,8 @@
         // covHeatLayer is declared earlier (before switchMapLayer)
 
         function switchCovOperator(op) {
+            // Skip if in split mode (main map is hidden, heatmap would cause NaN)
+            if (covSplitMode) return;
             // 更新按钮状态
             document.querySelectorAll('.cov-op-btn').forEach(b => {
                 b.style.background='transparent'
