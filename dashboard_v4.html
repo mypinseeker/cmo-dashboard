@@ -1024,10 +1024,10 @@
                     <div class="card-label"><span data-i18n="高价值终端">高价值终端</span></div>
                     <div style="display:flex;align-items:baseline;gap:8px;">
                         <span class="big-number" style="font-size:var(--fs-xl);">4.5M</span>
-                        <span style="font-size:12px;color:#94a3b8;">占比 36% · 贡献收入 68%</span>
+                        <span style="font-size:12px;color:#94a3b8;" data-i18n="占比 36% · 贡献收入 68%">占比 36% · 贡献收入 68%</span>
                     </div>
                     <div style="margin-top:4px;">
-                        <span style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,0.1);padding:2px 8px;border-radius:99px;">
+                        <span style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,0.1);padding:2px 8px;border-radius:99px;" data-i18n="💰 预付费潜力 1.2M（可转后付费）">
                             💰 预付费潜力 1.2M（可转后付费）
                         </span>
                     </div>
@@ -1107,7 +1107,7 @@
 
                     <!-- 底部洞察 -->
                     <div style="margin-top:6px;padding:6px;background:rgba(245,158,11,0.08);border-radius:6px;border-left:3px solid #f59e0b;">
-                        <p style="font-size:10px;color:#f59e0b;">💡 B/quilla 高价值终端占 41% 但用户在流失 → 预付费转后付费的优先区域</p>
+                        <p style="font-size:10px;color:#f59e0b;" data-i18n="💡 B/quilla 高价值终端占 41% 但用户在流失 → 预付费转后付费的优先区域">💡 B/quilla 高价值终端占 41% 但用户在流失 → 预付费转后付费的优先区域</p>
                     </div>
                 </div>
             </div>
@@ -1141,13 +1141,13 @@
 
             <!-- Terminal Selector -->
             <div id="terminalSelector" style="display:none;position:absolute;top:50px;left:50%;transform:translateX(-50%);z-index:1000;background:rgba(17,24,39,0.95);padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(8px);align-items:center;gap:6px;">
-              <span style="font-size:10px;color:#94a3b8;">终端:</span>
+              <span style="font-size:10px;color:#94a3b8;" data-i18n="终端:">终端:</span>
               <select id="terminalSelect" onchange="switchTerminalHeatmap(this.value)" style="font-size:10px;background:#1e293b;color:#06b6d4;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 6px;cursor:pointer;font-family:inherit;">
                 <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
                 <option value="Samsung S25 Ultra">Samsung S25 Ultra</option>
                 <option value="iPhone 15">iPhone 15</option>
-                <option value="Samsung A55">Samsung A55 (中端)</option>
-                <option value="Xiaomi Redmi Note 13">Xiaomi Redmi (入门)</option>
+                <option value="Samsung A55">Samsung A55 (Mid)</option>
+                <option value="Xiaomi Redmi Note 13">Xiaomi Redmi (Entry)</option>
               </select>
             </div>
 
@@ -1155,7 +1155,7 @@
             <div id="splitView" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:500;">
               <div style="display:flex;width:100%;height:100%;">
                 <div style="flex:1;position:relative;border-right:2px solid #06b6d4;">
-                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:10px;font-weight:600;color:#06b6d4;background:rgba(17,24,39,0.9);padding:4px 10px;border-radius:6px;">终端分布
+                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:10px;font-weight:600;color:#06b6d4;background:rgba(17,24,39,0.9);padding:4px 10px;border-radius:6px;"><span data-i18n="终端分布">终端分布</span>
                     <select id="splitTerminalSelect" onchange="updateSplitTerminal(this.value)" style="font-size:9px;background:#1e293b;color:#06b6d4;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:1px 4px;margin-left:4px;cursor:pointer;font-family:inherit;">
                       <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
                       <option value="Samsung S25 Ultra">Samsung S25 Ultra</option>
@@ -1167,7 +1167,7 @@
                   <div id="splitMapLeft" style="width:100%;height:100%;"></div>
                 </div>
                 <div style="flex:1;position:relative;">
-                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:10px;font-weight:600;color:#f97316;background:rgba(17,24,39,0.9);padding:4px 10px;border-radius:6px;">网络覆盖</div>
+                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:10px;font-weight:600;color:#f97316;background:rgba(17,24,39,0.9);padding:4px 10px;border-radius:6px;"><span data-i18n="网络覆盖">网络覆盖</span></div>
                   <div id="splitMapRight" style="width:100%;height:100%;"></div>
                 </div>
               </div>
@@ -1201,7 +1201,7 @@
                   <div style="display:flex;gap:4px;margin-left:12px;margin-top:6px;">
                     <button class="cov-op-btn active" id="covOpTigo" onclick="switchCovOperator('tigo')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;">Tigo</button>
                     <button class="cov-op-btn" id="covOpClaro" onclick="switchCovOperator('claro')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">Claro</button>
-                    <button class="cov-op-btn" id="covOpBoth" onclick="switchCovOperator('both')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">对比</button>
+                    <button class="cov-op-btn" id="covOpBoth" onclick="switchCovOperator('both')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;"><span data-i18n="对比">对比</span></button>
                     <button class="cov-op-btn" id="covOpSplit" onclick="toggleCoverageSplit()" style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;margin-left:6px;border-left:2px solid rgba(255,255,255,0.1);"><span data-i18n="分屏对比">分屏对比</span></button>
                   </div>
                 </div>
@@ -1229,12 +1229,12 @@
                 </div>
                 <div style="font-size:10px;">
                   <span style="color:#64748b;"><span data-i18n="差覆盖">差覆盖</span>(<-100)：</span>
-                  <span style="color:#ef4444;font-weight:600;">38.5% (4.82M人)</span>
+                  <span style="color:#ef4444;font-weight:600;">38.5% (4.82M<span data-i18n="人">人</span>)</span>
                 </div>
                 <div style="font-size:10px;">
-                  <span style="color:#64748b;">vs Claro 好覆盖：</span>
+                  <span style="color:#64748b;">vs Claro <span data-i18n="好覆盖">好覆盖</span>：</span>
                   <span style="color:#f97316;font-weight:600;">70.0%</span>
-                  <span style="color:#ef4444;font-size:9px;"> (Claro 更好)</span>
+                  <span style="color:#ef4444;font-size:9px;"> (<span data-i18n="Claro 更好">Claro 更好</span>)</span>
                 </div>
               </div>
               <div id="rsrpChart" style="width:100%;height:180px;"></div>
@@ -1244,7 +1244,7 @@
             <div id="mapLegend" style="position:absolute;bottom:12px;right:12px;z-index:1000;
               background:rgba(17,24,39,0.92);padding:8px 12px;border-radius:8px;border:1px solid #334155;
               backdrop-filter:blur(4px);min-width:140px;">
-              <div id="legendTitle" style="font-size:9px;color:#64748b;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">体验评分</div>
+              <div id="legendTitle" style="font-size:9px;color:#64748b;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;" data-i18n="体验评分">体验评分</div>
               <div id="legendItems">
                 <!-- JS 动态生成 -->
               </div>
@@ -1253,15 +1253,15 @@
             <div class="map-legend" style="display:none;">
                 <div class="legend-item">
                     <div class="legend-dot" style="background-color: #10b981;"></div>
-                    <span>优秀 (≥4.0)</span>
+                    <span data-i18n="优秀 (≥4.0)">优秀 (≥4.0)</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-dot" style="background-color: #f59e0b;"></div>
-                    <span>良好 (3.0-4.0)</span>
+                    <span data-i18n="良好 (3.0-4.0)">良好 (3.0-4.0)</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-dot" style="background-color: #ef4444;"></div>
-                    <span>告警 (&lt;3.0)</span>
+                    <span data-i18n="告警 (<3.0)">告警 (&lt;3.0)</span>
                 </div>
             </div>
         </div>
@@ -1339,7 +1339,7 @@
                         </div>
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Cali')">
                             <span style="color:#f59e0b;">Cali</span>
-                            <span style="color:#f59e0b;">-11.6% → 稳定</span>
+                            <span style="color:#f59e0b;">-11.6% → <span data-i18n="稳定">稳定</span></span>
                         </div>
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Bogota')">
                             <span style="color:#10b981;">Bogota</span>
@@ -1354,7 +1354,7 @@
 
                 <!-- 覆盖对比（默认隐藏） -->
                 <div id="compCoveragePanel" style="display:none;">
-                    <div style="font-size:9px;color:#64748b;margin-bottom:6px;">Ookla 测速样本量 ≈ 覆盖代理指标</div>
+                    <div style="font-size:9px;color:#64748b;margin-bottom:6px;">Ookla ${currentLang==='zh'?'测速样本量 ≈ 覆盖代理指标':'samples ≈ coverage proxy'}</div>
                     <div id="coverageCityList">
                         <!-- 各城市覆盖对比 -->
                         <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Barranquilla')">
@@ -1593,6 +1593,96 @@
           '终端': { zh: '终端', en: 'Device' },
           '网络体验': { zh: '网络体验', en: 'Network QoE' },
           '社交': { zh: '社交', en: 'Social' },
+          // New translations for dashboard
+          '占比 36% · 贡献收入 68%': { zh: '占比 36% · 贡献收入 68%', en: 'Share 36% · Revenue 68%' },
+          '💰 预付费潜力 1.2M（可转后付费）': { zh: '💰 预付费潜力 1.2M（可转后付费）', en: '💰 Prepaid potential 1.2M (convertible)' },
+          '💡 B/quilla 高价值终端占 41% 但用户在流失 → 预付费转后付费的优先区域': { zh: '💡 B/quilla 高价值终端占 41% 但用户在流失 → 预付费转后付费的优先区域', en: '💡 B/quilla 41% high-value devices but users churning → priority for prepaid conversion' },
+          '终端:': { zh: '终端:', en: 'Device:' },
+          '网络覆盖': { zh: '网络覆盖', en: 'Coverage' },
+          '对比': { zh: '对比', en: 'Compare' },
+          '人': { zh: '人', en: 'users' },
+          'Claro 更好': { zh: 'Claro 更好', en: 'Claro better' },
+          '体验评分': { zh: '体验评分', en: 'QoE Score' },
+          '优秀 (≥4.0)': { zh: '优秀 (≥4.0)', en: 'Excellent (≥4.0)' },
+          '良好 (3.0-4.0)': { zh: '良好 (3.0-4.0)', en: 'Good (3.0-4.0)' },
+          '告警 (<3.0)': { zh: '告警 (<3.0)', en: 'Alert (<3.0)' },
+          '稳定': { zh: '稳定', en: 'Stable' },
+          '卡顿率': { zh: '卡顿率', en: 'Rebuffer Rate' },
+          '首次缓冲': { zh: '首次缓冲', en: 'Init Buffer' },
+          '日活会话': { zh: '日活会话', en: 'Daily Sessions' },
+          '上传速率': { zh: '上传速率', en: 'UL Speed' },
+          '日活用户': { zh: '日活用户', en: 'DAU' },
+          '人均时长': { zh: '人均时长', en: 'Avg Duration' },
+          '日总流量': { zh: '日总流量', en: 'Daily Traffic' },
+          '边缘用户': { zh: '边缘用户', en: 'Edge Users' },
+          '在网用户': { zh: '在网用户', en: 'Active Users' },
+          '月离网率': { zh: '月离网率', en: 'Monthly Churn' },
+          '体验差距': { zh: '体验差距', en: 'QoE Gap' },
+          '六维诊断': { zh: '六维诊断', en: '6-D Diagnosis' },
+          '网络PRB占用': { zh: '网络PRB占用', en: 'PRB Usage' },
+          '频段拥塞严重程度': { zh: '频段拥塞严重程度', en: 'Band congestion severity' },
+          '覆盖边缘的用户比例': { zh: '覆盖边缘的用户比例', en: 'Users at coverage edge' },
+          '高清播放成功率': { zh: '高清播放成功率', en: 'HD playback rate' },
+          '体验竞争力': { zh: '体验竞争力', en: 'QoE competitiveness' },
+          '月均用户流失': { zh: '月均用户流失', en: 'Monthly user churn' },
+          '基站数': { zh: '基站数', en: 'Sites' },
+          '覆盖密度': { zh: '覆盖密度', en: 'Coverage density' },
+          '建议行动': { zh: '建议行动', en: 'Recommended Actions' },
+          '分辨率分布': { zh: '分辨率分布', en: 'Resolution Dist.' },
+          '核心指标': { zh: '核心指标', en: 'Key Metrics' },
+          '播放成功率': { zh: '播放成功率', en: 'Play Success' },
+          '特征': { zh: '特征', en: 'Characteristics' },
+          '流量结构': { zh: '流量结构', en: 'Traffic Mix' },
+          '流量分布': { zh: '流量分布', en: 'Traffic Dist.' },
+          '成功': { zh: '成功', en: 'Success' },
+          '失败': { zh: '失败', en: 'Failure' },
+          '消息': { zh: '消息', en: 'Messaging' },
+          '游戏': { zh: '游戏', en: 'Gaming' },
+          '其他': { zh: '其他', en: 'Other' },
+          '下行速率': { zh: '下行速率', en: 'DL Speed' },
+          '上行速率': { zh: '上行速率', en: 'UL Speed' },
+          '时延': { zh: '时延', en: 'Latency' },
+          'PRB占用': { zh: 'PRB占用', en: 'PRB Usage' },
+          '边缘': { zh: '边缘', en: 'Edge' },
+          '频段': { zh: '频段', en: 'Bands' },
+          '加强离网预防，重点关注流失转移': { zh: '加强离网预防，重点关注流失转移', en: 'Strengthen churn prevention, focus on migration' },
+          '增加基站密度，降低边缘用户比例': { zh: '增加基站密度，降低边缘用户比例', en: 'Increase site density, reduce edge user ratio' },
+          '各区域 HD 占比': { zh: '各区域 HD 占比', en: 'HD Ratio by Region' },
+          '分辨率分布趋势（12 周）': { zh: '分辨率分布趋势（12 周）', en: 'Resolution Trend (12W)' },
+          '大区分布': { zh: '大区分布', en: 'Regional Dist.' },
+          '视频流媒体': { zh: '视频流媒体', en: 'Video Streaming' },
+          '社交媒体': { zh: '社交媒体', en: 'Social Media' },
+          '即时消息': { zh: '即时消息', en: 'Instant Messaging' },
+          '手游+云游戏': { zh: '手游+云游戏', en: 'Mobile/Cloud Gaming' },
+          '浏览器+企业+其他': { zh: '浏览器+企业+其他', en: 'Browser/Enterprise/Other' },
+          '用户增长率': { zh: '用户增长率', en: 'User Growth' },
+          '新增用户': { zh: '新增用户', en: 'New Users' },
+          '流失率': { zh: '流失率', en: 'Churn Rate' },
+          '覆盖分析': { zh: '覆盖分析', en: 'Coverage Analysis' },
+          '强劲增长': { zh: '强劲增长', en: 'Strong Growth' },
+          '稳健': { zh: '稳健', en: 'Healthy' },
+          '持平': { zh: '持平', en: 'Flat' },
+          '轻度下降': { zh: '轻度下降', en: 'Light Decline' },
+          '严重下降': { zh: '严重下降', en: 'Severe Decline' },
+          '健康': { zh: '健康', en: 'Healthy' },
+          '关注': { zh: '关注', en: 'Monitor' },
+          '严重': { zh: '严重', en: 'Severe' },
+          '高密度': { zh: '高密度', en: 'High Density' },
+          '中密度': { zh: '中密度', en: 'Medium Density' },
+          '低密度': { zh: '低密度', en: 'Low Density' },
+          '良好': { zh: '良好', en: 'Good' },
+          '关注': { zh: '关注', en: 'Alert' },
+          '较差': { zh: '较差', en: 'Poor' },
+          'Tigo 领先': { zh: 'Tigo 领先', en: 'Tigo Leading' },
+          'Tigo 落后': { zh: 'Tigo 落后', en: 'Tigo Lagging' },
+          '360p以下': { zh: '360p以下', en: '≤360p' },
+          '一般': { zh: '一般', en: 'Fair' },
+          '较差': { zh: '较差', en: 'Poor' },
+          '接近': { zh: '接近', en: 'Close' },
+          'Tigo 更优': { zh: 'Tigo 更优', en: 'Tigo Better' },
+          'Tigo 更差': { zh: 'Tigo 更差', en: 'Tigo Worse' },
+          'HD占比': { zh: 'HD占比', en: 'HD Ratio' },
+          '边缘占比': { zh: '边缘占比', en: 'Edge %' },
         };
 
         function getTranslation(key, fallback = key) {
@@ -2277,79 +2367,79 @@
             const prbStatus = parseFloat(data.prb) > 70 ? "critical" : parseFloat(data.prb) > 55 ? "warning" : "good";
 
             diagnosticHTML += `<div class="diagnostic-bar">`;
-            diagnosticHTML += `<div class="diagnostic-item ${expStatus}"><div class="diagnostic-label">体验评分</div><div class="diagnostic-value">${data.exp}</div></div>`;
-            diagnosticHTML += `<div class="diagnostic-item ${churnStatus}"><div class="diagnostic-label">离网率</div><div class="diagnostic-value">${data.churn}</div></div>`;
-            diagnosticHTML += `<div class="diagnostic-item ${edgeStatus}"><div class="diagnostic-label">边缘用户</div><div class="diagnostic-value">${data.edge}%</div></div>`;
-            diagnosticHTML += `<div class="diagnostic-item ${prbStatus}"><div class="diagnostic-label">PRB占用</div><div class="diagnostic-value">${data.prb}%</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${expStatus}"><div class="diagnostic-label">${getTranslation('体验评分')}</div><div class="diagnostic-value">${data.exp}</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${churnStatus}"><div class="diagnostic-label">${getTranslation('离网率')}</div><div class="diagnostic-value">${data.churn}</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${edgeStatus}"><div class="diagnostic-label">${getTranslation('边缘用户')}</div><div class="diagnostic-value">${data.edge}%</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${prbStatus}"><div class="diagnostic-label">${getTranslation('PRB占用')}</div><div class="diagnostic-value">${data.prb}%</div></div>`;
             diagnosticHTML += `</div>`;
 
             diagnosticHTML += `<div class="kpi-grid">`;
             diagnosticHTML += `<div class="kpi-card">
-                <div class="kpi-title">在网用户</div>
+                <div class="kpi-title">${getTranslation('在网用户')}</div>
                 <div class="kpi-value">${data.users}</div>
                 <div class="kpi-subtitle">MoM ${data.trend}</div>
             </div>`;
             diagnosticHTML += `<div class="kpi-card">
-                <div class="kpi-title">体验评分</div>
+                <div class="kpi-title">${getTranslation('体验评分')}</div>
                 <div class="kpi-value">${data.exp}</div>
                 <div class="kpi-subtitle">MoM ${data.expTrend}</div>
             </div>`;
             diagnosticHTML += `<div class="kpi-card">
-                <div class="kpi-title">月离网率</div>
+                <div class="kpi-title">${getTranslation('月离网率')}</div>
                 <div class="kpi-value">${data.churn}</div>
                 <div class="kpi-subtitle">MoM ${data.churnTrend}</div>
             </div>`;
             diagnosticHTML += `<div class="kpi-card">
                 <div class="kpi-title">vs Claro</div>
                 <div class="kpi-value" style="color: #ef4444;">${data.vsClaro}</div>
-                <div class="kpi-subtitle">体验差距</div>
+                <div class="kpi-subtitle">${getTranslation('体验差距')}</div>
             </div>`;
             diagnosticHTML += `</div>`;
 
-            diagnosticHTML += `<h3 class="section-title">六维诊断</h3>`;
+            diagnosticHTML += `<h3 class="section-title">${getTranslation('六维诊断')}</h3>`;
             diagnosticHTML += `<div class="attribution-grid">`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">网络PRB占用</div>
+                <div class="attribution-label">${getTranslation('网络PRB占用')}</div>
                 <div class="attribution-value">${data.prb}%</div>
-                <div class="attribution-detail">频段拥塞严重程度</div>
+                <div class="attribution-detail">${getTranslation('频段拥塞严重程度')}</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">边缘用户</div>
+                <div class="attribution-label">${getTranslation('边缘用户')}</div>
                 <div class="attribution-value">${data.edge}%</div>
-                <div class="attribution-detail">覆盖边缘的用户比例</div>
+                <div class="attribution-detail">${getTranslation('覆盖边缘的用户比例')}</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
                 <div class="attribution-label">YouTube HD</div>
                 <div class="attribution-value">${data.ytHD}%</div>
-                <div class="attribution-detail">高清播放成功率</div>
+                <div class="attribution-detail">${getTranslation('高清播放成功率')}</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
                 <div class="attribution-label">vs Claro</div>
                 <div class="attribution-value" style="color: #ef4444;">${data.vsClaro}</div>
-                <div class="attribution-detail">体验竞争力</div>
+                <div class="attribution-detail">${getTranslation('体验竞争力')}</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">离网率</div>
+                <div class="attribution-label">${getTranslation('离网率')}</div>
                 <div class="attribution-value">${data.churn}</div>
-                <div class="attribution-detail">月均用户流失</div>
+                <div class="attribution-detail">${getTranslation('月均用户流失')}</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">基站数</div>
+                <div class="attribution-label">${getTranslation('基站数')}</div>
                 <div class="attribution-value">${data.sites}</div>
-                <div class="attribution-detail">覆盖密度</div>
+                <div class="attribution-detail">${getTranslation('覆盖密度')}</div>
             </div>`;
             diagnosticHTML += `</div>`;
 
             diagnosticHTML += `<div class="action-box">`;
-            diagnosticHTML += `<h3 class="action-title">建议行动</h3>`;
+            diagnosticHTML += `<h3 class="action-title">${getTranslation('建议行动')}</h3>`;
             if (data.exp < 3.5) {
-                diagnosticHTML += `<p class="action-item">• 优先扩容 ${city}，目标提升体验 0.5+ 分</p>`;
+                diagnosticHTML += `<p class="action-item">• ${currentLang === 'zh' ? '优先扩容' : 'Priority expansion'} ${city}, ${currentLang === 'zh' ? '目标提升体验 0.5+ 分' : 'target QoE +0.5'}</p>`;
             }
             if (parseFloat(data.churn) > 1.5) {
-                diagnosticHTML += `<p class="action-item">• 加强离网预防，重点关注流失转移</p>`;
+                diagnosticHTML += `<p class="action-item">• ${getTranslation('加强离网预防，重点关注流失转移')}</p>`;
             }
             if (parseFloat(data.edge) > 25) {
-                diagnosticHTML += `<p class="action-item">• 增加基站密度，降低边缘用户比例</p>`;
+                diagnosticHTML += `<p class="action-item">• ${getTranslation('增加基站密度，降低边缘用户比例')}</p>`;
             }
             diagnosticHTML += `</div>`;
 
@@ -2378,7 +2468,7 @@
           })
 
           const colors = {youtube:'#ff0000',netflix:'#e50914',tiktok:'#00f2ea',traffic:'#3b82f6'}
-          const names = {youtube:'YouTube',netflix:'Netflix',tiktok:'TikTok',traffic:'流量分布'}
+          const names = {youtube:'YouTube',netflix:'Netflix',tiktok:'TikTok',traffic:getTranslation('流量分布')}
           title.textContent = '▶ ' + names[app]
           title.style.color = colors[app]
 
@@ -2390,7 +2480,7 @@
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <!-- 左列：分辨率分布 + 城市对比 -->
                 <div>
-                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">分辨率分布</h4>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">${getTranslation('分辨率分布')}</h4>
                   <div style="display:flex;height:24px;border-radius:6px;overflow:hidden;margin-bottom:6px;">
                     <div style="width:${vd.current['4K']}%;background:#10b981;" title="4K"></div>
                     <div style="width:${vd.current['1080p']}%;background:#06b6d4;" title="1080p"></div>
@@ -2406,7 +2496,7 @@
                     <span style="color:#ef4444;">≤360p ${vd.current['360p以下']}%</span>
                   </div>
 
-                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">各区域 HD 占比</h4>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">${getTranslation('各区域 HD 占比')}</h4>
                   ${vd.cityHD.map(c => {
                     const color = parseInt(c.hd) >= 35 ? '#10b981' : parseInt(c.hd) >= 25 ? '#f59e0b' : '#ef4444'
                     const trendColor = c.trend.startsWith('+') ? '#10b981' : '#ef4444'
@@ -2423,10 +2513,10 @@
 
                 <!-- 右列：分辨率分布趋势图 -->
                 <div>
-                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">分辨率分布趋势（12 周）</h4>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">${getTranslation('分辨率分布趋势（12 周）')}</h4>
                   <div id="panelResolutionTrend" style="width:100%;height:180px;"></div>
                   <div style="margin-top:12px;display:flex;gap:16px;font-size:11px;">
-                    <div><span style="color:#94a3b8;">卡顿率：</span><span style="color:${parseFloat(vd.rebufferTrend)>0?'#ef4444':'#10b981'};font-weight:600;">${vd.rebuffer}% (${vd.rebufferTrend})</span></div>
+                    <div><span style="color:#94a3b8;">${getTranslation('卡顿率')}：</span><span style="color:${parseFloat(vd.rebufferTrend)>0?'#ef4444':'#10b981'};font-weight:600;">${vd.rebuffer}% (${vd.rebufferTrend})</span></div>
                   </div>
                 </div>
               </div>
@@ -2456,11 +2546,11 @@
             content.innerHTML = `
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <div>
-                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">核心指标</h4>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">${getTranslation('核心指标')}</h4>
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
                       <div style="font-size:24px;font-weight:700;color:#10b981;">98.5%</div>
-                      <div style="font-size:10px;color:#94a3b8;">播放成功率</div>
+                      <div style="font-size:10px;color:#94a3b8;">${getTranslation('播放成功率')}</div>
                     </div>
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
                       <div style="font-size:24px;font-weight:700;color:#06b6d4;">6.2</div>
@@ -2468,16 +2558,16 @@
                     </div>
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
                       <div style="font-size:24px;font-weight:700;color:#f1f5f9;">580K</div>
-                      <div style="font-size:10px;color:#94a3b8;">日活用户</div>
+                      <div style="font-size:10px;color:#94a3b8;">${getTranslation('日活用户')}</div>
                     </div>
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
                       <div style="font-size:24px;font-weight:700;color:#f1f5f9;">45min</div>
-                      <div style="font-size:10px;color:#94a3b8;">人均时长</div>
+                      <div style="font-size:10px;color:#94a3b8;">${getTranslation('人均时长')}</div>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">特征</h4>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">${getTranslation('特征')}</h4>
                   <p style="font-size:11px;color:#94a3b8;line-height:1.8;">
                     TikTok 上行流量占比持续增长，短视频创作者增多。<br/>
                     上传速率需求高于其他 APP，需关注上行 PRB 利用率。<br/>
@@ -2491,9 +2581,9 @@
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <div id="panelTrafficPie" style="height:250px;"></div>
                 <div>
-                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">流量结构</h4>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">${getTranslation('流量结构')}</h4>
                   <div style="space-y:8px;">
-                    ${[{n:'视频流媒体',p:32,c:'#ef4444',d:'YouTube+Netflix+其他视频'},{n:'社交媒体',p:28,c:'#3b82f6',d:'Instagram+Facebook'},{n:'即时消息',p:18,c:'#10b981',d:'WhatsApp+Telegram'},{n:'游戏',p:8,c:'#f59e0b',d:'手游+云游戏'},{n:'其他',p:14,c:'#6b7280',d:'浏览器+企业+其他'}].map(c => `
+                    ${[{n:getTranslation('视频流媒体'),p:32,c:'#ef4444',d:'YouTube+Netflix+其他视频'},{n:getTranslation('社交媒体'),p:28,c:'#3b82f6',d:'Instagram+Facebook'},{n:getTranslation('即时消息'),p:18,c:'#10b981',d:'WhatsApp+Telegram'},{n:getTranslation('游戏'),p:8,c:'#f59e0b',d:'手游+云游戏'},{n:getTranslation('其他'),p:14,c:'#6b7280',d:'浏览器+企业+其他'}].map(c => `
                       <div style="margin-bottom:8px;">
                         <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
                           <span style="font-size:12px;color:${c.c};font-weight:600;">${c.n}</span>
@@ -2514,7 +2604,7 @@
               chart.setOption({
                 series:[{
                   type:'pie',radius:['40%','70%'],center:['50%','50%'],
-                  data:[{value:32,name:'视频',itemStyle:{color:'#ef4444'}},{value:28,name:'社交',itemStyle:{color:'#3b82f6'}},{value:18,name:'消息',itemStyle:{color:'#10b981'}},{value:8,name:'游戏',itemStyle:{color:'#f59e0b'}},{value:14,name:'其他',itemStyle:{color:'#6b7280'}}],
+                  data:[{value:32,name:getTranslation('视频'),itemStyle:{color:'#ef4444'}},{value:28,name:getTranslation('社交'),itemStyle:{color:'#3b82f6'}},{value:18,name:getTranslation('消息'),itemStyle:{color:'#10b981'}},{value:8,name:getTranslation('游戏'),itemStyle:{color:'#f59e0b'}},{value:14,name:getTranslation('其他'),itemStyle:{color:'#6b7280'}}],
                   label:{color:'#94a3b8',fontSize:10},
                   emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,0.5)'}},
                 }],
@@ -2703,7 +2793,7 @@
           if (!data) return
 
           document.getElementById('terminalBreakdown').style.display = 'block'
-          document.getElementById('breakdownTitle').textContent = '📱 ' + model + ' · 大区分布'
+          document.getElementById('breakdownTitle').textContent = '📱 ' + model + ' · ' + getTranslation('大区分布')
 
           const cities = Object.entries(data.cities).sort((a,b) => b[1] - a[1])
           const maxCity = cities[0][1]
@@ -2922,7 +3012,7 @@
                     }
                     case 'churn':
                         fillColor = parseFloat(cd.churn) > 1.5 ? '#ef4444' : parseFloat(cd.churn) > 1.0 ? '#f59e0b' : '#10b981';
-                        label = `流失 ${cd.churn}`;
+                        label = `${getTranslation('流失分布')} ${cd.churn}`;
                         break;
                     case 'competitiveness': {
                         const selM = document.getElementById('expMetricSelect')
@@ -2966,10 +3056,10 @@
                         const covCity = covData.cities.find(c => c.city === city);
                         if (covCity) {
                             fillColor = covCity.status === 'good' ? '#10b981' : covCity.status === 'warn' ? '#f59e0b' : '#ef4444';
-                            label = `边缘 ${covCity.value}%`;
+                            label = `${getTranslation('边缘')} ${covCity.value}%`;
                         } else {
                             fillColor = '#64748b';
-                            label = '覆盖';
+                            label = getTranslation('覆盖');
                         }
                         break;
                     }
@@ -3112,18 +3202,18 @@
                         const sg = site.growth||0;
                         color = sg > 2 ? '#059669' : sg > 0.5 ? '#10b981' : sg > -0.5 ? '#f59e0b' : sg > -2 ? '#f97316' : '#ef4444';
                         radius = 5 + Math.abs(sg) * 1.5;
-                        tooltipExtra = `增长: ${sg > 0 ? '+' : ''}${sg}%`;
+                        tooltipExtra = `${currentLang==='zh'?'增长':'Growth'}: ${sg > 0 ? '+' : ''}${sg}%`;
                         break;
                     }
                     case 'newUsers':
                         color = (site.newUsers||0) > 250 ? '#2563eb' : (site.newUsers||0) > 150 ? '#3b82f6' : '#60a5fa';
                         radius = 6;
-                        tooltipExtra = `新增: +${site.newUsers||0}`;
+                        tooltipExtra = `${currentLang==='zh'?'新增':'New'}: +${site.newUsers||0}`;
                         break;
                     case 'churn':
                         color = (site.churnRate||0) > 2.0 ? '#ef4444' : (site.churnRate||0) > 1.2 ? '#f59e0b' : '#10b981';
                         radius = 5 + (site.churnRate||0) * 2.5;
-                        tooltipExtra = `流失: ${site.churnRate||0}%`;
+                        tooltipExtra = `${currentLang==='zh'?'流失':'Churn'}: ${site.churnRate||0}%`;
                         break;
                     case 'competitiveness': {
                         const selM3 = document.getElementById('expMetricSelect')
@@ -3160,10 +3250,10 @@
                         const covCity2 = covData2.cities.find(c => c.city === site.city);
                         if (covCity2) {
                             color = covCity2.status === 'good' ? '#10b981' : covCity2.status === 'warn' ? '#f59e0b' : '#ef4444';
-                            tooltipExtra = `边缘占比: ${covCity2.value}%`;
+                            tooltipExtra = `${currentLang==='zh'?'边缘占比':'Edge %'}: ${covCity2.value}%`;
                         } else {
                             color = '#64748b';
-                            tooltipExtra = '覆盖';
+                            tooltipExtra = getTranslation('覆盖');
                         }
                         radius = 6;
                         break;
@@ -3186,8 +3276,8 @@
                     opacity: 1,
                     fillOpacity: 0.7,
                 }).bindPopup(`<div style="font-size:11px;color:#f1f5f9;background:#1e293b;padding:6px;border-radius:6px;min-width:140px;">
-                  <b>${site.id}</b><br/>${site.city}<br/>${tooltipExtra}<br/>PRB: ${site.prb}% · 边缘: ${site.edge}%<br/>
-                  <span style="font-size:10px;color:#64748b;">频段: ${site.bands}</span>
+                  <b>${site.id}</b><br/>${site.city}<br/>${tooltipExtra}<br/>PRB: ${site.prb}% · ${getTranslation('边缘')}: ${site.edge}%<br/>
+                  <span style="font-size:10px;color:#64748b;">${getTranslation('频段')}: ${site.bands}</span>
                 </div>`, {className:'dark-popup'});
 
                 marker.addTo(map);
@@ -3211,20 +3301,20 @@
                 const m = sel ? sel.value : 'dl_speed'
 
                 const legendMap = {
-                    dl_speed: {title:'下行速率 (Mbps)',items:[{color:'#10b981',label:'≥ 40 良好'},{color:'#f59e0b',label:'25-40 一般'},{color:'#ef4444',label:'< 25 较差'}]},
-                    ul_speed: {title:'上行速率 (Mbps)',items:[{color:'#10b981',label:'≥ 9 良好'},{color:'#f59e0b',label:'6-9 一般'},{color:'#ef4444',label:'< 6 较差'}]},
-                    latency: {title:'时延 (ms)',items:[{color:'#10b981',label:'≤ 30 良好'},{color:'#f59e0b',label:'30-45 一般'},{color:'#ef4444',label:'> 45 较差'}]},
-                    coverage: {title:'边缘占比 (%)',items:[{color:'#10b981',label:'≤ 18% 良好'},{color:'#f59e0b',label:'18-28% 一般'},{color:'#ef4444',label:'> 28% 较差'}]},
+                    dl_speed: {title:`${getTranslation('下行速率')} (Mbps)`,items:[{color:'#10b981',label:`≥ 40 ${getTranslation('良好')}`},{color:'#f59e0b',label:`25-40 ${getTranslation('一般')}`},{color:'#ef4444',label:`< 25 ${getTranslation('较差')}`}]},
+                    ul_speed: {title:`${getTranslation('上行速率')} (Mbps)`,items:[{color:'#10b981',label:`≥ 9 ${getTranslation('良好')}`},{color:'#f59e0b',label:`6-9 ${getTranslation('一般')}`},{color:'#ef4444',label:`< 6 ${getTranslation('较差')}`}]},
+                    latency: {title:`${getTranslation('时延')} (ms)`,items:[{color:'#10b981',label:`≤ 30 ${getTranslation('良好')}`},{color:'#f59e0b',label:`30-45 ${getTranslation('一般')}`},{color:'#ef4444',label:`> 45 ${getTranslation('较差')}`}]},
+                    coverage: {title:`${getTranslation('边缘')}占比 (%)`,items:[{color:'#10b981',label:`≤ 18% ${getTranslation('良好')}`},{color:'#f59e0b',label:`18-28% ${getTranslation('一般')}`},{color:'#ef4444',label:`> 28% ${getTranslation('较差')}`}]},
                 }
                 legendData = legendMap[m] || legendMap.dl_speed
             } else {
                 const staticLegends = {
-                    growth:{title:'用户增长率',items:[{color:'#059669',label:'> +2% 强劲增长'},{color:'#10b981',label:'+0.5%~+2% 稳健'},{color:'#f59e0b',label:'-0.5%~+0.5% 持平'},{color:'#f97316',label:'-2%~-0.5% 轻度下降'},{color:'#ef4444',label:'< -2% 严重下降'}]},
-                    newUsers:{title:'新增用户',items:[{color:'#2563eb',label:'> 2K / > 250 高'},{color:'#3b82f6',label:'1K-2K / 150-250 中'},{color:'#60a5fa',label:'< 1K / < 150 低'}]},
-                    churn:{title:'流失率',items:[{color:'#10b981',label:'< 1.2% 健康'},{color:'#f59e0b',label:'1.2-2.0% 关注'},{color:'#ef4444',label:'> 2.0% 严重'}]},
-                    video:{title:'YouTube HD 占比',items:[{color:'#10b981',label:'≥ 35% 良好'},{color:'#f59e0b',label:'25-35% 一般'},{color:'#ef4444',label:'< 25% 较差'}]},
-                    coverageAnalysis:{title:'覆盖分析',items:[{color:'#10b981',label:'边缘 ≤ 18% 良好'},{color:'#f59e0b',label:'边缘 18-28% 关注'},{color:'#ef4444',label:'边缘 > 28% 较差'}]},
-                    terminal:{title:'终端分布',items:[{color:'#ef4444',label:'高密度'},{color:'#f59e0b',label:'中密度'},{color:'#10b981',label:'低密度'}]},
+                    growth:{title:getTranslation('用户增长率'),items:[{color:'#059669',label:`> +2% ${getTranslation('强劲增长')}`},{color:'#10b981',label:`+0.5%~+2% ${getTranslation('稳健')}`},{color:'#f59e0b',label:`-0.5%~+0.5% ${getTranslation('持平')}`},{color:'#f97316',label:`-2%~-0.5% ${getTranslation('轻度下降')}`},{color:'#ef4444',label:`< -2% ${getTranslation('严重下降')}`}]},
+                    newUsers:{title:getTranslation('新增用户'),items:[{color:'#2563eb',label:'> 2K / > 250 高'},{color:'#3b82f6',label:'1K-2K / 150-250 中'},{color:'#60a5fa',label:'< 1K / < 150 低'}]},
+                    churn:{title:getTranslation('流失率'),items:[{color:'#10b981',label:`< 1.2% ${getTranslation('健康')}`},{color:'#f59e0b',label:`1.2-2.0% ${getTranslation('关注')}`},{color:'#ef4444',label:`> 2.0% ${getTranslation('严重')}`}]},
+                    video:{title:'YouTube HD 占比',items:[{color:'#10b981',label:`≥ 35% ${getTranslation('良好')}`},{color:'#f59e0b',label:`25-35% ${getTranslation('一般')}`},{color:'#ef4444',label:`< 25% ${getTranslation('较差')}`}]},
+                    coverageAnalysis:{title:getTranslation('覆盖分析'),items:[{color:'#10b981',label:`${getTranslation('边缘')} ≤ 18% ${getTranslation('良好')}`},{color:'#f59e0b',label:`${getTranslation('边缘')} 18-28% ${getTranslation('关注')}`},{color:'#ef4444',label:`${getTranslation('边缘')} > 28% ${getTranslation('较差')}`}]},
+                    terminal:{title:getTranslation('终端分布'),items:[{color:'#ef4444',label:getTranslation('高密度')},{color:'#f59e0b',label:getTranslation('中密度')},{color:'#10b981',label:getTranslation('低密度')}]},
                 }
                 if (layer === 'competitiveness') {
                     const selLC = document.getElementById('expMetricSelect')
@@ -3235,13 +3325,13 @@
                     legendData = {
                         title: `vs Claro · ${mdLC ? mdLC.label : ''}`,
                         items: isLowerLC ? [
-                            {color:'#10b981', label:'Tigo 更优 (差距<-5%)'},
-                            {color:'#f59e0b', label:'接近 (-5%~15%)'},
-                            {color:'#ef4444', label:'Tigo 更差 (差距>15%)'},
+                            {color:'#10b981', label:`${currentLang==='zh'?'Tigo 更优':'Tigo Better'} (${currentLang==='zh'?'差距':'Gap'}<-5%)`},
+                            {color:'#f59e0b', label:`${currentLang==='zh'?'接近':'Close'} (-5%~15%)`},
+                            {color:'#ef4444', label:`${currentLang==='zh'?'Tigo 更差':'Tigo Worse'} (${currentLang==='zh'?'差距':'Gap'}>15%)`},
                         ] : [
-                            {color:'#10b981', label:'Tigo 领先 (>5%)'},
-                            {color:'#f59e0b', label:'接近 (-15%~5%)'},
-                            {color:'#ef4444', label:'Tigo 落后 (<-15%)'},
+                            {color:'#10b981', label:`${currentLang==='zh'?'Tigo 领先':'Tigo Leading'} (>5%)`},
+                            {color:'#f59e0b', label:`${currentLang==='zh'?'接近':'Close'} (-15%~5%)`},
+                            {color:'#ef4444', label:`${currentLang==='zh'?'Tigo 落后':'Tigo Lagging'} (<-15%)`},
                         ]
                     }
                 } else {
@@ -3545,7 +3635,7 @@
                     backgroundColor: '#1e293b',
                     borderColor: '#334155',
                     textStyle: { color: '#f1f5f9', fontSize: 11 },
-                    formatter: p => `${p[0].axisValue}<br/>用户: ${(p[0].value/1000000).toFixed(2)}M`
+                    formatter: p => `${p[0].axisValue}<br/>${currentLang==='zh'?'用户':'Users'}: ${(p[0].value/1000000).toFixed(2)}M`
                 },
             });
 
@@ -3581,7 +3671,7 @@
                 tooltip: {
                     trigger: 'axis', backgroundColor: '#1e293b', borderColor: '#334155',
                     textStyle: { color: '#f1f5f9', fontSize: 9 },
-                    formatter: p => `${p[0].axisValue}<br/>HD占比: ${p[0].value}%`
+                    formatter: p => `${p[0].axisValue}<br/>${getTranslation('HD占比')}: ${p[0].value}%`
                 },
             });
 
@@ -3612,7 +3702,7 @@
                 tooltip: {
                     trigger: 'axis', backgroundColor: '#1e293b', borderColor: '#334155',
                     textStyle: { color: '#f1f5f9', fontSize: 9 },
-                    formatter: p => `${p[0].axisValue}<br/>HD占比: ${p[0].value}%`
+                    formatter: p => `${p[0].axisValue}<br/>${getTranslation('HD占比')}: ${p[0].value}%`
                 },
             });
 
@@ -3668,8 +3758,8 @@
             tkPie.setOption({
                 series:[{type:'pie',radius:['40%','75%'],center:['50%','50%'],
                     data:[
-                        {value:98.5,name:'成功',itemStyle:{color:'#10b981'}},
-                        {value:1.5,name:'失败',itemStyle:{color:'#ef4444'}},
+                        {value:98.5,name:getTranslation('成功'),itemStyle:{color:'#10b981'}},
+                        {value:1.5,name:getTranslation('失败'),itemStyle:{color:'#ef4444'}},
                     ],
                     label:{show:false},emphasis:{scale:false},
                 }],
@@ -3682,11 +3772,11 @@
             trPie.setOption({
                 series:[{type:'pie',radius:['40%','75%'],center:['50%','50%'],
                     data:[
-                        {value:32,name:'视频',itemStyle:{color:'#ef4444'}},
-                        {value:28,name:'社交',itemStyle:{color:'#3b82f6'}},
-                        {value:18,name:'消息',itemStyle:{color:'#10b981'}},
-                        {value:8,name:'游戏',itemStyle:{color:'#f59e0b'}},
-                        {value:14,name:'其他',itemStyle:{color:'#6b7280'}},
+                        {value:32,name:getTranslation('视频'),itemStyle:{color:'#ef4444'}},
+                        {value:28,name:getTranslation('社交'),itemStyle:{color:'#3b82f6'}},
+                        {value:18,name:getTranslation('消息'),itemStyle:{color:'#10b981'}},
+                        {value:8,name:getTranslation('游戏'),itemStyle:{color:'#f59e0b'}},
+                        {value:14,name:getTranslation('其他'),itemStyle:{color:'#6b7280'}},
                     ],
                     label:{show:false},emphasis:{scale:false},
                 }],
