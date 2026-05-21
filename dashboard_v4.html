@@ -3053,16 +3053,16 @@
               L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(splitMapRight);
             }
             // Sync initial view from main map
-            if (window.map) {
-              splitMapLeft.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
-              splitMapRight.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
+            if (map) {
+              splitMapLeft.setView(map.getCenter(), map.getZoom(), {animate:false});
+              splitMapRight.setView(map.getCenter(), map.getZoom(), {animate:false});
             }
             setTimeout(function(){
               splitMapLeft.invalidateSize();
               splitMapRight.invalidateSize();
-              if (window.map) {
-                splitMapLeft.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
-                splitMapRight.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
+              if (map) {
+                splitMapLeft.setView(map.getCenter(), map.getZoom(), {animate:false});
+                splitMapRight.setView(map.getCenter(), map.getZoom(), {animate:false});
               }
               // Render heatmaps after layout
               updateSplitTerminal(document.getElementById('splitTerminalSelect').value);
@@ -3119,9 +3119,9 @@
             }
 
             // Sync initial view from main map
-            if (window.map) {
-              covSplitMapLeft.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
-              covSplitMapRight.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
+            if (map) {
+              covSplitMapLeft.setView(map.getCenter(), map.getZoom(), {animate:false});
+              covSplitMapRight.setView(map.getCenter(), map.getZoom(), {animate:false});
             }
 
             // invalidateSize first, then add heatmaps + sync
@@ -3130,9 +3130,9 @@
               covSplitMapRight.invalidateSize();
 
               // Re-set view after invalidateSize (container size may have changed)
-              if (window.map) {
-                covSplitMapLeft.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
-                covSplitMapRight.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
+              if (map) {
+                covSplitMapLeft.setView(map.getCenter(), map.getZoom(), {animate:false});
+                covSplitMapRight.setView(map.getCenter(), map.getZoom(), {animate:false});
               }
 
               // Render Tigo MR heatmap (left)
@@ -3180,9 +3180,9 @@
                 setTimeout(function(){
                   covSplitMapLeft.invalidateSize();
                   covSplitMapRight.invalidateSize();
-                  if (window.map) {
-                    covSplitMapLeft.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
-                    covSplitMapRight.setView(window.map.getCenter(), window.map.getZoom(), {animate:false});
+                  if (map) {
+                    covSplitMapLeft.setView(map.getCenter(), map.getZoom(), {animate:false});
+                    covSplitMapRight.setView(map.getCenter(), map.getZoom(), {animate:false});
                   }
                   // Re-add heatmaps
                   if (covSplitHeatLeft) { covSplitMapLeft.removeLayer(covSplitHeatLeft); covSplitHeatLeft.addTo(covSplitMapLeft); }
@@ -4207,7 +4207,7 @@
               if (inst) inst.resize();
             });
             // Resize Leaflet maps
-            if (window.map) window.map.invalidateSize();
+            if (map) map.invalidateSize();
             if (window.splitMapLeft) window.splitMapLeft.invalidateSize();
             if (window.splitMapRight) window.splitMapRight.invalidateSize();
           }, 200);
