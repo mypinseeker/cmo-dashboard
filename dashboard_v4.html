@@ -3517,11 +3517,20 @@
                         radius = 6;
                         tooltipExtra = `${currentLang==='zh'?'新增':'New'}: +${site.newUsers||0}`;
                         break;
-                    case 'churn':
-                        color = (site.churnRate||0) > 2.0 ? '#ef4444' : (site.churnRate||0) > 1.2 ? '#f59e0b' : '#10b981';
-                        radius = 5 + (site.churnRate||0) * 2.5;
-                        tooltipExtra = `${currentLang==='zh'?'流失':'Churn'}: ${site.churnRate||0}%`;
+                    case 'churn': {
+                        const netUsers = (site.newUsers||0) - (site.churnUsers||0);
+                        const isGrowing = netUsers > 0;
+                        const severity = Math.abs(netUsers);
+                        if (isGrowing) {
+                          color = netUsers > 150 ? '#059669' : netUsers > 50 ? '#10b981' : '#84cc16';
+                        } else {
+                          color = netUsers < -80 ? '#dc2626' : netUsers < -30 ? '#ef4444' : '#f59e0b';
+                        }
+                        radius = Math.min(12, 4 + severity / 30);
+                        const sign = netUsers > 0 ? '+' : '';
+                        tooltipExtra = `${currentLang==='zh'?'新增':'New'}: +${site.newUsers||0} · ${currentLang==='zh'?'流失':'Churn'}: -${site.churnUsers||0}<br/>${currentLang==='zh'?'净增':'Net'}: <b style="color:${isGrowing?'#10b981':'#ef4444'}">${sign}${netUsers}</b> · ${currentLang==='zh'?'流失率':'Rate'}: ${site.churnRate||0}%`;
                         break;
+                    }
                     case 'competitiveness': {
                         const selM3 = document.getElementById('expMetricSelect')
                         const curM3 = selM3 ? selM3.value : 'dl_speed'
@@ -3618,7 +3627,7 @@
                 const staticLegends = {
                     growth:{title:getTranslation('用户增长率'),items:[{color:'#059669',label:`> +2% ${getTranslation('强劲增长')}`},{color:'#10b981',label:`+0.5%~+2% ${getTranslation('稳健')}`},{color:'#f59e0b',label:`-0.5%~+0.5% ${getTranslation('持平')}`},{color:'#f97316',label:`-2%~-0.5% ${getTranslation('轻度下降')}`},{color:'#ef4444',label:`< -2% ${getTranslation('严重下降')}`}]},
                     newUsers:{title:getTranslation('新增用户'),items:[{color:'#2563eb',label:`> 2K / > 250 ${getTranslation('高')}`},{color:'#3b82f6',label:`1K-2K / 150-250 ${getTranslation('中')}`},{color:'#60a5fa',label:`< 1K / < 150 ${getTranslation('低')}`}]},
-                    churn:{title:getTranslation('流失率'),items:[{color:'#10b981',label:`< 1.2% ${getTranslation('健康')}`},{color:'#f59e0b',label:`1.2-2.0% ${getTranslation('关注')}`},{color:'#ef4444',label:`> 2.0% ${getTranslation('严重')}`}]},
+                    churn:{title:getTranslation('净增') + ' / ' + getTranslation('流失'),items:[{color:'#059669',label:`${getTranslation('净增')} > 150`},{color:'#10b981',label:`${getTranslation('净增')} 50~150`},{color:'#84cc16',label:`${getTranslation('净增')} < 50`},{color:'#f59e0b',label:`${getTranslation('流失')} < 30`},{color:'#ef4444',label:`${getTranslation('流失')} 30~80`},{color:'#dc2626',label:`${getTranslation('流失')} > 80`}]},
                     video:{title:getTranslation('YouTube HD 占比'),items:[{color:'#10b981',label:`≥ 35% ${getTranslation('良好')}`},{color:'#f59e0b',label:`25-35% ${getTranslation('一般')}`},{color:'#ef4444',label:`< 25% ${getTranslation('较差')}`}]},
                     coverageAnalysis:{title:getTranslation('覆盖分析'),items:[{color:'#10b981',label:`${getTranslation('边缘')} ≤ 18% ${getTranslation('良好')}`},{color:'#f59e0b',label:`${getTranslation('边缘')} 18-28% ${getTranslation('关注')}`},{color:'#ef4444',label:`${getTranslation('边缘')} > 28% ${getTranslation('较差')}`}]},
                     terminal:{title:getTranslation('终端分布'),items:[{color:'#ef4444',label:getTranslation('高密度')},{color:'#f59e0b',label:getTranslation('中密度')},{color:'#10b981',label:getTranslation('低密度')}]},
