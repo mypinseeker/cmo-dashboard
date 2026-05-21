@@ -982,6 +982,22 @@
                     <span class="trend-badge trend-up">▲ +2.3% MoM</span>
                 </div>
 
+                <!-- 3-column stats row -->
+                <div style="display:flex;justify-content:space-between;margin:8px 0;padding:6px 0;border-top:1px solid #1e293b;border-bottom:1px solid #1e293b;">
+                  <div style="text-align:center;flex:1;">
+                    <div style="font-size:var(--fs-xs);color:#64748b;" data-i18n="净增">净增</div>
+                    <div style="font-size:var(--fs-base);font-weight:700;color:#10b981;">+28K</div>
+                  </div>
+                  <div style="text-align:center;flex:1;border-left:1px solid #1e293b;border-right:1px solid #1e293b;">
+                    <div style="font-size:var(--fs-xs);color:#64748b;" data-i18n="流失">流失</div>
+                    <div style="font-size:var(--fs-base);font-weight:700;color:#ef4444;">-15.2K</div>
+                  </div>
+                  <div style="text-align:center;flex:1;">
+                    <div style="font-size:var(--fs-xs);color:#64748b;">ARPU</div>
+                    <div style="font-size:var(--fs-base);font-weight:700;color:#06b6d4;">$8.5</div>
+                  </div>
+                </div>
+
                 <!-- 周趋势图 -->
                 <div id="userTrendChart" style="width:100%;height:clamp(80px,12vh,120px);margin-bottom:6px;"></div>
 
@@ -1012,6 +1028,22 @@
                             <span style="font-size:11px;color:#10b981;font-weight:600;">+2.5% ▲</span>
                         </div>
                     </div>
+
+                    <!-- Prepaid/Postpaid Bar -->
+                    <div style="margin-top:8px;border-top:1px solid #1e293b;padding-top:8px;">
+                      <div style="display:flex;justify-content:space-between;font-size:var(--fs-xs);margin-bottom:4px;">
+                        <span style="color:#64748b;" data-i18n="预付费 / 后付费">预付费 / 后付费</span>
+                        <span style="color:#94a3b8;">62% / 38%</span>
+                      </div>
+                      <div style="display:flex;height:6px;border-radius:3px;overflow:hidden;">
+                        <div style="width:62%;background:#f59e0b;"></div>
+                        <div style="width:38%;background:#3b82f6;"></div>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;font-size:var(--fs-xs);margin-top:2px;">
+                        <span style="color:#f59e0b;">7.75M <span data-i18n="预付费">预付费</span></span>
+                        <span style="color:#3b82f6;">4.75M <span data-i18n="后付费">后付费</span></span>
+                      </div>
+                    </div>
                 </div>
             </div>
 
@@ -1028,6 +1060,20 @@
                         <span style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,0.1);padding:2px 8px;border-radius:99px;" data-i18n="💰 预付费潜力 1.2M（可转后付费）">
                             💰 预付费潜力 1.2M（可转后付费）
                         </span>
+                    </div>
+
+                    <!-- 5G & VoLTE Section -->
+                    <div style="display:flex;gap:8px;margin-top:6px;">
+                      <div style="flex:1;padding:4px 8px;background:rgba(6,182,212,0.08);border-radius:6px;border-left:2px solid #06b6d4;">
+                        <div style="font-size:var(--fs-xs);color:#64748b;" data-i18n="5G 终端渗透">5G 终端渗透</div>
+                        <div style="font-size:var(--fs-base);font-weight:700;color:#06b6d4;">28.5%</div>
+                        <div style="font-size:var(--fs-xs);color:#10b981;">▲ +4.2% QoQ</div>
+                      </div>
+                      <div style="flex:1;padding:4px 8px;background:rgba(16,185,129,0.08);border-radius:6px;border-left:2px solid #10b981;">
+                        <div style="font-size:var(--fs-xs);color:#64748b;" data-i18n="VoLTE 就绪">VoLTE 就绪</div>
+                        <div style="font-size:var(--fs-base);font-weight:700;color:#10b981;">72.3%</div>
+                        <div style="font-size:var(--fs-xs);color:#10b981;">▲ +1.8% MoM</div>
+                      </div>
                     </div>
                 </div>
 
@@ -1318,6 +1364,32 @@
                             <div style="font-size:16px;font-weight:700;color:#f97316;">42.5</div>
                             <div style="font-size:8px;color:#64748b;">Mbps</div>
                         </div>
+                    </div>
+
+                    <!-- Additional metrics (Latency, UL, Share) -->
+                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;padding-top:6px;border-top:1px solid #1e293b;">
+                      <div style="text-align:center;flex:1;">
+                        <div style="font-size:var(--fs-xs);color:#64748b;" data-i18n="时延">时延</div>
+                        <div style="display:flex;justify-content:center;gap:8px;">
+                          <span style="font-size:var(--fs-sm);font-weight:600;color:#06b6d4;">32ms</span>
+                          <span style="font-size:var(--fs-sm);font-weight:600;color:#f97316;">28ms</span>
+                        </div>
+                      </div>
+                      <div style="text-align:center;flex:1;border-left:1px solid #1e293b;">
+                        <div style="font-size:var(--fs-xs);color:#64748b;" data-i18n="上行">上行</div>
+                        <div style="display:flex;justify-content:center;gap:8px;">
+                          <span style="font-size:var(--fs-sm);font-weight:600;color:#06b6d4;">8.5</span>
+                          <span style="font-size:var(--fs-sm);font-weight:600;color:#f97316;">9.2</span>
+                        </div>
+                        <div style="font-size:7px;color:#64748b;">Mbps</div>
+                      </div>
+                      <div style="text-align:center;flex:1;border-left:1px solid #1e293b;">
+                        <div style="font-size:var(--fs-xs);color:#64748b;" data-i18n="份额">份额</div>
+                        <div style="display:flex;justify-content:center;gap:8px;">
+                          <span style="font-size:var(--fs-sm);font-weight:600;color:#06b6d4;">34%</span>
+                          <span style="font-size:var(--fs-sm);font-weight:600;color:#f97316;">41%</span>
+                        </div>
+                      </div>
                     </div>
 
                     <!-- 周趋势小图 -->
@@ -1687,6 +1759,19 @@
           '高': { zh: '高', en: 'High' },
           '中': { zh: '中', en: 'Mid' },
           '低': { zh: '低', en: 'Low' },
+          '净增': { zh: '净增', en: 'Net Add' },
+          '流失': { zh: '流失', en: 'Churn' },
+          '预付费 / 后付费': { zh: '预付费 / 后付费', en: 'Prepaid / Postpaid' },
+          '预付费': { zh: '预付费', en: 'Prepaid' },
+          '后付费': { zh: '后付费', en: 'Postpaid' },
+          '目标值': { zh: '目标值', en: 'Target' },
+          '差距': { zh: '差距', en: 'Gap' },
+          '周环比': { zh: '周环比', en: 'WoW' },
+          '时延': { zh: '时延', en: 'Latency' },
+          '上行': { zh: '上行', en: 'UL' },
+          '份额': { zh: '份额', en: 'Share' },
+          '5G 终端渗透': { zh: '5G 终端渗透', en: '5G Device Penetration' },
+          'VoLTE 就绪': { zh: 'VoLTE 就绪', en: 'VoLTE Ready' },
           'YouTube HD 占比': { zh: 'YouTube HD 占比', en: 'YouTube HD Ratio' },
         };
 
@@ -2187,6 +2272,7 @@
             unit: "Mbps",
             overall: 38.2,
             mom: "+2.5",
+            target: 45,
             vsClaro: {value:42.5,gap:"-10%",trend:getTranslation('缩小')},
             monthly: [{m:"Dec",v:33},{m:"Jan",v:34},{m:"Feb",v:35},{m:"Mar",v:36},{m:"Apr",v:37},{m:"May",v:38.2}],
             cities: [
@@ -2202,6 +2288,7 @@
             unit: "Mbps",
             overall: 8.5,
             mom: "+0.3",
+            target: 12,
             vsClaro: {value:9.2,gap:"-8%",trend:getTranslation('稳定')},
             monthly: [{m:"Dec",v:7.8},{m:"Jan",v:7.9},{m:"Feb",v:8.0},{m:"Mar",v:8.2},{m:"Apr",v:8.3},{m:"May",v:8.5}],
             cities: [
@@ -2217,6 +2304,7 @@
             unit: "ms",
             overall: 32,
             mom: "-2",
+            target: 25,
             vsClaro: {value:28,gap:"+14%",trend:getTranslation('缩小')},
             monthly: [{m:"Dec",v:38},{m:"Jan",v:37},{m:"Feb",v:36},{m:"Mar",v:35},{m:"Apr",v:33},{m:"May",v:32}],
             cities: [
@@ -2232,6 +2320,7 @@
             unit: "%",
             overall: 20,
             mom: "+0.5",
+            target: 15,
             vsClaro: {value:18,gap:"+11%",trend:getTranslation('扩大')},
             monthly: [{m:"Dec",v:18},{m:"Jan",v:18.5},{m:"Feb",v:19},{m:"Mar",v:19.2},{m:"Apr",v:19.8},{m:"May",v:20}],
             cities: [
@@ -2707,6 +2796,11 @@
           const momColor = (isLower && parseFloat(d.mom) < 0) || (!isLower && parseFloat(d.mom) > 0) ? '#10b981' : '#ef4444'
           const momArrow = parseFloat(d.mom) > 0 ? '▲' : parseFloat(d.mom) < 0 ? '▼' : '→'
 
+          // 计算与目标值的差距
+          const gap = d.overall - d.target
+          const gapText = gap === 0 ? '→ 0' : (gap > 0 ? (isLower ? '-' : '+') : (isLower ? '+' : '-')) + Math.abs(gap).toFixed(1) + d.unit
+          const gapColor = gap === 0 ? '#94a3b8' : (isLower ? (gap < 0 ? '#10b981' : '#ef4444') : (gap > 0 ? '#10b981' : '#ef4444'))
+
           document.getElementById('expMetricContent').innerHTML = `
             <div style="display:flex;align-items:baseline;gap:6px;">
               <span class="big-number" style="font-size:28px;">${d.overall}</span>
@@ -2715,6 +2809,10 @@
             <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
               <span style="font-size:10px;color:${momColor};font-weight:600;">${momArrow} ${d.mom} MoM</span>
               <span style="font-size:9px;color:#f59e0b;">vs Claro: ${d.vsClaro.value}${d.unit} (${d.vsClaro.gap}) · ${d.vsClaro.trend}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding:4px 8px;background:rgba(15,23,42,0.5);border-radius:6px;">
+              <span style="font-size:var(--fs-xs);color:#64748b;">${getTranslation('目标值')}</span>
+              <span style="font-size:var(--fs-xs);font-weight:600;color:${gapColor};">${d.target}${d.unit} → ${getTranslation('差距')} ${gapText}</span>
             </div>
           `
 
