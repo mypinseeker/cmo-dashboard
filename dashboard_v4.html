@@ -290,12 +290,11 @@
             gap: var(--gap);
             grid-column: 1;
             grid-row: 2 / 4;
-            overflow-y: auto;
-            overflow-x: hidden;
+            overflow: hidden;
         }
-        /* 左栏两张卡片按比例撑满 */
-        .left-column > .card:first-child { flex: 2; min-height: 0; }
-        .left-column > .card:last-child  { flex: 3; min-height: 0; }
+        /* 左栏两张卡片按比例撑满，内部各自滚动 */
+        .left-column > .card:first-child { flex: 2; min-height: 0; overflow-y: auto; }
+        .left-column > .card:last-child  { flex: 3; min-height: 0; overflow-y: auto; }
 
         .map-container {
             grid-column: 2;
@@ -979,7 +978,7 @@
         <!-- Left Column -->
         <div class="left-column">
             <!-- Users Card -->
-            <div class="card" style="overflow-y:auto;">
+            <div class="card">
                 <div class="card-title"><span data-i18n="在网用户">在网用户</span></div>
                 <div style="margin-bottom:8px;">
                     <div class="big-number">12.5M</div>
@@ -1020,7 +1019,7 @@
             </div>
 
             <!-- High-Value Terminals Card -->
-            <div class="card" style="overflow-y:auto;">
+            <div class="card">
                 <!-- 标题和总数 -->
                 <div style="margin-bottom:8px;">
                     <div class="card-label"><span data-i18n="高价值终端">高价值终端</span></div>
