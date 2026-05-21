@@ -3834,7 +3834,10 @@
                     emphasis:{scale:false},
                 }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
-                graphic:[{type:'text',left:'center',top:'center',style:{text:'33%',fill:'#06b6d4',fontSize:14,fontWeight:700,textAlign:'center'}}],
+                graphic:[
+                    {type:'text',left:'center',top:'38%',style:{text:'33%',fill:'#06b6d4',fontSize:14,fontWeight:700,textAlign:'center'}},
+                    {type:'text',left:'center',top:'58%',style:{text:'HD',fill:'#64748b',fontSize:8,textAlign:'center'}},
+                ],
             })
 
             // Netflix 分辨率饼图
@@ -3851,7 +3854,10 @@
                     label:{show:false},emphasis:{scale:false},
                 }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
-                graphic:[{type:'text',left:'center',top:'center',style:{text:'43%',fill:'#10b981',fontSize:14,fontWeight:700,textAlign:'center'}}],
+                graphic:[
+                    {type:'text',left:'center',top:'38%',style:{text:'43%',fill:'#10b981',fontSize:14,fontWeight:700,textAlign:'center'}},
+                    {type:'text',left:'center',top:'58%',style:{text:'HD',fill:'#64748b',fontSize:8,textAlign:'center'}},
+                ],
             })
 
             // TikTok 成功率/失败率
@@ -3865,7 +3871,10 @@
                     label:{show:false},emphasis:{scale:false},
                 }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
-                graphic:[{type:'text',left:'center',top:'center',style:{text:'98.5%',fill:'#10b981',fontSize:12,fontWeight:700,textAlign:'center'}}],
+                graphic:[
+                    {type:'text',left:'center',top:'35%',style:{text:'98.5%',fill:'#10b981',fontSize:12,fontWeight:700,textAlign:'center'}},
+                    {type:'text',left:'center',top:'55%',style:{text:getTranslation('成功率'),fill:'#64748b',fontSize:7,textAlign:'center'}},
+                ],
             })
 
             // 流量分布
@@ -3882,7 +3891,10 @@
                     label:{show:false},emphasis:{scale:false},
                 }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
-                graphic:[{type:'text',left:'center',top:'center',style:{text:'2.8PB',fill:'#f1f5f9',fontSize:12,fontWeight:700,textAlign:'center'}}],
+                graphic:[
+                    {type:'text',left:'center',top:'35%',style:{text:'2.8PB',fill:'#f1f5f9',fontSize:12,fontWeight:700,textAlign:'center'}},
+                    {type:'text',left:'center',top:'55%',style:{text:getTranslation('日总流量'),fill:'#64748b',fontSize:7,textAlign:'center'}},
+                ],
             })
 
             window.addEventListener('resize', () => {
