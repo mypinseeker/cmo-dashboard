@@ -104,6 +104,7 @@ for tag in ['div','span','script','style']:
 | **5d. 变量声明顺序 (TDZ)** | `const`/`let` 声明的全局变量，必须在第一次引用之前完成声明。函数体内的引用虽然是延迟执行，但如果函数可能在声明前被调用（如 onclick 触发），则仍然会触发暂时性死区 (TDZ) ReferenceError |
 | **5e. 无重复声明** | 同一个 `const`/`let` 变量名只能声明一次，不允许在不同位置重复声明 |
 | **5f. onclick 引用检查** | HTML 中每个 `onclick="funcName()"` 的 funcName 必须在 JS 中有 `function funcName` 定义 |
+| **5g. 数据键名一致性** | 同一个实体（城市/区域/指标）在不同数据结构中必须用完全相同的字符串。禁止混用带重音和不带重音的拼写（如 `Medellín` vs `Medellin`），统一用不带重音的 ASCII 拼写 |
 
 **自动化检查脚本（TDZ + 重复声明）**：
 ```python
