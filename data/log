@@ -1,0 +1,23 @@
+dashboard_v4 (7).html:2229 Sites expanded to 5657
+dashboard_v4 (7).html:2248 MR_HEATMAP ready: 5657 tigo points, 5657 claro points
+dashboard_v4 (7).html:3266 GeoJSON not loaded yet, cannot render administrative boundaries
+renderNationalView @ dashboard_v4 (7).html:3266
+dashboard_v4 (7).html:3266 GeoJSON not loaded yet, cannot render administrative boundaries
+renderNationalView @ dashboard_v4 (7).html:3266
+dashboard_v4 (7).html:3818 GeoJSON loaded successfully: 33 features
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+dashboard_v4 (7).html:3123 Uncaught TypeError: window.map.getCenter is not a function
+    at toggleCoverageSplit (dashboard_v4 (7).html:3123:50)
+    at HTMLButtonElement.onclick (dashboard_v4 (7).html:1279:311)
+dashboard_v4 (7).html:1 Unsafe attempt to load URL file:///C:/Users/l00888347/Downloads/dashboard_v4%20(7).html from frame with URL file:///C:/Users/l00888347/Downloads/dashboard_v4%20(7).html. 'file:' URLs are treated as unique security origins.
+
+dashboard_v4 (7).html:4210 Uncaught TypeError: window.map.invalidateSize is not a function
+    at dashboard_v4 (7).html:4210:40
+(anonymous) @ dashboard_v4 (7).html:4210
+LatLng.js:32 Uncaught Error: Invalid LatLng object: (NaN, NaN)
+LatLng @ LatLng.js:32
+(anonymous) @ LatLng.js:120
+latLngToContainerPoint @ Map.js:1061
+_redraw @ leaflet-heat.js:11
+_reset @ leaflet-heat.js:11
+fire @ Events.js:195
