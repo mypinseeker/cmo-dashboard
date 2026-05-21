@@ -293,6 +293,9 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
+        /* 左栏两张卡片按比例撑满 */
+        .left-column > .card:first-child { flex: 2; min-height: 0; }
+        .left-column > .card:last-child  { flex: 3; min-height: 0; }
 
         .map-container {
             grid-column: 2;
@@ -347,12 +350,17 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
+        /* 右栏三张卡片按比例撑满 */
+        .right-column > .card:nth-child(1) { flex: 3; min-height: 0; }
+        .right-column > .card:nth-child(2) { flex: 3; min-height: 0; }
+        .right-column > .card:nth-child(3) { flex: 2; min-height: 0; }
 
         .bottom-row {
             grid-column: 2;
             grid-row: 3;
             display: flex;
             gap: var(--gap);
+            align-items: stretch;
             padding: 0;
             position: static;
             background: transparent;
@@ -864,6 +872,58 @@
         }
         .big-number { text-shadow: 0 0 20px rgba(6,182,212,0.15) !important; }
 
+        /* ============ BOTTOM APP CARDS ============ */
+        .btm-card {
+            padding: clamp(6px, 0.6vw, 10px) !important;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: clamp(6px, 0.6vw, 10px) !important;
+            overflow: hidden !important;
+        }
+        .btm-pie {
+            width: clamp(60px, 5.5vw, 90px);
+            min-height: clamp(60px, 5.5vw, 90px);
+            flex-shrink: 0;
+        }
+        .btm-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: clamp(2px, 0.3vh, 5px);
+            min-width: 0;
+        }
+        .btm-hdr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: clamp(1px, 0.2vh, 3px);
+        }
+        .btm-name {
+            font-size: var(--fs-sm);
+            font-weight: 700;
+        }
+        .btm-badge {
+            font-size: clamp(7px, 0.5vw, 9px);
+            padding: 1px 5px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+        .btm-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--fs-xs);
+            line-height: 1.4;
+        }
+        .btm-label {
+            color: #64748b;
+        }
+        .btm-val {
+            color: #f1f5f9;
+            font-weight: 600;
+        }
+
         /* ============ SIDEBAR SCROLLBAR ============ */
         .left-column::-webkit-scrollbar,
         .right-column::-webkit-scrollbar {
@@ -922,12 +982,12 @@
             <div class="card" style="overflow-y:auto;">
                 <div class="card-title"><span data-i18n="在网用户">在网用户</span></div>
                 <div style="margin-bottom:8px;">
-                    <div class="big-number" style="font-size:32px;">12.5M</div>
+                    <div class="big-number">12.5M</div>
                     <span class="trend-badge trend-up">▲ +2.3% MoM</span>
                 </div>
 
                 <!-- 周趋势图 -->
-                <div id="userTrendChart" style="width:100%;height:120px;margin-bottom:8px;"></div>
+                <div id="userTrendChart" style="width:100%;height:clamp(80px,12vh,120px);margin-bottom:6px;"></div>
 
                 <!-- 区域分布警报 -->
                 <div style="margin-top:8px;border-top:1px solid #1e293b;padding-top:8px;">
@@ -965,7 +1025,7 @@
                 <div style="margin-bottom:8px;">
                     <div class="card-label"><span data-i18n="高价值终端">高价值终端</span></div>
                     <div style="display:flex;align-items:baseline;gap:8px;">
-                        <span class="big-number" style="font-size:28px;">4.5M</span>
+                        <span class="big-number" style="font-size:var(--fs-xl);">4.5M</span>
                         <span style="font-size:12px;color:#94a3b8;">占比 36% · 贡献收入 68%</span>
                     </div>
                     <div style="margin-top:4px;">
@@ -978,7 +1038,7 @@
                 <!-- Top 终端型号 — 阶梯图 -->
                 <div style="border-top:1px solid #1e293b;padding-top:8px;margin-bottom:8px;">
                     <div class="card-label" style="margin-bottom:6px;"><span data-i18n="Top 终端（点击查看大区分布）">Top 终端（点击查看大区分布）</span></div>
-                    <div id="terminalChart" style="width:100%;height:130px;"></div>
+                    <div id="terminalChart" style="width:100%;height:clamp(80px,12vh,130px);"></div>
                     <!-- 展开的大区分布面板 -->
                     <div id="terminalBreakdown" style="display:none;margin-top:6px;padding:8px;background:#0f172a;border-radius:8px;border:1px solid #334155;">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
@@ -1227,7 +1287,7 @@
               <div id="expMetricContent"></div>
 
               <!-- 趋势图 -->
-              <div id="expMetricChart" style="width:100%;height:90px;margin:6px 0;"></div>
+              <div id="expMetricChart" style="width:100%;height:clamp(60px,10vh,90px);margin:4px 0;"></div>
 
               <!-- 区域排名 -->
               <div style="border-top:1px solid #1e293b;padding-top:6px;">
@@ -1265,7 +1325,7 @@
                     </div>
 
                     <!-- 周趋势小图 -->
-                    <div id="compTrendChart" style="width:100%;height:70px;"></div>
+                    <div id="compTrendChart" style="width:100%;height:clamp(50px,8vh,70px);"></div>
 
                     <!-- 各城市差距 -->
                     <div style="border-top:1px solid #1e293b;padding-top:6px;margin-top:4px;">
@@ -1356,7 +1416,7 @@
             <!-- Churn Distribution Card -->
             <div class="card" style="overflow-y:auto;">
               <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px;">
-                <span class="big-number" style="font-size:22px;">15.2K</span>
+                <span class="big-number" style="font-size:var(--fs-xl);">15.2K</span>
                 <span style="font-size:10px;color:#ef4444;">▲ +8% MoM</span>
               </div>
               <div class="card-label" style="margin-bottom:6px;"><span data-i18n="流失分布">流失分布</span></div>
@@ -1381,98 +1441,62 @@
               </div>
 
               <!-- 周趋势柱状图 -->
-              <div id="churnWeeklyChart" style="width:100%;height:70px;"></div>
+              <div id="churnWeeklyChart" style="width:100%;height:clamp(50px,8vh,70px);"></div>
             </div>
         </div>
 
-        <!-- Bottom Row: App Cards — 饼图撑满高度 + 右侧多行信息 -->
+        <!-- Bottom Row: App Cards — 饼图 + 右侧指标，响应式 -->
         <div class="bottom-row">
           <!-- YouTube -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;border-top:3px solid #ff0000;cursor:pointer;overflow:hidden;" onclick="openAppPanel('youtube')">
-            <div id="ytPieSmall" style="width:90px;min-height:90px;flex-shrink:0;"></div>
-            <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;gap:6px;">
-              <div style="display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:13px;font-weight:700;color:#ff0000;">YouTube</span>
-                <span style="font-size:9px;color:#ef4444;background:rgba(239,68,68,0.1);padding:2px 8px;border-radius:10px;">▲ +2.1%</span>
+          <div class="card btm-card" style="flex:1;border-top:3px solid #ff0000;cursor:pointer;" onclick="openAppPanel('youtube')">
+            <div id="ytPieSmall" class="btm-pie"></div>
+            <div class="btm-info">
+              <div class="btm-hdr">
+                <span class="btm-name" style="color:#ff0000;">YouTube</span>
+                <span class="btm-badge" style="color:#ef4444;background:rgba(239,68,68,0.1);">▲ +2.1%</span>
               </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">卡顿率</span>
-                <span style="color:#ef4444;font-weight:600;">2.8%</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">首次缓冲</span>
-                <span style="color:#f59e0b;font-weight:600;">1.2s</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">日活会话</span>
-                <span style="color:#f1f5f9;font-weight:600;">2.8M</span>
-              </div>
+              <div class="btm-row"><span class="btm-label" data-i18n="卡顿率">卡顿率</span><span class="btm-val" style="color:#ef4444;">2.8%</span></div>
+              <div class="btm-row"><span class="btm-label" data-i18n="首次缓冲">首次缓冲</span><span class="btm-val" style="color:#f59e0b;">1.2s</span></div>
+              <div class="btm-row"><span class="btm-label" data-i18n="日活会话">日活会话</span><span class="btm-val">2.8M</span></div>
             </div>
           </div>
           <!-- Netflix -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;border-top:3px solid #e50914;cursor:pointer;overflow:hidden;" onclick="openAppPanel('netflix')">
-            <div id="nfPieSmall" style="width:90px;min-height:90px;flex-shrink:0;"></div>
-            <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;gap:6px;">
-              <div style="display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:13px;font-weight:700;color:#e50914;">Netflix</span>
-                <span style="font-size:9px;color:#10b981;background:rgba(16,185,129,0.1);padding:2px 8px;border-radius:10px;">▲ +2.0%</span>
+          <div class="card btm-card" style="flex:1;border-top:3px solid #e50914;cursor:pointer;" onclick="openAppPanel('netflix')">
+            <div id="nfPieSmall" class="btm-pie"></div>
+            <div class="btm-info">
+              <div class="btm-hdr">
+                <span class="btm-name" style="color:#e50914;">Netflix</span>
+                <span class="btm-badge" style="color:#10b981;background:rgba(16,185,129,0.1);">▲ +2.0%</span>
               </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">卡顿率</span>
-                <span style="color:#10b981;font-weight:600;">1.5%</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">首次缓冲</span>
-                <span style="color:#10b981;font-weight:600;">0.95s</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">日活会话</span>
-                <span style="color:#f1f5f9;font-weight:600;">650K</span>
-              </div>
+              <div class="btm-row"><span class="btm-label" data-i18n="卡顿率">卡顿率</span><span class="btm-val" style="color:#10b981;">1.5%</span></div>
+              <div class="btm-row"><span class="btm-label" data-i18n="首次缓冲">首次缓冲</span><span class="btm-val" style="color:#10b981;">0.95s</span></div>
+              <div class="btm-row"><span class="btm-label" data-i18n="日活会话">日活会话</span><span class="btm-val">650K</span></div>
             </div>
           </div>
           <!-- TikTok -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;border-top:3px solid #00f2ea;cursor:pointer;overflow:hidden;" onclick="openAppPanel('tiktok')">
-            <div id="tkPieSmall" style="width:90px;min-height:90px;flex-shrink:0;"></div>
-            <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;gap:6px;">
-              <div style="display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:13px;font-weight:700;color:#00f2ea;">TikTok</span>
-                <span style="font-size:9px;color:#10b981;background:rgba(16,185,129,0.1);padding:2px 8px;border-radius:10px;">▲ +0.2%</span>
+          <div class="card btm-card" style="flex:1;border-top:3px solid #00f2ea;cursor:pointer;" onclick="openAppPanel('tiktok')">
+            <div id="tkPieSmall" class="btm-pie"></div>
+            <div class="btm-info">
+              <div class="btm-hdr">
+                <span class="btm-name" style="color:#00f2ea;">TikTok</span>
+                <span class="btm-badge" style="color:#10b981;background:rgba(16,185,129,0.1);">▲ +0.2%</span>
               </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">上传速率</span>
-                <span style="color:#06b6d4;font-weight:600;">6.2 Mbps</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">日活用户</span>
-                <span style="color:#f1f5f9;font-weight:600;">580K</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">人均时长</span>
-                <span style="color:#f1f5f9;font-weight:600;">45 min</span>
-              </div>
+              <div class="btm-row"><span class="btm-label" data-i18n="上传速率">上传速率</span><span class="btm-val" style="color:#06b6d4;">6.2 Mbps</span></div>
+              <div class="btm-row"><span class="btm-label" data-i18n="日活用户">日活用户</span><span class="btm-val">580K</span></div>
+              <div class="btm-row"><span class="btm-label" data-i18n="人均时长">人均时长</span><span class="btm-val">45 min</span></div>
             </div>
           </div>
           <!-- 流量 -->
-          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:10px;border-top:3px solid #3b82f6;cursor:pointer;overflow:hidden;" onclick="openAppPanel('traffic')">
-            <div id="trafficPieSmall" style="width:90px;min-height:90px;flex-shrink:0;"></div>
-            <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;gap:6px;">
-              <div style="display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:13px;font-weight:700;color:#94a3b8;">流量</span>
-                <span style="font-size:9px;color:#ef4444;background:rgba(239,68,68,0.1);padding:2px 8px;border-radius:10px;">▲ +1.5%</span>
+          <div class="card btm-card" style="flex:1;border-top:3px solid #3b82f6;cursor:pointer;" onclick="openAppPanel('traffic')">
+            <div id="trafficPieSmall" class="btm-pie"></div>
+            <div class="btm-info">
+              <div class="btm-hdr">
+                <span class="btm-name" style="color:#94a3b8;" data-i18n="流量">流量</span>
+                <span class="btm-badge" style="color:#ef4444;background:rgba(239,68,68,0.1);">▲ +1.5%</span>
               </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">视频</span>
-                <span style="color:#ef4444;font-weight:600;">32%</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">社交</span>
-                <span style="color:#3b82f6;font-weight:600;">28%</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;">
-                <span style="color:#64748b;">日总流量</span>
-                <span style="color:#f1f5f9;font-weight:600;">2.8 PB</span>
-              </div>
+              <div class="btm-row"><span class="btm-label" data-i18n="视频">视频</span><span class="btm-val" style="color:#ef4444;">32%</span></div>
+              <div class="btm-row"><span class="btm-label" data-i18n="社交">社交</span><span class="btm-val" style="color:#3b82f6;">28%</span></div>
+              <div class="btm-row"><span class="btm-label" data-i18n="日总流量">日总流量</span><span class="btm-val">2.8 PB</span></div>
             </div>
           </div>
         </div>
