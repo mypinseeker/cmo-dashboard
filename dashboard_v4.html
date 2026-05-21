@@ -293,8 +293,7 @@
             overflow: hidden;
         }
         /* 左栏两张卡片按比例撑满，内部各自滚动 */
-        .left-column > .card:first-child { flex: 2; min-height: 0; overflow-y: auto; }
-        .left-column > .card:last-child  { flex: 3; min-height: 0; overflow-y: auto; }
+        .left-column > .card { flex: 1 1 0; min-height: 0; overflow-y: auto; }
 
         .map-container {
             grid-column: 2;
