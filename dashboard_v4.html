@@ -1166,7 +1166,7 @@
               <button class="map-layer-btn" onclick="switchMapLayer('growth')" id="btn-growth"><span data-i18n="用户增长率">用户增长率</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('newUsers')" id="btn-newUsers"><span data-i18n="新增用户">新增用户</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('churn')" id="btn-churn"><span data-i18n="流失分布">流失分布</span></button>
-              <button class="map-layer-btn" onclick="switchMapLayer('competitiveness')" id="btn-competitiveness"><span data-i18n="vs Claro">vs Claro</span></button>
+              <button class="map-layer-btn" onclick="switchMapLayer('competitiveness')" id="btn-competitiveness"><span data-i18n="vs Op-B">vs Op-B</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('video')" id="btn-video"><span data-i18n="视频体验">视频体验</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('coverageAnalysis')" id="btn-coverageAnalysis"><span data-i18n="覆盖分析">覆盖分析</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('terminal')" id="btn-terminal"><span data-i18n="终端分布">终端分布</span></button>
@@ -1241,9 +1241,9 @@
                 </div>
                 <div style="flex:1;position:relative;">
                   <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:11px;font-weight:700;color:#f97316;background:rgba(17,24,39,0.92);padding:6px 12px;border-radius:8px;backdrop-filter:blur(4px);border:1px solid rgba(249,115,22,0.2);">
-                    Claro MR <span style="font-size:9px;font-weight:400;color:#94a3b8;" data-i18n="覆盖热力">覆盖热力</span>
+                    Op-B MR <span style="font-size:9px;font-weight:400;color:#94a3b8;" data-i18n="覆盖热力">覆盖热力</span>
                   </div>
-                  <!-- Claro legend -->
+                  <!-- Op-B legend -->
                   <div style="position:absolute;bottom:12px;left:8px;z-index:1000;background:rgba(17,24,39,0.92);padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);font-size:9px;color:#94a3b8;">
                     <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;">
                       <div style="width:10px;height:6px;background:#fdba74;border-radius:1px;"></div><span data-i18n="强覆盖">强覆盖</span>
@@ -1274,7 +1274,7 @@
                   <!-- 运营商切换按钮 -->
                   <div style="display:flex;gap:4px;margin-left:12px;margin-top:6px;">
                     <button class="cov-op-btn active" id="covOpTigo" onclick="switchCovOperator('tigo')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;">Tigo</button>
-                    <button class="cov-op-btn" id="covOpClaro" onclick="switchCovOperator('claro')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">Claro</button>
+                    <button class="cov-op-btn" id="covOpClaro" onclick="switchCovOperator('claro')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">Op-B</button>
                     <button class="cov-op-btn" id="covOpBoth" onclick="switchCovOperator('both')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;"><span data-i18n="对比">对比</span></button>
                     <button class="cov-op-btn" id="covOpSplit" onclick="toggleCoverageSplit()" style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;margin-left:6px;border-left:2px solid rgba(255,255,255,0.1);"><span data-i18n="分屏对比">分屏对比</span></button>
                   </div>
@@ -1290,7 +1290,7 @@
                   </div>
                   <div style="display:flex;align-items:center;gap:4px;">
                     <div style="width:12px;height:2px;background:#f97316;border-top:1px dashed #f97316;"></div>
-                    <span style="font-size:9px;color:#94a3b8;">Claro Ookla</span>
+                    <span style="font-size:9px;color:#94a3b8;">Op-B Ookla</span>
                   </div>
                   <button onclick="closeCoverageChart()" style="font-size:10px;color:#94a3b8;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;">✕ <span data-i18n="关闭">关闭</span></button>
                 </div>
@@ -1306,9 +1306,9 @@
                   <span style="color:#ef4444;font-weight:600;">38.5% (4.82M<span data-i18n="人">人</span>)</span>
                 </div>
                 <div style="font-size:10px;">
-                  <span style="color:#64748b;">vs Claro <span data-i18n="好覆盖">好覆盖</span>：</span>
+                  <span style="color:#64748b;">vs Op-B <span data-i18n="好覆盖">好覆盖</span>：</span>
                   <span style="color:#f97316;font-weight:600;">70.0%</span>
-                  <span style="color:#ef4444;font-size:9px;"> (<span data-i18n="Claro 更好">Claro 更好</span>)</span>
+                  <span style="color:#ef4444;font-size:9px;"> (<span data-i18n="Op-B 更好">Op-B 更好</span>)</span>
                 </div>
               </div>
               <div id="rsrpChart" style="width:100%;height:180px;"></div>
@@ -1390,7 +1390,7 @@
                             <div style="font-size:8px;color:#64748b;">Mbps</div>
                         </div>
                         <div style="text-align:center;flex:1;">
-                            <div style="font-size:9px;color:#f97316;">Claro</div>
+                            <div style="font-size:9px;color:#f97316;">Op-B</div>
                             <div style="font-size:16px;font-weight:700;color:#f97316;">42.5</div>
                             <div style="font-size:8px;color:#64748b;">Mbps</div>
                         </div>
@@ -1427,7 +1427,7 @@
 
                     <!-- 各城市差距 -->
                     <div style="border-top:1px solid #1e293b;padding-top:6px;margin-top:4px;">
-                        <div style="font-size:9px;color:#64748b;margin-bottom:4px;" data-i18n="vs Claro 各区域差距">vs Claro 各区域差距</div>
+                        <div style="font-size:9px;color:#64748b;margin-bottom:4px;" data-i18n="vs Op-B 各区域差距">vs Op-B 各区域差距</div>
                         <!-- 按差距严重程度排序 -->
                         <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Barranquilla');switchMapLayer('competitiveness')">
                             <span style="color:#ef4444;">B/quilla</span>
@@ -1468,7 +1468,7 @@
                                 <span style="font-size:8px;color:#64748b;width:25px;">450</span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
-                                <span style="font-size:8px;color:#f97316;width:30px;">Claro</span>
+                                <span style="font-size:8px;color:#f97316;width:30px;">Op-B</span>
                                 <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:72%;height:100%;background:#f97316;border-radius:2px;"></div></div>
                                 <span style="font-size:8px;color:#64748b;width:25px;">1200</span>
                             </div>
@@ -1485,7 +1485,7 @@
                                 <span style="font-size:8px;color:#64748b;width:25px;">380</span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
-                                <span style="font-size:8px;color:#f97316;width:30px;">Claro</span>
+                                <span style="font-size:8px;color:#f97316;width:30px;">Op-B</span>
                                 <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:68%;height:100%;background:#f97316;border-radius:2px;"></div></div>
                                 <span style="font-size:8px;color:#64748b;width:25px;">850</span>
                             </div>
@@ -1502,7 +1502,7 @@
                                 <span style="font-size:8px;color:#64748b;width:25px;">1400</span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
-                                <span style="font-size:8px;color:#f97316;width:30px;">Claro</span>
+                                <span style="font-size:8px;color:#f97316;width:30px;">Op-B</span>
                                 <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:48%;height:100%;background:#f97316;border-radius:2px;"></div></div>
                                 <span style="font-size:8px;color:#64748b;width:25px;">1300</span>
                             </div>
@@ -1650,14 +1650,14 @@
           '用户增长率': { zh: '用户增长率', en: 'User Growth' },
           '新增用户': { zh: '新增用户', en: 'New Users' },
           '流失分布': { zh: '流失分布', en: 'Churn Map' },
-          'vs Claro': { zh: 'vs Claro', en: 'vs Claro' },
+          'vs Op-B': { zh: 'vs Op-B', en: 'vs Op-B' },
           '视频体验': { zh: '视频体验', en: 'Video QoE' },
           '覆盖分析': { zh: '覆盖分析', en: 'Coverage' },
           '区域排名': { zh: '区域排名', en: 'Regional Rank' },
           '竞对分析 (Ookla)': { zh: '竞对分析 (Ookla)', en: 'Competitor (Ookla)' },
           '速率': { zh: '速率', en: 'Speed' },
           '覆盖': { zh: '覆盖', en: 'Coverage' },
-          'vs Claro 各区域差距': { zh: 'vs Claro 各区域差距', en: 'vs Claro Gap by Region' },
+          'vs Op-B 各区域差距': { zh: 'vs Op-B 各区域差距', en: 'vs Op-B Gap by Region' },
           'RSRP 覆盖分布': { zh: 'RSRP 覆盖分布', en: 'RSRP Coverage Dist.' },
           '今日全网 RRC 连接用户 vs Ookla 测试样本': { zh: '今日全网 RRC 连接用户 vs Ookla 测试样本', en: 'Today RRC Users vs Ookla' },
           'Tigo 现网用户': { zh: 'Tigo 现网用户', en: 'Tigo Live Users' },
@@ -1677,7 +1677,7 @@
           '流失最高': { zh: '流失最高', en: 'Top Churn' },
           '离网率': { zh: '离网率', en: 'Churn Rate' },
           '竞对分析 (Ookla)': { zh: '竞对分析 (Ookla)', en: 'Competitor (Ookla)' },
-          'vs Claro 各区域差距': { zh: 'vs Claro 各区域差距', en: 'vs Claro Gap' },
+          'vs Op-B 各区域差距': { zh: 'vs Op-B 各区域差距', en: 'vs Op-B Gap' },
           '扩大': { zh: '扩大', en: 'Widening' },
           '缩小': { zh: '缩小', en: 'Closing' },
           '领先': { zh: '领先', en: 'Leading' },
@@ -1706,7 +1706,7 @@
           '网络覆盖': { zh: '网络覆盖', en: 'Coverage' },
           '对比': { zh: '对比', en: 'Compare' },
           '人': { zh: '人', en: 'users' },
-          'Claro 更好': { zh: 'Claro 更好', en: 'Claro better' },
+          'Op-B 更好': { zh: 'Op-B 更好', en: 'Op-B better' },
           '体验评分': { zh: '体验评分', en: 'QoE Score' },
           '优秀 (≥4.0)': { zh: '优秀 (≥4.0)', en: 'Excellent (≥4.0)' },
           '良好 (3.0-4.0)': { zh: '良好 (3.0-4.0)', en: 'Good (3.0-4.0)' },
@@ -2576,7 +2576,7 @@
                 <div class="kpi-subtitle">MoM ${data.churnTrend}</div>
             </div>`;
             diagnosticHTML += `<div class="kpi-card">
-                <div class="kpi-title">vs Claro</div>
+                <div class="kpi-title">vs Op-B</div>
                 <div class="kpi-value" style="color: #ef4444;">${data.vsClaro}</div>
                 <div class="kpi-subtitle">${getTranslation('体验差距')}</div>
             </div>`;
@@ -2600,7 +2600,7 @@
                 <div class="attribution-detail">${getTranslation('高清播放成功率')}</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">vs Claro</div>
+                <div class="attribution-label">vs Op-B</div>
                 <div class="attribution-value" style="color: #ef4444;">${data.vsClaro}</div>
                 <div class="attribution-detail">${getTranslation('体验竞争力')}</div>
             </div>`;
@@ -2868,7 +2868,7 @@
                         const axisValue = params[0].axisValue;
                         const tigoValue = params[0].value;
                         const claroValue = params[1] ? params[1].value : 'N/A';
-                        return `${axisValue}<br/><span style="color:#06b6d4">Tigo: ${tigoValue}</span><br/><span style="color:#f97316">Claro: ${claroValue}</span>`;
+                        return `${axisValue}<br/><span style="color:#06b6d4">Tigo: ${tigoValue}</span><br/><span style="color:#f97316">Op-B: ${claroValue}</span>`;
                     }
                 },
             });
@@ -2900,7 +2900,7 @@
             </div>
             <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
               <span style="font-size:10px;color:${momColor};font-weight:600;">${momArrow} ${d.mom} MoM</span>
-              <span style="font-size:9px;color:#f59e0b;">vs Claro: ${d.vsClaro.value}${d.unit} (${d.vsClaro.gap}) · ${d.vsClaro.trend}</span>
+              <span style="font-size:9px;color:#f59e0b;">vs Op-B: ${d.vsClaro.value}${d.unit} (${d.vsClaro.gap}) · ${d.vsClaro.trend}</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding:4px 8px;background:rgba(15,23,42,0.5);border-radius:6px;">
               <span style="font-size:var(--fs-xs);color:#64748b;">${getTranslation('目标值')}</span>
@@ -3335,10 +3335,10 @@
                             const isBad = isLower ? gap > 15 : gap < -15
 
                             fillColor = isGood ? '#10b981' : isBad ? '#ef4444' : '#f59e0b'
-                            label = `vs Claro ${gap > 0 ? '+' : ''}${gap.toFixed(0)}%`
+                            label = `vs Op-B ${gap > 0 ? '+' : ''}${gap.toFixed(0)}%`
                         } else {
                             fillColor = '#64748b'
-                            label = 'vs Claro'
+                            label = 'vs Op-B'
                         }
                         break
                     }
@@ -3533,10 +3533,10 @@
                             const isGood3 = isLower3 ? cc3.gap < -5 : cc3.gap > 5
                             const isBad3 = isLower3 ? cc3.gap > 15 : cc3.gap < -15
                             color = isGood3 ? '#10b981' : isBad3 ? '#ef4444' : '#f59e0b'
-                            tooltipExtra = `vs Claro: ${cc3.gap > 0 ? '+' : ''}${cc3.gap.toFixed(1)}%`
+                            tooltipExtra = `vs Op-B: ${cc3.gap > 0 ? '+' : ''}${cc3.gap.toFixed(1)}%`
                         } else {
                             color = '#64748b'
-                            tooltipExtra = 'vs Claro'
+                            tooltipExtra = 'vs Op-B'
                         }
                         radius = 6
                         break
@@ -3626,7 +3626,7 @@
                     const isLowerLC = mLC === 'latency' || mLC === 'coverage'
 
                     legendData = {
-                        title: `vs Claro · ${mdLC ? mdLC.label : ''}`,
+                        title: `vs Op-B · ${mdLC ? mdLC.label : ''}`,
                         items: isLowerLC ? [
                             {color:'#10b981', label:`${currentLang==='zh'?'Tigo 更优':'Tigo Better'} (${currentLang==='zh'?'差距':'Gap'}<-5%)`},
                             {color:'#f59e0b', label:`${currentLang==='zh'?'接近':'Close'} (-5%~15%)`},
@@ -3728,7 +3728,7 @@
                         itemStyle: { color: '#06b6d4' },
                     },
                     {
-                        name: 'Claro Ookla',
+                        name: 'Op-B Ookla',
                         type: 'line',
                         yAxisIndex: 1,
                         data: RSRP_DISTRIBUTION.claro_ookla.map(d => d.samples),
@@ -3872,7 +3872,7 @@
             chart.setOption({
                 grid: { left: 5, right: 5, top: 15, bottom: 20 },
                 legend: {
-                    data: ['Tigo', 'Claro'],
+                    data: ['Tigo', 'Op-B'],
                     textStyle: { color: '#94a3b8', fontSize: 9 },
                     top: 0, right: 0, itemWidth: 12, itemHeight: 2,
                 },
@@ -3899,7 +3899,7 @@
                         ])},
                     },
                     {
-                        name: 'Claro', type: 'line', data: MONTHLY_EXPERIENCE.map(m => m.claro),
+                        name: 'Op-B', type: 'line', data: MONTHLY_EXPERIENCE.map(m => m.claro),
                         smooth: true, symbol: 'circle', symbolSize: 5,
                         lineStyle: { color: '#f97316', width: 2, type: 'dashed' },
                         itemStyle: { color: '#f97316' },
@@ -4277,7 +4277,7 @@
               </div>
               <div style="background:#0f172a;padding:10px;border-radius:8px;">
                 <b style="color:#06b6d4;">右中 — 竞对分析</b><br/>
-                Tigo vs Claro 速率/覆盖对比 + 周趋势
+                Tigo vs Op-B 速率/覆盖对比 + 周趋势
               </div>
               <div style="background:#0f172a;padding:10px;border-radius:8px;">
                 <b style="color:#06b6d4;">右下 — 流失分布</b><br/>
@@ -4300,8 +4300,8 @@
               <td style="padding:6px;">按选中指标（速率/时延/覆盖）着色区域，联动右上下拉</td>
             </tr>
             <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
-              <td style="padding:6px;color:#f97316;font-weight:600;">vs Claro</td>
-              <td style="padding:6px;">与 Claro 的差距对比，联动右上选中指标</td>
+              <td style="padding:6px;color:#f97316;font-weight:600;">vs Op-B</td>
+              <td style="padding:6px;">与 Op-B 的差距对比，联动右上选中指标</td>
             </tr>
             <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
               <td style="padding:6px;color:#10b981;font-weight:600;">用户增长率</td>
@@ -4321,7 +4321,7 @@
             </tr>
             <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
               <td style="padding:6px;color:#06b6d4;font-weight:600;">覆盖分析</td>
-              <td style="padding:6px;">RSRP 分布图 + Tigo/Claro 热力图 + 分屏对比</td>
+              <td style="padding:6px;">RSRP 分布图 + Tigo/Op-B 热力图 + 分屏对比</td>
             </tr>
             <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
               <td style="padding:6px;color:#f59e0b;font-weight:600;">终端分布</td>
