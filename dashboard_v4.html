@@ -1222,14 +1222,44 @@
             <div id="coverageSplitView" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:500;">
               <div style="display:flex;width:100%;height:100%;">
                 <div style="flex:1;position:relative;border-right:2px solid #06b6d4;">
-                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:12px;font-weight:700;color:#06b6d4;background:rgba(17,24,39,0.9);padding:4px 10px;border-radius:6px;">Tigo</div>
+                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:11px;font-weight:700;color:#06b6d4;background:rgba(17,24,39,0.92);padding:6px 12px;border-radius:8px;backdrop-filter:blur(4px);border:1px solid rgba(6,182,212,0.2);">
+                    Tigo MR <span style="font-size:9px;font-weight:400;color:#94a3b8;" data-i18n="覆盖热力">覆盖热力</span>
+                  </div>
+                  <!-- Tigo legend -->
+                  <div style="position:absolute;bottom:12px;left:8px;z-index:1000;background:rgba(17,24,39,0.92);padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);font-size:9px;color:#94a3b8;">
+                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;">
+                      <div style="width:10px;height:6px;background:#059669;border-radius:1px;"></div><span data-i18n="强覆盖">强覆盖</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;">
+                      <div style="width:10px;height:6px;background:#06b6d4;border-radius:1px;"></div><span data-i18n="中等">中等</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:4px;">
+                      <div style="width:10px;height:6px;background:#1e3a5f;border-radius:1px;"></div><span data-i18n="弱覆盖">弱覆盖</span>
+                    </div>
+                  </div>
                   <div id="covSplitMapLeft" style="width:100%;height:100%;"></div>
                 </div>
                 <div style="flex:1;position:relative;">
-                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:12px;font-weight:700;color:#f97316;background:rgba(17,24,39,0.9);padding:4px 10px;border-radius:6px;">Claro</div>
+                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:11px;font-weight:700;color:#f97316;background:rgba(17,24,39,0.92);padding:6px 12px;border-radius:8px;backdrop-filter:blur(4px);border:1px solid rgba(249,115,22,0.2);">
+                    Claro MR <span style="font-size:9px;font-weight:400;color:#94a3b8;" data-i18n="覆盖热力">覆盖热力</span>
+                  </div>
+                  <!-- Claro legend -->
+                  <div style="position:absolute;bottom:12px;left:8px;z-index:1000;background:rgba(17,24,39,0.92);padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);font-size:9px;color:#94a3b8;">
+                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;">
+                      <div style="width:10px;height:6px;background:#fdba74;border-radius:1px;"></div><span data-i18n="强覆盖">强覆盖</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;">
+                      <div style="width:10px;height:6px;background:#f97316;border-radius:1px;"></div><span data-i18n="中等">中等</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:4px;">
+                      <div style="width:10px;height:6px;background:#7c2d12;border-radius:1px;"></div><span data-i18n="弱覆盖">弱覆盖</span>
+                    </div>
+                  </div>
                   <div id="covSplitMapRight" style="width:100%;height:100%;"></div>
                 </div>
               </div>
+              <!-- Center sync indicator -->
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1001;font-size:10px;color:#94a3b8;background:rgba(17,24,39,0.9);padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);pointer-events:none;">🔗 <span data-i18n="联动">联动</span></div>
               <button onclick="toggleCoverageSplit()" style="position:absolute;top:8px;right:8px;z-index:1001;font-size:10px;color:#94a3b8;background:rgba(17,24,39,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;"><span data-i18n="退出分屏">退出分屏</span></button>
             </div>
 
@@ -1663,6 +1693,11 @@
           '终端': { zh: '终端', en: 'Device' },
           '网络体验': { zh: '网络体验', en: 'Network QoE' },
           '社交': { zh: '社交', en: 'Social' },
+          '覆盖热力': { zh: '覆盖热力', en: 'Coverage Heatmap' },
+          '强覆盖': { zh: '强覆盖', en: 'Strong' },
+          '中等': { zh: '中等', en: 'Medium' },
+          '弱覆盖': { zh: '弱覆盖', en: 'Weak' },
+          '联动': { zh: '联动', en: 'Synced' },
           // New translations for dashboard
           '占比 36% · 贡献收入 68%': { zh: '占比 36% · 贡献收入 68%', en: 'Share 36% · Revenue 68%' },
           '💰 预付费潜力 1.2M（可转后付费）': { zh: '💰 预付费潜力 1.2M（可转后付费）', en: '💰 Prepaid potential 1.2M (convertible)' },
@@ -2983,6 +3018,7 @@
 
         // ============ COVERAGE SPLIT VIEW FUNCTIONS ============
         let covSplitMode=false,covSplitMapLeft=null,covSplitMapRight=null,covSplitHeatLeft=null,covSplitHeatRight=null;
+        let _covSyncBound=false, _covSyncing=false;
 
         function toggleCoverageSplit() {
           covSplitMode = !covSplitMode;
@@ -2990,14 +3026,48 @@
           const mm = document.getElementById('map');
           if (covSplitMode) {
             sv.style.display='block'; mm.style.visibility='hidden';
-            if (!covSplitMapLeft){covSplitMapLeft=L.map('covSplitMapLeft',{zoomControl:false}).setView([5.5,-74.5],6);L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(covSplitMapLeft);}
-            if (!covSplitMapRight){covSplitMapRight=L.map('covSplitMapRight',{zoomControl:false}).setView([5.5,-74.5],6);L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(covSplitMapRight);}
+            if (!covSplitMapLeft){
+              covSplitMapLeft=L.map('covSplitMapLeft',{zoomControl:false}).setView([5.5,-74.5],6);
+              L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(covSplitMapLeft);
+            }
+            if (!covSplitMapRight){
+              covSplitMapRight=L.map('covSplitMapRight',{zoomControl:false}).setView([5.5,-74.5],6);
+              L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(covSplitMapRight);
+            }
+            // Render Tigo MR heatmap (left)
             if (covSplitHeatLeft) covSplitMapLeft.removeLayer(covSplitHeatLeft);
-            covSplitHeatLeft=L.heatLayer(MR_HEATMAP.tigo.map(p=>[p[0],p[1],p[2]]),{radius:25,blur:18,maxZoom:10,gradient:{0.2:'#1e3a5f',0.4:'#3b82f6',0.6:'#06b6d4',0.8:'#10b981',1.0:'#059669'}}).addTo(covSplitMapLeft);
+            covSplitHeatLeft=L.heatLayer(MR_HEATMAP.tigo.map(p=>[p[0],p[1],p[2]]),{
+              radius:25,blur:18,maxZoom:10,minOpacity:0.3,
+              gradient:{0.2:'#1e3a5f',0.4:'#3b82f6',0.6:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
+            }).addTo(covSplitMapLeft);
+            // Render Claro MR heatmap (right)
             if (covSplitHeatRight) covSplitMapRight.removeLayer(covSplitHeatRight);
-            covSplitHeatRight=L.heatLayer(MR_HEATMAP.claro.map(p=>[p[0],p[1],p[2]]),{radius:25,blur:18,maxZoom:10,gradient:{0.2:'#7c2d12',0.4:'#ea580c',0.6:'#f97316',0.8:'#fb923c',1.0:'#fdba74'}}).addTo(covSplitMapRight);
-            covSplitMapLeft.on('move',()=>{if(covSplitMode)covSplitMapRight.setView(covSplitMapLeft.getCenter(),covSplitMapLeft.getZoom(),{animate:false});});
-            covSplitMapRight.on('move',()=>{if(covSplitMode)covSplitMapLeft.setView(covSplitMapRight.getCenter(),covSplitMapRight.getZoom(),{animate:false});});
+            covSplitHeatRight=L.heatLayer(MR_HEATMAP.claro.map(p=>[p[0],p[1],p[2]]),{
+              radius:25,blur:18,maxZoom:10,minOpacity:0.3,
+              gradient:{0.2:'#7c2d12',0.4:'#ea580c',0.6:'#f97316',0.8:'#fb923c',1.0:'#fdba74'}
+            }).addTo(covSplitMapRight);
+            // Sync pan/zoom — bind only once, use lock to prevent infinite loop
+            if (!_covSyncBound) {
+              _covSyncBound = true;
+              covSplitMapLeft.on('moveend zoomend',()=>{
+                if(_covSyncing||!covSplitMode) return;
+                _covSyncing=true;
+                covSplitMapRight.setView(covSplitMapLeft.getCenter(),covSplitMapLeft.getZoom(),{animate:false});
+                setTimeout(()=>{_covSyncing=false;},50);
+              });
+              covSplitMapRight.on('moveend zoomend',()=>{
+                if(_covSyncing||!covSplitMode) return;
+                _covSyncing=true;
+                covSplitMapLeft.setView(covSplitMapRight.getCenter(),covSplitMapRight.getZoom(),{animate:false});
+                setTimeout(()=>{_covSyncing=false;},50);
+              });
+            }
+            // Sync initial view from main map
+            if (window.map) {
+              const c = window.map.getCenter(), z = window.map.getZoom();
+              covSplitMapLeft.setView(c, z, {animate:false});
+              covSplitMapRight.setView(c, z, {animate:false});
+            }
             setTimeout(()=>{covSplitMapLeft.invalidateSize();covSplitMapRight.invalidateSize();},200);
           } else {
             sv.style.display='none'; mm.style.visibility='visible';
