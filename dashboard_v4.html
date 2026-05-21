@@ -2355,6 +2355,7 @@
             vsClaro: {value:42.5,gap:"-10%",trend:getTranslation('缩小')},
             monthly: [{m:"Dec",v:33},{m:"Jan",v:34},{m:"Feb",v:35},{m:"Mar",v:36},{m:"Apr",v:37},{m:"May",v:38.2}],
             cities: [
+              {city:"Amazonia",value:15.5,trend:"-0.5",status:"bad"},
               {city:"Barranquilla",value:22.5,trend:"-1.2",status:"bad"},
               {city:"Cartagena",value:26.3,trend:"-0.5",status:"bad"},
               {city:"Cali",value:35.2,trend:"+0.8",status:"warn"},
@@ -2371,6 +2372,7 @@
             vsClaro: {value:9.2,gap:"-8%",trend:getTranslation('稳定')},
             monthly: [{m:"Dec",v:7.8},{m:"Jan",v:7.9},{m:"Feb",v:8.0},{m:"Mar",v:8.2},{m:"Apr",v:8.3},{m:"May",v:8.5}],
             cities: [
+              {city:"Amazonia",value:3.8,trend:"-0.2",status:"bad"},
               {city:"Barranquilla",value:5.2,trend:"-0.3",status:"bad"},
               {city:"Cartagena",value:6.1,trend:"-0.1",status:"warn"},
               {city:"Cali",value:8.0,trend:"+0.2",status:"warn"},
@@ -2387,6 +2389,7 @@
             vsClaro: {value:28,gap:"+14%",trend:getTranslation('缩小')},
             monthly: [{m:"Dec",v:38},{m:"Jan",v:37},{m:"Feb",v:36},{m:"Mar",v:35},{m:"Apr",v:33},{m:"May",v:32}],
             cities: [
+              {city:"Amazonia",value:68,trend:"+5",status:"bad"},
               {city:"Barranquilla",value:52,trend:"+3",status:"bad"},
               {city:"Cartagena",value:45,trend:"+2",status:"bad"},
               {city:"Cali",value:35,trend:"-1",status:"warn"},
@@ -2403,6 +2406,7 @@
             vsClaro: {value:18,gap:"+11%",trend:getTranslation('扩大')},
             monthly: [{m:"Dec",v:18},{m:"Jan",v:18.5},{m:"Feb",v:19},{m:"Mar",v:19.2},{m:"Apr",v:19.8},{m:"May",v:20}],
             cities: [
+              {city:"Amazonia",value:42,trend:"+2",status:"bad"},
               {city:"Barranquilla",value:32,trend:"+3",status:"bad"},
               {city:"Cartagena",value:28,trend:"+2",status:"bad"},
               {city:"Cali",value:22,trend:"+1",status:"warn"},
@@ -2463,6 +2467,7 @@
                     {city:"Cali",tigo:35.2,claro:39.8,gap:-11.6,trend:"stable"},
                     {city:"Barranquilla",tigo:22.5,claro:44.8,gap:-49.8,trend:"widening"},
                     {city:"Cartagena",tigo:26.3,claro:38.5,gap:-31.7,trend:"widening"},
+                    {city:"Amazonia",tigo:15.5,claro:18.0,gap:-13.9,trend:"stable"},
                 ],
             },
             // 覆盖对比（Ookla 样本密度≈覆盖代理指标）
@@ -2473,6 +2478,7 @@
                     {city:"Cali",tigoSamples:900,claroSamples:1100,gap:"-18%",trend:"stable"},
                     {city:"Barranquilla",tigoSamples:450,claroSamples:1200,gap:"-63%",trend:"widening"},
                     {city:"Cartagena",tigoSamples:380,claroSamples:850,gap:"-55%",trend:"widening"},
+                    {city:"Amazonia",tigoSamples:80,claroSamples:120,gap:"-33%",trend:"stable"},
                 ],
             },
             // 周趋势（最近 12 周）
@@ -2491,6 +2497,7 @@
               {city:"Cali",tigo:8.0,claro:9.0,gap:-11.1},
               {city:"Barranquilla",tigo:5.2,claro:8.5,gap:-38.8},
               {city:"Cartagena",tigo:6.1,claro:7.8,gap:-21.8},
+              {city:"Amazonia",tigo:3.8,claro:4.5,gap:-15.6},
             ],
             // 时延城市对比
             latency_cities: [
@@ -2499,6 +2506,7 @@
               {city:"Cali",tigo:35,claro:32,gap:9.4},
               {city:"Barranquilla",tigo:52,claro:30,gap:73.3},
               {city:"Cartagena",tigo:45,claro:32,gap:40.6},
+              {city:"Amazonia",tigo:68,claro:55,gap:23.6},
             ],
             // 边缘占比城市对比
             coverage_cities: [
@@ -2507,6 +2515,7 @@
               {city:"Cali",tigo:22,claro:18,gap:22.2},
               {city:"Barranquilla",tigo:32,claro:15,gap:113.3},
               {city:"Cartagena",tigo:28,claro:18,gap:55.6},
+              {city:"Amazonia",tigo:42,claro:35,gap:20.0},
             ],
         };
 
