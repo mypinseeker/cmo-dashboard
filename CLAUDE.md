@@ -101,6 +101,43 @@ for tag in ['div','span','script','style']:
 | **5a. getElementById 有对应元素** | JS 中每个 `getElementById('xxx')` 的 xxx 必须在 HTML 中存在 |
 | **5b. 空值保护** | 所有 `echarts.init(el)` 前必须有 `if (!el) return` 守卫 |
 | **5c. 变量名一致** | 全局变量（如 SITES_DATA vs SITES）不能有命名不一致 |
+| **5d. 变量声明顺序 (TDZ)** | `const`/`let` 声明的全局变量，必须在第一次引用之前完成声明。函数体内的引用虽然是延迟执行，但如果函数可能在声明前被调用（如 onclick 触发），则仍然会触发暂时性死区 (TDZ) ReferenceError |
+| **5e. 无重复声明** | 同一个 `const`/`let` 变量名只能声明一次，不允许在不同位置重复声明 |
+| **5f. onclick 引用检查** | HTML 中每个 `onclick="funcName()"` 的 funcName 必须在 JS 中有 `function funcName` 定义 |
+
+**自动化检查脚本（TDZ + 重复声明）**：
+```python
+import re
+with open('dashboard_v4.html') as f:
+    content = f.read()
+js_start = content.find('<script>\n', content.find('echarts.min.js'))
+js_end = content.find('</script>', js_start)
+js = content[js_start:js_end]
+js_offset = content[:js_start].count('\n') + 1
+# 收集所有 const/let 声明位置
+decls = {}
+for i, line in enumerate(js.split('\n')):
+    for name in re.findall(r'\b(?:const|let)\s+(\w+)\s*=', line):
+        if name not in decls: decls[name] = js_offset + i
+# 检查关键变量是否在声明前被引用
+key_vars = ['MR_HEATMAP','covHeatLayer','TERMINAL_HEATMAPS',
+            'EXPERIENCE_METRICS','COMPETITOR_DATA','COVERAGE_DATA']
+for var in key_vars:
+    if var not in decls: continue
+    for i, line in enumerate(js.split('\n')):
+        ln = js_offset + i
+        if ln == decls[var]: continue
+        if line.strip().startswith('//'): continue
+        if re.search(rf'\b(?:const|let|var)\s+{var}\b', line): continue
+        if re.search(rf'\b{var}\b', line) and ln < decls[var]:
+            print(f'TDZ: {var} used at L{ln}, declared at L{decls[var]}')
+            break
+# 检查重复声明
+for var in key_vars:
+    count = len(re.findall(rf'\b(?:const|let)\s+{var}\b', js))
+    if count > 1: print(f'DUPLICATE: {var} declared {count} times')
+```
+**标准**：上述脚本输出为空才算通过
 
 ---
 
