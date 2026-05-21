@@ -1225,16 +1225,17 @@
                   <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:11px;font-weight:700;color:#06b6d4;background:rgba(17,24,39,0.92);padding:6px 12px;border-radius:8px;backdrop-filter:blur(4px);border:1px solid rgba(6,182,212,0.2);">
                     Tigo MR <span style="font-size:9px;font-weight:400;color:#94a3b8;" data-i18n="覆盖热力">覆盖热力</span>
                   </div>
-                  <!-- Tigo legend -->
+                  <!-- RSRP legend (unified) -->
                   <div style="position:absolute;bottom:12px;left:8px;z-index:1000;background:rgba(17,24,39,0.92);padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);font-size:9px;color:#94a3b8;">
-                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;">
-                      <div style="width:10px;height:6px;background:#059669;border-radius:1px;"></div><span data-i18n="强覆盖">强覆盖</span>
+                    <div style="font-size:8px;color:#64748b;margin-bottom:3px;font-weight:600;">RSRP</div>
+                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;">
+                      <div style="width:10px;height:6px;background:#10b981;border-radius:1px;"></div><span>≥ -90 dBm</span>
                     </div>
-                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;">
-                      <div style="width:10px;height:6px;background:#06b6d4;border-radius:1px;"></div><span data-i18n="中等">中等</span>
+                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;">
+                      <div style="width:10px;height:6px;background:#f59e0b;border-radius:1px;"></div><span>-90 ~ -105</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:4px;">
-                      <div style="width:10px;height:6px;background:#1e3a5f;border-radius:1px;"></div><span data-i18n="弱覆盖">弱覆盖</span>
+                      <div style="width:10px;height:6px;background:#ef4444;border-radius:1px;"></div><span>≤ -105 dBm</span>
                     </div>
                   </div>
                   <div id="covSplitMapLeft" style="width:100%;height:100%;"></div>
@@ -1243,16 +1244,17 @@
                   <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size:11px;font-weight:700;color:#f97316;background:rgba(17,24,39,0.92);padding:6px 12px;border-radius:8px;backdrop-filter:blur(4px);border:1px solid rgba(249,115,22,0.2);">
                     Op-B MR <span style="font-size:9px;font-weight:400;color:#94a3b8;" data-i18n="覆盖热力">覆盖热力</span>
                   </div>
-                  <!-- Op-B legend -->
+                  <!-- RSRP legend (unified, same as left) -->
                   <div style="position:absolute;bottom:12px;left:8px;z-index:1000;background:rgba(17,24,39,0.92);padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);font-size:9px;color:#94a3b8;">
-                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;">
-                      <div style="width:10px;height:6px;background:#fdba74;border-radius:1px;"></div><span data-i18n="强覆盖">强覆盖</span>
+                    <div style="font-size:8px;color:#64748b;margin-bottom:3px;font-weight:600;">RSRP</div>
+                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;">
+                      <div style="width:10px;height:6px;background:#10b981;border-radius:1px;"></div><span>≥ -90 dBm</span>
                     </div>
-                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;">
-                      <div style="width:10px;height:6px;background:#f97316;border-radius:1px;"></div><span data-i18n="中等">中等</span>
+                    <div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;">
+                      <div style="width:10px;height:6px;background:#f59e0b;border-radius:1px;"></div><span>-90 ~ -105</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:4px;">
-                      <div style="width:10px;height:6px;background:#7c2d12;border-radius:1px;"></div><span data-i18n="弱覆盖">弱覆盖</span>
+                      <div style="width:10px;height:6px;background:#ef4444;border-radius:1px;"></div><span>≤ -105 dBm</span>
                     </div>
                   </div>
                   <div id="covSplitMapRight" style="width:100%;height:100%;"></div>
@@ -2232,18 +2234,20 @@
         console.log('Sites expanded to', SITES_DATA.length);
 
         // Generate MR heatmap data from expanded sites
+        // Weight maps to RSRP quality: 1.0=good coverage(green), 0.5=medium(yellow), 0.0=poor(red)
         function generateMRHeatmap(sites) {
           const rand3 = mulberry32(11111);
           const tigo = [], claro = [];
           sites.forEach(site => {
-            // Skip sites with invalid coordinates
             if (site.lat == null || site.lon == null || isNaN(site.lat) || isNaN(site.lon)) return;
-            const ti = Math.min(1, Math.max(0.1, site.exp/5.0*(0.7+rand3()*0.3)));
-            tigo.push([site.lat+(rand3()-0.5)*0.01, site.lon+(rand3()-0.5)*0.01, ti]);
-            let cb = 0.6+rand3()*0.3;
-            if (site.city==='Barranquilla'||site.city==='Cartagena') cb+=0.2;
-            if (site.city==='Medellin') cb-=0.1;
-            claro.push([site.lat+(rand3()-0.5)*0.015, site.lon+(rand3()-0.5)*0.015, Math.min(1,cb)]);
+            // Tigo RSRP quality: based on site exp score + edge ratio (higher exp & lower edge = better RSRP)
+            var tigoRsrp = Math.min(1, Math.max(0, (site.exp/5.0*0.6 + (1-site.edge/50)*0.4) * (0.85+rand3()*0.3)));
+            tigo.push([site.lat+(rand3()-0.5)*0.008, site.lon+(rand3()-0.5)*0.008, tigoRsrp]);
+            // Op-B RSRP: generally slightly better in coast cities, worse in Medellin
+            var claroBase = tigoRsrp * (0.9+rand3()*0.2);
+            if (site.city==='Barranquilla'||site.city==='Cartagena') claroBase = Math.min(1, claroBase+0.15);
+            if (site.city==='Medellin') claroBase = Math.max(0, claroBase-0.12);
+            claro.push([site.lat+(rand3()-0.5)*0.012, site.lon+(rand3()-0.5)*0.012, Math.min(1,Math.max(0,claroBase))]);
           });
           return {tigo, claro};
         }
@@ -3034,7 +3038,7 @@
           if (!data) return;
           terminalHeatLayer = L.heatLayer(data.map(p=>[p[0],p[1],p[2]]),{
             radius:35, blur:25, maxZoom:10,
-            gradient:{0.2:'#1e3a5f',0.4:'#06b6d4',0.6:'#10b981',0.8:'#f59e0b',1.0:'#ef4444'}
+            gradient:{0.0:'#dc2626',0.3:'#ef4444',0.5:'#f59e0b',0.7:'#84cc16',1.0:'#10b981'}
           }).addTo(map);
         }
 
@@ -3071,7 +3075,7 @@
               // Render heatmaps after layout
               updateSplitTerminal(document.getElementById('splitTerminalSelect').value);
               if (splitHeatRight) splitMapRight.removeLayer(splitHeatRight);
-              splitHeatRight = L.heatLayer(MR_HEATMAP.tigo.map(function(p){return [p[0],p[1],p[2]]}),{radius:30,blur:20,maxZoom:10,gradient:{0.2:'#3b82f6',0.5:'#06b6d4',0.8:'#10b981',1.0:'#059669'}}).addTo(splitMapRight);
+              splitHeatRight = L.heatLayer(MR_HEATMAP.tigo.map(function(p){return [p[0],p[1],p[2]]}),{radius:30,blur:20,maxZoom:10,gradient:{0.0:'#dc2626',0.3:'#ef4444',0.5:'#f59e0b',0.7:'#84cc16',1.0:'#10b981'}}).addTo(splitMapRight);
               // Named handler sync (safe unbind without removing Leaflet internals)
               if (_termSyncLeft) splitMapLeft.off('move', _termSyncLeft);
               if (_termSyncRight) splitMapRight.off('move', _termSyncRight);
@@ -3098,7 +3102,7 @@
           if (!splitMapLeft) return;
           if (splitHeatLeft) splitMapLeft.removeLayer(splitHeatLeft);
           const data = TERMINAL_HEATMAP[model]; if (!data) return;
-          splitHeatLeft = L.heatLayer(data.map(p=>[p[0],p[1],p[2]]),{radius:35,blur:25,maxZoom:10,gradient:{0.2:'#1e3a5f',0.4:'#06b6d4',0.6:'#10b981',0.8:'#f59e0b',1.0:'#ef4444'}}).addTo(splitMapLeft);
+          splitHeatLeft = L.heatLayer(data.map(p=>[p[0],p[1],p[2]]),{radius:35,blur:25,maxZoom:10,gradient:{0.0:'#dc2626',0.3:'#ef4444',0.5:'#f59e0b',0.7:'#84cc16',1.0:'#10b981'}}).addTo(splitMapLeft);
         }
 
         // ============ COVERAGE SPLIT VIEW FUNCTIONS ============
@@ -3158,12 +3162,12 @@
                 try {
                   covSplitHeatLeft=L.heatLayer(MR_HEATMAP.tigo,{
                     radius:25,blur:18,maxZoom:10,minOpacity:0.3,
-                    gradient:{0.2:'#1e3a5f',0.4:'#3b82f6',0.6:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
+                    gradient:{0.0:'#dc2626',0.3:'#ef4444',0.5:'#f59e0b',0.7:'#84cc16',1.0:'#10b981'}
                   }).addTo(covSplitMapLeft);
 
                   covSplitHeatRight=L.heatLayer(MR_HEATMAP.claro,{
                     radius:25,blur:18,maxZoom:10,minOpacity:0.3,
-                    gradient:{0.2:'#7c2d12',0.4:'#ea580c',0.6:'#f97316',0.8:'#fb923c',1.0:'#fdba74'}
+                    gradient:{0.0:'#dc2626',0.3:'#ef4444',0.5:'#f59e0b',0.7:'#84cc16',1.0:'#10b981'}
                   }).addTo(covSplitMapRight);
                 } catch(e) { console.error('[CovSplit] heatmap error:', e.message); }
               });
@@ -3776,21 +3780,21 @@
             if (op === 'tigo') {
                 covHeatLayer = L.heatLayer(MR_HEATMAP.tigo.map(p=>[p[0],p[1],p[2]]),{
                     radius:30,blur:20,maxZoom:10,
-                    gradient:{0.2:'#3b82f6',0.5:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
+                    gradient:{0.0:'#dc2626',0.3:'#ef4444',0.5:'#f59e0b',0.7:'#84cc16',1.0:'#10b981'}
                 }).addTo(map)
             } else if (op === 'claro') {
                 covHeatLayer = L.heatLayer(MR_HEATMAP.claro.map(p=>[p[0],p[1],p[2]]),{
                     radius:30,blur:20,maxZoom:10,
-                    gradient:{0.2:'#f97316',0.5:'#fb923c',0.8:'#fdba74',1.0:'#fed7aa'}
+                    gradient:{0.0:'#dc2626',0.3:'#ef4444',0.5:'#f59e0b',0.7:'#84cc16',1.0:'#10b981'}
                 }).addTo(map)
             } else if (op === 'both') {
                 const tigoLayer = L.heatLayer(MR_HEATMAP.tigo.map(p=>[p[0],p[1],p[2]]),{
                     radius:25,blur:18,maxZoom:10,
-                    gradient:{0.2:'#3b82f6',0.5:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
+                    gradient:{0.0:'#dc2626',0.3:'#ef4444',0.5:'#f59e0b',0.7:'#84cc16',1.0:'#10b981'}
                 })
                 const claroLayer = L.heatLayer(MR_HEATMAP.claro.map(p=>[p[0],p[1],p[2]]),{
                     radius:25,blur:18,maxZoom:10,
-                    gradient:{0.2:'#f97316',0.5:'#fb923c',0.8:'#fdba74',1.0:'#fed7aa'}
+                    gradient:{0.0:'#dc2626',0.3:'#ef4444',0.5:'#f59e0b',0.7:'#84cc16',1.0:'#10b981'}
                 })
                 covHeatLayer = L.layerGroup([tigoLayer, claroLayer]).addTo(map)
             }
