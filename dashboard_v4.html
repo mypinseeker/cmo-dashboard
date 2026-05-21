@@ -2292,35 +2292,45 @@
             "Cartagena": {
                 users:"0.8M",trend:"-0.8%",exp:3.1,expTrend:"-0.2",churn:"1.8%",churnTrend:"+0.3%",
                 edge:30,prb:70,vsClaro:"-18%",ytHD:22,sites:500,population:"1.4M"
+            },
+            "Amazonia": {
+                users:"0.12M",trend:"+0.5%",exp:2.0,expTrend:"-0.1",churn:"0.6%",churnTrend:"0%",
+                edge:35,prb:25,vsClaro:"-5%",ytHD:12,sites:80,population:"0.5M"
             }
         };
 
         // Region configuration with department mapping for GeoJSON matching
+        // All 32 Colombian departments mapped to their primary metro/region
         const REGION_CONFIG = {
             "Bogota": {
-                departments: ["CUNDINAMARCA", "BOGOTA D.C.", "BOGOTA"],
+                departments: ["CUNDINAMARCA", "BOGOTA D.C.", "BOGOTA", "BOYACA", "META", "CASANARE", "TOLIMA"],
                 center: [4.65, -74.08],
                 zoom: 11,
             },
             "Medellin": {
-                departments: ["ANTIOQUIA"],
+                departments: ["ANTIOQUIA", "CALDAS", "RISARALDA", "QUINDIO", "CHOCO"],
                 center: [6.25, -75.57],
                 zoom: 9,
             },
             "Cali": {
-                departments: ["VALLE DEL CAUCA"],
+                departments: ["VALLE DEL CAUCA", "CAUCA", "NARIÑO", "NARINO", "HUILA", "PUTUMAYO", "CAQUETA"],
                 center: [3.43, -76.52],
                 zoom: 9,
             },
             "Barranquilla": {
-                departments: ["ATLANTICO"],
+                departments: ["ATLANTICO", "MAGDALENA", "CESAR", "LA GUAJIRA", "GUAJIRA", "SUCRE", "CORDOBA", "NORTE DE SANTANDER", "SANTANDER", "ARAUCA"],
                 center: [10.98, -74.79],
                 zoom: 10,
             },
             "Cartagena": {
-                departments: ["BOLIVAR"],
+                departments: ["BOLIVAR", "SAN ANDRES", "SAN ANDRES Y PROVIDENCIA", "SAN ANDRES, PROVIDENCIA Y SANTA CATALINA"],
                 center: [10.41, -75.52],
                 zoom: 9,
+            },
+            "Amazonia": {
+                departments: ["AMAZONAS", "GUAINIA", "GUAVIARE", "VAUPES", "VICHADA"],
+                center: [2.0, -71.0],
+                zoom: 7,
             },
         };
 
