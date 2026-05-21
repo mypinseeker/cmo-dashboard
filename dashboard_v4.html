@@ -3376,13 +3376,16 @@
 
             // First pass: render focused regions with real admin boundaries
             colombiaGeoJSON.features.forEach(feature => {
+              try {
                 const deptName = getDeptName(feature);
                 if (!deptName) return;
 
                 const city = DEPT_TO_CITY[deptName];
                 if (!city) return; // Not a focused region
 
-                const { fillColor, label } = cityColorMap[city];
+                const cm = cityColorMap[city];
+                if (!cm) return;
+                const { fillColor, label } = cm;
 
                 // Create GeoJSON layer with proper styling
                 const geoLayer = L.geoJSON(feature, {
@@ -3409,10 +3412,12 @@
 
                 window.cityZones.push(geoLayer);
                 renderedDepts.add(deptName);
+              } catch(err) { console.warn('GeoJSON render error for feature:', err.message); }
             });
 
             // Second pass: render non-focused departments as gray background
             colombiaGeoJSON.features.forEach(feature => {
+              try {
                 const deptName = getDeptName(feature);
                 if (!deptName || renderedDepts.has(deptName)) return;
 
@@ -3427,6 +3432,7 @@
                 }).addTo(map);
 
                 window.cityZones.push(grayLayer);
+              } catch(err) { console.warn('GeoJSON gray render error:', err.message); }
             });
 
             // Add city labels at configured centers
@@ -3816,7 +3822,21 @@
                 const resp = await fetch('https://gist.githubusercontent.com/john-guerra/43c7656821069d00dcbc/raw/be6a6e239cd5b5b803c6e7c2ec405b793a9064dd/Colombia.geo.json');
                 if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
                 colombiaGeoJSON = await resp.json();
-                console.log('GeoJSON loaded successfully:', colombiaGeoJSON.features?.length || 0, 'features');
+                // Validate GeoJSON coordinates
+                var nanFeatures = 0;
+                if (colombiaGeoJSON && colombiaGeoJSON.features) {
+                  colombiaGeoJSON.features = colombiaGeoJSON.features.filter(function(f) {
+                    try {
+                      var coords = JSON.stringify(f.geometry.coordinates);
+                      if (coords.includes('null') || coords.includes('NaN')) {
+                        nanFeatures++;
+                        return false;
+                      }
+                      return true;
+                    } catch(e) { nanFeatures++; return false; }
+                  });
+                }
+                console.log('GeoJSON loaded:', colombiaGeoJSON.features.length, 'valid features' + (nanFeatures ? ', removed ' + nanFeatures + ' invalid' : ''));
                 // Refresh map if already switched to national view
                 if (currentView === 'national') {
                     switchMapLayer(currentLayer);
