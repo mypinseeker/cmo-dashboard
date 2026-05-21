@@ -28,10 +28,10 @@
 
         .dashboard {
             display: grid;
-            grid-template-columns: 260px 1fr 260px;
-            grid-template-rows: 40px minmax(0, 1fr) 160px;
-            gap: 8px;
-            padding: 8px;
+            grid-template-columns: 280px 1fr 280px;
+            grid-template-rows: 42px minmax(0, 1fr) 160px;
+            gap: 6px;
+            padding: 6px;
             height: 100vh;
             background-color: #0a0e1a;
         }
@@ -43,16 +43,27 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 16px;
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            font-size: 14px;
+            padding: 12px 16px;
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: 700;
             letter-spacing: -0.5px;
-            transition: none;
+            transition: all 0.3s ease;
             position: relative;
-            overflow: visible;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #06b6d4, transparent);
+            opacity: 0.3;
         }
 
         .header-logo {
@@ -100,46 +111,59 @@
         /* ============ CARD STYLES ============ */
 
         .card {
-            background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: #111827;
+            border: 1px solid #1f2937;
             border-radius: 12px;
-            padding: 14px;
-            transition: all 0.2s ease;
+            padding: 20px;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #06b6d4, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .card:hover {
-            border-color: rgba(6,182,212,0.2);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 2px 12px rgba(6,182,212,0.08);
+            background: #1a2332;
+            border-color: #2a3a4a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.08);
+        }
+
+        .card:hover::before {
+            opacity: 1;
         }
 
         .card-title {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 8px;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.05);
         }
 
         .big-number {
-            font-size: 13px;
+            font-size: 36px;
             font-weight: 800;
             color: #f1f5f9;
-            letter-spacing: -0.5px;
-            line-height: 1;
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+            letter-spacing: -1px;
             margin-bottom: 4px;
             animation: countUp 0.6s ease-out;
-            text-shadow: 0 0 20px rgba(6,182,212,0.25);
         }
-
-        .big-number.green { text-shadow: 0 0 20px rgba(16,185,129,0.3); }
-        .big-number.red   { text-shadow: 0 0 20px rgba(239,68,68,0.3); }
-        .big-number.blue  { text-shadow: 0 0 20px rgba(6,182,212,0.3); }
 
         @keyframes countUp {
             from {
@@ -158,8 +182,8 @@
             gap: 4px;
             font-size: 12px;
             font-weight: 600;
-            padding: 2px 10px;
-            border-radius: 20px;
+            padding: 4px 8px;
+            border-radius: 6px;
             background: rgba(16, 185, 129, 0.1);
             color: #10b981;
             width: fit-content;
@@ -177,15 +201,8 @@
 
         .separator {
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-            margin: 10px 0;
-            border: none;
-        }
-
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-            margin: 10px 0;
+            background: linear-gradient(90deg, transparent, #334155, transparent);
+            margin: 16px 0;
         }
 
         .sub-title {
@@ -252,7 +269,7 @@
         .left-column {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             grid-column: 1;
             grid-row: 2 / 4;
         }
@@ -262,24 +279,24 @@
             grid-row: 2;
             border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            background: #0d1420;
+            border: 1px solid #1f2937;
+            background: #111827;
+            box-shadow: inset 0 0 30px rgba(6, 182, 212, 0.05);
             position: relative;
             max-height: 100%;
-            box-shadow: inset 0 0 30px rgba(6,182,212,0.03);
         }
 
         .map-legend {
             position: absolute;
             top: 12px;
             right: 12px;
-            background: rgba(17, 24, 39, 0.92);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid #334155;
             border-radius: 8px;
-            padding: 8px 10px;
+            padding: 12px;
             z-index: 100;
-            backdrop-filter: blur(8px);
-            font-size: 9px;
+            backdrop-filter: blur(10px);
+            font-size: 11px;
         }
 
         .legend-item {
@@ -304,16 +321,16 @@
         .right-column {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             grid-column: 3;
             grid-row: 2 / 4;
         }
 
         .bottom-row {
-            grid-column: 2;
+            grid-column: 1 / -1;
             grid-row: 3;
             display: flex;
-            gap: 8px;
+            gap: 6px;
             padding: 0;
             position: static;
             background: transparent;
@@ -324,15 +341,14 @@
         /* ============ APP CARD STYLES ============ */
 
         .app-card {
-            background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
-            border: 1px solid rgba(255,255,255,0.06);
+            background-color: #111827;
+            border: 1px solid #1f2937;
             border-radius: 12px;
-            padding: 14px 12px;
+            padding: 14px;
             font-size: 11px;
             position: relative;
             overflow: hidden;
-            transition: all 0.2s ease;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
         }
 
         .app-card::before {
@@ -341,8 +357,8 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 2px;
-            background: rgba(255,255,255,0.08);
+            height: 3px;
+            background: #334155;
         }
 
         .app-card:nth-child(1)::before {
@@ -350,7 +366,7 @@
         }
 
         .app-card:nth-child(2)::before {
-            background: #e50914;
+            background: #7c2d12;
         }
 
         .app-card:nth-child(3)::before {
@@ -366,8 +382,10 @@
         }
 
         .app-card:hover {
-            border-color: rgba(6,182,212,0.2);
-            box-shadow: 0 2px 10px rgba(6,182,212,0.05);
+            background: #1a2332;
+            border-color: #2a3a4a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(6, 182, 212, 0.06);
         }
 
         .app-name {
@@ -456,7 +474,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 28px;
-            font-size: 14px;
+            font-size: 28px;
             font-weight: 700;
             letter-spacing: -0.5px;
         }
@@ -465,7 +483,7 @@
             background-color: rgba(51, 65, 85, 0.5);
             border: 1px solid #475569;
             color: #f1f5f9;
-            font-size: 12px;
+            font-size: 24px;
             cursor: pointer;
             padding: 8px 14px;
             border-radius: 8px;
@@ -487,7 +505,7 @@
         }
 
         .diagnostic-item {
-            padding: 10px;
+            padding: 18px;
             border-radius: 12px;
             text-align: center;
             border: 1px solid;
@@ -537,7 +555,7 @@
         }
 
         .diagnostic-value {
-            font-size: 11px;
+            font-size: 22px;
             font-weight: 800;
             color: #f1f5f9;
             letter-spacing: -0.5px;
@@ -554,7 +572,7 @@
             background-color: rgba(15, 23, 42, 0.5);
             border: 1px solid #334155;
             border-radius: 12px;
-            padding: 10px;
+            padding: 18px;
             transition: all 0.3s ease;
         }
 
@@ -574,7 +592,7 @@
         }
 
         .kpi-value {
-            font-size: 14px;
+            font-size: 28px;
             font-weight: 800;
             color: #f1f5f9;
             margin-bottom: 6px;
@@ -626,7 +644,7 @@
         }
 
         .attribution-value {
-            font-size: 10px;
+            font-size: 20px;
             font-weight: 800;
             color: #f1f5f9;
             margin-bottom: 4px;
@@ -640,11 +658,11 @@
         }
 
         .card-label {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 1px;
             margin-bottom: 8px;
         }
 
@@ -654,8 +672,8 @@
             gap: 4px;
             font-size: 12px;
             font-weight: 600;
-            padding: 2px 10px;
-            border-radius: 20px;
+            padding: 4px 8px;
+            border-radius: 6px;
             background: rgba(16, 185, 129, 0.1);
             color: #10b981;
             width: fit-content;
@@ -672,21 +690,19 @@
         }
 
         .map-layer-btn {
-            font-size: 11px;
+            font-size: 10px;
             padding: 4px 10px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid #334155;
             border-radius: 6px;
-            background: rgba(17,24,39,0.8);
+            background: transparent;
             color: #94a3b8;
             cursor: pointer;
-            backdrop-filter: blur(4px);
             transition: all 0.2s;
             font-family: inherit;
         }
 
         .map-layer-btn:hover {
-            background: rgba(6,182,212,0.1);
-            color: #e2e8f0;
+            background: #1e293b;
         }
 
         /* ============ APP PANEL STYLES ============ */
@@ -694,17 +710,19 @@
         #appPanel.open {
             transform: translateY(0) !important;
         }
+            color: #f1f5f9;
+        }
 
         .map-layer-btn.active {
-            background: rgba(6,182,212,0.15);
-            color: #06b6d4;
-            border-color: rgba(6,182,212,0.3);
+            background: #06b6d4;
+            color: #0a0e1a;
+            border-color: #06b6d4;
             font-weight: 600;
         }
 
         .action-box {
             margin-top: 28px;
-            padding: 10px;
+            padding: 18px;
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
             border-radius: 12px;
             border-left: 4px solid #f59e0b;
@@ -800,152 +818,19 @@
         .overlay-content::-webkit-scrollbar-thumb:hover {
             background: #475569;
         }
-
-        /* ============ SUPPLEMENTARY OVERRIDES ============ */
-
-        /* Tighten sub-title spacing */
-        .sub-title {
-            font-size: 10px;
-            font-weight: 600;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 6px;
-            margin-top: 6px;
-        }
-
-        /* Trend indicator compact */
-        .trend-indicator, .trend-badge {
-            font-size: 11px;
-            padding: 2px 10px;
-            border-radius: 20px;
-        }
-
-        /* Row grid tighter */
-        .row {
-            gap: 6px;
-            font-size: 11px;
-            margin-bottom: 6px;
-        }
-
-        /* ECharts container default height reduction */
-        .echarts-container {
-            min-height: 140px;
-        }
-
-        /* Scrollable sidebar cards */
-        .left-column .card,
-        .right-column .card {
-            overflow-y: auto;
-            flex: 1;
-            min-height: 0;
-        }
-
-        /* Scrollbar for sidebar */
-        .left-column .card::-webkit-scrollbar,
-        .right-column .card::-webkit-scrollbar {
-            width: 3px;
-        }
-        .left-column .card::-webkit-scrollbar-track,
-        .right-column .card::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .left-column .card::-webkit-scrollbar-thumb,
-        .right-column .card::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.08);
-            border-radius: 2px;
-        }
-
-        /* Soften all hard #1f2937 / #1e293b inner borders to subtle lines */
-        .card [style*="border-top:1px solid #1e293b"],
-        .card [style*="border-top: 1px solid #1e293b"] {
-            border-top-color: rgba(255,255,255,0.05) !important;
-        }
-
-        /* Progress bar tracks */
-        .card [style*="background:#1e293b"][style*="border-radius:2px"],
-        .card [style*="background: #1e293b"][style*="border-radius:2px"] {
-            background: rgba(255,255,255,0.06) !important;
-        }
-
-        /* Header logo font size */
-        .header-logo {
-            font-size: 13px;
-        }
-
-        /* Header date font size */
-        .header-date {
-            font-size: 11px;
-        }
-
-        /* Refresh button smaller */
-        .refresh-btn {
-            width: 26px;
-            height: 26px;
-            font-size: 13px;
-        }
-
-        /* ====== 美化增强 ====== */
-
-        /* 趋势标签药丸 */
-        .trend-pill-up {
-            display: inline-block;
-            color: #10b981;
-            background: rgba(16,185,129,0.1);
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-        .trend-pill-down {
-            display: inline-block;
-            color: #ef4444;
-            background: rgba(239,68,68,0.1);
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-        .trend-pill-neutral {
-            display: inline-block;
-            color: #94a3b8;
-            background: rgba(148,163,184,0.1);
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-
-        /* Header 标题渐变 */
-        .header-gradient-title {
-            background: linear-gradient(90deg, #06b6d4, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 800;
-        }
-
-        /* APP 卡片品牌色顶部条 */
-        .app-brand-youtube { border-top: 3px solid #ff0000 !important; }
-        .app-brand-netflix { border-top: 3px solid #e50914 !important; }
-        .app-brand-tiktok  { border-top: 3px solid #00f2ea !important; }
-        .app-brand-traffic { border-top: 3px solid #3b82f6 !important; }
-
-        /* 地图容器微妙内光 */
-        .map-container-glow {
-            box-shadow: inset 0 0 40px rgba(6,182,212,0.03);
-            border-radius: 12px;
-        }
     </style>
 </head>
 <body>
     <div class="dashboard">
         <!-- Header -->
         <div class="header">
-            <div class="header-logo header-gradient-title">
+            <div class="header-logo">
                 <span>▣</span> Tigo CMO Dashboard
             </div>
             <div class="header-date">
                 <span id="current-date"></span>
                 <button class="refresh-btn" onclick="location.reload()" title="Refresh">↻</button>
-                <button onclick="toggleLanguage()" id="langToggle" style="font-size: 10px;padding:3px 10px;border-radius:6px;border:1px solid rgba(6,182,212,0.3);background:rgba(6,182,212,0.08);color:#06b6d4;cursor:pointer;font-family:inherit;font-weight:600;margin-left:8px;transition:all 0.2s;" onmouseover="this.style.background='#06b6d4';this.style.color='#0a0e1a'" onmouseout="this.style.background='rgba(6,182,212,0.08)';this.style.color='#06b6d4'">EN</button>
+                <button onclick="toggleLanguage()" id="langToggle" style="font-size:10px;padding:3px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;font-weight:600;margin-left:8px;transition:all 0.2s;" onmouseover="this.style.background='#06b6d4';this.style.color='#0a0e1a'" onmouseout="this.style.background='#1e293b';this.style.color='#06b6d4'">EN</button>
             </div>
         </div>
 
@@ -955,7 +840,7 @@
             <div class="card" style="overflow-y:auto;">
                 <div class="card-title"><span data-i18n="在网用户">在网用户</span></div>
                 <div style="margin-bottom:8px;">
-                    <div class="big-number">12.5M</div>
+                    <div class="big-number" style="font-size:32px;">12.5M</div>
                     <span class="trend-badge trend-up">▲ +2.3% MoM</span>
                 </div>
 
@@ -963,31 +848,30 @@
                 <div id="userTrendChart" style="width:100%;height:120px;margin-bottom:8px;"></div>
 
                 <!-- 区域分布警报 -->
-                <div class="separator" style="margin-top:8px;"></div>
-                <div style="padding-top:8px;">
+                <div style="margin-top:8px;border-top:1px solid #1e293b;padding-top:8px;">
                     <div class="card-label" style="margin-bottom:6px;"><span data-i18n="区域变化">区域变化</span></div>
 
                     <!-- 下降区域（按严重程度排序） -->
                     <div style="margin-bottom:6px;">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
-                            <span style="font-size: 12px;cursor:pointer;color:#ef4444;" onclick="drilldown('Barranquilla')">🔴 Barranquilla</span>
-                            <span style="font-size: 11px;color:#ef4444;font-weight:600;">-1.2% ▼</span>
+                            <span style="font-size:12px;cursor:pointer;color:#ef4444;" onclick="drilldown('Barranquilla')">🔴 Barranquilla</span>
+                            <span style="font-size:11px;color:#ef4444;font-weight:600;">-1.2% ▼</span>
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
-                            <span style="font-size: 12px;cursor:pointer;color:#ef4444;" onclick="drilldown('Cartagena')">🔴 Cartagena</span>
-                            <span style="font-size: 11px;color:#ef4444;font-weight:600;">-0.8% ▼</span>
+                            <span style="font-size:12px;cursor:pointer;color:#ef4444;" onclick="drilldown('Cartagena')">🔴 Cartagena</span>
+                            <span style="font-size:11px;color:#ef4444;font-weight:600;">-0.8% ▼</span>
                         </div>
                     </div>
 
                     <!-- 增长区域 -->
                     <div>
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
-                            <span style="font-size: 12px;cursor:pointer;color:#10b981;" onclick="drilldown('Bogota')">🟢 Bogotá</span>
-                            <span style="font-size: 11px;color:#10b981;font-weight:600;">+3.1% ▲</span>
+                            <span style="font-size:12px;cursor:pointer;color:#10b981;" onclick="drilldown('Bogota')">🟢 Bogotá</span>
+                            <span style="font-size:11px;color:#10b981;font-weight:600;">+3.1% ▲</span>
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
-                            <span style="font-size: 12px;cursor:pointer;color:#10b981;" onclick="drilldown('Medellin')">🟢 Medellín</span>
-                            <span style="font-size: 11px;color:#10b981;font-weight:600;">+2.5% ▲</span>
+                            <span style="font-size:12px;cursor:pointer;color:#10b981;" onclick="drilldown('Medellin')">🟢 Medellín</span>
+                            <span style="font-size:11px;color:#10b981;font-weight:600;">+2.5% ▲</span>
                         </div>
                     </div>
                 </div>
@@ -999,12 +883,12 @@
                 <div style="margin-bottom:8px;">
                     <div class="card-label"><span data-i18n="高价值终端">高价值终端</span></div>
                     <div style="display:flex;align-items:baseline;gap:8px;">
-                        <span class="big-number">4.5M</span>
-                        <span style="font-size: 11px;color:#94a3b8;"><span data-i18n="占比">占比</span> 36% · <span data-i18n="贡献收入">收入</span> 68%</span>
+                        <span class="big-number" style="font-size:28px;">4.5M</span>
+                        <span style="font-size:12px;color:#94a3b8;">占比 36% · 贡献收入 68%</span>
                     </div>
                     <div style="margin-top:4px;">
-                        <span style="font-size: 11px;color:#f59e0b;background:rgba(245,158,11,0.1);padding:2px 8px;border-radius:99px;">
-                            💰 <span data-i18n="预付费潜力">预付费潜力</span> 1.2M（<span data-i18n="可转后付费">可转后付费</span>）
+                        <span style="font-size:11px;color:#f59e0b;background:rgba(245,158,11,0.1);padding:2px 8px;border-radius:99px;">
+                            💰 预付费潜力 1.2M（可转后付费）
                         </span>
                     </div>
                 </div>
@@ -1018,8 +902,8 @@
                     <!-- 展开的大区分布面板 -->
                     <div id="terminalBreakdown" style="display:none;margin-top:6px;padding:8px;background:#0f172a;border-radius:8px;border:1px solid #334155;">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                            <span id="breakdownTitle" style="font-size: 11px;font-weight:600;color:#06b6d4;"></span>
-                            <span style="font-size: 10px;color:#64748b;cursor:pointer;" onclick="closeBreakdown()">✕ <span data-i18n="关闭大区">关闭</span></span>
+                            <span id="breakdownTitle" style="font-size:11px;font-weight:600;color:#06b6d4;"></span>
+                            <span style="font-size:10px;color:#64748b;cursor:pointer;" onclick="closeBreakdown()">✕ <span data-i18n="关闭">关闭</span></span>
                         </div>
                         <div id="breakdownBars"></div>
                     </div>
@@ -1033,69 +917,69 @@
                     <div style="space-y:4px;" id="hvTerminalCityList">
                         <!-- Bogota -->
                         <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;cursor:pointer;" onclick="drilldown('Bogota')">
-                            <span style="font-size: 11px;color:#f1f5f9;width:75px;flex-shrink:0;">Bogotá</span>
-                            <span style="font-size: 10px;color:#06b6d4;width:40px;flex-shrink:0;">1.85M</span>
+                            <span style="font-size:11px;color:#f1f5f9;width:75px;flex-shrink:0;">Bogotá</span>
+                            <span style="font-size:10px;color:#06b6d4;width:40px;flex-shrink:0;">1.85M</span>
                             <div style="flex:1;background:#1e293b;border-radius:2px;height:8px;position:relative;">
                                 <div style="width:44%;height:100%;background:linear-gradient(90deg,#06b6d4,#3b82f6);border-radius:2px;"></div>
                             </div>
-                            <span style="font-size: 10px;color:#94a3b8;width:28px;text-align:right;">44%</span>
-                            <span style="font-size: 10px;color:#10b981;width:35px;text-align:right;">+3.2%</span>
+                            <span style="font-size:10px;color:#94a3b8;width:28px;text-align:right;">44%</span>
+                            <span style="font-size:10px;color:#10b981;width:35px;text-align:right;">+3.2%</span>
                         </div>
                         <!-- Medellin -->
                         <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;cursor:pointer;" onclick="drilldown('Medellin')">
-                            <span style="font-size: 11px;color:#f1f5f9;width:75px;flex-shrink:0;">Medellín</span>
-                            <span style="font-size: 10px;color:#06b6d4;width:40px;flex-shrink:0;">1.02M</span>
+                            <span style="font-size:11px;color:#f1f5f9;width:75px;flex-shrink:0;">Medellín</span>
+                            <span style="font-size:10px;color:#06b6d4;width:40px;flex-shrink:0;">1.02M</span>
                             <div style="flex:1;background:#1e293b;border-radius:2px;height:8px;position:relative;">
                                 <div style="width:36%;height:100%;background:linear-gradient(90deg,#06b6d4,#3b82f6);border-radius:2px;"></div>
                             </div>
-                            <span style="font-size: 10px;color:#94a3b8;width:28px;text-align:right;">36%</span>
-                            <span style="font-size: 10px;color:#10b981;width:35px;text-align:right;">+2.8%</span>
+                            <span style="font-size:10px;color:#94a3b8;width:28px;text-align:right;">36%</span>
+                            <span style="font-size:10px;color:#10b981;width:35px;text-align:right;">+2.8%</span>
                         </div>
                         <!-- Cali -->
                         <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;cursor:pointer;" onclick="drilldown('Cali')">
-                            <span style="font-size: 11px;color:#f1f5f9;width:75px;flex-shrink:0;">Cali</span>
-                            <span style="font-size: 10px;color:#06b6d4;width:40px;flex-shrink:0;">680K</span>
+                            <span style="font-size:11px;color:#f1f5f9;width:75px;flex-shrink:0;">Cali</span>
+                            <span style="font-size:10px;color:#06b6d4;width:40px;flex-shrink:0;">680K</span>
                             <div style="flex:1;background:#1e293b;border-radius:2px;height:8px;position:relative;">
                                 <div style="width:36%;height:100%;background:linear-gradient(90deg,#06b6d4,#3b82f6);border-radius:2px;"></div>
                             </div>
-                            <span style="font-size: 10px;color:#94a3b8;width:28px;text-align:right;">36%</span>
-                            <span style="font-size: 10px;color:#10b981;width:35px;text-align:right;">+1.5%</span>
+                            <span style="font-size:10px;color:#94a3b8;width:28px;text-align:right;">36%</span>
+                            <span style="font-size:10px;color:#10b981;width:35px;text-align:right;">+1.5%</span>
                         </div>
                         <!-- Barranquilla - 下降，标红 -->
                         <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;cursor:pointer;" onclick="drilldown('Barranquilla')">
-                            <span style="font-size: 11px;color:#ef4444;width:75px;flex-shrink:0;">B/quilla</span>
-                            <span style="font-size: 10px;color:#06b6d4;width:40px;flex-shrink:0;">450K</span>
+                            <span style="font-size:11px;color:#ef4444;width:75px;flex-shrink:0;">B/quilla</span>
+                            <span style="font-size:10px;color:#06b6d4;width:40px;flex-shrink:0;">450K</span>
                             <div style="flex:1;background:#1e293b;border-radius:2px;height:8px;position:relative;">
                                 <div style="width:41%;height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:2px;"></div>
                             </div>
-                            <span style="font-size: 10px;color:#94a3b8;width:28px;text-align:right;">41%</span>
-                            <span style="font-size: 10px;color:#ef4444;width:35px;text-align:right;">-0.5%</span>
+                            <span style="font-size:10px;color:#94a3b8;width:28px;text-align:right;">41%</span>
+                            <span style="font-size:10px;color:#ef4444;width:35px;text-align:right;">-0.5%</span>
                         </div>
                         <!-- Cartagena - 下降 -->
                         <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px;cursor:pointer;" onclick="drilldown('Cartagena')">
-                            <span style="font-size: 11px;color:#ef4444;width:75px;flex-shrink:0;">Cartagena</span>
-                            <span style="font-size: 10px;color:#06b6d4;width:40px;flex-shrink:0;">320K</span>
+                            <span style="font-size:11px;color:#ef4444;width:75px;flex-shrink:0;">Cartagena</span>
+                            <span style="font-size:10px;color:#06b6d4;width:40px;flex-shrink:0;">320K</span>
                             <div style="flex:1;background:#1e293b;border-radius:2px;height:8px;position:relative;">
                                 <div style="width:40%;height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:2px;"></div>
                             </div>
-                            <span style="font-size: 10px;color:#94a3b8;width:28px;text-align:right;">40%</span>
-                            <span style="font-size: 10px;color:#ef4444;width:35px;text-align:right;">-0.3%</span>
+                            <span style="font-size:10px;color:#94a3b8;width:28px;text-align:right;">40%</span>
+                            <span style="font-size:10px;color:#ef4444;width:35px;text-align:right;">-0.3%</span>
                         </div>
                     </div>
 
                     <!-- 底部洞察 -->
                     <div style="margin-top:6px;padding:6px;background:rgba(245,158,11,0.08);border-radius:6px;border-left:3px solid #f59e0b;">
-                        <p style="font-size: 10px;color:#f59e0b;" id="bquillaInsight">💡 B/quilla 高价值终端占 41% 但用户在流失 → 预付费转后付费的优先区域</p>
+                        <p style="font-size:10px;color:#f59e0b;">💡 B/quilla 高价值终端占 41% 但用户在流失 → 预付费转后付费的优先区域</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Map Container -->
-        <div class="map-container map-container-glow" style="position:relative;">
+        <div class="map-container" style="position:relative;">
             <!-- Map Layer Switch Menu -->
             <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:1000;
-              display:flex;gap:4px;background:rgba(10,14,26,0.85);padding:4px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);">
+              display:flex;gap:4px;background:rgba(17,24,39,0.9);padding:4px;border-radius:8px;border:1px solid #334155;">
               <button class="map-layer-btn active" onclick="switchMapLayer('experience')" id="btn-experience"><span data-i18n="网络指标">网络指标</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('growth')" id="btn-growth"><span data-i18n="用户增长率">用户增长率</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('newUsers')" id="btn-newUsers"><span data-i18n="新增用户">新增用户</span></button>
@@ -1103,80 +987,17 @@
               <button class="map-layer-btn" onclick="switchMapLayer('competitiveness')" id="btn-competitiveness"><span data-i18n="vs Claro">vs Claro</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('video')" id="btn-video"><span data-i18n="视频体验">视频体验</span></button>
               <button class="map-layer-btn" onclick="switchMapLayer('coverageAnalysis')" id="btn-coverageAnalysis"><span data-i18n="覆盖分析">覆盖分析</span></button>
-              <button class="map-layer-btn" onclick="switchMapLayer('terminal')" id="btn-terminal"><span data-i18n="终端分布">终端分布</span></button>
-              <button class="map-layer-btn" onclick="toggleSplitView()" id="btn-split" style="border-left:2px solid rgba(255,255,255,0.1);margin-left:4px;"><span data-i18n="分屏">分屏</span></button>
             </div>
 
             <!-- Back to National Button -->
             <div id="backToNational" style="display:none;position:absolute;top:50px;left:50%;transform:translateX(-50%);z-index:1000;
               background:rgba(17,24,39,0.95);padding:6px 12px;border-radius:6px;border:1px solid #334155;
-              cursor:pointer;font-size: 11px;color:#06b6d4;font-weight:600;align-items:center;gap:6px;white-space:nowrap;" onclick="backToNational()">
-              <span id="backLabel" data-i18n="← 返回全国">← 返回全国</span>
+              cursor:pointer;font-size:11px;color:#06b6d4;font-weight:600;align-items:center;gap:6px;white-space:nowrap;" onclick="backToNational()">
+              <span id="backLabel">← 返回全国</span>
               <span id="backCityName" style="color:#f1f5f9;"></span>
             </div>
 
-            <!-- Terminal Selector -->
-            <div id="terminalSelector" style="display:none;position:absolute;top:50px;left:50%;transform:translateX(-50%);z-index:1000;
-              background:rgba(17,24,39,0.95);padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);
-              backdrop-filter:blur(8px);display:flex;align-items:center;gap:8px;">
-              <span style="font-size: 9px;color:#94a3b8;"><span data-i18n="终端">终端</span>:</span>
-              <select id="terminalSelect" onchange="switchTerminalHeatmap(this.value)" style="font-size: 9px;background:#1e293b;color:#06b6d4;border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:4px 8px;cursor:pointer;font-family:inherit;">
-                <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
-                <option value="Samsung S25 Ultra">Samsung S25 Ultra</option>
-                <option value="iPhone 15">iPhone 15</option>
-                <option value="Samsung A55">Samsung A55</option>
-                <option value="Xiaomi Redmi Note 13">Xiaomi Redmi Note 13</option>
-              </select>
-            </div>
-
             <div id="map"></div>
-
-            <!-- Split View Container -->
-            <div id="splitView" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:500;justify-content:stretch;">
-              <div style="flex:1;position:relative;border-right:2px solid #06b6d4;">
-                <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size: 9px;font-weight:600;color:#06b6d4;background:rgba(17,24,39,0.9);padding:4px 12px;border-radius:6px;">
-                  <span data-i18n="终端分布">终端分布</span>
-                  <select id="splitTerminalSelect" onchange="updateSplitTerminal(this.value)" style="font-size: 8px;background:#1e293b;color:#06b6d4;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:2px 6px;margin-left:6px;cursor:pointer;font-family:inherit;">
-                    <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
-                    <option value="Samsung S25 Ultra">Samsung S25 Ultra</option>
-                    <option value="iPhone 15">iPhone 15</option>
-                    <option value="Samsung A55">Samsung A55</option>
-                    <option value="Xiaomi Redmi Note 13">Xiaomi Redmi</option>
-                  </select>
-                </div>
-                <div id="splitMapLeft" style="width:100%;height:100%;"></div>
-              </div>
-              <div style="flex:1;position:relative;">
-                <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size: 9px;font-weight:600;color:#f97316;background:rgba(17,24,39,0.9);padding:4px 12px;border-radius:6px;">
-                  <span data-i18n="网络体验">网络体验</span>
-                </div>
-                <div id="splitMapRight" style="width:100%;height:100%;"></div>
-              </div>
-            </div>
-
-            <!-- Coverage Split View Container -->
-            <div id="coverageSplitView" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:500;">
-              <div style="display:flex;width:100%;height:100%;">
-                <!-- 左边 Tigo -->
-                <div style="flex:1;position:relative;border-right:2px solid #06b6d4;">
-                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size: 10px;font-weight:700;color:#06b6d4;background:rgba(17,24,39,0.9);padding:6px 14px;border-radius:8px;backdrop-filter:blur(4px);">
-                    Tigo
-                  </div>
-                  <div id="covSplitMapLeft" style="width:100%;height:100%;"></div>
-                </div>
-                <!-- 右边 Claro -->
-                <div style="flex:1;position:relative;">
-                  <div style="position:absolute;top:8px;left:8px;z-index:1000;font-size: 10px;font-weight:700;color:#f97316;background:rgba(17,24,39,0.9);padding:6px 14px;border-radius:8px;backdrop-filter:blur(4px);">
-                    Claro
-                  </div>
-                  <div id="covSplitMapRight" style="width:100%;height:100%;"></div>
-                </div>
-              </div>
-              <!-- 关闭按钮 -->
-              <button onclick="toggleCoverageSplit()" style="position:absolute;top:8px;right:8px;z-index:1001;font-size: 9px;color:#94a3b8;background:rgba(17,24,39,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:4px 12px;cursor:pointer;font-family:inherit;backdrop-filter:blur(4px);">
-                ✕ <span data-i18n="退出分屏">退出分屏</span>
-              </button>
-            </div>
 
             <!-- Coverage Analysis Chart Panel -->
             <div id="coverageChartPanel" style="display:none;position:absolute;bottom:0;left:0;right:0;z-index:1000;
@@ -1184,46 +1005,45 @@
               padding:12px 16px;backdrop-filter:blur(8px);">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
                 <div>
-                  <span style="font-size: 12px;font-weight:700;color:#06b6d4;" data-i18n="RSRP 覆盖分布">RSRP 覆盖分布</span>
-                  <span style="font-size: 10px;color:#64748b;margin-left:8px;" data-i18n="今日全网 RRC 连接用户 vs Ookla 测试样本">今日全网 RRC 连接用户 vs Ookla 测试样本</span>
+                  <span style="font-size:12px;font-weight:700;color:#06b6d4;" data-i18n="RSRP 覆盖分布">RSRP 覆盖分布</span>
+                  <span style="font-size:10px;color:#64748b;margin-left:8px;" data-i18n="今日全网 RRC 连接用户 vs Ookla 测试样本">今日全网 RRC 连接用户 vs Ookla 测试样本</span>
                   <!-- 运营商切换按钮 -->
                   <div style="display:flex;gap:4px;margin-left:12px;margin-top:6px;">
-                    <button class="cov-op-btn active" id="covOpTigo" onclick="switchCovOperator('tigo')" style="font-size: 9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;">Tigo</button>
-                    <button class="cov-op-btn" id="covOpClaro" onclick="switchCovOperator('claro')" style="font-size: 9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">Claro</button>
-                    <button class="cov-op-btn" id="covOpBoth" onclick="switchCovOperator('both')" style="font-size: 9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;" data-i18n="对比">对比</button>
-                    <button class="cov-op-btn" id="covOpSplit" onclick="toggleCoverageSplit()" style="font-size: 9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;margin-left:8px;border-left:2px solid rgba(255,255,255,0.1);" data-i18n="分屏对比">分屏对比</button>
+                    <button class="cov-op-btn active" id="covOpTigo" onclick="switchCovOperator('tigo')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;">Tigo</button>
+                    <button class="cov-op-btn" id="covOpClaro" onclick="switchCovOperator('claro')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">Claro</button>
+                    <button class="cov-op-btn" id="covOpBoth" onclick="switchCovOperator('both')" style="font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;">对比</button>
                   </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:12px;">
                   <div style="display:flex;align-items:center;gap:4px;">
                     <div style="width:12px;height:8px;background:#3b82f6;border-radius:2px;"></div>
-                    <span style="font-size: 9px;color:#94a3b8;" data-i18n="Tigo 现网用户">Tigo 现网用户</span>
+                    <span style="font-size:9px;color:#94a3b8;" data-i18n="Tigo 现网用户">Tigo 现网用户</span>
                   </div>
                   <div style="display:flex;align-items:center;gap:4px;">
                     <div style="width:12px;height:2px;background:#06b6d4;"></div>
-                    <span style="font-size: 9px;color:#94a3b8;">Tigo Ookla</span>
+                    <span style="font-size:9px;color:#94a3b8;">Tigo Ookla</span>
                   </div>
                   <div style="display:flex;align-items:center;gap:4px;">
                     <div style="width:12px;height:2px;background:#f97316;border-top:1px dashed #f97316;"></div>
-                    <span style="font-size: 9px;color:#94a3b8;">Claro Ookla</span>
+                    <span style="font-size:9px;color:#94a3b8;">Claro Ookla</span>
                   </div>
-                  <button onclick="closeCoverageChart()" style="font-size: 10px;color:#94a3b8;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;">✕ <span data-i18n="关闭">关闭</span></button>
+                  <button onclick="closeCoverageChart()" style="font-size:10px;color:#94a3b8;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:2px 8px;cursor:pointer;font-family:inherit;">✕ <span data-i18n="关闭">关闭</span></button>
                 </div>
               </div>
               <!-- 摘要数字 -->
               <div style="display:flex;gap:16px;margin-bottom:8px;">
-                <div style="font-size: 10px;">
-                  <span style="color:#64748b;"><span data-i18n="好覆盖">好覆盖</span>(≥-100)：</span>
+                <div style="font-size:10px;">
+                  <span style="color:#64748b;">好覆盖(≥-100)：</span>
                   <span style="color:#10b981;font-weight:600;">61.5%</span>
                 </div>
-                <div style="font-size: 10px;">
-                  <span style="color:#64748b;"><span data-i18n="差覆盖">差覆盖</span>(&lt;-100)：</span>
+                <div style="font-size:10px;">
+                  <span style="color:#64748b;">差覆盖(<-100)：</span>
                   <span style="color:#ef4444;font-weight:600;">38.5% (4.82M人)</span>
                 </div>
-                <div style="font-size: 10px;">
-                  <span style="color:#64748b;">vs Claro <span data-i18n="好覆盖">好覆盖</span>：</span>
+                <div style="font-size:10px;">
+                  <span style="color:#64748b;">vs Claro 好覆盖：</span>
                   <span style="color:#f97316;font-weight:600;">70.0%</span>
-                  <span style="color:#ef4444;font-size: 9px;"> (Claro <span data-i18n="更好">更好</span>)</span>
+                  <span style="color:#ef4444;font-size:9px;"> (Claro 更好)</span>
                 </div>
               </div>
               <div id="rsrpChart" style="width:100%;height:180px;"></div>
@@ -1231,16 +1051,28 @@
 
             <!-- Dynamic Legend Panel -->
             <div id="mapLegend" style="position:absolute;bottom:12px;right:12px;z-index:1000;
-              background:rgba(10,14,26,0.88);padding:7px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);
-              backdrop-filter:blur(8px);min-width:120px;">
-              <div id="legendTitle" style="font-size: 9px;color:#64748b;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;"><span data-i18n="体验评分">体验评分</span></div>
+              background:rgba(17,24,39,0.92);padding:8px 12px;border-radius:8px;border:1px solid #334155;
+              backdrop-filter:blur(4px);min-width:140px;">
+              <div id="legendTitle" style="font-size:9px;color:#64748b;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">体验评分</div>
               <div id="legendItems">
                 <!-- JS 动态生成 -->
               </div>
             </div>
 
-            <!-- Static legend hidden, dynamic legend used instead -->
-            <div class="map-legend" style="display:none;"></div>
+            <div class="map-legend" style="display:none;">
+                <div class="legend-item">
+                    <div class="legend-dot" style="background-color: #10b981;"></div>
+                    <span>优秀 (≥4.0)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background-color: #f59e0b;"></div>
+                    <span>良好 (3.0-4.0)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background-color: #ef4444;"></div>
+                    <span>告警 (&lt;3.0)</span>
+                </div>
+            </div>
         </div>
 
         <!-- Right Column -->
@@ -1250,7 +1082,7 @@
               <!-- 下拉菜单 -->
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
                 <div class="card-label"><span data-i18n="网络指标">网络指标</span></div>
-                <select id="expMetricSelect" onchange="switchExpMetric(this.value)" style="font-size: 10px;background:#1e293b;color:#06b6d4;border:1px solid #334155;border-radius:4px;padding:2px 6px;cursor:pointer;font-family:inherit;">
+                <select id="expMetricSelect" onchange="switchExpMetric(this.value)" style="font-size:10px;background:#1e293b;color:#06b6d4;border:1px solid #334155;border-radius:4px;padding:2px 6px;cursor:pointer;font-family:inherit;">
                   <option value="dl_speed">下行速率</option>
                   <option value="ul_speed">上行速率</option>
                   <option value="latency">时延</option>
@@ -1265,8 +1097,7 @@
               <div id="expMetricChart" style="width:100%;height:90px;margin:6px 0;"></div>
 
               <!-- 区域排名 -->
-              <div class="separator"></div>
-              <div style="padding-top:6px;">
+              <div style="border-top:1px solid #1e293b;padding-top:6px;">
                 <div class="card-label" style="margin-bottom:4px;"><span data-i18n="区域排名">区域排名</span></div>
                 <div id="expMetricCities"></div>
               </div>
@@ -1280,8 +1111,8 @@
 
                 <!-- Tab 切换：速率 / 覆盖 -->
                 <div style="display:flex;gap:4px;margin-bottom:8px;">
-                    <button class="comp-tab active" id="compTabSpeed" onclick="switchCompTab('speed')" style="font-size: 10px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;"><span data-i18n="速率">速率</span></button>
-                    <button class="comp-tab" id="compTabCoverage" onclick="switchCompTab('coverage')" style="font-size: 10px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;"><span data-i18n="覆盖">覆盖</span></button>
+                    <button class="comp-tab active" id="compTabSpeed" onclick="switchCompTab('speed')" style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#06b6d4;color:#0a0e1a;cursor:pointer;font-family:inherit;font-weight:600;"><span data-i18n="速率">速率</span></button>
+                    <button class="comp-tab" id="compTabCoverage" onclick="switchCompTab('coverage')" style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:transparent;color:#94a3b8;cursor:pointer;font-family:inherit;"><span data-i18n="覆盖">覆盖</span></button>
                 </div>
 
                 <!-- 速率对比（默认显示） -->
@@ -1289,14 +1120,14 @@
                     <!-- 整体速率 -->
                     <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
                         <div style="text-align:center;flex:1;">
-                            <div style="font-size: 9px;color:#06b6d4;">Tigo</div>
-                            <div style="font-size: 8px;font-weight:700;color:#06b6d4;">38.2</div>
-                            <div style="font-size: 8px;color:#64748b;">Mbps</div>
+                            <div style="font-size:9px;color:#06b6d4;">Tigo</div>
+                            <div style="font-size:16px;font-weight:700;color:#06b6d4;">38.2</div>
+                            <div style="font-size:8px;color:#64748b;">Mbps</div>
                         </div>
                         <div style="text-align:center;flex:1;">
-                            <div style="font-size: 9px;color:#f97316;">Claro</div>
-                            <div style="font-size: 8px;font-weight:700;color:#f97316;">42.5</div>
-                            <div style="font-size: 8px;color:#64748b;">Mbps</div>
+                            <div style="font-size:9px;color:#f97316;">Claro</div>
+                            <div style="font-size:16px;font-weight:700;color:#f97316;">42.5</div>
+                            <div style="font-size:8px;color:#64748b;">Mbps</div>
                         </div>
                     </div>
 
@@ -1304,86 +1135,85 @@
                     <div id="compTrendChart" style="width:100%;height:70px;"></div>
 
                     <!-- 各城市差距 -->
-                    <div class="separator" style="margin-top:4px;"></div>
-                    <div style="padding-top:6px;">
-                        <div style="font-size: 9px;color:#64748b;margin-bottom:4px;" data-i18n="vs Claro 各区域差距">vs Claro 各区域差距</div>
+                    <div style="border-top:1px solid #1e293b;padding-top:6px;margin-top:4px;">
+                        <div style="font-size:9px;color:#64748b;margin-bottom:4px;" data-i18n="vs Claro 各区域差距">vs Claro 各区域差距</div>
                         <!-- 按差距严重程度排序 -->
-                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size: 10px;" onclick="drilldown('Barranquilla');switchMapLayer('competitiveness')">
+                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Barranquilla');switchMapLayer('competitiveness')">
                             <span style="color:#ef4444;">B/quilla</span>
-                            <span style="color:#ef4444;font-weight:600;">-49.8% ▼ <span data-i18n="扩大">扩大</span></span>
+                            <span style="color:#ef4444;font-weight:600;">-49.8% ▼ 扩大</span>
                         </div>
-                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size: 10px;" onclick="drilldown('Cartagena');switchMapLayer('competitiveness')">
+                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Cartagena');switchMapLayer('competitiveness')">
                             <span style="color:#ef4444;">Cartagena</span>
-                            <span style="color:#ef4444;font-weight:600;">-31.7% ▼ <span data-i18n="扩大">扩大</span></span>
+                            <span style="color:#ef4444;font-weight:600;">-31.7% ▼ 扩大</span>
                         </div>
-                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size: 10px;" onclick="drilldown('Cali')">
+                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Cali')">
                             <span style="color:#f59e0b;">Cali</span>
-                            <span style="color:#f59e0b;">-11.6% → <span data-i18n="稳定">稳定</span></span>
+                            <span style="color:#f59e0b;">-11.6% → 稳定</span>
                         </div>
-                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size: 10px;" onclick="drilldown('Bogota')">
+                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Bogota')">
                             <span style="color:#10b981;">Bogota</span>
-                            <span style="color:#10b981;">-5.8% ▲ <span data-i18n="缩小">缩小</span></span>
+                            <span style="color:#10b981;">-5.8% ▲ 缩小</span>
                         </div>
-                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size: 10px;" onclick="drilldown('Medellin')">
+                        <div style="cursor:pointer;margin-bottom:2px;display:flex;justify-content:space-between;font-size:10px;" onclick="drilldown('Medellin')">
                             <span style="color:#10b981;">Medellin</span>
-                            <span style="color:#10b981;font-weight:600;">+5.6% 🏆 <span data-i18n="领先">领先</span></span>
+                            <span style="color:#10b981;font-weight:600;">+5.6% 🏆 领先</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 覆盖对比（默认隐藏） -->
                 <div id="compCoveragePanel" style="display:none;">
-                    <div style="font-size: 9px;color:#64748b;margin-bottom:6px;">Ookla 测速样本量 ≈ 覆盖代理指标</div>
+                    <div style="font-size:9px;color:#64748b;margin-bottom:6px;">Ookla 测速样本量 ≈ 覆盖代理指标</div>
                     <div id="coverageCityList">
                         <!-- 各城市覆盖对比 -->
                         <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Barranquilla')">
-                            <div style="display:flex;justify-content:space-between;font-size: 10px;margin-bottom:2px;">
+                            <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;">
                                 <span style="color:#ef4444;">B/quilla</span>
-                                <span style="color:#ef4444;"><span data-i18n="差距">Gap</span> -63% · <span data-i18n="扩大">扩大</span></span>
+                                <span style="color:#ef4444;">差距 -63% · 扩大</span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
-                                <span style="font-size: 8px;color:#06b6d4;width:30px;">Tigo</span>
+                                <span style="font-size:8px;color:#06b6d4;width:30px;">Tigo</span>
                                 <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:27%;height:100%;background:#06b6d4;border-radius:2px;"></div></div>
-                                <span style="font-size: 8px;color:#64748b;width:25px;">450</span>
+                                <span style="font-size:8px;color:#64748b;width:25px;">450</span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
-                                <span style="font-size: 8px;color:#f97316;width:30px;">Claro</span>
+                                <span style="font-size:8px;color:#f97316;width:30px;">Claro</span>
                                 <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:72%;height:100%;background:#f97316;border-radius:2px;"></div></div>
-                                <span style="font-size: 8px;color:#64748b;width:25px;">1200</span>
+                                <span style="font-size:8px;color:#64748b;width:25px;">1200</span>
                             </div>
                         </div>
 
                         <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Cartagena')">
-                            <div style="display:flex;justify-content:space-between;font-size: 10px;margin-bottom:2px;">
+                            <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;">
                                 <span style="color:#ef4444;">Cartagena</span>
-                                <span style="color:#ef4444;"><span data-i18n="差距">Gap</span> -55% · <span data-i18n="扩大">扩大</span></span>
+                                <span style="color:#ef4444;">差距 -55% · 扩大</span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
-                                <span style="font-size: 8px;color:#06b6d4;width:30px;">Tigo</span>
+                                <span style="font-size:8px;color:#06b6d4;width:30px;">Tigo</span>
                                 <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:31%;height:100%;background:#06b6d4;border-radius:2px;"></div></div>
-                                <span style="font-size: 8px;color:#64748b;width:25px;">380</span>
+                                <span style="font-size:8px;color:#64748b;width:25px;">380</span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
-                                <span style="font-size: 8px;color:#f97316;width:30px;">Claro</span>
+                                <span style="font-size:8px;color:#f97316;width:30px;">Claro</span>
                                 <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:68%;height:100%;background:#f97316;border-radius:2px;"></div></div>
-                                <span style="font-size: 8px;color:#64748b;width:25px;">850</span>
+                                <span style="font-size:8px;color:#64748b;width:25px;">850</span>
                             </div>
                         </div>
 
                         <div style="cursor:pointer;margin-bottom:4px;" onclick="drilldown('Medellin')">
-                            <div style="display:flex;justify-content:space-between;font-size: 10px;margin-bottom:2px;">
+                            <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;">
                                 <span style="color:#10b981;">Medellin</span>
-                                <span style="color:#10b981;"><span data-i18n="领先">领先</span> +8% 🏆</span>
+                                <span style="color:#10b981;">领先 +8% 🏆</span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
-                                <span style="font-size: 8px;color:#06b6d4;width:30px;">Tigo</span>
+                                <span style="font-size:8px;color:#06b6d4;width:30px;">Tigo</span>
                                 <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:52%;height:100%;background:#06b6d4;border-radius:2px;"></div></div>
-                                <span style="font-size: 8px;color:#64748b;width:25px;">1400</span>
+                                <span style="font-size:8px;color:#64748b;width:25px;">1400</span>
                             </div>
                             <div style="display:flex;gap:4px;align-items:center;">
-                                <span style="font-size: 8px;color:#f97316;width:30px;">Claro</span>
+                                <span style="font-size:8px;color:#f97316;width:30px;">Claro</span>
                                 <div style="flex:1;background:#1e293b;height:5px;border-radius:2px;"><div style="width:48%;height:100%;background:#f97316;border-radius:2px;"></div></div>
-                                <span style="font-size: 8px;color:#64748b;width:25px;">1300</span>
+                                <span style="font-size:8px;color:#64748b;width:25px;">1300</span>
                             </div>
                         </div>
                     </div>
@@ -1393,26 +1223,26 @@
             <!-- Churn Distribution Card -->
             <div class="card" style="overflow-y:auto;">
               <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px;">
-                <span class="big-number red">15.2K</span>
-                <span style="font-size: 10px;color:#ef4444;">▲ +8% MoM</span>
+                <span class="big-number" style="font-size:22px;">15.2K</span>
+                <span style="font-size:10px;color:#ef4444;">▲ +8% MoM</span>
               </div>
               <div class="card-label" style="margin-bottom:6px;"><span data-i18n="流失分布">流失分布</span></div>
 
               <!-- 城市分布 -->
               <div style="margin-bottom:6px;">
-                <div style="display:flex;justify-content:space-between;font-size: 10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Barranquilla')">
+                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Barranquilla')">
                   <span style="color:#ef4444;">B/quilla</span><span style="color:#ef4444;font-weight:600;">3,200</span>
                 </div>
-                <div style="display:flex;justify-content:space-between;font-size: 10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Cartagena')">
+                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Cartagena')">
                   <span style="color:#ef4444;">Cartagena</span><span style="color:#ef4444;font-weight:600;">2,100</span>
                 </div>
-                <div style="display:flex;justify-content:space-between;font-size: 10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Cali')">
+                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Cali')">
                   <span style="color:#f59e0b;">Cali</span><span style="color:#f59e0b;">1,800</span>
                 </div>
-                <div style="display:flex;justify-content:space-between;font-size: 10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Medellín')">
+                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Medellín')">
                   <span style="color:#10b981;">Medellín</span><span style="color:#10b981;">1,200</span>
                 </div>
-                <div style="display:flex;justify-content:space-between;font-size: 10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Bogotá')">
+                <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;cursor:pointer;" onclick="drilldown('Bogotá')">
                   <span style="color:#10b981;">Bogotá</span><span style="color:#10b981;">950</span>
                 </div>
               </div>
@@ -1422,49 +1252,45 @@
             </div>
         </div>
 
-        <!-- Bottom Row: App Pie Charts - Compact Horizontal Layout -->
+        <!-- Bottom Row: App Pie Charts -->
         <div class="bottom-row">
-          <!-- YouTube -->
-          <div class="card app-brand-youtube" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('youtube')">
-            <div id="ytPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
-            <div>
-              <div style="font-size: 10px;font-weight:700;color:#ff0000;margin-bottom:4px;">YouTube</div>
-              <div style="font-size: 8px;color:#64748b;" data-i18n="480p以下">480p以下</div>
-              <div style="font-size: 10px;font-weight:800;color:#f59e0b;line-height:1;text-shadow:0 0 20px rgba(245,158,11,0.3);">32%</div>
-              <div style="font-size: 8px;color:#ef4444;font-weight:600;">▲ +2.1%</div>
+          <!-- YouTube 饼图 -->
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+            <div id="ytPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-size:11px;font-weight:600;color:#ff0000;margin-bottom:4px;">YouTube</div>
+              <div style="font-size:10px;color:#94a3b8;">HD 33% · 卡顿 2.8%</div>
+              <button onclick="openAppPanel('youtube')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
-          <!-- Netflix -->
-          <div class="card app-brand-netflix" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('netflix')">
-            <div id="nfPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
-            <div>
-              <div style="font-size: 10px;font-weight:700;color:#e50914;margin-bottom:4px;">Netflix</div>
-              <div style="font-size: 8px;color:#64748b;" data-i18n="HD占比">HD占比</div>
-              <div style="font-size: 10px;font-weight:800;color:#10b981;line-height:1;text-shadow:0 0 20px rgba(16,185,129,0.3);">43%</div>
-              <div style="font-size: 8px;color:#10b981;font-weight:600;">▲ +2.0%</div>
+          <!-- Netflix 饼图 -->
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+            <div id="nfPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-size:11px;font-weight:600;color:#e50914;margin-bottom:4px;">Netflix</div>
+              <div style="font-size:10px;color:#94a3b8;">HD 43% · 卡顿 1.5%</div>
+              <button onclick="openAppPanel('netflix')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
-          <!-- TikTok -->
-          <div class="card app-brand-tiktok" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('tiktok')">
-            <div id="tkPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
-            <div>
-              <div style="font-size: 10px;font-weight:700;color:#00f2ea;margin-bottom:4px;">TikTok</div>
-              <div style="font-size: 8px;color:#64748b;" data-i18n="成功率">成功率</div>
-              <div style="font-size: 10px;font-weight:800;color:#10b981;line-height:1;text-shadow:0 0 20px rgba(16,185,129,0.3);">98.5%</div>
-              <div style="font-size: 8px;color:#10b981;font-weight:600;">▲ +0.2%</div>
+          <!-- TikTok 饼图 -->
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+            <div id="tkPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-size:11px;font-weight:600;color:#00f2ea;margin-bottom:4px;">TikTok</div>
+              <div style="font-size:10px;color:#94a3b8;">成功率 98.5%</div>
+              <button onclick="openAppPanel('tiktok')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
 
-          <!-- 流量 -->
-          <div class="card app-brand-traffic" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openAppPanel('traffic')">
-            <div id="trafficPieSmall" style="width:100px;height:100px;flex-shrink:0;"></div>
-            <div>
-              <div style="font-size: 10px;font-weight:700;color:#94a3b8;margin-bottom:4px;"><span data-i18n="流量">流量</span></div>
-              <div style="font-size: 8px;color:#64748b;" data-i18n="视频占比">视频占比</div>
-              <div style="font-size: 10px;font-weight:800;color:#ef4444;line-height:1;text-shadow:0 0 20px rgba(239,68,68,0.3);">32%</div>
-              <div style="font-size: 8px;color:#ef4444;font-weight:600;">▲ +1.5%</div>
+          <!-- 流量分布饼图 -->
+          <div class="card" style="flex:1;padding:10px;display:flex;align-items:center;gap:8px;min-height:160px;">
+            <div id="trafficPieSmall" style="width:80px;height:80px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:4px;"><span data-i18n="流量">流量</span></div>
+              <div style="font-size:10px;color:#94a3b8;"><span data-i18n="视频">视频</span> 32% · 社交 28%</div>
+              <button onclick="openAppPanel('traffic')" style="margin-top:4px;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;"><span data-i18n="详情">详情</span> →</button>
             </div>
           </div>
         </div>
@@ -1478,9 +1304,9 @@
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
         <div style="display:flex;align-items:center;gap:12px;">
           <div style="width:40px;height:4px;background:#334155;border-radius:2px;"></div>
-          <span id="appPanelTitle" style="font-size: 8px;font-weight:700;"></span>
+          <span id="appPanelTitle" style="font-size:16px;font-weight:700;"></span>
         </div>
-        <button onclick="closeAppPanel()" style="font-size: 12px;color:#94a3b8;background:#1e293b;border:1px solid #334155;border-radius:6px;padding:4px 10px;cursor:pointer;font-family:inherit;"><span data-i18n="收起">收起 ▼</span></button>
+        <button onclick="closeAppPanel()" style="font-size:12px;color:#94a3b8;background:#1e293b;border:1px solid #334155;border-radius:6px;padding:4px 12px;cursor:pointer;font-family:inherit;"><span data-i18n="收起">收起</span> ▼</button>
       </div>
       <div id="appPanelContent"></div>
     </div>
@@ -1512,7 +1338,7 @@
         const TRANSLATIONS = {
           // Main labels
           '在网用户': { zh: '在网用户', en: 'Active Users' },
-          '区域变化': { zh: '区域变化', en: 'Regional Trend' },
+          '区域变化': { zh: '区域变化', en: 'Regional Change' },
           '高价值终端': { zh: '高价值终端', en: 'High-Value Devices' },
           'Top 终端（点击查看大区分布）': { zh: 'Top 终端（点击查看大区分布）', en: 'Top Devices (click for regional)' },
           '区域分布（高价值终端）': { zh: '区域分布（高价值终端）', en: 'Regional Dist. (High-Value)' },
@@ -1523,7 +1349,7 @@
           'vs Claro': { zh: 'vs Claro', en: 'vs Claro' },
           '视频体验': { zh: '视频体验', en: 'Video QoE' },
           '覆盖分析': { zh: '覆盖分析', en: 'Coverage' },
-          '区域排名': { zh: '区域排名', en: 'Regional Ranking' },
+          '区域排名': { zh: '区域排名', en: 'Regional Rank' },
           '竞对分析 (Ookla)': { zh: '竞对分析 (Ookla)', en: 'Competitor (Ookla)' },
           '速率': { zh: '速率', en: 'Speed' },
           '覆盖': { zh: '覆盖', en: 'Coverage' },
@@ -1531,58 +1357,12 @@
           'RSRP 覆盖分布': { zh: 'RSRP 覆盖分布', en: 'RSRP Coverage Dist.' },
           '今日全网 RRC 连接用户 vs Ookla 测试样本': { zh: '今日全网 RRC 连接用户 vs Ookla 测试样本', en: 'Today RRC Users vs Ookla' },
           'Tigo 现网用户': { zh: 'Tigo 现网用户', en: 'Tigo Live Users' },
-          '卡顿': { zh: '卡顿', en: 'Buffering' },
+          '卡顿': { zh: '卡顿', en: 'Buffer' },
           '流量': { zh: '流量', en: 'Traffic' },
           '视频': { zh: '视频', en: 'Video' },
           '关闭': { zh: '关闭', en: 'Close' },
-          '关闭大区': { zh: '关闭', en: 'Close' },
-          '收起': { zh: '收起 ▼', en: 'Close ▼' },
-          '月度流失': { zh: '月度流失', en: 'Monthly Churn' },
+          '收起': { zh: '收起', en: 'Collapse' },
           '← 返回全国': { zh: '← 返回全国', en: '← Back to National' },
-          // New entries
-          '占比': { zh: '占比', en: 'Share' },
-          '贡献收入': { zh: '收入', en: 'Revenue' },
-          '预付费潜力': { zh: '预付费潜力', en: 'Prepaid Potential' },
-          '可转后付费': { zh: '可转后付费', en: 'Convertible' },
-          '大区分布': { zh: '大区分布', en: 'Regional' },
-          '480p以下': { zh: '480p以下', en: '≤480p' },
-          'HD占比': { zh: 'HD占比', en: 'HD Ratio' },
-          '成功率': { zh: '成功率', en: 'Success Rate' },
-          '视频占比': { zh: '视频占比', en: 'Video Share' },
-          '详情': { zh: '详情', en: 'Details' },
-          '返回全国': { zh: '返回全国', en: 'Back to National' },
-          '边缘': { zh: '边缘', en: 'Edge' },
-          '增长': { zh: '增长', en: 'Growth' },
-          '流失': { zh: '流失', en: 'Churn' },
-          '好覆盖': { zh: '好覆盖', en: 'Good Coverage' },
-          '差覆盖': { zh: '差覆盖', en: 'Poor Coverage' },
-          '更好': { zh: '更好', en: 'Better' },
-          '体验': { zh: '体验', en: 'Experience' },
-          '日变化': { zh: '日变化', en: 'Daily Change' },
-          '净增': { zh: '净增', en: 'Net Add' },
-          '新增': { zh: '新增', en: 'New' },
-          '流失最高': { zh: '流失最高', en: 'Highest Churn' },
-          '离网率': { zh: '离网率', en: 'Churn Rate' },
-          '区域排名2': { zh: '区域排名', en: 'Regional Ranking' },
-          '竞对分析': { zh: '竞对分析', en: 'Competitor Analysis' },
-          '扩大': { zh: '扩大', en: 'Widening' },
-          '缩小': { zh: '缩小', en: 'Closing' },
-          '稳定': { zh: '稳定', en: 'Stable' },
-          '领先': { zh: '领先', en: 'Leading' },
-          '覆盖分析2': { zh: '覆盖分析', en: 'Coverage Analysis' },
-          '卡顿2': { zh: '卡顿', en: 'Buffering' },
-          '流量2': { zh: '流量', en: 'Traffic' },
-          '网络因素': { zh: '网络因素', en: 'Network Factor' },
-          '告警城市': { zh: '告警城市', en: 'Alert Cities' },
-          '体验评分': { zh: '体验评分', en: 'Experience Score' },
-          '差距': { zh: '差距', en: 'Gap' },
-          '对比': { zh: '对比', en: 'Compare' },
-          '分屏对比': { zh: '分屏对比', en: 'Split View' },
-          '退出分屏': { zh: '退出分屏', en: 'Exit Split' },
-          '终端分布': { zh: '终端分布', en: 'Device Distribution' },
-          '分屏': { zh: '分屏', en: 'Split' },
-          '终端': { zh: '终端', en: 'Device' },
-          '网络体验': { zh: '网络体验', en: 'Network QoE' },
         };
 
         function getTranslation(key, fallback = key) {
@@ -1625,12 +1405,6 @@
           const backLabel = document.getElementById('backLabel');
           if (backLabel) {
             backLabel.textContent = currentLang === 'zh' ? '← 返回全国' : '← Back to National';
-          }
-
-          // 刷新网络指标区域内容（包含动态 vsClaro.trend 翻译）
-          const curMetricSel = document.getElementById('expMetricSelect');
-          if (curMetricSel) {
-            switchExpMetric(curMetricSel.value);
           }
 
           // 刷新地图以更新标签
@@ -1843,157 +1617,26 @@
             {id:"CO-CAR-009",lat:10.427,lon:-75.543,city:"Cartagena",bands:"B28/B2/B4/B7",users:440,exp:3.3,edge:27,prb:66,growth:-0.9,newUsers:68,churnUsers:72,churnRate:2.1}
         ];
 
-        // ============ EXPAND SITES FROM 50 TO 5000 ============
-
-        // Deterministic random number generator for consistent results
-        function mulberry32(a) {
-          return function() {
-            a |= 0; a = a + 0x6D2B79F5 | 0
-            var t = Math.imul(a ^ a >>> 15, 1 | a)
-            t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t
-            return ((t ^ t >>> 14) >>> 0) / 4294967296
-          }
-        }
-
-        function expandSites(seedSites, targetCount) {
-          const expanded = [...seedSites]  // Keep original seeds
-
-          const cityConfigs = {
-            'Bogota': {latRange:[4.52,4.78], lonRange:[-74.22,-73.95], count:1500, expRange:[3.2,4.8], prbRange:[30,85], edgeRange:[8,28]},
-            'Medellin': {latRange:[6.15,6.35], lonRange:[-75.68,-75.48], count:1000, expRange:[3.0,4.5], prbRange:[32,80], edgeRange:[10,26]},
-            'Cali': {latRange:[3.33,3.52], lonRange:[-76.60,-76.42], count:800, expRange:[2.8,4.2], prbRange:[35,82], edgeRange:[12,30]},
-            'Barranquilla': {latRange:[10.90,11.08], lonRange:[-74.88,-74.70], count:600, expRange:[2.0,3.5], prbRange:[50,95], edgeRange:[22,42]},
-            'Cartagena': {latRange:[10.32,10.50], lonRange:[-75.60,-75.42], count:500, expRange:[2.2,3.8], prbRange:[45,90], edgeRange:[18,38]},
-            'Rural': {latRange:[2.0,11.5], lonRange:[-77.0,-72.0], count:600, expRange:[2.5,4.0], prbRange:[20,60], edgeRange:[15,35]},
-          }
-
-          const bands = ['B2/B4/B7/B28','B2/B4/B7','B28/B2/B4','B2/B4','B2/B4/B7/B28/5G']
-          const rand = mulberry32(12345)
-
-          Object.entries(cityConfigs).forEach(([city, cfg]) => {
-            // Subtract existing seed sites for this city
-            const existing = seedSites.filter(s => s.city === city).length
-            const toGenerate = cfg.count - existing
-
-            for (let i = 0; i < toGenerate; i++) {
-              const lat = cfg.latRange[0] + rand() * (cfg.latRange[1] - cfg.latRange[0])
-              const lon = cfg.lonRange[0] + rand() * (cfg.lonRange[1] - cfg.lonRange[0])
-              const exp = +(cfg.expRange[0] + rand() * (cfg.expRange[1] - cfg.expRange[0])).toFixed(1)
-              const prb = Math.round(cfg.prbRange[0] + rand() * (cfg.prbRange[1] - cfg.prbRange[0]))
-              const edge = Math.round(cfg.edgeRange[0] + rand() * (cfg.edgeRange[1] - cfg.edgeRange[0]))
-              const users = Math.round(300 + rand() * 1500)
-              const growth = +((rand() - 0.3) * 8).toFixed(1)  // -2.4 to +5.6
-              const newUsers = Math.round(50 + rand() * 400)
-              const churnUsers = Math.round(10 + rand() * 120)
-              const churnRate = +(0.3 + rand() * 3.0).toFixed(1)
-
-              // City abbreviation
-              const cityAbbr = city === 'Barranquilla' ? 'BAR' : city === 'Cartagena' ? 'CAR' :
-                                city === 'Medellin' ? 'MED' : city === 'Cali' ? 'CAL' :
-                                city === 'Rural' ? 'RUR' : 'BOG'
-
-              expanded.push({
-                id: `CO-${cityAbbr}-${(existing + i + 1).toString().padStart(4,'0')}`,
-                lat: +lat.toFixed(6),
-                lon: +lon.toFixed(6),
-                city: city,
-                bands: bands[Math.floor(rand() * bands.length)],
-                users: users,
-                exp: exp,
-                edge: edge,
-                prb: prb,
-                growth: growth,
-                newUsers: newUsers,
-                churnUsers: churnUsers,
-                churnRate: churnRate,
-              })
-            }
-          })
-
-          return expanded
-        }
-
-        // Execute expansion and extend SITES_DATA
-        const generatedSites = expandSites(SITES_DATA, 5000)
-        SITES_DATA.push(...generatedSites.filter(s => !SITES_DATA.find(o => o.id === s.id)))
-
-        // Generate terminal heatmap dynamically from sites
-        function generateTerminalHeatmap(sites) {
-          const models = {
-            "iPhone 16 Pro Max": {cityWeight:{Bogota:0.9,Medellin:0.7,Cali:0.5,Barranquilla:0.3,Cartagena:0.3,Rural:0.1}},
-            "Samsung S25 Ultra": {cityWeight:{Bogota:0.8,Medellin:0.65,Cali:0.5,Barranquilla:0.35,Cartagena:0.3,Rural:0.15}},
-            "iPhone 15": {cityWeight:{Bogota:0.85,Medellin:0.7,Cali:0.55,Barranquilla:0.4,Cartagena:0.35,Rural:0.2}},
-            "Samsung A55": {cityWeight:{Bogota:0.5,Medellin:0.5,Cali:0.5,Barranquilla:0.5,Cartagena:0.5,Rural:0.5}},
-            "Xiaomi Redmi Note 13": {cityWeight:{Bogota:0.3,Medellin:0.35,Cali:0.4,Barranquilla:0.55,Cartagena:0.5,Rural:0.7}},
-          }
-
-          const result = {}
-          const rand2 = mulberry32(67890)
-
-          Object.entries(models).forEach(([model, cfg]) => {
-            const points = []
-            sites.forEach(site => {
-              const weight = cfg.cityWeight[site.city] || 0.3
-              if (rand2() < weight * 0.15) {  // Sample by weight
-                points.push([
-                  site.lat + (rand2()-0.5)*0.02,
-                  site.lon + (rand2()-0.5)*0.02,
-                  weight * (0.5 + rand2()*0.5)
-                ])
-              }
-            })
-            result[model] = points
-          })
-
-          return result
-        }
-
-        // Generate MR coverage heatmap dynamically
-        function generateMRHeatmap(sites) {
-          const rand3 = mulberry32(11111)
-          const tigo = [], claro = []
-
-          sites.forEach(site => {
-            // Tigo coverage intensity correlates with experience
-            const tigoIntensity = Math.min(1, Math.max(0.1, site.exp / 5.0 * (0.7 + rand3()*0.3)))
-            tigo.push([site.lat + (rand3()-0.5)*0.01, site.lon + (rand3()-0.5)*0.01, tigoIntensity])
-
-            // Claro coverage: stronger in Barranquilla/Cartagena
-            let claroBase = 0.6 + rand3() * 0.3
-            if (site.city === 'Barranquilla' || site.city === 'Cartagena') claroBase += 0.2
-            if (site.city === 'Medellin') claroBase -= 0.1
-            claro.push([site.lat + (rand3()-0.5)*0.015, site.lon + (rand3()-0.5)*0.015, Math.min(1, claroBase)])
-          })
-
-          return {tigo, claro}
-        }
-
-        // Replace terminal heatmap with generated version
-        const terminalGen = generateTerminalHeatmap(SITES_DATA)
-        Object.keys(terminalGen).forEach(k => {
-          TERMINAL_HEATMAP[k] = terminalGen[k]
-        })
-
         const CITIES = {
             "Bogota": {
                 users:"4.2M",trend:"+3.1%",exp:4.3,expTrend:"+0.3",churn:"0.8%",churnTrend:"-0.1%",
-                edge:12,prb:50,vsClaro:"-5%",ytHD:38,sites:1500,population:"7.2M"
+                edge:12,prb:50,vsClaro:"-5%",ytHD:38,sites:15,population:"7.2M"
             },
             "Medellin": {
                 users:"2.8M",trend:"+2.5%",exp:3.9,expTrend:"+0.1",churn:"1.0%",churnTrend:"0%",
-                edge:16,prb:52,vsClaro:"-10%",ytHD:35,sites:1000,population:"4.1M"
+                edge:16,prb:52,vsClaro:"-10%",ytHD:35,sites:10,population:"4.1M"
             },
             "Cali": {
                 users:"1.9M",trend:"+1.8%",exp:3.5,expTrend:"-0.1",churn:"1.3%",churnTrend:"+0.2%",
-                edge:26,prb:63,vsClaro:"-12%",ytHD:30,sites:800,population:"3.2M"
+                edge:26,prb:63,vsClaro:"-12%",ytHD:30,sites:10,population:"3.2M"
             },
             "Barranquilla": {
                 users:"1.1M",trend:"-1.2%",exp:2.8,expTrend:"-0.5",churn:"2.1%",churnTrend:"+0.4%",
-                edge:34,prb:75,vsClaro:"-22%",ytHD:18,sites:600,population:"2.2M"
+                edge:34,prb:75,vsClaro:"-22%",ytHD:18,sites:8,population:"2.2M"
             },
             "Cartagena": {
                 users:"0.8M",trend:"-0.8%",exp:3.1,expTrend:"-0.2",churn:"1.8%",churnTrend:"+0.3%",
-                edge:30,prb:70,vsClaro:"-18%",ytHD:22,sites:500,population:"1.4M"
+                edge:30,prb:70,vsClaro:"-18%",ytHD:22,sites:7,population:"1.4M"
             }
         };
 
@@ -2040,7 +1683,6 @@
         const EXPERIENCE_METRICS = {
           dl_speed: {
             label: "下行速率",
-            labelEN: "DL Speed",
             unit: "Mbps",
             overall: 38.2,
             mom: "+2.5",
@@ -2056,7 +1698,6 @@
           },
           ul_speed: {
             label: "上行速率",
-            labelEN: "UL Speed",
             unit: "Mbps",
             overall: 8.5,
             mom: "+0.3",
@@ -2072,7 +1713,6 @@
           },
           latency: {
             label: "时延",
-            labelEN: "Latency",
             unit: "ms",
             overall: 32,
             mom: "-2",
@@ -2088,7 +1728,6 @@
           },
           coverage: {
             label: "覆盖（边缘占比）",
-            labelEN: "Coverage (Edge %)",
             unit: "%",
             overall: 20,
             mom: "+0.5",
@@ -2231,81 +1870,80 @@
             const edgeStatus = parseFloat(data.edge) > 25 ? "critical" : parseFloat(data.edge) > 18 ? "warning" : "good";
             const prbStatus = parseFloat(data.prb) > 70 ? "critical" : parseFloat(data.prb) > 55 ? "warning" : "good";
 
-            const t = (zh, en) => currentLang === 'en' ? en : zh;
             diagnosticHTML += `<div class="diagnostic-bar">`;
-            diagnosticHTML += `<div class="diagnostic-item ${expStatus}"><div class="diagnostic-label">${t('体验评分','Exp Score')}</div><div class="diagnostic-value">${data.exp}</div></div>`;
-            diagnosticHTML += `<div class="diagnostic-item ${churnStatus}"><div class="diagnostic-label">${t('离网率','Churn Rate')}</div><div class="diagnostic-value">${data.churn}</div></div>`;
-            diagnosticHTML += `<div class="diagnostic-item ${edgeStatus}"><div class="diagnostic-label">${t('边缘用户','Edge Users')}</div><div class="diagnostic-value">${data.edge}%</div></div>`;
-            diagnosticHTML += `<div class="diagnostic-item ${prbStatus}"><div class="diagnostic-label">${t('PRB占用','PRB Util.')}</div><div class="diagnostic-value">${data.prb}%</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${expStatus}"><div class="diagnostic-label">体验评分</div><div class="diagnostic-value">${data.exp}</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${churnStatus}"><div class="diagnostic-label">离网率</div><div class="diagnostic-value">${data.churn}</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${edgeStatus}"><div class="diagnostic-label">边缘用户</div><div class="diagnostic-value">${data.edge}%</div></div>`;
+            diagnosticHTML += `<div class="diagnostic-item ${prbStatus}"><div class="diagnostic-label">PRB占用</div><div class="diagnostic-value">${data.prb}%</div></div>`;
             diagnosticHTML += `</div>`;
 
             diagnosticHTML += `<div class="kpi-grid">`;
             diagnosticHTML += `<div class="kpi-card">
-                <div class="kpi-title">${t('在网用户','Active Users')}</div>
+                <div class="kpi-title">在网用户</div>
                 <div class="kpi-value">${data.users}</div>
                 <div class="kpi-subtitle">MoM ${data.trend}</div>
             </div>`;
             diagnosticHTML += `<div class="kpi-card">
-                <div class="kpi-title">${t('体验评分','Exp Score')}</div>
+                <div class="kpi-title">体验评分</div>
                 <div class="kpi-value">${data.exp}</div>
                 <div class="kpi-subtitle">MoM ${data.expTrend}</div>
             </div>`;
             diagnosticHTML += `<div class="kpi-card">
-                <div class="kpi-title">${t('月离网率','Monthly Churn')}</div>
+                <div class="kpi-title">月离网率</div>
                 <div class="kpi-value">${data.churn}</div>
                 <div class="kpi-subtitle">MoM ${data.churnTrend}</div>
             </div>`;
             diagnosticHTML += `<div class="kpi-card">
                 <div class="kpi-title">vs Claro</div>
                 <div class="kpi-value" style="color: #ef4444;">${data.vsClaro}</div>
-                <div class="kpi-subtitle">${t('体验差距','Exp Gap')}</div>
+                <div class="kpi-subtitle">体验差距</div>
             </div>`;
             diagnosticHTML += `</div>`;
 
-            diagnosticHTML += `<h3 class="section-title">${t('六维诊断','6-Dimension Diagnosis')}</h3>`;
+            diagnosticHTML += `<h3 class="section-title">六维诊断</h3>`;
             diagnosticHTML += `<div class="attribution-grid">`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">${t('网络PRB占用','Network PRB Util.')}</div>
+                <div class="attribution-label">网络PRB占用</div>
                 <div class="attribution-value">${data.prb}%</div>
-                <div class="attribution-detail">${t('频段拥塞严重程度','Band congestion level')}</div>
+                <div class="attribution-detail">频段拥塞严重程度</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">${t('边缘用户','Edge Users')}</div>
+                <div class="attribution-label">边缘用户</div>
                 <div class="attribution-value">${data.edge}%</div>
-                <div class="attribution-detail">${t('覆盖边缘的用户比例','Users at coverage edge')}</div>
+                <div class="attribution-detail">覆盖边缘的用户比例</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
                 <div class="attribution-label">YouTube HD</div>
                 <div class="attribution-value">${data.ytHD}%</div>
-                <div class="attribution-detail">${t('高清播放成功率','HD playback success')}</div>
+                <div class="attribution-detail">高清播放成功率</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
                 <div class="attribution-label">vs Claro</div>
                 <div class="attribution-value" style="color: #ef4444;">${data.vsClaro}</div>
-                <div class="attribution-detail">${t('体验竞争力','Exp. competitiveness')}</div>
+                <div class="attribution-detail">体验竞争力</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">${t('离网率','Churn Rate')}</div>
+                <div class="attribution-label">离网率</div>
                 <div class="attribution-value">${data.churn}</div>
-                <div class="attribution-detail">${t('月均用户流失','Monthly avg churn')}</div>
+                <div class="attribution-detail">月均用户流失</div>
             </div>`;
             diagnosticHTML += `<div class="attribution-item">
-                <div class="attribution-label">${t('基站数','Sites')}</div>
+                <div class="attribution-label">基站数</div>
                 <div class="attribution-value">${data.sites}</div>
-                <div class="attribution-detail">${t('覆盖密度','Coverage density')}</div>
+                <div class="attribution-detail">覆盖密度</div>
             </div>`;
             diagnosticHTML += `</div>`;
 
             diagnosticHTML += `<div class="action-box">`;
-            diagnosticHTML += `<h3 class="action-title">${t('建议行动','Recommended Actions')}</h3>`;
+            diagnosticHTML += `<h3 class="action-title">建议行动</h3>`;
             if (data.exp < 3.5) {
-                diagnosticHTML += `<p class="action-item">• ${t(`优先扩容 ${city}，目标提升体验 0.5+ 分`, `Prioritize capacity expansion in ${city}, target +0.5 Exp score`)}</p>`;
+                diagnosticHTML += `<p class="action-item">• 优先扩容 ${city}，目标提升体验 0.5+ 分</p>`;
             }
             if (parseFloat(data.churn) > 1.5) {
-                diagnosticHTML += `<p class="action-item">• ${t('加强离网预防，重点关注流失转移', 'Strengthen churn prevention, focus on high-churn clusters')}</p>`;
+                diagnosticHTML += `<p class="action-item">• 加强离网预防，重点关注流失转移</p>`;
             }
             if (parseFloat(data.edge) > 25) {
-                diagnosticHTML += `<p class="action-item">• ${t('增加基站密度，降低边缘用户比例', 'Increase site density to reduce edge user ratio')}</p>`;
+                diagnosticHTML += `<p class="action-item">• 增加基站密度，降低边缘用户比例</p>`;
             }
             diagnosticHTML += `</div>`;
 
@@ -2334,7 +1972,7 @@
           })
 
           const colors = {youtube:'#ff0000',netflix:'#e50914',tiktok:'#00f2ea',traffic:'#3b82f6'}
-          const names = {youtube:'YouTube',netflix:'Netflix',tiktok:'TikTok',traffic: currentLang === 'en' ? 'Traffic Dist.' : '流量分布'}
+          const names = {youtube:'YouTube',netflix:'Netflix',tiktok:'TikTok',traffic:'流量分布'}
           title.textContent = '▶ ' + names[app]
           title.style.color = colors[app]
 
@@ -2342,12 +1980,11 @@
             const vd = app === 'youtube' ? VIDEO_EXPERIENCE.YouTube : VIDEO_EXPERIENCE.Netflix
             const brandColor = colors[app]
 
-            const panelT = (zh, en) => currentLang === 'en' ? en : zh;
             content.innerHTML = `
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <!-- 左列：分辨率分布 + 城市对比 -->
                 <div>
-                  <h4 style="font-size: 12px;color:#94a3b8;margin-bottom:8px;">${panelT('分辨率分布','Resolution Dist.')}</h4>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">分辨率分布</h4>
                   <div style="display:flex;height:24px;border-radius:6px;overflow:hidden;margin-bottom:6px;">
                     <div style="width:${vd.current['4K']}%;background:#10b981;" title="4K"></div>
                     <div style="width:${vd.current['1080p']}%;background:#06b6d4;" title="1080p"></div>
@@ -2355,7 +1992,7 @@
                     <div style="width:${vd.current['480p']}%;background:#f59e0b;" title="480p"></div>
                     <div style="width:${vd.current['360p以下']}%;background:#ef4444;" title="360p以下"></div>
                   </div>
-                  <div style="display:flex;justify-content:space-between;font-size: 10px;color:#94a3b8;margin-bottom:16px;">
+                  <div style="display:flex;justify-content:space-between;font-size:10px;color:#94a3b8;margin-bottom:16px;">
                     <span style="color:#10b981;">4K ${vd.current['4K']}%</span>
                     <span style="color:#06b6d4;">1080p ${vd.current['1080p']}%</span>
                     <span style="color:#3b82f6;">720p ${vd.current['720p']}%</span>
@@ -2363,27 +2000,27 @@
                     <span style="color:#ef4444;">≤360p ${vd.current['360p以下']}%</span>
                   </div>
 
-                  <h4 style="font-size: 12px;color:#94a3b8;margin-bottom:8px;">${panelT('各区域 HD 占比','HD Ratio by Region')}</h4>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">各区域 HD 占比</h4>
                   ${vd.cityHD.map(c => {
                     const color = parseInt(c.hd) >= 35 ? '#10b981' : parseInt(c.hd) >= 25 ? '#f59e0b' : '#ef4444'
                     const trendColor = c.trend.startsWith('+') ? '#10b981' : '#ef4444'
                     return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer;" onclick="closeAppPanel();drilldown('${c.city}')">
-                      <span style="font-size: 11px;color:${color};width:80px;">${c.city}</span>
+                      <span style="font-size:11px;color:${color};width:80px;">${c.city}</span>
                       <div style="flex:1;background:#1e293b;height:8px;border-radius:3px;">
                         <div style="width:${c.hd}%;max-width:100%;height:100%;background:${color};border-radius:3px;"></div>
                       </div>
-                      <span style="font-size: 10px;color:${color};width:30px;text-align:right;">${c.hd}%</span>
-                      <span style="font-size: 10px;color:${trendColor};width:30px;text-align:right;">${c.trend}</span>
+                      <span style="font-size:10px;color:${color};width:30px;text-align:right;">${c.hd}%</span>
+                      <span style="font-size:10px;color:${trendColor};width:30px;text-align:right;">${c.trend}</span>
                     </div>`
                   }).join('')}
                 </div>
 
                 <!-- 右列：分辨率分布趋势图 -->
                 <div>
-                  <h4 style="font-size: 12px;color:#94a3b8;margin-bottom:8px;">${panelT('分辨率分布趋势（12 周）','Resolution Trend (12 Weeks)')}</h4>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:8px;">分辨率分布趋势（12 周）</h4>
                   <div id="panelResolutionTrend" style="width:100%;height:180px;"></div>
-                  <div style="margin-top:12px;display:flex;gap:16px;font-size: 11px;">
-                    <div><span style="color:#94a3b8;">${panelT('卡顿率：','Buffer Rate: ')}</span><span style="color:${parseFloat(vd.rebufferTrend)>0?'#ef4444':'#10b981'};font-weight:600;">${vd.rebuffer}% (${vd.rebufferTrend})</span></div>
+                  <div style="margin-top:12px;display:flex;gap:16px;font-size:11px;">
+                    <div><span style="color:#94a3b8;">卡顿率：</span><span style="color:${parseFloat(vd.rebufferTrend)>0?'#ef4444':'#10b981'};font-weight:600;">${vd.rebuffer}% (${vd.rebufferTrend})</span></div>
                   </div>
                 </div>
               </div>
@@ -2410,66 +2047,56 @@
             }, 100)
 
           } else if (app === 'tiktok') {
-            const tkT = (zh, en) => currentLang === 'en' ? en : zh;
             content.innerHTML = `
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <div>
-                  <h4 style="font-size: 12px;color:#94a3b8;margin-bottom:12px;">${tkT('核心指标','Key Metrics')}</h4>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">核心指标</h4>
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
-                      <div style="font-size: 12px;font-weight:700;color:#10b981;">98.5%</div>
-                      <div style="font-size: 10px;color:#94a3b8;">${tkT('播放成功率','Play Success')}</div>
+                      <div style="font-size:24px;font-weight:700;color:#10b981;">98.5%</div>
+                      <div style="font-size:10px;color:#94a3b8;">播放成功率</div>
                     </div>
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
-                      <div style="font-size: 12px;font-weight:700;color:#06b6d4;">6.2</div>
-                      <div style="font-size: 10px;color:#94a3b8;">${tkT('上传 Mbps','Upload Mbps')}</div>
+                      <div style="font-size:24px;font-weight:700;color:#06b6d4;">6.2</div>
+                      <div style="font-size:10px;color:#94a3b8;">上传 Mbps</div>
                     </div>
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
-                      <div style="font-size: 12px;font-weight:700;color:#f1f5f9;">580K</div>
-                      <div style="font-size: 10px;color:#94a3b8;">${tkT('日活用户','Daily Active')}</div>
+                      <div style="font-size:24px;font-weight:700;color:#f1f5f9;">580K</div>
+                      <div style="font-size:10px;color:#94a3b8;">日活用户</div>
                     </div>
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
-                      <div style="font-size: 12px;font-weight:700;color:#f1f5f9;">45min</div>
-                      <div style="font-size: 10px;color:#94a3b8;">${tkT('人均时长','Avg Session')}</div>
+                      <div style="font-size:24px;font-weight:700;color:#f1f5f9;">45min</div>
+                      <div style="font-size:10px;color:#94a3b8;">人均时长</div>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <h4 style="font-size: 12px;color:#94a3b8;margin-bottom:12px;">${tkT('特征','Characteristics')}</h4>
-                  <p style="font-size: 11px;color:#94a3b8;line-height:1.8;">
-                    ${tkT(
-                      'TikTok 上行流量占比持续增长，短视频创作者增多。<br/>上传速率需求高于其他 APP，需关注上行 PRB 利用率。<br/>日活用户 580K，人均使用 45 分钟，是流量第三大 APP。',
-                      'TikTok uplink traffic share keeps growing with more short video creators.<br/>Upload speed demand exceeds other apps — monitor UL PRB utilization.<br/>580K DAU, 45 min avg session, #3 traffic app.'
-                    )}
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">特征</h4>
+                  <p style="font-size:11px;color:#94a3b8;line-height:1.8;">
+                    TikTok 上行流量占比持续增长，短视频创作者增多。<br/>
+                    上传速率需求高于其他 APP，需关注上行 PRB 利用率。<br/>
+                    日活用户 580K，人均使用 45 分钟，是流量第三大 APP。
                   </p>
                 </div>
               </div>
             `
           } else if (app === 'traffic') {
-            const trT = (zh, en) => currentLang === 'en' ? en : zh;
-            const trafficCategories = [
-              {n: trT('视频流媒体','Video Streaming'), p:32, c:'#ef4444', d:'YouTube+Netflix+'+trT('其他视频','Other Video')},
-              {n: trT('社交媒体','Social Media'), p:28, c:'#3b82f6', d:'Instagram+Facebook'},
-              {n: trT('即时消息','Messaging'), p:18, c:'#10b981', d:'WhatsApp+Telegram'},
-              {n: trT('游戏','Gaming'), p:8, c:'#f59e0b', d: trT('手游+云游戏','Mobile+Cloud Games')},
-              {n: trT('其他','Other'), p:14, c:'#6b7280', d: trT('浏览器+企业+其他','Browser+Enterprise+Other')}
-            ];
             content.innerHTML = `
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <div id="panelTrafficPie" style="height:250px;"></div>
                 <div>
-                  <h4 style="font-size: 12px;color:#94a3b8;margin-bottom:12px;">${trT('流量结构','Traffic Structure')}</h4>
+                  <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">流量结构</h4>
                   <div style="space-y:8px;">
-                    ${trafficCategories.map(c => `
+                    ${[{n:'视频流媒体',p:32,c:'#ef4444',d:'YouTube+Netflix+其他视频'},{n:'社交媒体',p:28,c:'#3b82f6',d:'Instagram+Facebook'},{n:'即时消息',p:18,c:'#10b981',d:'WhatsApp+Telegram'},{n:'游戏',p:8,c:'#f59e0b',d:'手游+云游戏'},{n:'其他',p:14,c:'#6b7280',d:'浏览器+企业+其他'}].map(c => `
                       <div style="margin-bottom:8px;">
                         <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
-                          <span style="font-size: 12px;color:${c.c};font-weight:600;">${c.n}</span>
-                          <span style="font-size: 12px;color:#f1f5f9;font-weight:700;">${c.p}%</span>
+                          <span style="font-size:12px;color:${c.c};font-weight:600;">${c.n}</span>
+                          <span style="font-size:12px;color:#f1f5f9;font-weight:700;">${c.p}%</span>
                         </div>
                         <div style="background:#1e293b;height:6px;border-radius:3px;">
                           <div style="width:${c.p}%;height:100%;background:${c.c};border-radius:3px;"></div>
                         </div>
-                        <div style="font-size: 9px;color:#64748b;margin-top:2px;">${c.d}</div>
+                        <div style="font-size:9px;color:#64748b;margin-top:2px;">${c.d}</div>
                       </div>
                     `).join('')}
                   </div>
@@ -2481,7 +2108,7 @@
               chart.setOption({
                 series:[{
                   type:'pie',radius:['40%','70%'],center:['50%','50%'],
-                  data: trafficCategories.map(c => ({value:c.p, name:c.n, itemStyle:{color:c.c}})),
+                  data:[{value:32,name:'视频',itemStyle:{color:'#ef4444'}},{value:28,name:'社交',itemStyle:{color:'#3b82f6'}},{value:18,name:'消息',itemStyle:{color:'#10b981'}},{value:8,name:'游戏',itemStyle:{color:'#f59e0b'}},{value:14,name:'其他',itemStyle:{color:'#6b7280'}}],
                   label:{color:'#94a3b8',fontSize:10},
                   emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,0.5)'}},
                 }],
@@ -2583,12 +2210,12 @@
 
           document.getElementById('expMetricContent').innerHTML = `
             <div style="display:flex;align-items:baseline;gap:6px;">
-              <span class="big-number" style="font-size: 14px;">${d.overall}</span>
-              <span style="font-size: 12px;color:#64748b;">${d.unit}</span>
+              <span class="big-number" style="font-size:28px;">${d.overall}</span>
+              <span style="font-size:12px;color:#64748b;">${d.unit}</span>
             </div>
             <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
-              <span style="font-size: 10px;color:${momColor};font-weight:600;">${momArrow} ${d.mom} MoM</span>
-              <span style="font-size: 9px;color:#f59e0b;">vs Claro: ${d.vsClaro.value}${d.unit} (${d.vsClaro.gap}) · ${getTranslation(d.vsClaro.trend, d.vsClaro.trend)}</span>
+              <span style="font-size:10px;color:${momColor};font-weight:600;">${momArrow} ${d.mom} MoM</span>
+              <span style="font-size:9px;color:#f59e0b;">vs Claro: ${d.vsClaro.value}${d.unit} (${d.vsClaro.gap}) · ${d.vsClaro.trend}</span>
             </div>
           `
 
@@ -2612,7 +2239,7 @@
           document.getElementById('expMetricCities').innerHTML = d.cities.map(c => {
             const color = c.status === 'good' ? '#10b981' : c.status === 'warn' ? '#f59e0b' : '#ef4444'
             const tColor = parseFloat(c.trend) > 0 ? (isLower ? '#ef4444' : '#10b981') : parseFloat(c.trend) < 0 ? (isLower ? '#10b981' : '#ef4444') : '#94a3b8'
-            return `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;font-size: 10px;" onclick="drilldown('${c.city}')">
+            return `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;cursor:pointer;font-size:10px;" onclick="drilldown('${c.city}')">
               <span style="color:${color};">${c.city}</span>
               <div style="display:flex;gap:6px;">
                 <span style="font-weight:600;color:${color};">${c.value}${d.unit}</span>
@@ -2647,8 +2274,8 @@
                   transition:all 0.2s;border:1px solid rgba(6,182,212,${0.15-idx*0.01});"
                   onmouseover="this.style.background='linear-gradient(90deg,rgba(6,182,212,0.5),rgba(59,130,246,0.4))';this.style.transform='scaleX(1.02)'"
                   onmouseout="this.style.background='linear-gradient(90deg,rgba(6,182,212,${0.3-idx*0.02}),rgba(59,130,246,${0.25-idx*0.02}))';this.style.transform='scaleX(1)'">
-                  <span style="font-size: 9px;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${model}</span>
-                  <span style="font-size: 9px;color:#06b6d4;font-weight:700;flex-shrink:0;margin-left:4px;">${countStr}</span>
+                  <span style="font-size:9px;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${model}</span>
+                  <span style="font-size:9px;color:#06b6d4;font-weight:700;flex-shrink:0;margin-left:4px;">${countStr}</span>
                 </div>
               </div>`
           })
@@ -2660,7 +2287,7 @@
           if (!data) return
 
           document.getElementById('terminalBreakdown').style.display = 'block'
-          document.getElementById('breakdownTitle').textContent = '📱 ' + model + ' · ' + getTranslation('大区分布', 'Regional')
+          document.getElementById('breakdownTitle').textContent = '📱 ' + model + ' · 大区分布'
 
           const cities = Object.entries(data.cities).sort((a,b) => b[1] - a[1])
           const maxCity = cities[0][1]
@@ -2676,12 +2303,12 @@
 
             html += `
               <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;cursor:pointer;" onclick="drilldown('${city}')">
-                <span style="font-size: 10px;color:${nameColor};width:65px;flex-shrink:0;">${city === 'Barranquilla' ? 'B/quilla' : city}</span>
+                <span style="font-size:10px;color:${nameColor};width:65px;flex-shrink:0;">${city === 'Barranquilla' ? 'B/quilla' : city}</span>
                 <div style="flex:1;background:#1e293b;border-radius:2px;height:6px;">
                   <div style="width:${barW}%;height:100%;background:${barColor};border-radius:2px;"></div>
                 </div>
-                <span style="font-size: 9px;color:#94a3b8;width:30px;text-align:right;">${countStr}</span>
-                <span style="font-size: 9px;color:#64748b;width:28px;text-align:right;">${pct}%</span>
+                <span style="font-size:9px;color:#94a3b8;width:30px;text-align:right;">${countStr}</span>
+                <span style="font-size:9px;color:#64748b;width:28px;text-align:right;">${pct}%</span>
               </div>`
           })
           document.getElementById('breakdownBars').innerHTML = html
@@ -2702,9 +2329,6 @@
         function switchMapLayer(layer) {
             currentLayer = layer;
 
-            // Show/hide terminal selector
-            document.getElementById('terminalSelector').style.display = layer === 'terminal' ? 'flex' : 'none';
-
             // Show/hide coverage chart panel
             document.getElementById('coverageChartPanel').style.display = layer === 'coverageAnalysis' ? 'block' : 'none';
             if (layer === 'coverageAnalysis') {
@@ -2713,7 +2337,7 @@
                     switchCovOperator('tigo'); // 激活覆盖分析时显示Tigo热力图
                 }, 100);
             } else {
-                // 切换到其他图层时清除热力图和分屏
+                // 切换到其他图层时清除热力图
                 if (covHeatLayer) {
                     if (Array.isArray(covHeatLayer._layers)) {
                         covHeatLayer.eachLayer(layer => map.removeLayer(layer))
@@ -2721,10 +2345,6 @@
                         map.removeLayer(covHeatLayer)
                     }
                     covHeatLayer = null
-                }
-                // 关闭覆盖分屏
-                if (layer !== 'coverageAnalysis' && covSplitMode) {
-                    toggleCoverageSplit()
                 }
             }
 
@@ -2760,12 +2380,6 @@
             // Hide back button
             document.getElementById('backToNational').style.display = 'none';
 
-            // Handle terminal heatmap layer - skip polygon rendering
-            if (layer === 'terminal') {
-                switchTerminalHeatmap(document.getElementById('terminalSelect').value);
-                return;
-            }
-
             // If GeoJSON not loaded yet, show warning and return
             if (!colombiaGeoJSON || !colombiaGeoJSON.features) {
                 console.warn('GeoJSON not loaded yet, cannot render administrative boundaries');
@@ -2789,11 +2403,10 @@
                         const cityData = md.cities.find(c => c.city === city)
                         if (cityData) {
                           fillColor = cityData.status === 'good' ? '#10b981' : cityData.status === 'warn' ? '#f59e0b' : '#ef4444'
-                          const mdLabelDisplay = currentLang === 'en' ? (md.labelEN || md.label) : md.label
-                          label = `${mdLabelDisplay} ${cityData.value}${md.unit}`
+                          label = `${md.label} ${cityData.value}${md.unit}`
                         } else {
                           fillColor = '#64748b'
-                          label = currentLang === 'en' ? (md.labelEN || md.label) : md.label
+                          label = md.label
                         }
                         break
                     }
@@ -2812,7 +2425,7 @@
                     }
                     case 'churn':
                         fillColor = parseFloat(cd.churn) > 1.5 ? '#ef4444' : parseFloat(cd.churn) > 1.0 ? '#f59e0b' : '#10b981';
-                        label = `${getTranslation('流失', 'Churn')} ${cd.churn}`;
+                        label = `流失 ${cd.churn}`;
                         break;
                     case 'competitiveness': {
                         const selM = document.getElementById('expMetricSelect')
@@ -2856,17 +2469,11 @@
                         const covCity = covData.cities.find(c => c.city === city);
                         if (covCity) {
                             fillColor = covCity.status === 'good' ? '#10b981' : covCity.status === 'warn' ? '#f59e0b' : '#ef4444';
-                            label = `${getTranslation('边缘', 'Edge')} ${covCity.value}%`;
+                            label = `边缘 ${covCity.value}%`;
                         } else {
                             fillColor = '#64748b';
-                            label = getTranslation('覆盖', 'Coverage');
+                            label = '覆盖';
                         }
-                        break;
-                    }
-                    case 'terminal': {
-                        // Terminal heatmap - don't render polygons, just heatmap
-                        fillColor = '#64748b';
-                        label = getTranslation('终端分布', 'Device Distribution');
                         break;
                     }
                     default:
@@ -2943,8 +2550,8 @@
                     icon: L.divIcon({
                         className: '',
                         html: `<div style="text-align:center;white-space:nowrap;pointer-events:none;">
-                          <div style="font-size: 13px;font-weight:700;color:#f1f5f9;text-shadow:0 1px 4px rgba(0,0,0,0.9);">${city}</div>
-                          <div style="font-size: 10px;color:${fillColor};font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,0.9);">${label}</div>
+                          <div style="font-size:13px;font-weight:700;color:#f1f5f9;text-shadow:0 1px 4px rgba(0,0,0,0.9);">${city}</div>
+                          <div style="font-size:10px;color:${fillColor};font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,0.9);">${label}</div>
                         </div>`,
                         iconSize: [120, 30],
                         iconAnchor: [60, 15],
@@ -2964,16 +2571,6 @@
             // Show back button
             document.getElementById('backToNational').style.display = 'flex';
             document.getElementById('backCityName').textContent = city;
-
-            // Handle terminal heatmap layer - show heatmap for city
-            if (layer === 'terminal') {
-                const regionInfo = REGION_CONFIG[city];
-                if (regionInfo) {
-                    map.setView(regionInfo.center, regionInfo.zoom);
-                }
-                switchTerminalHeatmap(document.getElementById('terminalSelect').value);
-                return;
-            }
 
             // Zoom to city using REGION_CONFIG center and zoom
             const regionInfo = REGION_CONFIG[city];
@@ -3013,18 +2610,18 @@
                         const sg = site.growth||0;
                         color = sg > 2 ? '#059669' : sg > 0.5 ? '#10b981' : sg > -0.5 ? '#f59e0b' : sg > -2 ? '#f97316' : '#ef4444';
                         radius = 5 + Math.abs(sg) * 1.5;
-                        tooltipExtra = `${getTranslation('增长', 'Growth')}: ${sg > 0 ? '+' : ''}${sg}%`;
+                        tooltipExtra = `增长: ${sg > 0 ? '+' : ''}${sg}%`;
                         break;
                     }
                     case 'newUsers':
                         color = (site.newUsers||0) > 250 ? '#2563eb' : (site.newUsers||0) > 150 ? '#3b82f6' : '#60a5fa';
                         radius = 6;
-                        tooltipExtra = `${getTranslation('新增', 'New')}: +${site.newUsers||0}`;
+                        tooltipExtra = `新增: +${site.newUsers||0}`;
                         break;
                     case 'churn':
                         color = (site.churnRate||0) > 2.0 ? '#ef4444' : (site.churnRate||0) > 1.2 ? '#f59e0b' : '#10b981';
                         radius = 5 + (site.churnRate||0) * 2.5;
-                        tooltipExtra = `${getTranslation('流失', 'Churn')}: ${site.churnRate||0}%`;
+                        tooltipExtra = `流失: ${site.churnRate||0}%`;
                         break;
                     case 'competitiveness': {
                         const selM3 = document.getElementById('expMetricSelect')
@@ -3061,10 +2658,10 @@
                         const covCity2 = covData2.cities.find(c => c.city === site.city);
                         if (covCity2) {
                             color = covCity2.status === 'good' ? '#10b981' : covCity2.status === 'warn' ? '#f59e0b' : '#ef4444';
-                            tooltipExtra = `${getTranslation('边缘', 'Edge')} %: ${covCity2.value}%`;
+                            tooltipExtra = `边缘占比: ${covCity2.value}%`;
                         } else {
                             color = '#64748b';
-                            tooltipExtra = getTranslation('覆盖', 'Coverage');
+                            tooltipExtra = '覆盖';
                         }
                         radius = 6;
                         break;
@@ -3086,9 +2683,9 @@
                     weight: 2,
                     opacity: 1,
                     fillOpacity: 0.7,
-                }).bindPopup(`<div style="font-size: 11px;color:#f1f5f9;background:#1e293b;padding:6px;border-radius:6px;min-width:140px;">
-                  <b>${site.id}</b><br/>${site.city}<br/>${tooltipExtra}<br/>PRB: ${site.prb}% · ${getTranslation('边缘','Edge')}: ${site.edge}%<br/>
-                  <span style="font-size: 10px;color:#64748b;">${currentLang === 'zh' ? '频段' : 'Bands'}: ${site.bands}</span>
+                }).bindPopup(`<div style="font-size:11px;color:#f1f5f9;background:#1e293b;padding:6px;border-radius:6px;min-width:140px;">
+                  <b>${site.id}</b><br/>${site.city}<br/>${tooltipExtra}<br/>PRB: ${site.prb}% · 边缘: ${site.edge}%<br/>
+                  <span style="font-size:10px;color:#64748b;">频段: ${site.bands}</span>
                 </div>`, {className:'dark-popup'});
 
                 marker.addTo(map);
@@ -3106,99 +2703,25 @@
             const items = document.getElementById('legendItems');
 
             let legendData;
-            const isEN = currentLang === 'en';
 
             if (layer === 'experience') {
                 const sel = document.getElementById('expMetricSelect')
                 const m = sel ? sel.value : 'dl_speed'
 
                 const legendMap = {
-                    dl_speed: {
-                        title: isEN ? 'DL Speed (Mbps)' : '下行速率 (Mbps)',
-                        items:[
-                            {color:'#10b981',label: isEN ? '≥ 40 Good' : '≥ 40 良好'},
-                            {color:'#f59e0b',label: isEN ? '25-40 Fair' : '25-40 一般'},
-                            {color:'#ef4444',label: isEN ? '< 25 Poor' : '< 25 较差'}
-                        ]
-                    },
-                    ul_speed: {
-                        title: isEN ? 'UL Speed (Mbps)' : '上行速率 (Mbps)',
-                        items:[
-                            {color:'#10b981',label: isEN ? '≥ 9 Good' : '≥ 9 良好'},
-                            {color:'#f59e0b',label: isEN ? '6-9 Fair' : '6-9 一般'},
-                            {color:'#ef4444',label: isEN ? '< 6 Poor' : '< 6 较差'}
-                        ]
-                    },
-                    latency: {
-                        title: isEN ? 'Latency (ms)' : '时延 (ms)',
-                        items:[
-                            {color:'#10b981',label: isEN ? '≤ 30 Good' : '≤ 30 良好'},
-                            {color:'#f59e0b',label: isEN ? '30-45 Fair' : '30-45 一般'},
-                            {color:'#ef4444',label: isEN ? '> 45 Poor' : '> 45 较差'}
-                        ]
-                    },
-                    coverage: {
-                        title: isEN ? 'Edge User (%)' : '边缘占比 (%)',
-                        items:[
-                            {color:'#10b981',label: isEN ? '≤ 18% Good' : '≤ 18% 良好'},
-                            {color:'#f59e0b',label: isEN ? '18-28% Fair' : '18-28% 一般'},
-                            {color:'#ef4444',label: isEN ? '> 28% Poor' : '> 28% 较差'}
-                        ]
-                    },
+                    dl_speed: {title:'下行速率 (Mbps)',items:[{color:'#10b981',label:'≥ 40 良好'},{color:'#f59e0b',label:'25-40 一般'},{color:'#ef4444',label:'< 25 较差'}]},
+                    ul_speed: {title:'上行速率 (Mbps)',items:[{color:'#10b981',label:'≥ 9 良好'},{color:'#f59e0b',label:'6-9 一般'},{color:'#ef4444',label:'< 6 较差'}]},
+                    latency: {title:'时延 (ms)',items:[{color:'#10b981',label:'≤ 30 良好'},{color:'#f59e0b',label:'30-45 一般'},{color:'#ef4444',label:'> 45 较差'}]},
+                    coverage: {title:'边缘占比 (%)',items:[{color:'#10b981',label:'≤ 18% 良好'},{color:'#f59e0b',label:'18-28% 一般'},{color:'#ef4444',label:'> 28% 较差'}]},
                 }
                 legendData = legendMap[m] || legendMap.dl_speed
             } else {
                 const staticLegends = {
-                    growth:{
-                        title: isEN ? 'User Growth' : '用户增长率',
-                        items:[
-                            {color:'#059669',label: isEN ? '> +2% Strong' : '> +2% 强劲增长'},
-                            {color:'#10b981',label: isEN ? '+0.5%~+2% Solid' : '+0.5%~+2% 稳健'},
-                            {color:'#f59e0b',label: isEN ? '-0.5%~+0.5% Flat' : '-0.5%~+0.5% 持平'},
-                            {color:'#f97316',label: isEN ? '-2%~-0.5% Mild drop' : '-2%~-0.5% 轻度下降'},
-                            {color:'#ef4444',label: isEN ? '< -2% Severe drop' : '< -2% 严重下降'}
-                        ]
-                    },
-                    newUsers:{
-                        title: isEN ? 'New Users' : '新增用户',
-                        items:[
-                            {color:'#2563eb',label: isEN ? '> 2K / > 250 High' : '> 2K / > 250 高'},
-                            {color:'#3b82f6',label: isEN ? '1K-2K / 150-250 Mid' : '1K-2K / 150-250 中'},
-                            {color:'#60a5fa',label: isEN ? '< 1K / < 150 Low' : '< 1K / < 150 低'}
-                        ]
-                    },
-                    churn:{
-                        title: isEN ? 'Churn Rate' : '流失率',
-                        items:[
-                            {color:'#10b981',label: isEN ? '< 1.2% Healthy' : '< 1.2% 健康'},
-                            {color:'#f59e0b',label: isEN ? '1.2-2.0% Watch' : '1.2-2.0% 关注'},
-                            {color:'#ef4444',label: isEN ? '> 2.0% Critical' : '> 2.0% 严重'}
-                        ]
-                    },
-                    video:{
-                        title: isEN ? 'YouTube HD Ratio' : 'YouTube HD 占比',
-                        items:[
-                            {color:'#10b981',label: isEN ? '≥ 35% Good' : '≥ 35% 良好'},
-                            {color:'#f59e0b',label: isEN ? '25-35% Fair' : '25-35% 一般'},
-                            {color:'#ef4444',label: isEN ? '< 25% Poor' : '< 25% 较差'}
-                        ]
-                    },
-                    coverageAnalysis:{
-                        title: isEN ? 'Coverage Analysis' : '覆盖分析',
-                        items:[
-                            {color:'#10b981',label: isEN ? 'Edge ≤ 18% Good' : '边缘 ≤ 18% 良好'},
-                            {color:'#f59e0b',label: isEN ? 'Edge 18-28% Watch' : '边缘 18-28% 关注'},
-                            {color:'#ef4444',label: isEN ? 'Edge > 28% Poor' : '边缘 > 28% 较差'}
-                        ]
-                    },
-                    terminal:{
-                        title: isEN ? 'Device Distribution' : '终端分布',
-                        items:[
-                            {color:'#ef4444',label: isEN ? 'High Density' : '高密度'},
-                            {color:'#f59e0b',label: isEN ? 'Medium' : '中密度'},
-                            {color:'#10b981',label: isEN ? 'Low' : '低密度'},
-                        ]
-                    },
+                    growth:{title:'用户增长率',items:[{color:'#059669',label:'> +2% 强劲增长'},{color:'#10b981',label:'+0.5%~+2% 稳健'},{color:'#f59e0b',label:'-0.5%~+0.5% 持平'},{color:'#f97316',label:'-2%~-0.5% 轻度下降'},{color:'#ef4444',label:'< -2% 严重下降'}]},
+                    newUsers:{title:'新增用户',items:[{color:'#2563eb',label:'> 2K / > 250 高'},{color:'#3b82f6',label:'1K-2K / 150-250 中'},{color:'#60a5fa',label:'< 1K / < 150 低'}]},
+                    churn:{title:'流失率',items:[{color:'#10b981',label:'< 1.2% 健康'},{color:'#f59e0b',label:'1.2-2.0% 关注'},{color:'#ef4444',label:'> 2.0% 严重'}]},
+                    video:{title:'YouTube HD 占比',items:[{color:'#10b981',label:'≥ 35% 良好'},{color:'#f59e0b',label:'25-35% 一般'},{color:'#ef4444',label:'< 25% 较差'}]},
+                    coverageAnalysis:{title:'覆盖分析',items:[{color:'#10b981',label:'边缘 ≤ 18% 良好'},{color:'#f59e0b',label:'边缘 18-28% 关注'},{color:'#ef4444',label:'边缘 > 28% 较差'}]},
                 }
                 if (layer === 'competitiveness') {
                     const selLC = document.getElementById('expMetricSelect')
@@ -3207,15 +2730,15 @@
                     const isLowerLC = mLC === 'latency' || mLC === 'coverage'
 
                     legendData = {
-                        title: `vs Claro · ${mdLC ? (isEN ? (mdLC.labelEN || mdLC.label) : mdLC.label) : ''}`,
+                        title: `vs Claro · ${mdLC ? mdLC.label : ''}`,
                         items: isLowerLC ? [
-                            {color:'#10b981', label: isEN ? 'Tigo Better (<-5%)' : 'Tigo 更优 (差距<-5%)'},
-                            {color:'#f59e0b', label: isEN ? 'Close (-5%~15%)' : '接近 (-5%~15%)'},
-                            {color:'#ef4444', label: isEN ? 'Tigo Worse (>15%)' : 'Tigo 更差 (差距>15%)'},
+                            {color:'#10b981', label:'Tigo 更优 (差距<-5%)'},
+                            {color:'#f59e0b', label:'接近 (-5%~15%)'},
+                            {color:'#ef4444', label:'Tigo 更差 (差距>15%)'},
                         ] : [
-                            {color:'#10b981', label: isEN ? 'Tigo Leading (>5%)' : 'Tigo 领先 (>5%)'},
-                            {color:'#f59e0b', label: isEN ? 'Close (-15%~5%)' : '接近 (-15%~5%)'},
-                            {color:'#ef4444', label: isEN ? 'Tigo Behind (<-15%)' : 'Tigo 落后 (<-15%)'},
+                            {color:'#10b981', label:'Tigo 领先 (>5%)'},
+                            {color:'#f59e0b', label:'接近 (-15%~5%)'},
+                            {color:'#ef4444', label:'Tigo 落后 (<-15%)'},
                         ]
                     }
                 } else {
@@ -3227,7 +2750,7 @@
             items.innerHTML = legendData.items.map(item => `
                 <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
                   <div style="width:10px;height:10px;border-radius:50%;background:${item.color};flex-shrink:0;"></div>
-                  <span style="font-size: 10px;color:#94a3b8;">${item.label}</span>
+                  <span style="font-size:10px;color:#94a3b8;">${item.label}</span>
                 </div>
             `).join('');
         }
@@ -3325,59 +2848,6 @@
             window.addEventListener('resize', () => chart.resize());
         }
 
-        // ============ TERMINAL HEATMAP DATA ============
-
-        const TERMINAL_HEATMAP = {
-          "iPhone 16 Pro Max": [
-            // Bogota 集中（高端用户多在市中心）
-            [4.65,-74.08,0.95],[4.68,-74.05,0.90],[4.62,-74.06,0.88],
-            [4.70,-74.02,0.85],[4.66,-74.09,0.82],[4.64,-74.07,0.80],
-            [4.67,-74.04,0.78],[4.63,-74.10,0.60],
-            // Medellin
-            [6.25,-75.57,0.80],[6.22,-75.55,0.75],[6.28,-75.54,0.70],
-            // Cali
-            [3.43,-76.52,0.65],[3.40,-76.50,0.60],
-            // Barranquilla（少）
-            [10.98,-74.79,0.40],[10.96,-74.78,0.35],
-            // Cartagena（少）
-            [10.41,-75.52,0.35],[10.39,-75.50,0.30],
-          ],
-          "Samsung S25 Ultra": [
-            [4.65,-74.08,0.85],[4.68,-74.05,0.80],[4.60,-74.10,0.70],
-            [4.72,-74.03,0.75],[4.58,-74.12,0.50],
-            [6.25,-75.57,0.72],[6.22,-75.55,0.68],
-            [3.43,-76.52,0.60],[3.45,-76.50,0.55],
-            [10.98,-74.79,0.45],[10.96,-74.78,0.40],
-            [10.41,-75.52,0.40],[10.39,-75.50,0.35],
-          ],
-          "iPhone 15": [
-            [4.65,-74.08,0.90],[4.68,-74.05,0.85],[4.62,-74.06,0.82],
-            [4.55,-74.12,0.65],[4.72,-74.03,0.78],
-            [6.25,-75.57,0.75],[6.22,-75.55,0.70],[6.20,-75.60,0.62],
-            [3.43,-76.52,0.68],[3.40,-76.50,0.62],[3.45,-76.54,0.55],
-            [10.98,-74.79,0.50],[10.96,-74.78,0.45],[11.00,-74.80,0.40],
-            [10.41,-75.52,0.45],[10.39,-75.50,0.40],
-          ],
-          "Samsung A55": [
-            // 中端机分布更均匀，郊区也有
-            [4.65,-74.08,0.60],[4.68,-74.05,0.58],[4.55,-74.12,0.70],
-            [4.72,-74.03,0.55],[4.58,-74.15,0.65],[4.60,-74.13,0.62],
-            [6.25,-75.57,0.65],[6.22,-75.55,0.60],[6.18,-75.62,0.58],
-            [3.43,-76.52,0.62],[3.40,-76.50,0.58],[3.38,-76.56,0.55],
-            [10.98,-74.79,0.60],[10.96,-74.78,0.58],[10.95,-74.82,0.55],
-            [10.41,-75.52,0.55],[10.39,-75.50,0.52],[10.38,-75.55,0.50],
-          ],
-          "Xiaomi Redmi Note 13": [
-            // 入门机，郊区和农村更多
-            [4.55,-74.12,0.75],[4.58,-74.15,0.70],[4.60,-74.13,0.68],
-            [4.65,-74.08,0.45],[4.68,-74.05,0.40],
-            [6.18,-75.62,0.65],[6.25,-75.57,0.50],[6.20,-75.60,0.55],
-            [3.38,-76.56,0.62],[3.43,-76.52,0.48],[3.40,-76.50,0.45],
-            [10.95,-74.82,0.60],[10.98,-74.79,0.55],[10.96,-74.78,0.52],
-            [10.38,-75.55,0.58],[10.41,-75.52,0.50],[10.39,-75.50,0.48],
-          ],
-        }
-
         // ============ COVERAGE HEATMAP DATA ============
 
         const MR_HEATMAP = {
@@ -3422,11 +2892,6 @@
                 [10.42,-75.50,0.68],[10.40,-75.53,0.62],
             ],
         }
-
-        // Replace MR heatmap with generated version
-        const mrGen = generateMRHeatmap(SITES_DATA)
-        MR_HEATMAP.tigo = mrGen.tigo
-        MR_HEATMAP.claro = mrGen.claro
 
         let covHeatLayer = null
 
@@ -3487,167 +2952,6 @@
                 }
                 covHeatLayer = null
             }
-        }
-
-        // ============ COVERAGE SPLIT VIEW FUNCTIONS ============
-
-        let covSplitMode = false
-        let covSplitMapLeft = null
-        let covSplitMapRight = null
-        let covSplitHeatLeft = null
-        let covSplitHeatRight = null
-
-        function toggleCoverageSplit() {
-            covSplitMode = !covSplitMode
-            const splitDiv = document.getElementById('coverageSplitView')
-            const mainMap = document.getElementById('map')
-            const btn = document.getElementById('covOpSplit')
-
-            if (covSplitMode) {
-                splitDiv.style.display = 'flex'
-                mainMap.style.visibility = 'hidden'
-                if (btn) { btn.style.background = 'rgba(6,182,212,0.15)'; btn.style.color = '#06b6d4' }
-
-                // 初始化左边地图（Tigo）
-                if (!covSplitMapLeft) {
-                    covSplitMapLeft = L.map('covSplitMapLeft', {zoomControl: false}).setView([5.5, -74.5], 6)
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {attribution:''}).addTo(covSplitMapLeft)
-                }
-
-                // 初始化右边地图（Claro）
-                if (!covSplitMapRight) {
-                    covSplitMapRight = L.map('covSplitMapRight', {zoomControl: false}).setView([5.5, -74.5], 6)
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {attribution:''}).addTo(covSplitMapRight)
-                }
-
-                // 左边加 Tigo 热力图
-                if (covSplitHeatLeft) covSplitMapLeft.removeLayer(covSplitHeatLeft)
-                covSplitHeatLeft = L.heatLayer(MR_HEATMAP.tigo.map(p => [p[0],p[1],p[2]]), {
-                    radius: 25, blur: 18, maxZoom: 10,
-                    gradient: {0.2:'#1e3a5f', 0.4:'#3b82f6', 0.6:'#06b6d4', 0.8:'#10b981', 1.0:'#059669'}
-                }).addTo(covSplitMapLeft)
-
-                // 右边加 Claro 热力图
-                if (covSplitHeatRight) covSplitMapRight.removeLayer(covSplitHeatRight)
-                covSplitHeatRight = L.heatLayer(MR_HEATMAP.claro.map(p => [p[0],p[1],p[2]]), {
-                    radius: 25, blur: 18, maxZoom: 10,
-                    gradient: {0.2:'#7c2d12', 0.4:'#ea580c', 0.6:'#f97316', 0.8:'#fb923c', 1.0:'#fdba74'}
-                }).addTo(covSplitMapRight)
-
-                // 同步两个地图
-                covSplitMapLeft.on('move', () => {
-                    if (!covSplitMode) return
-                    covSplitMapRight.setView(covSplitMapLeft.getCenter(), covSplitMapLeft.getZoom(), {animate: false})
-                })
-                covSplitMapRight.on('move', () => {
-                    if (!covSplitMode) return
-                    covSplitMapLeft.setView(covSplitMapRight.getCenter(), covSplitMapRight.getZoom(), {animate: false})
-                })
-
-                // 延迟 invalidateSize（确保容器大小正确）
-                setTimeout(() => {
-                    covSplitMapLeft.invalidateSize()
-                    covSplitMapRight.invalidateSize()
-                }, 200)
-
-            } else {
-                splitDiv.style.display = 'none'
-                mainMap.style.visibility = 'visible'
-                if (btn) { btn.style.background = ''; btn.style.color = '' }
-            }
-        }
-
-        // ============ TERMINAL HEATMAP FUNCTIONS ============
-
-        let terminalHeatLayer = null
-
-        function switchTerminalHeatmap(model) {
-            if (terminalHeatLayer) { map.removeLayer(terminalHeatLayer); terminalHeatLayer = null }
-
-            const data = TERMINAL_HEATMAP[model]
-            if (!data) return
-
-            terminalHeatLayer = L.heatLayer(data.map(p => [p[0], p[1], p[2]]), {
-                radius: 35,
-                blur: 25,
-                maxZoom: 10,
-                gradient: {
-                    0.2: '#1e3a5f',
-                    0.4: '#06b6d4',
-                    0.6: '#10b981',
-                    0.8: '#f59e0b',
-                    1.0: '#ef4444',
-                }
-            }).addTo(map)
-        }
-
-        // ============ SPLIT VIEW FUNCTIONS ============
-
-        let splitMode = false
-        let splitMapLeft = null
-        let splitMapRight = null
-        let splitHeatLeft = null
-        let splitHeatRight = null
-
-        function toggleSplitView() {
-            splitMode = !splitMode
-            const btn = document.getElementById('btn-split')
-            const splitDiv = document.getElementById('splitView')
-            const mainMap = document.getElementById('map')
-
-            if (splitMode) {
-                btn.style.background = 'rgba(6,182,212,0.15)'
-                btn.style.color = '#06b6d4'
-                splitDiv.style.display = 'flex'
-                mainMap.style.visibility = 'hidden'
-
-                // 初始化左右两个地图
-                if (!splitMapLeft) {
-                    splitMapLeft = L.map('splitMapLeft', {zoomControl: false}).setView([5.5, -74.5], 6)
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(splitMapLeft)
-                }
-                if (!splitMapRight) {
-                    splitMapRight = L.map('splitMapRight', {zoomControl: false}).setView([5.5, -74.5], 6)
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(splitMapRight)
-                }
-
-                // 左边：终端热力图
-                updateSplitTerminal(document.getElementById('splitTerminalSelect').value)
-
-                // 右边：覆盖热力图（Tigo MR）
-                if (splitHeatRight) splitMapRight.removeLayer(splitHeatRight)
-                splitHeatRight = L.heatLayer(MR_HEATMAP.tigo.map(p => [p[0],p[1],p[2]]), {
-                    radius: 30, blur: 20, maxZoom: 10,
-                    gradient: {0.2:'#3b82f6',0.5:'#06b6d4',0.8:'#10b981',1.0:'#059669'}
-                }).addTo(splitMapRight)
-
-                // 同步两个地图的移动和缩放
-                splitMapLeft.on('move', () => {
-                    splitMapRight.setView(splitMapLeft.getCenter(), splitMapLeft.getZoom(), {animate: false})
-                })
-                splitMapRight.on('move', () => {
-                    splitMapLeft.setView(splitMapRight.getCenter(), splitMapRight.getZoom(), {animate: false})
-                })
-
-            } else {
-                btn.style.background = ''
-                btn.style.color = ''
-                splitDiv.style.display = 'none'
-                mainMap.style.visibility = 'visible'
-            }
-        }
-
-        function updateSplitTerminal(model) {
-            if (!splitMapLeft) return
-            if (splitHeatLeft) splitMapLeft.removeLayer(splitHeatLeft)
-
-            const data = TERMINAL_HEATMAP[model]
-            if (!data) return
-
-            splitHeatLeft = L.heatLayer(data.map(p => [p[0],p[1],p[2]]), {
-                radius: 35, blur: 25, maxZoom: 10,
-                gradient: {0.2:'#1e3a5f',0.4:'#06b6d4',0.6:'#10b981',0.8:'#f59e0b',1.0:'#ef4444'}
-            }).addTo(splitMapLeft)
         }
 
         // ============ GEO JSON LOADING ============
@@ -3876,18 +3180,6 @@
                     label:{show:false},
                     emphasis:{scale:false},
                 }],
-                graphic:[{
-                    type:'text',
-                    left:'center',
-                    top:'center',
-                    style:{
-                        text:'33%',
-                        fill:'#06b6d4',
-                        fontSize:10,
-                        fontWeight:700,
-                        textAlign:'center',
-                    }
-                }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
             })
 
@@ -3904,18 +3196,6 @@
                     ],
                     label:{show:false},emphasis:{scale:false},
                 }],
-                graphic:[{
-                    type:'text',
-                    left:'center',
-                    top:'center',
-                    style:{
-                        text:'43%',
-                        fill:'#10b981',
-                        fontSize:10,
-                        fontWeight:700,
-                        textAlign:'center',
-                    }
-                }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
             })
 
@@ -3928,18 +3208,6 @@
                         {value:1.5,name:'失败',itemStyle:{color:'#ef4444'}},
                     ],
                     label:{show:false},emphasis:{scale:false},
-                }],
-                graphic:[{
-                    type:'text',
-                    left:'center',
-                    top:'center',
-                    style:{
-                        text:'98.5%',
-                        fill:'#10b981',
-                        fontSize:9,
-                        fontWeight:700,
-                        textAlign:'center',
-                    }
                 }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
             })
@@ -3956,18 +3224,6 @@
                         {value:14,name:'其他',itemStyle:{color:'#6b7280'}},
                     ],
                     label:{show:false},emphasis:{scale:false},
-                }],
-                graphic:[{
-                    type:'text',
-                    left:'center',
-                    top:'center',
-                    style:{
-                        text:'2.8PB',
-                        fill:'#f1f5f9',
-                        fontSize:9,
-                        fontWeight:700,
-                        textAlign:'center',
-                    }
                 }],
                 tooltip:{backgroundColor:'#1e293b',borderColor:'#334155',textStyle:{color:'#f1f5f9',fontSize:10}},
             })
