@@ -13,15 +13,33 @@
 | 检查项 | 方法 |
 |---|---|
 | **1a. HTML 静态中文必须有 data-i18n** | 扫描 HTML body 中所有中文字符，每个必须在 `data-i18n` 属性内或 `<!-- 注释 -->` 内 |
-| **1b. JS 动态中文必须用 getTranslation()** | 扫描 `<script>` 中所有中文字符串（排除 TRANSLATIONS 字典定义和注释），必须包裹在 `getTranslation()` 内 |
+| **1b. JS 动态中文必须用 getTranslation()** | 扫描 `<script>` 块中所有中文字符串（排除 TRANSLATIONS 字典定义行、`//` 注释行、`currentLang==='zh'?` 三元表达式内的中文分支），剩余中文必须包裹在 `getTranslation()` 或 `currentLang` 三元表达式内 |
+| **1b-extra. JS 数据对象中的中文** | ECharts series `name:`、legend `label:`、data `label:` 等用户可见字段，如果直接赋值中文字符串，必须用 `getTranslation()` 包裹。数据对象的 key（如 `"360p以下"`）可保留中文但显示时必须翻译 |
 | **1c. TRANSLATIONS 字典必须覆盖** | 每个 `data-i18n="key"` 的 key 必须在 TRANSLATIONS 字典中有对应条目；每个 `getTranslation('key')` 的 key 也必须存在 |
 | **1d. 下拉菜单 option** | `<select>` 的 `<option>` 文本必须在 `toggleLanguage()` 中有对应翻译逻辑 |
+| **1e. 地图/图表动态内容** | Polygon tooltip、ECharts formatter、site popup 中的中文必须用 `getTranslation()` 或 `currentLang` 三元表达式 |
 
-**自动化检查脚本**：
-```bash
-# 扫描 HTML body 中未包裹的中文
-grep -n '[\u4e00-\u9fff]' dashboard_v4.html | grep -v 'data-i18n\|TRANSLATIONS\|getTranslation\|//\|<!--\|zh:\|en:'
+**自动化检查脚本（必须用 Python，不能用 grep）**：
+```python
+# 扫描 JS 代码块中未翻译的中文（排除注释、字典定义、三元表达式中文分支）
+import re
+with open('dashboard_v4.html') as f:
+    content = f.read()
+js_start = content.find('<script>', content.find('echarts.min.js'))
+js_end = content.find('</script>', js_start)
+js_lines = content[js_start:js_end].split('\n')
+js_offset = content[:js_start].count('\n') + 1
+for i, line in enumerate(js_lines):
+    s = line.strip()
+    if s.startswith('//') or s.startswith('*') or s.startswith('/*'): continue
+    if re.search(r"'[^']*':\s*\{\s*zh:", s): continue
+    if re.search(r"zh:\s*'|en:\s*'", s): continue
+    line_no_gt = re.sub(r"getTranslation\('[^']*'\)", '', line)
+    line_no_ternary = re.sub(r"currentLang\s*===\s*'zh'\s*\?\s*'[^']*'", '', line_no_gt)
+    if re.findall(r'[\u4e00-\u9fff]+', line_no_ternary):
+        print(f"L{js_offset+i}: {s[:120]}")
 ```
+**标准**：上述脚本输出为 0 行（或仅剩 `//` 注释）才算通过
 
 ---
 

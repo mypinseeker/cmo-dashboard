@@ -870,16 +870,16 @@
 
         /* ============ BOTTOM APP CARDS ============ */
         .btm-card {
-            padding: clamp(6px, 0.6vw, 10px) !important;
+            padding: clamp(8px, 0.8vw, 12px) !important;
             display: flex !important;
             flex-direction: row !important;
             align-items: center !important;
-            gap: clamp(6px, 0.6vw, 10px) !important;
+            gap: clamp(8px, 0.8vw, 14px) !important;
             overflow: hidden !important;
         }
         .btm-pie {
-            width: clamp(60px, 5.5vw, 90px);
-            min-height: clamp(60px, 5.5vw, 90px);
+            width: clamp(70px, 7vw, 110px);
+            min-height: clamp(70px, 7vw, 110px);
             flex-shrink: 0;
         }
         .btm-info {
@@ -897,11 +897,11 @@
             margin-bottom: clamp(1px, 0.2vh, 3px);
         }
         .btm-name {
-            font-size: var(--fs-sm);
+            font-size: var(--fs-base);
             font-weight: 700;
         }
         .btm-badge {
-            font-size: clamp(7px, 0.5vw, 9px);
+            font-size: clamp(8px, 0.6vw, 10px);
             padding: 1px 5px;
             border-radius: 10px;
             white-space: nowrap;
@@ -909,7 +909,7 @@
         .btm-row {
             display: flex;
             justify-content: space-between;
-            font-size: var(--fs-xs);
+            font-size: var(--fs-sm);
             line-height: 1.4;
         }
         .btm-label {
@@ -1681,6 +1681,13 @@
           'Tigo 更差': { zh: 'Tigo 更差', en: 'Tigo Worse' },
           'HD占比': { zh: 'HD占比', en: 'HD Ratio' },
           '边缘占比': { zh: '边缘占比', en: 'Edge %' },
+          '覆盖（边缘占比）': { zh: '覆盖（边缘占比）', en: 'Coverage (Edge %)' },
+          'RRC 连接用户数': { zh: 'RRC 连接用户数', en: 'RRC Users' },
+          'Ookla 样本数': { zh: 'Ookla 样本数', en: 'Ookla Samples' },
+          '高': { zh: '高', en: 'High' },
+          '中': { zh: '中', en: 'Mid' },
+          '低': { zh: '低', en: 'Low' },
+          'YouTube HD 占比': { zh: 'YouTube HD 占比', en: 'YouTube HD Ratio' },
         };
 
         function getTranslation(key, fallback = key) {
@@ -2176,11 +2183,11 @@
 
         const EXPERIENCE_METRICS = {
           dl_speed: {
-            label: "下行速率",
+            label: getTranslation('下行速率'),
             unit: "Mbps",
             overall: 38.2,
             mom: "+2.5",
-            vsClaro: {value:42.5,gap:"-10%",trend:"缩小"},
+            vsClaro: {value:42.5,gap:"-10%",trend:getTranslation('缩小')},
             monthly: [{m:"Dec",v:33},{m:"Jan",v:34},{m:"Feb",v:35},{m:"Mar",v:36},{m:"Apr",v:37},{m:"May",v:38.2}],
             cities: [
               {city:"Barranquilla",value:22.5,trend:"-1.2",status:"bad"},
@@ -2191,11 +2198,11 @@
             ],
           },
           ul_speed: {
-            label: "上行速率",
+            label: getTranslation('上行速率'),
             unit: "Mbps",
             overall: 8.5,
             mom: "+0.3",
-            vsClaro: {value:9.2,gap:"-8%",trend:"稳定"},
+            vsClaro: {value:9.2,gap:"-8%",trend:getTranslation('稳定')},
             monthly: [{m:"Dec",v:7.8},{m:"Jan",v:7.9},{m:"Feb",v:8.0},{m:"Mar",v:8.2},{m:"Apr",v:8.3},{m:"May",v:8.5}],
             cities: [
               {city:"Barranquilla",value:5.2,trend:"-0.3",status:"bad"},
@@ -2206,11 +2213,11 @@
             ],
           },
           latency: {
-            label: "时延",
+            label: getTranslation('时延'),
             unit: "ms",
             overall: 32,
             mom: "-2",
-            vsClaro: {value:28,gap:"+14%",trend:"缩小"},
+            vsClaro: {value:28,gap:"+14%",trend:getTranslation('缩小')},
             monthly: [{m:"Dec",v:38},{m:"Jan",v:37},{m:"Feb",v:36},{m:"Mar",v:35},{m:"Apr",v:33},{m:"May",v:32}],
             cities: [
               {city:"Barranquilla",value:52,trend:"+3",status:"bad"},
@@ -2221,11 +2228,11 @@
             ],
           },
           coverage: {
-            label: "覆盖（边缘占比）",
+            label: getTranslation('覆盖（边缘占比）'),
             unit: "%",
             overall: 20,
             mom: "+0.5",
-            vsClaro: {value:18,gap:"+11%",trend:"扩大"},
+            vsClaro: {value:18,gap:"+11%",trend:getTranslation('扩大')},
             monthly: [{m:"Dec",v:18},{m:"Jan",v:18.5},{m:"Feb",v:19},{m:"Mar",v:19.2},{m:"Apr",v:19.8},{m:"May",v:20}],
             cities: [
               {city:"Barranquilla",value:32,trend:"+3",status:"bad"},
@@ -2484,7 +2491,7 @@
                     <div style="width:${vd.current['1080p']}%;background:#06b6d4;" title="1080p"></div>
                     <div style="width:${vd.current['720p']}%;background:#3b82f6;" title="720p"></div>
                     <div style="width:${vd.current['480p']}%;background:#f59e0b;" title="480p"></div>
-                    <div style="width:${vd.current['360p以下']}%;background:#ef4444;" title="360p以下"></div>
+                    <div style="width:${vd.current['360p以下']}%;background:#ef4444;" title="≤360p"></div>
                   </div>
                   <div style="display:flex;justify-content:space-between;font-size:10px;color:#94a3b8;margin-bottom:16px;">
                     <span style="color:#10b981;">4K ${vd.current['4K']}%</span>
@@ -2552,7 +2559,7 @@
                     </div>
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
                       <div style="font-size:24px;font-weight:700;color:#06b6d4;">6.2</div>
-                      <div style="font-size:10px;color:#94a3b8;">上传 Mbps</div>
+                      <div style="font-size:10px;color:#94a3b8;">${getTranslation('上传速率')} Mbps</div>
                     </div>
                     <div style="background:#1e293b;padding:16px;border-radius:8px;text-align:center;">
                       <div style="font-size:24px;font-weight:700;color:#f1f5f9;">580K</div>
@@ -2567,9 +2574,7 @@
                 <div>
                   <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">${getTranslation('特征')}</h4>
                   <p style="font-size:11px;color:#94a3b8;line-height:1.8;">
-                    TikTok 上行流量占比持续增长，短视频创作者增多。<br/>
-                    上传速率需求高于其他 APP，需关注上行 PRB 利用率。<br/>
-                    日活用户 580K，人均使用 45 分钟，是流量第三大 APP。
+                    ${currentLang === 'zh' ? 'TikTok 上行流量占比持续增长，短视频创作者增多。<br/>上传速率需求高于其他 APP，需关注上行 PRB 利用率。<br/>日活用户 580K，人均使用 45 分钟，是流量第三大 APP。' : 'TikTok uplink traffic share growing, more short-video creators.<br/>Higher upload speed requirements than other apps, monitor uplink PRB utilization.<br/>580K DAU, 45 min avg usage, 3rd largest traffic app.'}
                   </p>
                 </div>
               </div>
@@ -2581,7 +2586,7 @@
                 <div>
                   <h4 style="font-size:12px;color:#94a3b8;margin-bottom:12px;">${getTranslation('流量结构')}</h4>
                   <div style="space-y:8px;">
-                    ${[{n:getTranslation('视频流媒体'),p:32,c:'#ef4444',d:'YouTube+Netflix+其他视频'},{n:getTranslation('社交媒体'),p:28,c:'#3b82f6',d:'Instagram+Facebook'},{n:getTranslation('即时消息'),p:18,c:'#10b981',d:'WhatsApp+Telegram'},{n:getTranslation('游戏'),p:8,c:'#f59e0b',d:'手游+云游戏'},{n:getTranslation('其他'),p:14,c:'#6b7280',d:'浏览器+企业+其他'}].map(c => `
+                    ${[{n:getTranslation('视频流媒体'),p:32,c:'#ef4444',d:currentLang==='zh'?'YouTube+Netflix+其他视频':'YouTube+Netflix+Other Video'},{n:getTranslation('社交媒体'),p:28,c:'#3b82f6',d:'Instagram+Facebook'},{n:getTranslation('即时消息'),p:18,c:'#10b981',d:'WhatsApp+Telegram'},{n:getTranslation('游戏'),p:8,c:'#f59e0b',d:currentLang==='zh'?'手游+云游戏':'Mobile/Cloud Gaming'},{n:getTranslation('其他'),p:14,c:'#6b7280',d:currentLang==='zh'?'浏览器+企业+其他':'Browser/Enterprise/Other'}].map(c => `
                       <div style="margin-bottom:8px;">
                         <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
                           <span style="font-size:12px;color:${c.c};font-weight:600;">${c.n}</span>
@@ -3302,15 +3307,15 @@
                     dl_speed: {title:`${getTranslation('下行速率')} (Mbps)`,items:[{color:'#10b981',label:`≥ 40 ${getTranslation('良好')}`},{color:'#f59e0b',label:`25-40 ${getTranslation('一般')}`},{color:'#ef4444',label:`< 25 ${getTranslation('较差')}`}]},
                     ul_speed: {title:`${getTranslation('上行速率')} (Mbps)`,items:[{color:'#10b981',label:`≥ 9 ${getTranslation('良好')}`},{color:'#f59e0b',label:`6-9 ${getTranslation('一般')}`},{color:'#ef4444',label:`< 6 ${getTranslation('较差')}`}]},
                     latency: {title:`${getTranslation('时延')} (ms)`,items:[{color:'#10b981',label:`≤ 30 ${getTranslation('良好')}`},{color:'#f59e0b',label:`30-45 ${getTranslation('一般')}`},{color:'#ef4444',label:`> 45 ${getTranslation('较差')}`}]},
-                    coverage: {title:`${getTranslation('边缘')}占比 (%)`,items:[{color:'#10b981',label:`≤ 18% ${getTranslation('良好')}`},{color:'#f59e0b',label:`18-28% ${getTranslation('一般')}`},{color:'#ef4444',label:`> 28% ${getTranslation('较差')}`}]},
+                    coverage: {title:`${getTranslation('边缘占比')} (%)`,items:[{color:'#10b981',label:`≤ 18% ${getTranslation('良好')}`},{color:'#f59e0b',label:`18-28% ${getTranslation('一般')}`},{color:'#ef4444',label:`> 28% ${getTranslation('较差')}`}]},
                 }
                 legendData = legendMap[m] || legendMap.dl_speed
             } else {
                 const staticLegends = {
                     growth:{title:getTranslation('用户增长率'),items:[{color:'#059669',label:`> +2% ${getTranslation('强劲增长')}`},{color:'#10b981',label:`+0.5%~+2% ${getTranslation('稳健')}`},{color:'#f59e0b',label:`-0.5%~+0.5% ${getTranslation('持平')}`},{color:'#f97316',label:`-2%~-0.5% ${getTranslation('轻度下降')}`},{color:'#ef4444',label:`< -2% ${getTranslation('严重下降')}`}]},
-                    newUsers:{title:getTranslation('新增用户'),items:[{color:'#2563eb',label:'> 2K / > 250 高'},{color:'#3b82f6',label:'1K-2K / 150-250 中'},{color:'#60a5fa',label:'< 1K / < 150 低'}]},
+                    newUsers:{title:getTranslation('新增用户'),items:[{color:'#2563eb',label:`> 2K / > 250 ${getTranslation('高')}`},{color:'#3b82f6',label:`1K-2K / 150-250 ${getTranslation('中')}`},{color:'#60a5fa',label:`< 1K / < 150 ${getTranslation('低')}`}]},
                     churn:{title:getTranslation('流失率'),items:[{color:'#10b981',label:`< 1.2% ${getTranslation('健康')}`},{color:'#f59e0b',label:`1.2-2.0% ${getTranslation('关注')}`},{color:'#ef4444',label:`> 2.0% ${getTranslation('严重')}`}]},
-                    video:{title:'YouTube HD 占比',items:[{color:'#10b981',label:`≥ 35% ${getTranslation('良好')}`},{color:'#f59e0b',label:`25-35% ${getTranslation('一般')}`},{color:'#ef4444',label:`< 25% ${getTranslation('较差')}`}]},
+                    video:{title:getTranslation('YouTube HD 占比'),items:[{color:'#10b981',label:`≥ 35% ${getTranslation('良好')}`},{color:'#f59e0b',label:`25-35% ${getTranslation('一般')}`},{color:'#ef4444',label:`< 25% ${getTranslation('较差')}`}]},
                     coverageAnalysis:{title:getTranslation('覆盖分析'),items:[{color:'#10b981',label:`${getTranslation('边缘')} ≤ 18% ${getTranslation('良好')}`},{color:'#f59e0b',label:`${getTranslation('边缘')} 18-28% ${getTranslation('关注')}`},{color:'#ef4444',label:`${getTranslation('边缘')} > 28% ${getTranslation('较差')}`}]},
                     terminal:{title:getTranslation('终端分布'),items:[{color:'#ef4444',label:getTranslation('高密度')},{color:'#f59e0b',label:getTranslation('中密度')},{color:'#10b981',label:getTranslation('低密度')}]},
                 }
@@ -3369,14 +3374,14 @@
                 yAxis: [
                     {
                         type: 'value',
-                        name: 'RRC 连接用户数',
+                        name: getTranslation('RRC 连接用户数'),
                         nameTextStyle: { color: '#64748b', fontSize: 9 },
                         axisLabel: { fontSize: 9, color: '#64748b', formatter: v => (v/1000000).toFixed(1)+'M' },
                         splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } },
                     },
                     {
                         type: 'value',
-                        name: 'Ookla 样本数',
+                        name: getTranslation('Ookla 样本数'),
                         nameTextStyle: { color: '#64748b', fontSize: 9 },
                         axisLabel: { fontSize: 9, color: '#64748b' },
                         splitLine: { show: false },
@@ -3390,7 +3395,7 @@
                     formatter: params => {
                         let html = `<b>${params[0].axisValue} dBm</b><br/>`;
                         params.forEach(p => {
-                            const val = p.seriesName.includes('用户') ? (p.value/1000000).toFixed(2)+'M' : p.value;
+                            const val = p.seriesIndex === 0 ? (p.value/1000000).toFixed(2)+'M' : p.value;
                             html += `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};margin-right:4px;"></span>${p.seriesName}: ${val}<br/>`;
                         });
                         return html;
@@ -3398,7 +3403,7 @@
                 },
                 series: [
                     {
-                        name: 'Tigo 现网用户',
+                        name: getTranslation('Tigo 现网用户'),
                         type: 'bar',
                         yAxisIndex: 0,
                         data: RSRP_DISTRIBUTION.tigo_users.map(d => d.users),
@@ -3412,7 +3417,7 @@
                         barWidth: '40%',
                     },
                     {
-                        name: 'Tigo Ookla 样本',
+                        name: 'Tigo Ookla',
                         type: 'line',
                         yAxisIndex: 1,
                         data: RSRP_DISTRIBUTION.tigo_ookla.map(d => d.samples),
@@ -3423,7 +3428,7 @@
                         itemStyle: { color: '#06b6d4' },
                     },
                     {
-                        name: 'Claro Ookla 样本',
+                        name: 'Claro Ookla',
                         type: 'line',
                         yAxisIndex: 1,
                         data: RSRP_DISTRIBUTION.claro_ookla.map(d => d.samples),
@@ -3823,11 +3828,11 @@
                         type: 'pie',
                         radius: ['35%', '75%'],
                         data: [
-                            { value: 32, name: '视频' },
-                            { value: 28, name: '社交' },
-                            { value: 18, name: '消息' },
-                            { value: 14, name: '其他' },
-                            { value: 8, name: '游戏' }
+                            { value: 32, name: getTranslation('视频') },
+                            { value: 28, name: getTranslation('社交') },
+                            { value: 18, name: getTranslation('消息') },
+                            { value: 14, name: getTranslation('其他') },
+                            { value: 8, name: getTranslation('游戏') }
                         ],
                         itemStyle: {
                             borderColor: '#111827',
