@@ -77,14 +77,40 @@
 | Tigo's 53.4% share was "sticky" by default | Share must be **earned** through experience |
 | Prepaid churn invisible (users just buy new SIM) | Churn becomes **measurable and trackable** |
 
-### Impact on Tigo
+### Impact on Tigo — The Obvious Risk
 - **53.4% market share is at risk** — users can now leave without friction
 - Claro will aggressively target Tigo's high-value subscribers
 - **Prepaid users (majority)** are most vulnerable — lowest switching cost
-- Tigo must shift from "subscriber accumulation" to **"experience-driven retention"**
+
+### 🔴 The HIDDEN Risk — Transfer-In Network Collapse
+
+**Most people only think about users LEAVING. The bigger risk is users ARRIVING.**
+
+```
+Claro user transfers to Tigo
+    ↓
+This user lives/works in a Claro-dominant area
+    ↓
+In that area, Tigo has FEW users → cell was NEVER expanded
+    ↓
+Sudden influx of transfer-in users → PRB spikes → congestion
+    ↓
+New user's FIRST experience on Tigo = terrible
+    ↓
+User regrets switching → transfers BACK to Claro
+    ↓
+Tigo loses the user AND the reputation
+```
+
+**Traditional capacity planning ("expand where busy") FAILS under MNP.**
+You need to predict WHERE incoming users will go BEFORE they arrive.
 
 ### What Tigo Needs
-> "MNP turns network quality into the #1 competitive weapon. The operator with better experience WINS. The one with worse experience BLEEDS."
+1. **MNP Risk Heatmap**: Use Ookla competitor data to identify WHERE Claro users are dense + Tigo cells are unexpanded → pre-emptive expansion
+2. **Proactive Expansion List**: Expand Tigo's low-load cells in Claro-dominant areas BEFORE MNP activates
+3. **Real-time Monitoring**: CTO Dashboard tracking transfer-in impact on PRB by cell
+
+> "MNP is not just a churn risk — it's a network collapse risk. The cells you never expanded are about to become your biggest liability."
 
 ---
 
@@ -122,10 +148,32 @@
 - This is the **fastest growing segment** — whoever wins FBB wins the future
 - Tigo has 720K lines today but is mostly cable; fiber is the future
 
-### Tigo's Strategic Response (Announced)
-- Millicom earmarked **$700M over 2 years** for fiber
-- Target: symmetrical speeds for remote work and cloud
-- **But execution speed and technology choice are critical**
+### What Tigo is Actually Doing (Insider Intelligence)
+
+**Tigo Colombia is already running 4G WTTx** — offering 2-30 Mbps FBB via mobile network.
+- **Not on official website** — used as a strategic demand probe, not a mass product
+- Where WTTx users cluster → FTTH deployment is prioritized
+- **WTTx = FTTH demand sensor**, not a standalone product
+
+### The "Deploy First, Build Later" Strategy
+
+```
+❌ Traditional: Guess where to build fiber → invest $500K → hope users come
+✅ Smarter: 
+
+Step 1: DEPLOY — Put FWA/WTTx on low-load 4G cells (ZERO network investment, CPE only)
+Step 2: ACQUIRE — Lock in users at $10-15/month before Claro/Starlink captures them
+Step 3: MEASURE — Track where WTTx demand concentrates
+Step 4: BUILD — Deploy FTTH only in proven-demand areas
+Step 5: MIGRATE — Move WTTx users to fiber (zero re-acquisition cost)
+```
+
+> **"Every low-load 4G cell is a sleeping FBB asset. Don't wait for fiber — deploy today, build tomorrow. The users you don't capture now will be Claro's users forever."**
+
+### Millicom's Fiber Investment
+- **$700M over 2 years** earmarked for fiber — right direction
+- But fiber takes 6-12 months per area; WTTx can capture users in 2-4 weeks
+- **WTTx buys time** while fiber is being built
 
 ---
 
@@ -293,7 +341,6 @@ Network quality investment ROI: <12 months
 | AI Optimization | **MindStudio AI** built-in | External tools | Limited |
 | LATAM Track Record | **23 countries, 20+ years** | Declining LATAM presence | Limited |
 
-> ⚠️ **Risk Factor**: Millicom deployed Open RAN (Parallel Wireless) for 362 rural sites in Colombia. Huawei must prove superior value for urban/5G to avoid Open RAN expansion into core network.
 
 ---
 
@@ -435,7 +482,6 @@ Key industries: Mining, Oil & Gas, Logistics, Agriculture, Healthcare, Governmen
 
 | Risk | Severity | Mitigation |
 |---|---|---|
-| **Open RAN expansion** — Millicom may extend Parallel Wireless beyond 362 rural sites | 🟠 Medium | Prove SingleRAN TCO advantage with pilot |
 | **Geopolitical restrictions** — US pressure on Huawei in LATAM | 🟡 Low-Med | Position as technology-neutral, highlight LATAM track record |
 | **Integration complexity** — Two networks harder than expected | 🟠 Medium | Phase approach, start with quick wins |
 | **Claro 5G lead** — Claro deploys while Tigo integrates | 🔴 High | Parallel track: integrate existing + deploy 5G simultaneously |
@@ -514,13 +560,11 @@ Key industries: Mining, Oil & Gas, Logistics, Agriculture, Healthcare, Governmen
 - [Guatemala MNP Decreto 14-2025](https://www.guatemalaportal.com/guatemala-approves-decreto-14-2025-keep-your-number-when-switching-carriers/) — Number portability approved Nov 2025
 - [Tigo vs Claro Guatemala Plans](https://livinginguatemala.com/blog/phone-plans-guatemala/) — Coverage and pricing comparison
 - [Colombia Telecom MNO Market](https://www.mordorintelligence.com/industry-reports/colombia-telecom-mno-market) — $6.97B (2026)
-- [Millicom Open RAN Colombia](https://www.fierce-network.com/operators/millicom-to-deploy-o-ran-parallel-wireless-latin-america) — 362 rural sites
 - [Starlink Guatemala](https://worldpossible.org/products/starlink-in-guatemala) — Live since July 2023
 - [Starlink LATAM Expansion](https://blog.telegeography.com/reach-for-the-stars-how-starlink-conquered-latin-america) — 28 countries
 
 ### To Be Verified [待确认]
 - Tigo Colombia exact post-merger subscriber count and market share
-- Tigo Colombia current vendor breakdown (Huawei / Ericsson / Nokia / Open RAN split)
 - Colombia enterprise ICT TAM breakdown by industry
 - Specific Huawei LATAM reference case ROI numbers
 - Millicom Board position on Huawei as strategic vendor
