@@ -806,6 +806,240 @@
             to { transform: rotate(360deg); }
         }
 
+        /* ============ COMPARE PANEL (F-07) ============ */
+
+        .compare-dropdown {
+            position: absolute;
+            top: calc(var(--header-h) + var(--gap) + 6px);
+            right: 150px;
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: var(--card-radius);
+            padding: var(--card-pad);
+            z-index: 1800;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            width: 200px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .compare-dropdown.active {
+            display: flex;
+        }
+
+        .compare-date-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .compare-date-label {
+            font-size: var(--fs-xs);
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .compare-date-select {
+            background-color: #0f1419;
+            border: 1px solid #374151;
+            color: #e5e7eb;
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-size: var(--fs-xs);
+            cursor: pointer;
+        }
+
+        .compare-date-select:hover {
+            border-color: #06b6d4;
+        }
+
+        .compare-action-btn {
+            background-color: #06b6d4;
+            color: #0a0e1a;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: var(--fs-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .compare-action-btn:hover {
+            background-color: #0891b2;
+        }
+
+        .compare-summary-bar {
+            background-color: #0f1419;
+            border: 1px solid #1f2937;
+            border-radius: calc(var(--card-radius) * 0.75);
+            padding: var(--card-pad);
+            margin-bottom: var(--gap);
+            font-size: var(--fs-xs);
+            color: #e5e7eb;
+            display: flex;
+            gap: 16px;
+            justify-content: space-around;
+        }
+
+        .compare-summary-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .compare-summary-label {
+            color: #9ca3af;
+            font-size: var(--fs-xs);
+        }
+
+        .compare-summary-value {
+            color: #06b6d4;
+            font-weight: 600;
+            font-size: var(--fs-sm);
+        }
+
+        /* ============ HELP & DEMO OVERLAYS (F-09) ============ */
+
+        .help-demo-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 2100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .help-demo-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .help-demo-panel {
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: var(--card-radius);
+            padding: var(--card-pad);
+            width: 90vw;
+            max-width: 800px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            gap: var(--gap);
+            overflow: auto;
+        }
+
+        .help-demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: var(--gap);
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .help-demo-title {
+            font-size: var(--fs-lg);
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+
+        .help-demo-close {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            color: #e5e7eb;
+            padding: 6px 12px;
+            border-radius: calc(var(--card-radius) * 0.75);
+            font-size: var(--fs-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .help-demo-close:hover {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+
+        .help-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .help-section {
+            border-left: 2px solid #06b6d4;
+            padding-left: var(--card-pad);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .help-section-title {
+            font-weight: 600;
+            color: #e5e7eb;
+            font-size: var(--fs-sm);
+        }
+
+        .help-section-text {
+            color: #9ca3af;
+            font-size: var(--fs-xs);
+            line-height: 1.5;
+        }
+
+        .storyline-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .storyline-act {
+            background-color: #0f1419;
+            border: 1px solid #1f2937;
+            border-radius: calc(var(--card-radius) * 0.75);
+            padding: var(--card-pad);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .storyline-act-title {
+            font-weight: 600;
+            color: #06b6d4;
+            font-size: var(--fs-sm);
+        }
+
+        .storyline-act-desc {
+            color: #9ca3af;
+            font-size: var(--fs-xs);
+            line-height: 1.4;
+        }
+
+        .storyline-act-action {
+            background-color: #111827;
+            border: 1px solid #374151;
+            color: #06b6d4;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: var(--fs-xs);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            align-self: flex-start;
+            margin-top: 4px;
+        }
+
+        .storyline-act-action:hover {
+            background-color: #1f2937;
+            border-color: #06b6d4;
+        }
+
     </style>
 </head>
 <body>
@@ -823,8 +1057,35 @@
                 <option value="Cartagena">Cartagena</option>
             </select>
             <button id="splitViewBtn" class="header-btn">Split View</button>
+            <button id="compareBtn" class="header-btn">📅 Compare</button>
+            <button id="demoBtn" class="header-btn" style="background-color: #d4af37; border-color: #d4af37; color: #0a0e1a;">▶ Demo</button>
+            <button id="helpBtn" class="header-btn" style="background-color: #06b6d4; border-color: #06b6d4; color: #0a0e1a;">?</button>
             <button id="langToggle" class="header-btn">中文</button>
         </div>
+    </div>
+
+    <!-- COMPARE DROPDOWN (F-07) -->
+    <div class="compare-dropdown" id="compareDropdown">
+        <div class="compare-date-group">
+            <label class="compare-date-label" data-i18n="before">Before Date</label>
+            <select id="compareDateBefore" class="compare-date-select">
+                <option value="w10">Week 10</option>
+                <option value="w11">Week 11</option>
+                <option value="w12">Week 12</option>
+                <option value="w13">Week 13</option>
+            </select>
+        </div>
+        <div class="compare-date-group">
+            <label class="compare-date-label" data-i18n="after">After Date</label>
+            <select id="compareDateAfter" class="compare-date-select">
+                <option value="w17">Week 17</option>
+                <option value="w18">Week 18</option>
+                <option value="w19">Week 19</option>
+                <option value="w20">Week 20</option>
+                <option value="w21">Week 21</option>
+            </select>
+        </div>
+        <button class="compare-action-btn" onclick="startComparisonView()" data-i18n="compare">Compare</button>
     </div>
 
     <!-- LEFT PANEL: OVERVIEW STATS -->
@@ -874,7 +1135,10 @@
                 <div class="stat-value" id="vsOperatorBValue">-5.2 Mbps</div>
             </div>
 
-            <div class="city-summary-label" data-i18n="allCitiesSummary">All Cities Summary</div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="city-summary-label" data-i18n="allCitiesSummary">All Cities Summary</div>
+                <button onclick="exportCitySummaryCSV()" class="header-btn" style="padding: 4px 8px; font-size: var(--fs-xs);">📥 CSV</button>
+            </div>
             <table class="city-summary-table" id="citySummaryTable">
                 <thead>
                     <tr>
@@ -905,7 +1169,10 @@
 
     <!-- RIGHT PANEL: LOW SPEED CELLS LIST -->
     <div class="right-panel panel">
-        <div class="panel-title" data-i18n="alertCells">Alert Cells <span id="alertBadge" class="badge">0</span></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: clamp(8px, 1vh, 12px);">
+            <div class="panel-title" style="margin: 0;" data-i18n="alertCells">Alert Cells <span id="alertBadge" class="badge">0</span></div>
+            <button onclick="exportAlertCellsCSV()" class="header-btn" style="padding: 4px 8px; font-size: var(--fs-xs);">📥 CSV</button>
+        </div>
         <div class="panel-content" id="lowSpeedList"></div>
     </div>
 
@@ -939,7 +1206,10 @@
         <div id="tabExpansion" style="flex:1;display:none;flex-direction:column;min-height:0;overflow:hidden;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
                 <span class="panel-title" style="margin:0;" data-i18n="expansionPriority">Expansion Priority</span>
-                <span style="font-size:var(--fs-xs);color:#9ca3af;">Top 20 Sites</span>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <span style="font-size:var(--fs-xs);color:#9ca3af;">Top 20 Sites</span>
+                    <button onclick="exportExpansionPriorityCSV()" class="header-btn" style="padding:4px 8px;font-size:var(--fs-xs);">📥 CSV</button>
+                </div>
             </div>
             <div style="flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#374151 transparent;">
                 <table class="expansion-priority-table" id="expansionPriorityTable">
@@ -984,6 +1254,74 @@
     <div class="diagnostic-section">
         <div class="diagnostic-label" data-i18n="recommendation">Recommendation</div>
         <div id="diagnosticRecommendation" class="recommendation-box"></div>
+    </div>
+</div>
+
+<!-- HELP OVERLAY (F-09) -->
+<div class="help-demo-overlay" id="helpOverlay">
+    <div class="help-demo-panel">
+        <div class="help-demo-header">
+            <div class="help-demo-title" data-i18n="help">Help</div>
+            <button class="help-demo-close" onclick="closeHelp()">✕</button>
+        </div>
+        <div class="help-content">
+            <div class="help-section">
+                <div class="help-section-title">📊 Grid Map</div>
+                <div class="help-section-text" data-i18n="helpGridMap">50m × 50m precision with 5 color levels indicating download speed categories</div>
+            </div>
+            <div class="help-section">
+                <div class="help-section-title">🔀 Split View</div>
+                <div class="help-section-text" data-i18n="helpSplitView">1:1 comparison with Operator B, synced pan and zoom controls</div>
+            </div>
+            <div class="help-section">
+                <div class="help-section-title">⚠️ Alert List</div>
+                <div class="help-section-text" data-i18n="helpAlertList">Grid cells <3 Mbps sorted by severity, click to zoom to location</div>
+            </div>
+            <div class="help-section">
+                <div class="help-section-title">🏙️ City Detail</div>
+                <div class="help-section-text" data-i18n="helpCityDetail">Click city in summary table to view trends, distribution, and worst 10 cells</div>
+            </div>
+            <div class="help-section">
+                <div class="help-section-title">🔍 Site Diagnostic</div>
+                <div class="help-section-text" data-i18n="helpSiteDiagnostic">Click grid cell to diagnose with sector analysis and recommendations</div>
+            </div>
+            <div class="help-section">
+                <div class="help-section-title">📈 Expansion Priority</div>
+                <div class="help-section-text" data-i18n="helpExpansionPriority">Impact-based ranking of top sites for capacity planning</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DEMO OVERLAY (F-09) -->
+<div class="help-demo-overlay" id="demoOverlay">
+    <div class="help-demo-panel">
+        <div class="help-demo-header">
+            <div class="help-demo-title" data-i18n="presentationMode">Presentation Mode</div>
+            <button class="help-demo-close" onclick="closeDemo()">✕</button>
+        </div>
+        <div class="storyline-content">
+            <div class="storyline-act">
+                <div class="storyline-act-title">Act 1: The Big Picture</div>
+                <div class="storyline-act-desc" data-i18n="act1Desc">Review city summary table to identify the worst performing city</div>
+                <button class="storyline-act-action" onclick="closeDemo(); document.getElementById('citySummaryTable').scrollIntoView({behavior: 'smooth'});">▶ Start</button>
+            </div>
+            <div class="storyline-act">
+                <div class="storyline-act-title">Act 2: Zoom In</div>
+                <div class="storyline-act-desc" data-i18n="act2Desc">Select worst city and view grid map to identify red speed clusters</div>
+                <button class="storyline-act-action" onclick="closeDemo();">▶ Continue</button>
+            </div>
+            <div class="storyline-act">
+                <div class="storyline-act-title">Act 3: Compare</div>
+                <div class="storyline-act-desc" data-i18n="act3Desc">Use Split View vs Operator B to see where we're behind</div>
+                <button class="storyline-act-action" onclick="closeDemo(); document.getElementById('splitViewBtn').click();">▶ Show Split</button>
+            </div>
+            <div class="storyline-act">
+                <div class="storyline-act-title">Act 4: Action Plan</div>
+                <div class="storyline-act-desc" data-i18n="act4Desc">Review expansion priority list and export CSV for planning team</div>
+                <button class="storyline-act-action" onclick="closeDemo(); setBottomTab('expansion');">▶ Show Expansion</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -1104,6 +1442,24 @@ const TRANSLATIONS = {
         'urgent': 'Urgent',
         'plan': 'Plan',
         'monitor': 'Monitor',
+        'before': 'Before Date',
+        'after': 'After Date',
+        'compare': 'Compare',
+        'help': 'Help',
+        'helpGridMap': '50m × 50m precision with 5 color levels indicating download speed categories',
+        'helpSplitView': '1:1 comparison with Operator B, synced pan and zoom controls',
+        'helpAlertList': 'Grid cells <3 Mbps sorted by severity, click to zoom to location',
+        'helpCityDetail': 'Click city in summary table to view trends, distribution, and worst 10 cells',
+        'helpSiteDiagnostic': 'Click grid cell to diagnose with sector analysis and recommendations',
+        'helpExpansionPriority': 'Impact-based ranking of top sites for capacity planning',
+        'presentationMode': 'Presentation Mode',
+        'act1Desc': 'Review city summary table to identify the worst performing city',
+        'act2Desc': 'Select worst city and view grid map to identify red speed clusters',
+        'act3Desc': 'Use Split View vs Operator B to see where we\'re behind',
+        'act4Desc': 'Review expansion priority list and export CSV for planning team',
+        'improved': 'Improved',
+        'still': 'Still <3Mbps',
+        'avgSpeed': 'Avg Speed',
     },
     'zh': {
         'overview': '概览',
@@ -1148,6 +1504,24 @@ const TRANSLATIONS = {
         'urgent': '紧急',
         'plan': '规划',
         'monitor': '监测',
+        'before': '对比日期（之前）',
+        'after': '对比日期（之后）',
+        'compare': '对比',
+        'help': '帮助',
+        'helpGridMap': '50m × 50m精度，5个色级表示下行速率类别',
+        'helpSplitView': '与B运营商1:1对比，同步平移和缩放',
+        'helpAlertList': '<3Mbps的栅格，按严重程度排序，点击可缩放到位置',
+        'helpCityDetail': '点击摘要表中的城市查看趋势、分布和最差10个栅格',
+        'helpSiteDiagnostic': '点击栅格诊断，包含扇区分析和建议',
+        'helpExpansionPriority': '基于影响力的站点排名，用于容量规划',
+        'presentationMode': '演示模式',
+        'act1Desc': '查看城市摘要表，识别表现最差的城市',
+        'act2Desc': '选择最差城市并查看栅格地图，识别红色速率集群',
+        'act3Desc': '使用分割视图对比B运营商，查看我们的差距',
+        'act4Desc': '查看扩容优先级列表，导出CSV供规划团队使用',
+        'improved': '已改善',
+        'still': '仍<3Mbps',
+        'avgSpeed': '平均速率',
     }
 };
 
@@ -2249,6 +2623,205 @@ document.getElementById('splitViewBtn').addEventListener('click', () => {
         }
     }
 });
+
+// ============ CSV EXPORT FUNCTION (F-08) ============
+
+function exportCSV(data, headers, filename) {
+    let csv = headers.join(',') + '\n';
+    data.forEach(row => {
+        const escaped = row.map(cell => {
+            const str = String(cell).replace(/"/g, '""');
+            return str.includes(',') || str.includes('"') ? `"${str}"` : str;
+        });
+        csv += escaped.join(',') + '\n';
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+}
+
+function exportAlertCellsCSV() {
+    const grids = tigoGrids[currentCity] || [];
+    const lowSpeedGrids = grids
+        .filter(g => g.dl_speed < 3)
+        .sort((a, b) => a.dl_speed - b.dl_speed);
+
+    const headers = ['Rank', 'Speed (Mbps)', 'Users', 'PRB (%)', 'RSRP (dBm)', 'Latitude', 'Longitude'];
+    const data = lowSpeedGrids.map((grid, idx) => [
+        idx + 1,
+        grid.dl_speed,
+        grid.users,
+        grid.prb,
+        grid.rsrp,
+        grid.lat,
+        grid.lon
+    ]);
+
+    exportCSV(data, headers, `${currentCity}_alert_cells_${new Date().toISOString().split('T')[0]}.csv`);
+}
+
+function exportCitySummaryCSV() {
+    const cityNames = Object.keys(CITIES);
+    const headers = ['City', 'Total Grids', 'Avg Speed (Mbps)', 'Low Speed Count', '% Low Speed', 'vs Operator B'];
+    const data = cityNames.map(city => {
+        const grids = tigoGrids[city] || [];
+        const opbGrids_current = opbGrids[city] || [];
+        const totalGrids = grids.length;
+        const avgSpeed = grids.length > 0
+            ? (grids.reduce((sum, g) => sum + g.dl_speed, 0) / grids.length).toFixed(1)
+            : 0;
+        const lowSpeedCount = grids.filter(g => g.dl_speed < 3).length;
+        const pct = totalGrids > 0 ? ((lowSpeedCount / totalGrids) * 100).toFixed(1) : 0;
+        const opbAvgSpeed = opbGrids_current.length > 0
+            ? (opbGrids_current.reduce((sum, g) => sum + g.dl_speed, 0) / opbGrids_current.length).toFixed(1)
+            : 0;
+        const diff = (avgSpeed - opbAvgSpeed).toFixed(1);
+        return [city, totalGrids, avgSpeed, lowSpeedCount, pct, (diff > 0 ? '+' : '') + diff];
+    });
+
+    exportCSV(data, headers, `city_summary_${new Date().toISOString().split('T')[0]}.csv`);
+}
+
+function exportExpansionPriorityCSV() {
+    const grids = tigoGrids[currentCity] || [];
+    const lowSpeedGrids = grids.filter(g => g.dl_speed < 3);
+
+    // Create site clusters (simplified: group by 0.01 degree blocks)
+    const siteClusters = {};
+    lowSpeedGrids.forEach(grid => {
+        const blockLat = Math.floor(grid.lat / 0.01) * 0.01;
+        const blockLon = Math.floor(grid.lon / 0.01) * 0.01;
+        const key = `${blockLat.toFixed(2)},${blockLon.toFixed(2)}`;
+        if (!siteClusters[key]) {
+            siteClusters[key] = {
+                lat: blockLat, lon: blockLon, grids: [], users: 0, avgSpeed: 0
+            };
+        }
+        siteClusters[key].grids.push(grid);
+        siteClusters[key].users += grid.users;
+    });
+
+    // Calculate priority scores
+    const sites = Object.values(siteClusters)
+        .map((site, idx) => {
+            const totalLow = site.grids.length;
+            const totalUsers = site.users;
+            const avgSpeed = site.grids.reduce((s, g) => s + g.dl_speed, 0) / site.grids.length;
+            const score = (totalLow * 0.5 + totalUsers / 100 + (3 - avgSpeed) * 5).toFixed(1);
+            return { idx: idx + 1, lat: site.lat, lon: site.lon, score, totalLow, totalUsers, avgSpeed: avgSpeed.toFixed(1) };
+        })
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 20);
+
+    const headers = ['Rank', 'Priority Score', 'Low-Speed Grids', 'Users', 'Avg Speed (Mbps)', 'Location (Lat,Lon)', 'Action'];
+    const data = sites.map((site, idx) => {
+        const action = site.score > 50 ? 'Urgent' : site.score > 30 ? 'Plan' : 'Monitor';
+        return [idx + 1, site.score, site.totalLow, site.totalUsers, site.avgSpeed, `${site.lat},${site.lon}`, action];
+    });
+
+    exportCSV(data, headers, `expansion_priority_${currentCity}_${new Date().toISOString().split('T')[0]}.csv`);
+}
+
+// ============ TIME COMPARISON (F-07) ============
+
+function toggleCompareDropdown() {
+    const dropdown = document.getElementById('compareDropdown');
+    dropdown.classList.toggle('active');
+}
+
+function startComparisonView() {
+    const beforeWeek = document.getElementById('compareDateBefore').value;
+    const afterWeek = document.getElementById('compareDateAfter').value;
+    document.getElementById('compareDropdown').classList.remove('active');
+
+    // Generate "before" data (current data)
+    const beforeGrids = tigoGrids[currentCity].map(g => ({ ...g }));
+
+    // Generate "after" data with 10-30% speed improvement in low-speed areas
+    const afterGrids = tigoGrids[currentCity].map(grid => {
+        const newGrid = { ...grid };
+        if (grid.dl_speed < 3) {
+            // Improve speeds in low-speed areas by 10-30%
+            const improvement = 1 + (0.1 + Math.random() * 0.2);
+            newGrid.dl_speed = Math.min(25, +(grid.dl_speed * improvement).toFixed(1));
+        }
+        return newGrid;
+    });
+
+    // Calculate stats
+    const beforeLow = beforeGrids.filter(g => g.dl_speed < 3).length;
+    const beforeAvg = (beforeGrids.reduce((s, g) => s + g.dl_speed, 0) / beforeGrids.length).toFixed(1);
+    const afterLow = afterGrids.filter(g => g.dl_speed < 3).length;
+    const afterAvg = (afterGrids.reduce((s, g) => s + g.dl_speed, 0) / afterGrids.length).toFixed(1);
+    const improved = beforeLow - afterLow;
+
+    // Show summary bar
+    const summaryHtml = `
+        <div class="compare-summary-bar">
+            <div class="compare-summary-item">
+                <div class="compare-summary-label">Improved Grids</div>
+                <div class="compare-summary-value">${improved}</div>
+            </div>
+            <div class="compare-summary-item">
+                <div class="compare-summary-label">Still <3Mbps</div>
+                <div class="compare-summary-value">${afterLow}</div>
+            </div>
+            <div class="compare-summary-item">
+                <div class="compare-summary-label">Avg Speed (Before → After)</div>
+                <div class="compare-summary-value">${beforeAvg} → ${afterAvg} Mbps</div>
+            </div>
+        </div>
+    `;
+
+    const container = document.getElementById('mapContainer');
+    const existingSummary = container.querySelector('.compare-summary-bar');
+    if (existingSummary) existingSummary.remove();
+
+    container.insertAdjacentHTML('afterbegin', summaryHtml);
+
+    // Enable split view and swap right side data to afterGrids
+    splitViewActive = false;
+    document.getElementById('splitViewBtn').click(); // Activate split view
+
+    setTimeout(() => {
+        // Render "before" on left, "after" on right
+        renderGridsOnCanvas(map, gridCanvasLeft, 'tigo');
+        if (gridCanvasRight) {
+            const coloredAfter = afterGrids.map(grid => ({
+                ...grid,
+                color: getSpeedColor(grid.dl_speed)
+            }));
+            gridCanvasRight.setData(coloredAfter);
+        }
+    }, 100);
+}
+
+// ============ HELP & DEMO (F-09) ============
+
+function openHelp() {
+    document.getElementById('helpOverlay').classList.add('active');
+}
+
+function closeHelp() {
+    document.getElementById('helpOverlay').classList.remove('active');
+}
+
+function openDemo() {
+    document.getElementById('demoOverlay').classList.add('active');
+}
+
+function closeDemo() {
+    document.getElementById('demoOverlay').classList.remove('active');
+}
+
+// Add button event listeners for F-07, F-08, F-09
+document.getElementById('compareBtn').addEventListener('click', toggleCompareDropdown);
+document.getElementById('demoBtn').addEventListener('click', openDemo);
+document.getElementById('helpBtn').addEventListener('click', openHelp);
 
 // ============ INITIALIZATION ============
 
