@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTO Network Experience Dashboard</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- ECharts -->
+    <script src="https://unpkg.com/echarts@5.4.3/dist/echarts.min.js"></script>
+
+    <style>
+        /* ============ CSS VARIABLES FOR RESPONSIVE SCALING ============ */
+        :root {
+            --sidebar-w: clamp(220px, 18vw, 320px);
+            --header-h: clamp(38px, 3.5vh, 48px);
+            --bottom-h: clamp(150px, 18vh, 220px);
+            --gap: clamp(4px, 0.4vw, 8px);
+            --pad: clamp(4px, 0.4vw, 8px);
+            --card-pad: clamp(12px, 1.2vw, 20px);
+            --card-radius: clamp(8px, 0.7vw, 12px);
+            --fs-xs: clamp(9px, 0.62vw, 11px);
+            --fs-sm: clamp(10px, 0.7vw, 12px);
+            --fs-base: clamp(11px, 0.78vw, 14px);
+            --fs-lg: clamp(13px, 0.9vw, 16px);
+            --fs-xl: clamp(18px, 1.5vw, 28px);
+            --fs-hero: clamp(24px, 2.2vw, 36px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: #0a0e1a;
+            color: #f1f5f9;
+            overflow: hidden;
+        }
+
+        /* ============ DASHBOARD LAYOUT ============ */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: var(--sidebar-w) 1fr var(--sidebar-w);
+            grid-template-rows: var(--header-h) 1fr var(--bottom-h);
+            gap: var(--gap);
+            padding: var(--pad);
+            height: 100vh;
+            background-color: #0a0e1a;
+        }
+
+        /* ============ HEADER ============ */
+
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: clamp(6px, 0.8vh, 12px) clamp(10px, 1vw, 16px);
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: var(--card-radius);
+            font-size: var(--fs-lg);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: clamp(4px, 0.5vw, 8px);
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            font-size: var(--fs-base);
+        }
+
+        .header-controls {
+            display: flex;
+            gap: clamp(6px, 0.8vw, 12px);
+            align-items: center;
+        }
+
+        .header-select, .header-btn {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            color: #e5e7eb;
+            padding: clamp(4px, 0.5vh, 8px) clamp(8px, 0.8vw, 12px);
+            border-radius: calc(var(--card-radius) * 0.75);
+            font-size: var(--fs-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .header-select:hover, .header-btn:hover {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+
+        .header-btn.active {
+            background-color: #06b6d4;
+            border-color: #06b6d4;
+            color: #0a0e1a;
+        }
+
+        /* ============ PANELS ============ */
+
+        .panel {
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: var(--card-radius);
+            padding: var(--card-pad);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-title {
+            font-size: var(--fs-lg);
+            font-weight: 700;
+            margin-bottom: clamp(8px, 1vh, 12px);
+            color: #e5e7eb;
+        }
+
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #374151 transparent;
+        }
+
+        .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .panel-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .panel-content::-webkit-scrollbar-thumb {
+            background-color: #374151;
+            border-radius: 3px;
+        }
+
+        /* ============ LEFT PANEL: OVERVIEW ============ */
+
+        .left-panel {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .stat-box {
+            background-color: #0f1419;
+            border: 1px solid #1f2937;
+            border-radius: calc(var(--card-radius) * 0.75);
+            padding: clamp(8px, 1vh, 12px);
+            margin-bottom: clamp(8px, 1vh, 12px);
+            font-size: var(--fs-sm);
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            color: #f1f5f9;
+            font-size: var(--fs-lg);
+            font-weight: 700;
+        }
+
+        .stat-badge {
+            display: inline-block;
+            background-color: #ef4444;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: var(--fs-xs);
+            margin-top: 4px;
+        }
+
+        /* ============ CENTER: MAP ============ */
+
+        .center-panel {
+            grid-column: 2;
+            grid-row: 2;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+        }
+
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #1f2937;
+            border-radius: var(--card-radius);
+            background-color: #0a0e1a;
+        }
+
+        /* Split view divider */
+        .split-divider {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background-color: #06b6d4;
+            cursor: col-resize;
+            z-index: 100;
+            transition: background-color 0.2s ease;
+        }
+
+        .split-divider:hover {
+            background-color: #0891b2;
+            width: 4px;
+            left: calc(50% - 1px);
+        }
+
+        /* ============ RIGHT PANEL: LOW SPEED LIST ============ */
+
+        .right-panel {
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        .list-item {
+            background-color: #0f1419;
+            border: 1px solid #1f2937;
+            border-radius: calc(var(--card-radius) * 0.75);
+            padding: clamp(8px, 1vh, 12px);
+            margin-bottom: clamp(4px, 0.5vh, 8px);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: var(--fs-sm);
+        }
+
+        .list-item:hover {
+            background-color: #1f2937;
+            border-color: #06b6d4;
+        }
+
+        .list-item-title {
+            font-weight: 600;
+            color: #e5e7eb;
+            margin-bottom: 2px;
+        }
+
+        .list-item-meta {
+            color: #9ca3af;
+            font-size: var(--fs-xs);
+        }
+
+        .list-item.critical {
+            border-left: 3px solid #dc2626;
+        }
+
+        .list-item.warning {
+            border-left: 3px solid #f87171;
+        }
+
+        /* ============ BOTTOM: HISTOGRAM ============ */
+
+        .bottom-panel {
+            grid-column: 1 / -1;
+            grid-row: 3;
+        }
+
+        #histogram {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ============ COLOR LEGEND ============ */
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: clamp(8px, 1vw, 16px);
+            margin-bottom: clamp(8px, 1vh, 12px);
+            padding: clamp(8px, 1vh, 12px);
+            background-color: #0f1419;
+            border-radius: calc(var(--card-radius) * 0.75);
+            border: 1px solid #1f2937;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: var(--fs-xs);
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+            border: 1px solid #374151;
+        }
+
+        /* ============ POPUP STYLES ============ */
+
+        .leaflet-popup-content-wrapper {
+            background-color: #1f2937 !important;
+            border-radius: var(--card-radius) !important;
+            border: 1px solid #374151 !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .leaflet-popup-content {
+            color: #e5e7eb !important;
+            font-size: var(--fs-sm);
+            margin: 0 !important;
+        }
+
+        .leaflet-popup-tip {
+            background-color: #1f2937 !important;
+            border-color: #374151 !important;
+        }
+
+        /* ============ UTILITY ============ */
+
+        .hidden {
+            display: none;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #ef4444;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: var(--fs-xs);
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-logo">📡 CTO Network Experience Dashboard</div>
+        <div class="header-controls">
+            <select id="citySelector" class="header-select">
+                <option value="Bogota">Bogota</option>
+                <option value="Medellin" selected>Medellin</option>
+                <option value="Cali">Cali</option>
+                <option value="Barranquilla">Barranquilla</option>
+                <option value="Cartagena">Cartagena</option>
+            </select>
+            <button id="splitViewBtn" class="header-btn">Split View</button>
+            <button id="langToggle" class="header-btn">中文</button>
+        </div>
+    </div>
+
+    <!-- LEFT PANEL: OVERVIEW STATS -->
+    <div class="left-panel panel">
+        <div class="panel-title" data-i18n="overview">Overview</div>
+        <div class="panel-content">
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #dc2626;"></div>
+                    <span>≤1 Mbps</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #f87171;"></div>
+                    <span>1-3 Mbps</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #f59e0b;"></div>
+                    <span>3-5 Mbps</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #84cc16;"></div>
+                    <span>5-8 Mbps</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #10b981;"></div>
+                    <span>>8 Mbps</span>
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label" data-i18n="totalGrids">Total Grid Cells</div>
+                <div class="stat-value" id="totalGridsValue">0</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label" data-i18n="avgSpeed">Avg DL Speed</div>
+                <div class="stat-value" id="avgSpeedValue">0.0 Mbps</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label" data-i18n="lowSpeedCount">Low Speed (<3 Mbps)</div>
+                <div class="stat-value" id="lowSpeedCountValue">0 <span class="badge">cells</span></div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label" data-i18n="vsOperatorB">vs Operator B</div>
+                <div class="stat-value" id="vsOperatorBValue">-5.2 Mbps</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CENTER: MAP CONTAINER -->
+    <div class="center-panel">
+        <div class="map-container" id="mapContainer">
+            <div id="map"></div>
+            <div class="split-divider hidden" id="splitDivider"></div>
+            <div id="splitMapRight" class="hidden" style="position: absolute; top: 0; right: 0; width: 50%; height: 100%; border-radius: var(--card-radius);"></div>
+        </div>
+    </div>
+
+    <!-- RIGHT PANEL: LOW SPEED CELLS LIST -->
+    <div class="right-panel panel">
+        <div class="panel-title" data-i18n="alertCells">Alert Cells <span id="alertBadge" class="badge">0</span></div>
+        <div class="panel-content" id="lowSpeedList"></div>
+    </div>
+
+    <!-- BOTTOM: HISTOGRAM -->
+    <div class="bottom-panel panel">
+        <div class="panel-title" data-i18n="distribution">Speed Distribution</div>
+        <div id="histogram"></div>
+    </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+// ============ TRANSLATIONS ============
+const TRANSLATIONS = {
+    'en': {
+        'overview': 'Overview',
+        'totalGrids': 'Total Grid Cells',
+        'avgSpeed': 'Avg DL Speed',
+        'lowSpeedCount': 'Low Speed (<3 Mbps)',
+        'vsOperatorB': 'vs Operator B',
+        'alertCells': 'Alert Cells',
+        'distribution': 'Speed Distribution',
+        'speed': 'Speed (Mbps)',
+        'users': 'Users',
+        'prb': 'PRB%',
+        'rsrp': 'RSRP (dBm)',
+    },
+    'zh': {
+        'overview': '概览',
+        'totalGrids': '总栅格数',
+        'avgSpeed': '平均下行速率',
+        'lowSpeedCount': '低速率(<3Mbps)',
+        'vsOperatorB': '对比 B运营商',
+        'alertCells': '告警栅格',
+        'distribution': '速率分布',
+        'speed': '速率 (Mbps)',
+        'users': '用户数',
+        'prb': 'PRB利用率',
+        'rsrp': 'RSRP (dBm)',
+    }
+};
+
+let currentLang = 'en';
+
+function t(key) {
+    return TRANSLATIONS[currentLang][key] || TRANSLATIONS['en'][key];
+}
+
+function updateTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = t(key);
+    });
+}
+
+document.getElementById('langToggle').addEventListener('click', () => {
+    currentLang = currentLang === 'en' ? 'zh' : 'en';
+    document.getElementById('langToggle').textContent = currentLang === 'en' ? '中文' : 'English';
+    updateTranslations();
+});
+
+// ============ PRNG & DATA GENERATION ============
+
+function mulberry32(a) {
+    return function() {
+        a |= 0; a = a + 0x6D2B79F5 | 0;
+        var t = Math.imul(a ^ a >>> 15, 1 | a);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+}
+
+// City coordinates
+const CITIES = {
+    'Bogota': { lat: 4.711, lon: -74.072, radius: 0.15 },
+    'Medellin': { lat: 6.251, lon: -75.564, radius: 0.15 },
+    'Cali': { lat: 3.437, lon: -76.522, radius: 0.15 },
+    'Barranquilla': { lat: 10.964, lon: -74.781, radius: 0.12 },
+    'Cartagena': { lat: 10.391, lon: -75.514, radius: 0.12 }
+};
+
+// Generate 50m grid data for a city
+function generateGridData(city, operator = 'tigo') {
+    const cfg = CITIES[city];
+    const rand = mulberry32(city.charCodeAt(0) * 1234 + (operator === 'opb' ? 5000 : 0));
+
+    const grids = [];
+    const gridCount = operator === 'tigo' ? 1500 : 1200;
+
+    // Speed baselines by city
+    const speedBaselines = {
+        'Bogota': { tigo: 12, opb: 10 },
+        'Medellin': { tigo: 8, opb: 7 },
+        'Cali': { tigo: 6, opb: 5 },
+        'Barranquilla': { tigo: 5, opb: 4 },
+        'Cartagena': { tigo: 5, opb: 4 }
+    };
+
+    const baseline = speedBaselines[city][operator] || 8;
+
+    for (let i = 0; i < gridCount; i++) {
+        // Generate lat/lon with Gaussian distribution
+        const u1 = rand() + 0.001;
+        const u2 = rand();
+        const gauss = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+        const dist = Math.min(Math.abs(gauss), 2.5) * cfg.radius * 0.5;
+        const angle = rand() * 2 * Math.PI;
+
+        const lat = cfg.lat + dist * Math.cos(angle);
+        const lon = cfg.lon + dist * Math.sin(angle);
+
+        if (isNaN(lat) || isNaN(lon)) continue;
+
+        // Speed: Gaussian centered on baseline
+        const speedGauss = (rand() - 0.5) * 4;
+        let speed = Math.max(0.3, baseline + speedGauss);
+        speed = +(speed.toFixed(1));
+
+        grids.push({
+            lat: +lat.toFixed(6),
+            lon: +lon.toFixed(6),
+            dl_speed: speed,
+            users: Math.round(20 + rand() * 200),
+            prb: Math.round(30 + rand() * 50),
+            rsrp: Math.round(-130 + rand() * 40)
+        });
+    }
+
+    return grids;
+}
+
+// ============ GLOBAL STATE ============
+
+let map = null;
+let tigoGrids = {};
+let opbGrids = {};
+let gridMarkers = { tigo: [], opb: [] };
+let currentCity = 'Medellin';
+let splitViewActive = false;
+let splitMapRight = null;
+
+// ============ MAP INITIALIZATION ============
+
+function initMap() {
+    const cityCoord = CITIES[currentCity];
+
+    map = L.map('map', {
+        center: [cityCoord.lat, cityCoord.lon],
+        zoom: 13,
+        zoomControl: true,
+        attributionControl: false
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        attribution: ''
+    }).addTo(map);
+
+    // Generate grid data for current city
+    tigoGrids[currentCity] = generateGridData(currentCity, 'tigo');
+    opbGrids[currentCity] = generateGridData(currentCity, 'opb');
+
+    renderGrids('tigo');
+    updateStats();
+    updateLowSpeedList();
+    updateHistogram();
+}
+
+// ============ GRID RENDERING ============
+
+function getSpeedColor(speed) {
+    if (speed <= 1) return '#dc2626';      // deep red
+    if (speed <= 3) return '#f87171';      // light red
+    if (speed <= 5) return '#f59e0b';      // yellow
+    if (speed <= 8) return '#84cc16';      // light green
+    return '#10b981';                      // deep green
+}
+
+function renderGrids(operator = 'tigo') {
+    // Clear existing markers
+    gridMarkers[operator].forEach(layer => map.removeLayer(layer));
+    gridMarkers[operator] = [];
+
+    const grids = operator === 'tigo' ? tigoGrids[currentCity] : opbGrids[currentCity];
+    if (!grids) return;
+
+    grids.forEach(grid => {
+        const color = getSpeedColor(grid.dl_speed);
+        const latDelta = 0.0027;  // ~300m per grid at equator, adjust for 50m nominal
+        const lonDelta = 0.0027;
+
+        const rect = L.rectangle(
+            [[grid.lat - latDelta/2, grid.lon - lonDelta/2],
+             [grid.lat + latDelta/2, grid.lon + lonDelta/2]],
+            {
+                color: color,
+                weight: 0.5,
+                opacity: 0.7,
+                fillColor: color,
+                fillOpacity: 0.6
+            }
+        ).addTo(map);
+
+        const popupContent = `
+            <div style="font-size: 12px;">
+                <strong>Speed: ${grid.dl_speed} Mbps</strong><br>
+                Users: ${grid.users}<br>
+                PRB: ${grid.prb}%<br>
+                RSRP: ${grid.rsrp} dBm
+            </div>
+        `;
+
+        rect.bindPopup(popupContent);
+        gridMarkers[operator].push(rect);
+    });
+}
+
+// ============ STATS & LISTS ============
+
+function updateStats() {
+    const grids = tigoGrids[currentCity] || [];
+    const opbGrids_current = opbGrids[currentCity] || [];
+
+    const totalGrids = grids.length;
+    const avgSpeed = grids.length > 0 ? (grids.reduce((sum, g) => sum + g.dl_speed, 0) / grids.length).toFixed(1) : 0;
+    const lowSpeedCount = grids.filter(g => g.dl_speed < 3).length;
+    const opbAvgSpeed = opbGrids_current.length > 0 ? (opbGrids_current.reduce((sum, g) => sum + g.dl_speed, 0) / opbGrids_current.length).toFixed(1) : 0;
+    const diff = (avgSpeed - opbAvgSpeed).toFixed(1);
+
+    document.getElementById('totalGridsValue').textContent = totalGrids;
+    document.getElementById('avgSpeedValue').textContent = avgSpeed + ' Mbps';
+    document.getElementById('lowSpeedCountValue').innerHTML = lowSpeedCount + ' <span class="badge">cells</span>';
+    document.getElementById('vsOperatorBValue').textContent = (diff > 0 ? '+' : '') + diff + ' Mbps';
+    document.getElementById('alertBadge').textContent = lowSpeedCount;
+}
+
+function updateLowSpeedList() {
+    const grids = tigoGrids[currentCity] || [];
+    const lowSpeedGrids = grids
+        .filter(g => g.dl_speed < 3)
+        .sort((a, b) => a.dl_speed - b.dl_speed)
+        .slice(0, 20);  // Show top 20
+
+    const listHtml = lowSpeedGrids.map((grid, idx) => {
+        const isCritical = grid.dl_speed <= 1;
+        const className = isCritical ? 'list-item critical' : 'list-item warning';
+
+        return `
+            <div class="${className}" onclick="zoomToGrid(${grid.lat}, ${grid.lon})">
+                <div class="list-item-title">Cell #${idx + 1}</div>
+                <div class="list-item-meta">
+                    Speed: ${grid.dl_speed} Mbps | Users: ${grid.users} | PRB: ${grid.prb}%
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    document.getElementById('lowSpeedList').innerHTML = listHtml || '<div style="color: #9ca3af; padding: 12px;">No cells <3 Mbps in this view</div>';
+}
+
+function zoomToGrid(lat, lon) {
+    if (map) {
+        map.setView([lat, lon], 16);
+    }
+}
+
+// ============ HISTOGRAM ============
+
+function updateHistogram() {
+    const grids = tigoGrids[currentCity] || [];
+
+    const bins = {
+        '≤1': 0,
+        '1-3': 0,
+        '3-5': 0,
+        '5-8': 0,
+        '>8': 0
+    };
+
+    grids.forEach(g => {
+        const speed = g.dl_speed;
+        if (speed <= 1) bins['≤1']++;
+        else if (speed <= 3) bins['1-3']++;
+        else if (speed <= 5) bins['3-5']++;
+        else if (speed <= 8) bins['5-8']++;
+        else bins['>8']++;
+    });
+
+    const total = grids.length;
+    const data = Object.entries(bins).map(([label, count]) => ({
+        name: label,
+        value: count,
+        percent: ((count / total) * 100).toFixed(1)
+    }));
+
+    const chart = echarts.init(document.getElementById('histogram'));
+    const option = {
+        tooltip: { trigger: 'axis' },
+        grid: { left: 40, right: 20, top: 20, bottom: 30 },
+        xAxis: {
+            type: 'category',
+            data: data.map(d => d.name),
+            axisLabel: { color: '#9ca3af', fontSize: 11 },
+            axisLine: { lineStyle: { color: '#374151' } }
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: { color: '#9ca3af', fontSize: 11 },
+            axisLine: { lineStyle: { color: '#374151' } },
+            splitLine: { lineStyle: { color: '#1f2937' } }
+        },
+        series: [{
+            type: 'bar',
+            data: data.map(d => ({ value: d.value, itemStyle: { color: getSpeedColor(parseFloat(d.name) || 0) } })),
+            showBackground: true,
+            backgroundStyle: { color: 'rgba(180, 180, 180, 0.1)' }
+        }],
+        textStyle: { color: '#e5e7eb' }
+    };
+    chart.setOption(option);
+}
+
+// ============ EVENT HANDLERS ============
+
+document.getElementById('citySelector').addEventListener('change', (e) => {
+    currentCity = e.target.value;
+    if (!tigoGrids[currentCity]) {
+        tigoGrids[currentCity] = generateGridData(currentCity, 'tigo');
+    }
+    if (!opbGrids[currentCity]) {
+        opbGrids[currentCity] = generateGridData(currentCity, 'opb');
+    }
+
+    const cityCoord = CITIES[currentCity];
+    map.setView([cityCoord.lat, cityCoord.lon], 13);
+
+    renderGrids('tigo');
+    updateStats();
+    updateLowSpeedList();
+    updateHistogram();
+});
+
+document.getElementById('splitViewBtn').addEventListener('click', () => {
+    splitViewActive = !splitViewActive;
+    const btn = document.getElementById('splitViewBtn');
+    const divider = document.getElementById('splitDivider');
+
+    if (splitViewActive) {
+        btn.classList.add('active');
+        divider.classList.remove('hidden');
+
+        // Create split view
+        if (!splitMapRight) {
+            const rightContainer = document.getElementById('splitMapRight');
+            rightContainer.classList.remove('hidden');
+
+            const cityCoord = CITIES[currentCity];
+            splitMapRight = L.map(rightContainer, {
+                center: [cityCoord.lat, cityCoord.lon],
+                zoom: map.getZoom(),
+                zoomControl: false,
+                attributionControl: false
+            });
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                maxZoom: 19
+            }).addTo(splitMapRight);
+
+            renderGridsOnMap(splitMapRight, 'opb');
+
+            // Sync maps
+            let syncingLeft = false;
+            let syncingRight = false;
+
+            const onLeftMove = () => {
+                if (syncingLeft) return;
+                syncingRight = true;
+                splitMapRight.setView(map.getCenter(), map.getZoom());
+                syncingRight = false;
+            };
+
+            const onRightMove = () => {
+                if (syncingRight) return;
+                syncingLeft = true;
+                map.setView(splitMapRight.getCenter(), splitMapRight.getZoom());
+                syncingLeft = false;
+            };
+
+            map.on('move', onLeftMove);
+            splitMapRight.on('move', onRightMove);
+        }
+    } else {
+        btn.classList.remove('active');
+        divider.classList.add('hidden');
+        document.getElementById('splitMapRight').classList.add('hidden');
+        if (splitMapRight) {
+            splitMapRight.remove();
+            splitMapRight = null;
+        }
+    }
+});
+
+// Helper function to render grids on a specific map
+function renderGridsOnMap(mapInstance, operator = 'tigo') {
+    const grids = operator === 'tigo' ? tigoGrids[currentCity] : opbGrids[currentCity];
+    if (!grids) return;
+
+    grids.forEach(grid => {
+        const color = getSpeedColor(grid.dl_speed);
+        const latDelta = 0.0027;
+        const lonDelta = 0.0027;
+
+        const rect = L.rectangle(
+            [[grid.lat - latDelta/2, grid.lon - lonDelta/2],
+             [grid.lat + latDelta/2, grid.lon + lonDelta/2]],
+            {
+                color: color,
+                weight: 0.5,
+                opacity: 0.7,
+                fillColor: color,
+                fillOpacity: 0.6
+            }
+        ).addTo(mapInstance);
+
+        const popupContent = `
+            <div style="font-size: 12px;">
+                <strong>Speed: ${grid.dl_speed} Mbps</strong><br>
+                Users: ${grid.users}<br>
+                PRB: ${grid.prb}%<br>
+                RSRP: ${grid.rsrp} dBm
+            </div>
+        `;
+
+        rect.bindPopup(popupContent);
+    });
+}
+
+// ============ INITIALIZATION ============
+
+window.addEventListener('load', () => {
+    initMap();
+    updateTranslations();
+});
+
+window.addEventListener('resize', () => {
+    if (map) map.invalidateSize();
+    if (splitMapRight) splitMapRight.invalidateSize();
+});
+
+</script>
+
+</body>
+</html>
