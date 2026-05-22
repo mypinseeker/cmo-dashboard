@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huawei × Tigo Guatemala: Strategic Partnership</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0e1a;
+            color: #e5e7eb;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-nav {
+            background: linear-gradient(to right, #0f172a, #0a0e1a);
+            border-bottom: 1px solid #06b6d4;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(6, 182, 212, 0.1);
+        }
+
+        .nav-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #06b6d4;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .slide-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: #0a0e1a;
+        }
+
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            height: 90vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1a2843 100%);
+            border: 1px solid #06b6d4;
+            border-radius: 12px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(6, 182, 212, 0.15);
+            animation: fadeIn 0.3s ease-in;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .slide h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #06b6d4;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #f59e0b;
+            margin-bottom: 24px;
+        }
+
+        .slide h3 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #06b6d4;
+            margin-bottom: 16px;
+        }
+
+        .slide p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 12px;
+        }
+
+        .slide ul, .slide ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        .slide li {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 10px;
+        }
+
+        .slide li strong {
+            color: #06b6d4;
+        }
+
+        .callout {
+            background-color: rgba(6, 182, 212, 0.1);
+            border-left: 4px solid #06b6d4;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+
+        .callout.warning {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left-color: #ef4444;
+        }
+
+        .callout.success {
+            background-color: rgba(34, 197, 94, 0.1);
+            border-left-color: #22c55e;
+        }
+
+        .callout.highlight {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left-color: #f59e0b;
+        }
+
+        .metric {
+            display: inline-block;
+            background-color: rgba(6, 182, 212, 0.2);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 4px 4px 4px 0;
+            font-weight: 600;
+            color: #06b6d4;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: rgba(6, 182, 212, 0.2);
+            border: 1px solid #06b6d4;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            color: #06b6d4;
+        }
+
+        td {
+            border: 1px solid #1f2937;
+            padding: 10px;
+            color: #d1d5db;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(15, 23, 42, 0.5);
+        }
+
+        .diagram {
+            background-color: rgba(15, 23, 42, 0.5);
+            border: 1px solid #06b6d4;
+            padding: 16px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #22c55e;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        .risk-high {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .risk-medium {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .risk-low {
+            color: #22c55e;
+            font-weight: 600;
+        }
+
+        .pillar {
+            background-color: rgba(6, 182, 212, 0.05);
+            border: 1px solid #06b6d4;
+            padding: 16px;
+            margin: 8px 0;
+            border-radius: 4px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .col-item {
+            background-color: rgba(15, 23, 42, 0.5);
+            padding: 16px;
+            border-radius: 4px;
+            border: 1px solid #1f2937;
+        }
+
+        .col-item h4 {
+            color: #f59e0b;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .col-item p {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: #0f172a;
+            border-top: 1px solid #06b6d4;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .slide-counter {
+            color: #06b6d4;
+            font-weight: 600;
+        }
+
+        .controls-hint {
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .logo-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid #06b6d4;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #06b6d4;
+        }
+
+        .subtitle-accent {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .stage {
+            display: inline-block;
+            background-color: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .stage.warning {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        @media (max-width: 1024px) {
+            .slide {
+                padding: 40px;
+            }
+            .slide h1 {
+                font-size: 36px;
+            }
+            .slide h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="top-nav">
+            <div>
+                <div class="nav-title" id="navTitle">Huawei × Tigo Guatemala</div>
+                <div class="nav-subtitle" id="navSubtitle">Strategic Partnership Presentation</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 12px; color: #94a3b8;">Guatemala Market Leadership</div>
+            </div>
+        </div>
+
+        <div class="slide-container">
+            <!-- SLIDE 1: Title -->
+            <div class="slide active">
+                <div>
+                    <h1>Huawei × Tigo Guatemala</h1>
+                    <p style="font-size: 32px; color: #f59e0b; margin-bottom: 16px; font-weight: 600;">Empowering Market Leadership</p>
+                    <p style="font-size: 18px; color: #94a3b8; margin-bottom: 8px;">A Strategic Partnership Framework</p>
+                    <p style="font-size: 16px; color: #64748b;">For the Guatemala Market & Operations</p>
+                </div>
+                <div class="logo-section">
+                    <div class="logo-text">HUAWEI</div>
+                    <div style="font-size: 32px; color: #06b6d4;">×</div>
+                    <div class="logo-text">TIGO</div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Guatemala Tigo at a Glance -->
+            <div class="slide">
+                <h2>Guatemala Tigo at a Glance</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px;">
+                    <div class="callout success">
+                        <p><strong>Market Share</strong></p>
+                        <p style="font-size: 36px; color: #22c55e; font-weight: 700; margin: 8px 0;">53.4%</p>
+                        <p style="font-size: 13px; color: #d1d5db;">Clear market leadership in mobile segment</p>
+                    </div>
+                    <div class="callout">
+                        <p><strong>Subscriber Base</strong></p>
+                        <p style="font-size: 36px; color: #06b6d4; font-weight: 700; margin: 8px 0;">11.7M</p>
+                        <p style="font-size: 13px; color: #d1d5db;">Active mobile subscribers</p>
+                    </div>
+                    <div class="callout highlight">
+                        <p><strong>EBITDA Margin</strong></p>
+                        <p style="font-size: 36px; color: #f59e0b; font-weight: 700; margin: 8px 0;">55.4%</p>
+                        <p style="font-size: 13px; color: #d1d5db;">Industry-leading profitability</p>
+                    </div>
+                    <div class="callout">
+                        <p><strong>4G Coverage</strong></p>
+                        <p style="font-size: 36px; color: #06b6d4; font-weight: 700; margin: 8px 0;">92%</p>
+                        <p style="font-size: 13px; color: #d1d5db;">Population coverage nationwide</p>
+                    </div>
+                </div>
+                <p style="margin-top: 24px; font-size: 14px; color: #94a3b8; border-top: 1px solid #1f2937; padding-top: 16px;"><strong>Position:</strong> Tigo Guatemala stands as the undisputed market leader with strong profitability and extensive network coverage. Strategic investments will consolidate this position against emerging threats.</p>
+            </div>
+
+            <!-- SLIDE 3: Market Overview -->
+            <div class="slide">
+                <h2>Market Overview</h2>
+                <div class="three-col">
+                    <div class="col-item">
+                        <h4>Market Size</h4>
+                        <p style="font-size: 28px; font-weight: 700; color: #f59e0b;">$2.79B</p>
+                        <p>Annual telecom market value in Guatemala</p>
+                    </div>
+                    <div class="col-item">
+                        <h4>Growth Rate</h4>
+                        <p style="font-size: 28px; font-weight: 700; color: #06b6d4;">4.18%</p>
+                        <p>CAGR (2023-2028)</p>
+                    </div>
+                    <div class="col-item">
+                        <h4>4G Penetration</h4>
+                        <p style="font-size: 28px; font-weight: 700; color: #22c55e;">92%</p>
+                        <p>Population coverage rate</p>
+                    </div>
+                </div>
+                <h3 style="margin-top: 32px;">Key Market Dynamics</h3>
+                <ul style="margin-top: 16px;">
+                    <li><strong>Mobile Saturation:</strong> Market growth driven primarily by ARPU expansion and data consumption</li>
+                    <li><strong>Broadband Gap:</strong> Fixed broadband penetration at 5%, creating significant expansion opportunity</li>
+                    <li><strong>5G Readiness:</strong> Infrastructure increasingly ready; regulatory environment favorable for 5G rollout</li>
+                    <li><strong>Digital Transformation:</strong> Growing enterprise demand for IoT, cloud, and edge computing solutions</li>
+                </ul>
+            </div>
+
+            <!-- SLIDE 4: Challenge 1 - MNP -->
+            <div class="slide">
+                <h2>Challenge 1: MNP (Decreto 14-2025)</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Mobile Number Portability implementation begins November 2025—competitive churn risk for market leader</p>
+                <div class="callout warning" style="margin-top: 24px;">
+                    <p><strong>Hidden Transfer-In Risk</strong></p>
+                    <p style="margin-top: 8px;">Tigo's 53.4% market share makes it the primary target. High-value users (enterprise, high-ARPU) face aggressive competitor acquisition campaigns.</p>
+                </div>
+                <h3 style="margin-top: 24px;">Risk Profile</h3>
+                <table style="margin-top: 16px;">
+                    <tr>
+                        <th>Metric</th>
+                        <th>Impact</th>
+                        <th>Confidence</th>
+                    </tr>
+                    <tr>
+                        <td>Anticipated User Churn</td>
+                        <td>5–10% total subscribers</td>
+                        <td>High</td>
+                    </tr>
+                    <tr>
+                        <td>ARPU Impact</td>
+                        <td>15–20% (high-value users)</td>
+                        <td>High</td>
+                    </tr>
+                    <tr>
+                        <td>Enterprise Customer Loss</td>
+                        <td>Up to 8% of B2B revenue</td>
+                        <td>Medium</td>
+                    </tr>
+                    <tr>
+                        <td>Regional Variation</td>
+                        <td>Urban centers at higher risk</td>
+                        <td>High</td>
+                    </tr>
+                </table>
+                <p style="margin-top: 16px; font-size: 13px; color: #94a3b8;"><strong>Strategic Implication:</strong> Proactive network quality enhancement and customer experience optimization must begin immediately—pre-MNP defensibility is critical.</p>
+            </div>
+
+            <!-- SLIDE 5: MNP Network Risk Diagram -->
+            <div class="slide">
+                <h2>MNP Network Risk: Transfer-In Paradox</h2>
+                <div class="diagram">
+Competitor Transfer-In Users → Congested Cells → Bad Network Experience
+                    ↓                            ↓                  ↓
+            MNP Acquisition          Tigo Cells Unexpanded    Further Churn
+            Campaigns               (legacy capacity)        Risk → Loop
+                    ↓                    ↓                       ↓
+            High ARPU targets  Network Quality ↓     Users re-port out
+            (enterprise)          Latency ↑             (competitive loss)
+                    │                    │                       │
+                    └────────────────────┴───────────────────────┘
+                            Result: Negative Network Effects
+                            Solution: Pre-emptive Expansion + AI Monitoring
+                </div>
+                <h3 style="margin-top: 24px;">Mitigation Framework</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+                    <div class="pillar">
+                        <p><strong style="color: #f59e0b;">Network Prediction</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">AI-driven demand forecasting to identify high-risk cells before congestion occurs</p>
+                    </div>
+                    <div class="pillar">
+                        <p><strong style="color: #22c55e;">Capacity Pre-positioning</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">Strategic Massive MIMO and cell expansion in MNP-vulnerable urban corridors</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Challenge 2 - FBB Weakness -->
+            <div class="slide">
+                <h2>Challenge 2: Fixed Broadband Weakness</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Current FBB penetration at 5%—far below regional average (15–20%)—creates opportunity and vulnerability</p>
+                <h3 style="margin-top: 24px;">Current State</h3>
+                <div class="three-col" style="margin-top: 16px;">
+                    <div class="col-item">
+                        <h4>Subscriber Base</h4>
+                        <p style="font-size: 24px; font-weight: 700; color: #06b6d4;">720K</p>
+                        <p style="font-size: 13px;">Fixed broadband users</p>
+                    </div>
+                    <div class="col-item">
+                        <h4>Technology Mix</h4>
+                        <p style="font-size: 13px; margin-bottom: 8px;">• Cable/HFC (legacy)</p>
+                        <p style="font-size: 13px; margin-bottom: 8px;">• DSL (aging)</p>
+                        <p style="font-size: 13px;">• Limited fiber</p>
+                    </div>
+                    <div class="col-item">
+                        <h4>Competitive Pressure</h4>
+                        <p style="font-size: 13px; margin-bottom: 8px;">• Claro FTTH push</p>
+                        <p style="font-size: 13px; margin-bottom: 8px;">• Starlink rural penetration</p>
+                        <p style="font-size: 13px;">• Amazon Kuiper 2026</p>
+                    </div>
+                </div>
+                <div class="callout highlight" style="margin-top: 24px;">
+                    <p><strong>Market Opportunity:</strong> 15–16M addressable market (95% untapped) + rising demand from work-from-home and digital services create a 3-year window for FBB market capture before satellite competition solidifies.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: FBB Strategy: Deploy First, Build Later -->
+            <div class="slide">
+                <h2>"Deploy First, Build Later" Strategy</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Dual-track FBB expansion combining wireless and fiber, validated by demand probes</p>
+                <h3 style="margin-top: 24px; color: #06b6d4;">Strategic Approach</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px;">
+                    <div class="pillar">
+                        <h4 style="color: #f59e0b; margin-bottom: 8px;">Phase 1: WTTx Probe</h4>
+                        <p style="font-size: 13px;">Deploy fixed wireless broadband (FWA) in low-load 4G cells to test demand, geography, and willingness-to-pay</p>
+                    </div>
+                    <div class="pillar">
+                        <h4 style="color: #f59e0b; margin-bottom: 8px;">Phase 2: FWA Rapid</h4>
+                        <p style="font-size: 13px;">Scale FWA across validated zones; lock users with equipment subsidies and long-term contracts</p>
+                    </div>
+                    <div class="pillar">
+                        <h4 style="color: #f59e0b; margin-bottom: 8px;">Phase 3: FTTH Build</h4>
+                        <p style="font-size: 13px;">Fiber deployment only in high-ROI zones identified by FWA demand data (eliminate guesswork)</p>
+                    </div>
+                </div>
+                <div class="callout" style="margin-top: 24px;">
+                    <p><strong>Key Advantage:</strong> FWA acts as a low-risk market validation tool, reducing capex waste. Fiber capex (USD 500–800/connection) only deployed where demand is proven.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: FWA ROI by Region -->
+            <div class="slide">
+                <h2>FWA ROI by Region</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Expected payback periods vary by geography and network load conditions</p>
+                <table style="margin-top: 24px;">
+                    <tr>
+                        <th>Region Type</th>
+                        <th>Network Load</th>
+                        <th>FWA Payback Period</th>
+                        <th>Strategic Fit</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Urban Centers</strong></td>
+                        <td style="color: #22c55e;">Low-to-medium (&lt;50%)</td>
+                        <td style="color: #22c55e;"><strong>7 months</strong></td>
+                        <td>High Priority</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Suburban Towns</strong></td>
+                        <td style="color: #22c55e;">Low-to-medium (&lt;50%)</td>
+                        <td style="color: #f59e0b;"><strong>10 months</strong></td>
+                        <td>Viable</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rural Areas</strong></td>
+                        <td style="color: #22c55e;">Low (&lt;40%)</td>
+                        <td style="color: #f59e0b;"><strong>14 months</strong></td>
+                        <td>Selective</td>
+                    </tr>
+                    <tr>
+                        <td><strong>High-Load Zones</strong></td>
+                        <td style="color: #ef4444;">High (&gt;70%)</td>
+                        <td style="color: #ef4444;"><strong>NOT VIABLE</strong></td>
+                        <td>Avoid</td>
+                    </tr>
+                </table>
+                <div class="callout success" style="margin-top: 24px;">
+                    <p><strong>Investment Rule:</strong> FWA deployment only in &lt;70% load zones. High-load areas require Massive MIMO or fiber, not wireless CPE solutions.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 9: Challenge 3 - Claro Competition -->
+            <div class="slide">
+                <h2>Challenge 3: Claro Competitive Threat</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Claro's spectrum advantages and aggressive 5G/FTTH strategy pose structural competitive risk</p>
+                <h3 style="margin-top: 24px;">Competitive Positioning</h3>
+                <table style="margin-top: 16px;">
+                    <tr>
+                        <th>Dimension</th>
+                        <th>Tigo</th>
+                        <th>Claro</th>
+                        <th>Implication</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Spectrum Holdings</strong></td>
+                        <td>5 blocks (5/48)</td>
+                        <td style="color: #ef4444;"><strong>34 blocks (34/48)</strong></td>
+                        <td>6.8:1 disadvantage</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5G Rollout</strong></td>
+                        <td>Early stage</td>
+                        <td style="color: #f59e0b;"><strong>Market leader</strong></td>
+                        <td>Market perception gap</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FTTH Coverage</strong></td>
+                        <td>Limited deployment</td>
+                        <td style="color: #f59e0b;"><strong>Rapid expansion</strong></td>
+                        <td>FBB vulnerability</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Enterprise Presence</strong></td>
+                        <td>Growing</td>
+                        <td style="color: #f59e0b;"><strong>Established</strong></td>
+                        <td>B2B revenue gap</td>
+                    </tr>
+                </table>
+                <div class="callout warning" style="margin-top: 24px;">
+                    <p><strong>Strategic Implication:</strong> Claro's spectrum advantage is long-term structural. Tigo must differentiate through network quality optimization (Huawei AI), customer experience, and enterprise ICT solutions.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 10: Challenge 4 - New Entrants -->
+            <div class="slide">
+                <h2>Challenge 4: New Market Entrants</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Satellite broadband and MVNO models reshape Guatemala's telecom competitive landscape</p>
+                <h3 style="margin-top: 24px;">Emerging Threats</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px;">
+                    <div class="pillar">
+                        <h4 style="color: #f59e0b; margin-bottom: 12px;">Starlink</h4>
+                        <ul style="margin-left: 16px; font-size: 13px;">
+                            <li>• 18 months operational in Guatemala</li>
+                            <li>• GTQ 300/month (USD ~39) targeting middle-to-upper class</li>
+                            <li>• <strong>Rural penetration advantage</strong></li>
+                            <li>• Zero capex for local network build</li>
+                        </ul>
+                    </div>
+                    <div class="pillar">
+                        <h4 style="color: #f59e0b; margin-bottom: 12px;">Amazon Kuiper</h4>
+                        <ul style="margin-left: 16px; font-size: 13px;">
+                            <li>• Market entry expected 2026</li>
+                            <li>• Lower latency than Starlink (competitive advantage)</li>
+                            <li>• Aggressive pricing anticipated</li>
+                            <li>• Integration with AWS ecosystem</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="callout highlight" style="margin-top: 24px;">
+                    <p><strong>Assessment:</strong> Satellite threats primarily target rural and underserved urban fringe. Tigo's opportunity: leverage FWA + FTTH to capture middle-income urban/suburban market before satellite becomes dominant in premium segments.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 11: Starlink Defense -->
+            <div class="slide">
+                <h2>Starlink Defense: Competitive Comparison</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Tigo's differentiation pathways against satellite broadband threats</p>
+                <table style="margin-top: 24px;">
+                    <tr>
+                        <th>Dimension</th>
+                        <th>Starlink</th>
+                        <th>Tigo FWA/FTTH</th>
+                        <th>Winner</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Price Entry</strong></td>
+                        <td>USD 39/month</td>
+                        <td>USD 25–35/month (FWA)</td>
+                        <td style="color: #22c55e;">Tigo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Latency</strong></td>
+                        <td>40–100ms</td>
+                        <td>10–20ms (wireless), 5–10ms (fiber)</td>
+                        <td style="color: #22c55e;">Tigo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Caps</strong></td>
+                        <td>None (but throttling)</td>
+                        <td>None (unlimited, shaped)</td>
+                        <td>Tie</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Local Support</strong></td>
+                        <td>International call center</td>
+                        <td style="color: #22c55e;">Local team, same brand as mobile</td>
+                        <td style="color: #22c55e;">Tigo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Installation</strong></td>
+                        <td>DIY (30 mins)</td>
+                        <td>Professional (same-day)</td>
+                        <td>Starlink</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Enterprise Integration</strong></td>
+                        <td>Not available</td>
+                        <td style="color: #22c55e;">SLA, VPN, QoS support</td>
+                        <td style="color: #22c55e;">Tigo</td>
+                    </tr>
+                </table>
+                <p style="margin-top: 24px; font-size: 13px; color: #94a3b8;"><strong>Strategic Insight:</strong> Tigo's advantages are latency, local support, and enterprise capability. Starlink's advantage is rural coverage. Competition converges on price—Tigo must dominate urban/suburban premium segments before satellite market matures.</p>
+            </div>
+
+            <!-- SLIDE 12: Huawei Strategic Framework -->
+            <div class="slide">
+                <h2>Huawei Strategic Framework</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Three interdependent pillars drive Tigo's market leadership defense and growth</p>
+                <h3 style="margin-top: 24px; color: #f59e0b;">Three Pillars of Growth</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px;">
+                    <div style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(6, 182, 212, 0.05)); border: 1px solid #06b6d4; padding: 20px; border-radius: 8px; text-align: center;">
+                        <p style="font-size: 32px; font-weight: 700; color: #06b6d4; margin-bottom: 12px;">A</p>
+                        <h4 style="color: #06b6d4; margin-bottom: 12px; font-size: 18px;">MVP</h4>
+                        <p style="font-size: 13px; color: #d1d5db;"><strong>Defend 53.4% Share</strong></p>
+                        <p style="font-size: 12px; color: #94a3b8; margin-top: 8px;">Network optimization, AI monitoring, quality excellence</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05)); border: 1px solid #f59e0b; padding: 20px; border-radius: 8px; text-align: center;">
+                        <p style="font-size: 32px; font-weight: 700; color: #f59e0b; margin-bottom: 12px;">B</p>
+                        <h4 style="color: #f59e0b; margin-bottom: 12px; font-size: 18px;">FBB</h4>
+                        <p style="font-size: 13px; color: #d1d5db;"><strong>From 5% to Leadership</strong></p>
+                        <p style="font-size: 12px; color: #94a3b8; margin-top: 8px;">FWA + FTTH, validated demand-first expansion</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05)); border: 1px solid #22c55e; padding: 20px; border-radius: 8px; text-align: center;">
+                        <p style="font-size: 32px; font-weight: 700; color: #22c55e; margin-bottom: 12px;">C</p>
+                        <h4 style="color: #22c55e; margin-bottom: 12px; font-size: 18px;">Enterprise</h4>
+                        <p style="font-size: 13px; color: #d1d5db;"><strong>Guatemala ICT Growth</strong></p>
+                        <p style="font-size: 12px; color: #94a3b8; margin-top: 8px;">Agriculture IoT, mining, smart city, tourism</p>
+                    </div>
+                </div>
+                <div class="callout" style="margin-top: 24px;">
+                    <p><strong>Integration Model:</strong> Pillars A and B are interdependent—mobile network quality unlocks FWA viability; FBB growth reduces mobile congestion, improving core MVP metrics. Pillar C monetizes infrastructure across both.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 13: Pillar A - MVP Defense -->
+            <div class="slide">
+                <h2>Pillar A: MVP—Defend 53.4% Share</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Huawei-powered network intelligence ensures market leadership against MNP churn and competitors</p>
+                <h3 style="margin-top: 24px;">Strategic Capabilities</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+                    <div class="pillar">
+                        <p><strong style="color: #f59e0b;">SingleRAN Integration</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">Unified 4G/5G RAN architecture reduces OpEx, improves capacity utilization across all bands</p>
+                    </div>
+                    <div class="pillar">
+                        <p><strong style="color: #f59e0b;">AI Network Optimization</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">Real-time traffic prediction, automated load balancing, interference mitigation—predictive quality maintenance</p>
+                    </div>
+                    <div class="pillar">
+                        <p><strong style="color: #f59e0b;">Massive MIMO Deployment</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">Targeted expansion in high-value urban/enterprise zones (Guatemala City, Antigua, key business corridors)</p>
+                    </div>
+                    <div class="pillar">
+                        <p><strong style="color: #f59e0b;">Quality Assurance Dashboard</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">Real-time KPI monitoring, predictive churn alerts, proactive customer retention triggers</p>
+                    </div>
+                </div>
+                <div class="callout success" style="margin-top: 24px;">
+                    <p><strong>Success Metric:</strong> Retain 90%+ high-value users through MNP period (November 2025+); maintain <3 Mbps "bad spot" density below 5% in urban areas.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 14: MNP Risk Heatmap -->
+            <div class="slide">
+                <h2>Pillar A: MNP Risk Heatmap & Prediction</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">AI-driven customer churn prediction enables pre-emptive network and sales intervention</p>
+                <h3 style="margin-top: 24px;">Risk Segmentation Framework</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px;">
+                    <div class="col-item" style="border-left: 4px solid #ef4444;">
+                        <h4 style="color: #ef4444;">HIGH RISK</h4>
+                        <p style="font-size: 13px; margin: 8px 0;"><strong>Indicators:</strong></p>
+                        <ul style="margin-left: 12px; font-size: 12px; line-height: 1.6;">
+                            <li>Enterprise customers</li>
+                            <li>ARPU > 200 GTQ</li>
+                            <li>Service issues last 30 days</li>
+                            <li>Competitive inquiries logged</li>
+                        </ul>
+                        <p style="font-size: 13px; margin-top: 12px; color: #ef4444;"><strong>Action:</strong> Dedicated account teams, service credits, Massive MIMO priority</p>
+                    </div>
+                    <div class="col-item" style="border-left: 4px solid #f59e0b;">
+                        <h4 style="color: #f59e0b;">MEDIUM RISK</h4>
+                        <p style="font-size: 13px; margin: 8px 0;"><strong>Indicators:</strong></p>
+                        <ul style="margin-left: 12px; font-size: 12px; line-height: 1.6;">
+                            <li>ARPU 50–200 GTQ</li>
+                            <li>Data usage unstable</li>
+                            <li>Occasional quality complaints</li>
+                            <li>Competitor switching probes</li>
+                        </ul>
+                        <p style="font-size: 13px; margin-top: 12px; color: #f59e0b;"><strong>Action:</strong> Automated retention offers, loyalty rewards, FWA upgrades</p>
+                    </div>
+                    <div class="col-item" style="border-left: 4px solid #22c55e;">
+                        <h4 style="color: #22c55e;">LOW RISK</h4>
+                        <p style="font-size: 13px; margin: 8px 0;"><strong>Indicators:</strong></p>
+                        <ul style="margin-left: 12px; font-size: 12px; line-height: 1.6;">
+                            <li>ARPU < 50 GTQ</li>
+                            <li>Consistent usage patterns</li>
+                            <li>No quality complaints</li>
+                            <li>Long tenure (&gt;3 years)</li>
+                        </ul>
+                        <p style="font-size: 13px; margin-top: 12px; color: #22c55e;"><strong>Action:</strong> Standard monitoring, bundled offers, community engagement</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 15: CTO Dashboard -->
+            <div class="slide">
+                <h2>Pillar A: CTO Dashboard (Network Monitoring)</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Real-time 50-meter grid quality monitoring enables proactive MNP defense</p>
+                <h3 style="margin-top: 24px;">Dashboard Components</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+                    <div class="pillar">
+                        <p><strong style="color: #06b6d4;">Spatial Coverage Grid</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">50m × 50m tessellation mapping across Guatemala City, Antigua, Quetzaltenango, Puerto Barrios—color-coded quality zones (green &gt;10 Mbps, yellow 3–10 Mbps, red &lt;3 Mbps)</p>
+                    </div>
+                    <div class="pillar">
+                        <p><strong style="color: #06b6d4;">Anomaly Alerting</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">Automated triggers when grid squares drop below SLA thresholds (latency, throughput, availability); 1-hour resolution SLA</p>
+                    </div>
+                    <div class="pillar">
+                        <p><strong style="color: #06b6d4;">Churn Correlation</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">AI model correlates customer churn with network quality degradation to isolate infrastructure vs. commercial churn drivers</p>
+                    </div>
+                    <div class="pillar">
+                        <p><strong style="color: #06b6d4;">Capacity Planning</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">Predictive demand modeling informs Massive MIMO investment sequencing and Pillar B (FBB) deployment planning</p>
+                    </div>
+                </div>
+                <div class="callout" style="margin-top: 24px;">
+                    <p><strong>Business Impact:</strong> Reduces "bad spot" complaints by 60%, improves CSAT during MNP period, validates FBB ROI by eliminating dead investment zones.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 16: Pillar B - FBB Leadership -->
+            <div class="slide">
+                <h2>Pillar B: FBB—From 5% to Market Leadership</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Dual-track GPON + FWA strategy captures untapped broadband market (15M potential users)</p>
+                <h3 style="margin-top: 24px;">Expansion Pathways</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px;">
+                    <div class="pillar" style="border-left: 4px solid #06b6d4;">
+                        <p style="font-size: 16px; font-weight: 700; color: #06b6d4;">FWA (Wireless First)</p>
+                        <ul style="margin-left: 16px; margin-top: 8px; font-size: 13px;">
+                            <li><strong>Target:</strong> Urban/suburban low-load cells (&lt;70%)</li>
+                            <li><strong>Speed:</strong> 6–24 months to revenue</li>
+                            <li><strong>Capex:</strong> USD 100–200/unit + USD 80–130 install</li>
+                            <li><strong>Lock-in:</strong> 2-year contract subsidies</li>
+                            <li><strong>Scale:</strong> 50K–100K units by 2027</li>
+                        </ul>
+                    </div>
+                    <div class="pillar" style="border-left: 4px solid #f59e0b;">
+                        <p style="font-size: 16px; font-weight: 700; color: #f59e0b;">FTTH (Fiber Backbone)</p>
+                        <ul style="margin-left: 16px; margin-top: 8px; font-size: 13px;">
+                            <li><strong>Target:</strong> High-ROI zones validated by FWA demand</li>
+                            <li><strong>Speed:</strong> 12–36 months to revenue</li>
+                            <li><strong>Capex:</strong> USD 500–800/connection</li>
+                            <li><strong>Differentiation:</strong> Enterprise SLA, WiFi 7 CPE</li>
+                            <li><strong>Scale:</strong> 100K–150K connections by 2028</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="callout success" style="margin-top: 24px;">
+                    <p><strong>Revenue Projection:</strong> FBB ARPU USD 25–40/month (FWA) and USD 35–60/month (FTTH). At 150K combined by end of 2027, FBB incremental revenue ≈ USD 65–90M annually.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 17: FWA Zero-Investment Model -->
+            <div class="slide">
+                <h2>Pillar B: FWA "Zero-Investment" Model (Clarified)</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Operationalizing FWA requires upfront capex—"zero" refers to network infrastructure only, not total cost</p>
+                <h3 style="margin-top: 24px;">Cost Reality</h3>
+                <table style="margin-top: 16px;">
+                    <tr>
+                        <th>Cost Component</th>
+                        <th>Unit Cost</th>
+                        <th>Per 10K Units</th>
+                    </tr>
+                    <tr>
+                        <td><strong>CPE Device</strong></td>
+                        <td>USD 100–200</td>
+                        <td style="color: #f59e0b;">USD 1.0–2.0M</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Installation & Commissioning</strong></td>
+                        <td>USD 50–80</td>
+                        <td style="color: #f59e0b;">USD 0.5–0.8M</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Marketing & Acquisition</strong></td>
+                        <td>USD 30–50</td>
+                        <td style="color: #f59e0b;">USD 0.3–0.5M</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TOTAL per 10K Units</strong></td>
+                        <td>USD 180–330</td>
+                        <td style="color: #ef4444;"><strong>USD 1.8–3.3M</strong></td>
+                    </tr>
+                </table>
+                <h3 style="margin-top: 24px;">Investment Required for Scale Targets</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px;">
+                    <div class="col-item">
+                        <h4>Phase 1 (50K units)</h4>
+                        <p style="font-size: 24px; font-weight: 700; color: #06b6d4;">USD 9–16M</p>
+                        <p style="font-size: 12px; margin-top: 8px;">Year 1–2 capex + installation</p>
+                    </div>
+                    <div class="col-item">
+                        <h4>Phase 2 (100K units)</h4>
+                        <p style="font-size: 24px; font-weight: 700; color: #f59e0b;">USD 18–33M</p>
+                        <p style="font-size: 12px; margin-top: 8px;">Year 2–3 cumulative</p>
+                    </div>
+                    <div class="col-item">
+                        <h4>Phase 3 (150K units)</h4>
+                        <p style="font-size: 24px; font-weight: 700; color: #ef4444;">USD 27–50M</p>
+                        <p style="font-size: 12px; margin-top: 8px;">Year 3+ cumulative</p>
+                    </div>
+                </div>
+                <div class="callout warning" style="margin-top: 24px;">
+                    <p><strong>CFO Planning Note:</strong> FWA is NOT zero-investment. The "low-capex" advantage vs. fiber (USD 500–800/connection) is the strategic point. Unit economics must show positive NPV within 12–14 months.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 18: Pillar C - Enterprise Guatemala -->
+            <div class="slide">
+                <h2>Pillar C: Enterprise Guatemala Market</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Untapped ICT/IoT demand in agriculture, mining, energy, and smart city creates EUR 20–30M annual opportunity</p>
+                <h3 style="margin-top: 24px;">Strategic Verticals</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+                    <div class="pillar">
+                        <p><strong style="color: #f59e0b;">Agriculture</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">Coffee, sugar, palm IoT monitoring—irrigation sensors, pest prediction, yield optimization. Addressable: 15K+ farms.</p>
+                        <p style="font-size: 12px; color: #94a3b8; margin-top: 8px;">Revenue potential: USD 15–20M (3-year)</p>
+                    </div>
+                    <div class="pillar">
+                        <p><strong style="color: #f59e0b;">Mining & Energy</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">Private 5G networks, edge computing, safety systems for mining operations and hydroelectric facilities.</p>
+                        <p style="font-size: 12px; color: #94a3b8; margin-top: 8px;">Revenue potential: USD 10–15M (3-year)</p>
+                    </div>
+                    <div class="pillar">
+                        <p><strong style="color: #f59e0b;">Smart Cities</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">Guatemala City pilot: traffic management, waste collection IoT, water distribution optimization.</p>
+                        <p style="font-size: 12px; color: #94a3b8; margin-top: 8px;">Revenue potential: USD 8–12M (3-year)</p>
+                    </div>
+                    <div class="pillar">
+                        <p><strong style="color: #f59e0b;">Tourism</strong></p>
+                        <p style="font-size: 13px; margin-top: 8px;">Connectivity for resorts, real-time guest experience systems, destination WiFi networks.</p>
+                        <p style="font-size: 12px; color: #94a3b8; margin-top: 8px;">Revenue potential: USD 5–8M (3-year)</p>
+                    </div>
+                </div>
+                <div class="callout success" style="margin-top: 24px;">
+                    <p><strong>Go-to-Market:</strong> Dedicated Enterprise GTM team, Huawei solutions engineering, joint marketing with sector associations (ANACAFE coffee exporters, mining chambers).</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 19: Why Huawei vs Competitors -->
+            <div class="slide">
+                <h2>Why Huawei vs. Ericsson/Nokia</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Competitive advantages in AI optimization, GPON/FWA integration, and total cost of ownership</p>
+                <table style="margin-top: 24px;">
+                    <tr>
+                        <th>Dimension</th>
+                        <th>Huawei</th>
+                        <th>Ericsson</th>
+                        <th>Nokia</th>
+                    </tr>
+                    <tr>
+                        <td><strong>AI Network Optimization</strong></td>
+                        <td style="color: #22c55e;">Native stack, full autonomy</td>
+                        <td>Bolted-on, limited autonomy</td>
+                        <td>Partnership model</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FWA/CPE Solutions</strong></td>
+                        <td style="color: #22c55e;">Integrated RAN+CPE ecosystem</td>
+                        <td>RAN-focused, CPE partnerships</td>
+                        <td>RAN-focused, CPE partnerships</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GPON Solution</strong></td>
+                        <td style="color: #22c55e;">Full stack, local support</td>
+                        <td>Alcatel partnership (legacy)</td>
+                        <td>Integrated offering</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Enterprise Private 5G</strong></td>
+                        <td style="color: #22c55e;">Native CNF, edge compute</td>
+                        <td>MEC-first approach</td>
+                        <td>Joint partnerships</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Cost of Ownership (3-year)</strong></td>
+                        <td style="color: #22c55e;">USD 12–15M (RAN+FBB)</td>
+                        <td>USD 18–22M</td>
+                        <td>USD 16–20M</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Local Support Team</strong></td>
+                        <td style="color: #22c55e;">Dedicated Guatemala office proposed</td>
+                        <td>Regional hub (Mexico)</td>
+                        <td>Regional hub (Mexico)</td>
+                    </tr>
+                </table>
+                <div class="callout" style="margin-top: 24px;">
+                    <p><strong>Key Differentiator:</strong> Huawei's integrated stack (RAN + FWA + GPON + Enterprise) enables seamless multi-technology strategy. Competitors' point solutions require integration overhead and multi-vendor SLA complexity.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 20: Investment Framework -->
+            <div class="slide">
+                <h2>Investment Framework (3-Year Total)</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Total estimated investment: USD 50–70M across three pillars (2026–2028)</p>
+                <h3 style="margin-top: 24px;">Capital Allocation Breakdown</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px;">
+                    <div class="col-item" style="border-top: 4px solid #06b6d4;">
+                        <h4 style="color: #06b6d4;">Pillar A: MVP Defense</h4>
+                        <p style="font-size: 28px; font-weight: 700; color: #06b6d4;">USD 15–20M</p>
+                        <ul style="margin-left: 12px; margin-top: 12px; font-size: 12px; line-height: 1.6;">
+                            <li>Massive MIMO (15–20 sites)</li>
+                            <li>AI platform deployment</li>
+                            <li>CTO dashboard infra</li>
+                            <li>Professional services (Huawei)</li>
+                        </ul>
+                    </div>
+                    <div class="col-item" style="border-top: 4px solid #f59e0b;">
+                        <h4 style="color: #f59e0b;">Pillar B: FBB Expansion</h4>
+                        <p style="font-size: 28px; font-weight: 700; color: #f59e0b;">USD 25–35M</p>
+                        <ul style="margin-left: 12px; margin-top: 12px; font-size: 12px; line-height: 1.6;">
+                            <li>FWA CPE & install (50K)</li>
+                            <li>FTTH deployment (100K pass)</li>
+                            <li>Network expansion</li>
+                            <li>Customer acquisition</li>
+                        </ul>
+                    </div>
+                    <div class="col-item" style="border-top: 4px solid #22c55e;">
+                        <h4 style="color: #22c55e;">Pillar C: Enterprise</h4>
+                        <p style="font-size: 28px; font-weight: 700; color: #22c55e;">USD 10–15M</p>
+                        <ul style="margin-left: 12px; margin-top: 12px; font-size: 12px; line-height: 1.6;">
+                            <li>Private 5G lab setup</li>
+                            <li>IoT platform (Huawei Cloud)</li>
+                            <li>Sales team & enablement</li>
+                            <li>Market development</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="callout success" style="margin-top: 24px;">
+                    <p><strong>ROI Projection (3-year):</strong> Pillar A (MVP defense) protects USD 300M+ annual revenue. Pillar B (FBB) generates USD 65–90M new annual revenue. Pillar C (Enterprise) USD 20–30M new annual revenue. Total 3-year incremental EBITDA: USD 200–280M.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 21: Risk Analysis -->
+            <div class="slide">
+                <h2>Risk Analysis & Mitigation</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">Three primary risks with mitigation strategies</p>
+                <h3 style="margin-top: 24px;">Risk 1: MNP Churn Exceeds Projections</h3>
+                <div class="pillar" style="border-left: 4px solid #ef4444; margin: 12px 0;">
+                    <p style="color: #ef4444; font-weight: 600;">Likelihood: Medium | Impact: High</p>
+                    <p style="margin-top: 8px; font-size: 13px;">If competitive pricing or service quality triggers 15%+ churn (vs. projected 5–10%), revenue impact ≈ USD 50M+ annually.</p>
+                    <p style="margin-top: 8px; font-size: 13px; color: #22c55e;"><strong>Mitigation:</strong> Pre-MNP Massive MIMO expansion prioritized in high-ARPU zones; real-time churn prediction enabling rapid sales intervention; retention budgets pre-approved.</p>
+                </div>
+
+                <h3 style="margin-top: 24px;">Risk 2: FWA ROI Worse Than Modeled</h3>
+                <div class="pillar" style="border-left: 4px solid #ef4444; margin: 12px 0;">
+                    <p style="color: #ef4444; font-weight: 600;">Likelihood: Medium | Impact: High</p>
+                    <p style="margin-top: 8px; font-size: 13px;">FWA payback extends to 18+ months due to higher churn, lower ARPU, or network congestion forcing market withdrawal.</p>
+                    <p style="margin-top: 8px; font-size: 13px; color: #22c55e;"><strong>Mitigation:</strong> Rigorous pilot phase (Phase 1: 5K–10K units, 6-month ROI validation); strict network load threshold (≤70%) gates scaling; dynamic pricing model adjusts ARPU targets.</p>
+                </div>
+
+                <h3 style="margin-top: 24px;">Risk 3: Huawei Solutions Differentiation Insufficient</h3>
+                <div class="pillar" style="border-left: 4px solid #ef4444; margin: 12px 0;">
+                    <p style="color: #ef4444; font-weight: 600;">Likelihood: Low | Impact: Medium</p>
+                    <p style="margin-top: 8px; font-size: 13px;">If Claro/Ericsson/Nokia achieve competitive feature parity, investment advantage erodes; premium pricing leverage weakens.</p>
+                    <p style="margin-top: 8px; font-size: 13px; color: #22c55e;"><strong>Mitigation:</strong> Exclusive local data science applications (coffee IoT models, Starlink defense playbook); deep Huawei partnership locks ecosystem; establish Guatemala innovation center co-branded with local universities.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 22: Execution Roadmap -->
+            <div class="slide">
+                <h2>Execution Roadmap</h2>
+                <p style="margin-top: 16px; font-size: 15px; color: #d1d5db;">30 days, 3 months, 12 months: Milestone sequence for enterprise delivery</p>
+                <h3 style="margin-top: 24px;">Immediate Actions (30 Days)</h3>
+                <ul style="margin-top: 12px;">
+                    <li><strong>Data Collection:</strong> Network load analysis all cells; identify high-value user geographic clusters; Starlink penetration mapping</li>
+                    <li><strong>Competition Intel:</strong> Claro 5G/FTTH roadmap; Kuiper market entry timeline; Starlink churn data acquisition</li>
+                    <li><strong>Cost Validation:</strong> FWA/FTTH unit economics confirmation with 3 CPE vendors; installation partner network design</li>
+                </ul>
+
+                <h3 style="margin-top: 24px;">Short-Term (3 Months)</h3>
+                <ul style="margin-top: 12px;">
+                    <li><strong>Huawei Platform:</strong> AI platform deployment schedule + team training; CTO dashboard design finalization</li>
+                    <li><strong>FWA Pilots:</strong> 2–3 trial zones (5K–10K units) validation; CPE vendor selection; installation partner onboarding</li>
+                    <li><strong>Enterprise Team:</strong> GTM leader hire; vertical market deep dives (agriculture, mining); Huawei sales enablement</li>
+                </ul>
+
+                <h3 style="margin-top: 24px;">Medium-Term (12 Months)</h3>
+                <ul style="margin-top: 12px;">
+                    <li><strong>MNP Defense:</strong> Massive MIMO expansion complete in Phase 1 zones; churn dashboard live; enterprise retention program launched</li>
+                    <li><strong>FBB Scale:</strong> 50K FWA units deployed; FTTH RFP issued to construction partners; 3-year capex freeze gates confirmed</li>
+                    <li><strong>Enterprise Revenue:</strong> 3–5 large customer wins (agriculture cooperatives, mining operations); private 5G lab operational</li>
+                </ul>
+            </div>
+
+            <!-- SLIDE 23: Closing -->
+            <div class="slide">
+                <h2 style="margin-bottom: 24px;">Defending #1, Building the Future</h2>
+                <p style="font-size: 15px; color: #d1d5db; line-height: 1.8; margin-bottom: 24px;">Guatemala Tigo's 53.4% market leadership is a competitive advantage and a liability. MNP, Starlink, Claro's spectrum advantage, and low FBB penetration create a three-to-five-year window for strategic repositioning. Huawei's integrated AI, FWA, FTTH, and enterprise solutions—anchored by data-driven investment discipline—position Tigo to maintain market leadership while unlocking EUR 100M+ new revenue streams.</p>
+
+                <h3 style="color: #f59e0b; margin-top: 32px; margin-bottom: 16px;">Core Strategic Imperatives</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                    <div class="pillar">
+                        <p style="color: #06b6d4; font-weight: 600; margin-bottom: 8px;">Defend the Core</p>
+                        <p style="font-size: 13px;">Network excellence + AI-driven customer retention protects USD 300M+ revenue base through MNP volatility.</p>
+                    </div>
+                    <div class="pillar">
+                        <p style="color: #f59e0b; font-weight: 600; margin-bottom: 8px;">Expand Aggressively</p>
+                        <p style="font-size: 13px;">FWA + FTTH dual-track captures 5% → 20% FBB penetration within 3 years, unlocking USD 65–90M new annual revenue.</p>
+                    </div>
+                    <div class="pillar">
+                        <p style="color: #22c55e; font-weight: 600; margin-bottom: 8px;">Diversify Earnings</p>
+                        <p style="font-size: 13px;">Enterprise ICT market development (agriculture, mining, smart city) creates USD 20–30M new revenue + competitive moat.</p>
+                    </div>
+                </div>
+
+                <div class="callout success" style="margin-top: 32px;">
+                    <p style="font-size: 14px;"><strong>Investment Decision:</strong> USD 50–70M over 3 years. Expected EBITDA contribution: USD 200–280M (3-year cumulative). Payback period: 18–24 months. Strategic ROI: Defend market leadership + establish Guatemala as Tigo's regional innovation hub.</p>
+                </div>
+
+                <p style="margin-top: 32px; text-align: center; font-size: 18px; color: #06b6d4; font-weight: 700;">Ready to lead Guatemala's telecom transformation.</p>
+            </div>
+        </div>
+
+        <div class="bottom-bar">
+            <div class="slide-counter"><span id="slideNumber">1</span> / <span id="totalSlides">23</span></div>
+            <div class="controls-hint">← → Arrow keys to navigate | Esc to exit fullscreen</div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+
+            document.getElementById('slideNumber').textContent = currentSlide + 1;
+            updateNavTitle();
+        }
+
+        function updateNavTitle() {
+            const titles = [
+                'Huawei × Tigo Guatemala',
+                'Market Position',
+                'Market Overview',
+                'MNP Challenge',
+                'Network Risk',
+                'FBB Weakness',
+                'FBB Strategy',
+                'FWA ROI Analysis',
+                'Claro Competition',
+                'Market Entrants',
+                'Starlink Defense',
+                'Strategic Framework',
+                'MVP Defense',
+                'Risk Heatmap',
+                'Network Monitoring',
+                'FBB Leadership',
+                'FWA Investment',
+                'Enterprise Market',
+                'Huawei Advantage',
+                'Investment Plan',
+                'Risk Management',
+                'Execution Timeline',
+                'Strategic Vision'
+            ];
+            document.getElementById('navTitle').textContent = titles[currentSlide];
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                showSlide(currentSlide + 1);
+                e.preventDefault();
+            } else if (e.key === 'ArrowLeft') {
+                showSlide(currentSlide - 1);
+                e.preventDefault();
+            } else if (e.key === 'Escape') {
+                document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
