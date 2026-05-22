@@ -968,6 +968,7 @@
                 <span id="current-date"></span>
                 <button class="refresh-btn" onclick="location.reload()" title="Refresh">↻</button>
                 <button onclick="toggleLanguage()" id="langToggle" style="font-size:10px;padding:3px 10px;border-radius:6px;border:1px solid #334155;background:#1e293b;color:#06b6d4;cursor:pointer;font-family:inherit;font-weight:600;margin-left:8px;transition:all 0.2s;" onmouseover="this.style.background='#06b6d4';this.style.color='#0a0e1a'" onmouseout="this.style.background='#1e293b';this.style.color='#06b6d4'">EN</button>
+                <button onclick="toggleStoryline()" style="font-size:10px;padding:3px 10px;border-radius:6px;border:1px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.1);color:#f59e0b;cursor:pointer;font-family:inherit;margin-left:4px;transition:all 0.2s;" onmouseover="this.style.background='rgba(245,158,11,0.2)'" onmouseout="this.style.background='rgba(245,158,11,0.1)'">▶ Demo</button>
                 <button onclick="toggleHelp()" style="font-size:10px;padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:rgba(6,182,212,0.1);color:#06b6d4;cursor:pointer;font-family:inherit;margin-left:4px;transition:all 0.2s;" onmouseover="this.style.background='rgba(6,182,212,0.2)'" onmouseout="this.style.background='rgba(6,182,212,0.1)'">?</button>
             </div>
         </div>
@@ -4273,6 +4274,12 @@
           el.style.display = el.style.display === 'none' ? 'flex' : 'none';
         }
 
+        // ============ STORYLINE MODAL ============
+        function toggleStoryline() {
+          const el = document.getElementById('storylineOverlay');
+          el.style.display = el.style.display === 'none' ? 'flex' : 'none';
+        }
+
         // ============ GLOBAL RESIZE HANDLER ============
         // Debounced resize to auto-resize ALL ECharts instances + Leaflet maps
         let _resizeTimer;
@@ -4420,6 +4427,151 @@
             本 Demo 使用模拟数据（~5,200 站点，30+ 城市，高斯分布 + 公路走廊）。<br/>
             生产环境接入：公参 OMC / 无线话统 / 核心网 / DPI 探针 / Ookla Speedtest Intelligence / IMSI 信令。
           </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Storyline Demo Overlay -->
+    <div id="storylineOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:3000;backdrop-filter:blur(6px);justify-content:center;align-items:center;" onclick="if(event.target===this)toggleStoryline()">
+      <div style="position:relative;width:clamp(550px,55vw,800px);max-height:85vh;background:linear-gradient(135deg,#111827,#0f172a);border:1px solid rgba(245,158,11,0.2);border-radius:14px;overflow-y:auto;padding:clamp(18px,2.5vw,32px);box-shadow:0 20px 40px rgba(0,0,0,0.6);">
+
+        <!-- Header -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid rgba(245,158,11,0.15);">
+          <div>
+            <h2 style="font-size:18px;font-weight:700;color:#f59e0b;margin:0;">▶ CMO Demo Storyline</h2>
+            <p style="font-size:11px;color:#64748b;margin:4px 0 0 0;">30-minute guided walkthrough for executive presentation</p>
+          </div>
+          <button onclick="toggleStoryline()" style="font-size:12px;color:#94a3b8;background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:4px 12px;cursor:pointer;font-family:inherit;">✕ Close</button>
+        </div>
+
+        <!-- Act 1 -->
+        <div style="margin-bottom:22px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <span style="font-size:11px;font-weight:700;color:#0a0e1a;background:#f59e0b;padding:2px 10px;border-radius:10px;">ACT 1</span>
+            <span style="font-size:14px;font-weight:700;color:#f1f5f9;">The Big Picture — "10 Seconds to Know"</span>
+            <span style="font-size:10px;color:#64748b;">3 min</span>
+          </div>
+          <div style="padding-left:16px;border-left:2px solid rgba(245,158,11,0.3);font-size:12px;color:#cbd5e1;line-height:1.9;">
+            <p style="margin:0 0 6px 0;"><b style="color:#f59e0b;">Open dashboard.</b> Point to the three pillars your CMO cares about:</p>
+            <p style="margin:0 0 4px 0;">① <b style="color:#10b981;">Users</b> — "12.5M active, growing +2.3% MoM. Overall healthy."</p>
+            <p style="margin:0 0 4px 0;">② <b style="color:#06b6d4;">Experience</b> — "Network KPI card shows DL speed 38.2 Mbps, gap to Op-B closing."</p>
+            <p style="margin:0 0 4px 0;">③ <b style="color:#ef4444;">Alerts</b> — "But two cities are bleeding: Barranquilla ▼1.2% and Cartagena ▼0.8%."</p>
+            <p style="margin:8px 0 0 0;padding:6px 10px;background:rgba(245,158,11,0.08);border-radius:6px;color:#f59e0b;font-style:italic;">"Overall growth can mask local problems. Let's look beneath the surface."</p>
+          </div>
+        </div>
+
+        <!-- Act 2 -->
+        <div style="margin-bottom:22px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <span style="font-size:11px;font-weight:700;color:#0a0e1a;background:#ef4444;padding:2px 10px;border-radius:10px;">ACT 2</span>
+            <span style="font-size:14px;font-weight:700;color:#f1f5f9;">Discover — "Who Is Bleeding?"</span>
+            <span style="font-size:10px;color:#64748b;">5 min</span>
+          </div>
+          <div style="padding-left:16px;border-left:2px solid rgba(239,68,68,0.3);font-size:12px;color:#cbd5e1;line-height:1.9;">
+            <p style="margin:0 0 6px 0;"><b style="color:#ef4444;">Click "Churn Map"</b> layer → map turns red/green by region.</p>
+            <p style="margin:0 0 4px 0;">• Point out Barranquilla (deep red) — "3,200 users lost this month, churn rate 2.1%"</p>
+            <p style="margin:0 0 4px 0;">• Contrast with Bogotá (green) — "Only 950 churned, net growth +28K"</p>
+            <p style="margin:0 0 4px 0;"><b style="color:#ef4444;">Click Barranquilla region</b> → drill down to site level</p>
+            <p style="margin:0 0 4px 0;">• Show red/green site markers: "Each dot is a cell site. Red = net user loss, green = growth."</p>
+            <p style="margin:0 0 4px 0;">• Click a deep-red site → popup shows: "New +45, Churn -120, Net -75. This site alone lost 75 users."</p>
+            <p style="margin:8px 0 0 0;padding:6px 10px;background:rgba(239,68,68,0.08);border-radius:6px;color:#ef4444;font-style:italic;">"We know WHERE users are leaving. Now let's find out WHY."</p>
+          </div>
+        </div>
+
+        <!-- Act 3 -->
+        <div style="margin-bottom:22px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <span style="font-size:11px;font-weight:700;color:#0a0e1a;background:#06b6d4;padding:2px 10px;border-radius:10px;">ACT 3</span>
+            <span style="font-size:14px;font-weight:700;color:#f1f5f9;">Diagnose — "Why Are They Leaving?"</span>
+            <span style="font-size:10px;color:#64748b;">7 min</span>
+          </div>
+          <div style="padding-left:16px;border-left:2px solid rgba(6,182,212,0.3);font-size:12px;color:#cbd5e1;line-height:1.9;">
+            <p style="margin:0 0 6px 0;"><b style="color:#06b6d4;">Click "Network KPI"</b> → switch to DL Speed. Barranquilla shows 22.5 Mbps (red).</p>
+            <p style="margin:0 0 4px 0;">• "National average is 38.2 Mbps. Barranquilla is 41% below average."</p>
+            <p style="margin:0 0 6px 0;"><b style="color:#06b6d4;">Click "vs Op-B"</b> layer → competitive gap visualization.</p>
+            <p style="margin:0 0 4px 0;">• "In Barranquilla, Op-B delivers 44.8 Mbps — nearly double our speed."</p>
+            <p style="margin:0 0 4px 0;">• "Users aren't just leaving; they're leaving FOR the competitor."</p>
+            <p style="margin:0 0 6px 0;"><b style="color:#06b6d4;">Click "Coverage"</b> → switch to RSRP split view.</p>
+            <p style="margin:0 0 4px 0;">• Left: Tigo coverage heat map. Right: Op-B coverage. Synced pan/zoom.</p>
+            <p style="margin:0 0 4px 0;">• "Zoom into Barranquilla — Op-B has denser green (good RSRP), while Tigo has more yellow/red."</p>
+            <p style="margin:8px 0 0 0;padding:6px 10px;background:rgba(6,182,212,0.08);border-radius:6px;color:#06b6d4;font-style:italic;">"Root cause confirmed: poor coverage + slow speed → users switch to Op-B."</p>
+          </div>
+        </div>
+
+        <!-- Act 4 -->
+        <div style="margin-bottom:22px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <span style="font-size:11px;font-weight:700;color:#0a0e1a;background:#10b981;padding:2px 10px;border-radius:10px;">ACT 4</span>
+            <span style="font-size:14px;font-weight:700;color:#f1f5f9;">Quantify — "What's the Business Impact?"</span>
+            <span style="font-size:10px;color:#64748b;">5 min</span>
+          </div>
+          <div style="padding-left:16px;border-left:2px solid rgba(16,185,129,0.3);font-size:12px;color:#cbd5e1;line-height:1.9;">
+            <p style="margin:0 0 6px 0;"><b style="color:#10b981;">Point to terminal card</b> — high-value device distribution.</p>
+            <p style="margin:0 0 4px 0;">• "Barranquilla has 41% high-value devices but users are churning → revenue at risk."</p>
+            <p style="margin:0 0 4px 0;">• "5G device penetration is 28.5% — these users expect premium speeds."</p>
+            <p style="margin:0 0 6px 0;"><b style="color:#10b981;">Click YouTube card</b> → app experience panel slides up.</p>
+            <p style="margin:0 0 4px 0;">• "HD video ratio only 33% — competitors likely delivering better streaming."</p>
+            <p style="margin:0 0 4px 0;">• "Rebuffer rate 2.8% — every freeze is a moment the user considers switching."</p>
+            <p style="margin:8px 0 0 0;padding:6px 10px;background:rgba(16,185,129,0.08);border-radius:6px;color:#10b981;font-style:italic;">"3,200 users/month × $8.5 ARPU = $326K monthly revenue at risk in Barranquilla alone."</p>
+          </div>
+        </div>
+
+        <!-- Act 5 -->
+        <div style="margin-bottom:22px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <span style="font-size:11px;font-weight:700;color:#0a0e1a;background:#3b82f6;padding:2px 10px;border-radius:10px;">ACT 5</span>
+            <span style="font-size:14px;font-weight:700;color:#f1f5f9;">Act — "What Should We Do?"</span>
+            <span style="font-size:10px;color:#64748b;">5 min</span>
+          </div>
+          <div style="padding-left:16px;border-left:2px solid rgba(59,130,246,0.3);font-size:12px;color:#cbd5e1;line-height:1.9;">
+            <p style="margin:0 0 6px 0;"><b style="color:#3b82f6;">Click Barranquilla city name</b> → drill-down diagnostic panel.</p>
+            <p style="margin:0 0 4px 0;">• 6-dimension diagnosis: PRB utilization, edge users, QoE score, churn rate, vs Op-B, site count.</p>
+            <p style="margin:0 0 4px 0;">• "PRB at 75% — network congested. Edge users 34% — coverage gaps."</p>
+            <p style="margin:0 0 6px 0;"><b style="color:#3b82f6;">Recommended actions</b> (auto-generated):</p>
+            <p style="margin:0 0 4px 0;">  → Priority: Add 20 sites in Barranquilla south corridor</p>
+            <p style="margin:0 0 4px 0;">  → Quick win: Rebalance spectrum on top-10 congested sites</p>
+            <p style="margin:0 0 4px 0;">  → Retain: Launch targeted retention campaign for high-value churners</p>
+            <p style="margin:8px 0 0 0;padding:6px 10px;background:rgba(59,130,246,0.08);border-radius:6px;color:#3b82f6;font-style:italic;">"This dashboard doesn't just show problems — it tells you exactly where to invest."</p>
+          </div>
+        </div>
+
+        <!-- Act 6 -->
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <span style="font-size:11px;font-weight:700;color:#0a0e1a;background:#8b5cf6;padding:2px 10px;border-radius:10px;">ACT 6</span>
+            <span style="font-size:14px;font-weight:700;color:#f1f5f9;">Close — "The Decision Chain"</span>
+            <span style="font-size:10px;color:#64748b;">5 min</span>
+          </div>
+          <div style="padding-left:16px;border-left:2px solid rgba(139,92,246,0.3);font-size:12px;color:#cbd5e1;line-height:1.9;">
+            <p style="margin:0 0 8px 0;">Summarize the journey the CMO just experienced:</p>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+              <span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;">Spot</span>
+              <span style="color:#64748b;">→</span>
+              <span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;">Discover</span>
+              <span style="color:#64748b;">→</span>
+              <span style="background:rgba(6,182,212,0.15);color:#06b6d4;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;">Diagnose</span>
+              <span style="color:#64748b;">→</span>
+              <span style="background:rgba(16,185,129,0.15);color:#10b981;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;">Quantify</span>
+              <span style="color:#64748b;">→</span>
+              <span style="background:rgba(59,130,246,0.15);color:#3b82f6;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;">Act</span>
+              <span style="color:#64748b;">→</span>
+              <span style="background:rgba(139,92,246,0.15);color:#8b5cf6;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;">Verify</span>
+            </div>
+            <p style="margin:0 0 4px 0;"><b style="color:#8b5cf6;">Key message:</b></p>
+            <p style="margin:0 0 4px 0;">"This is not a monitoring tool — it's a <b>decision engine</b>."</p>
+            <p style="margin:0 0 4px 0;">"In 30 minutes, we went from 'everything looks fine' to 'here's exactly where to spend the next dollar.'"</p>
+            <p style="margin:10px 0 0 0;padding:8px 12px;background:rgba(139,92,246,0.08);border-radius:6px;color:#f1f5f9;font-weight:600;text-align:center;font-size:13px;">"From data to decision in one screen. Every morning. For your CMO."</p>
+          </div>
+        </div>
+
+        <!-- Footer tips -->
+        <div style="padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:#64748b;line-height:1.8;">
+          <b style="color:#94a3b8;">Demo Tips:</b>
+          • Let the CMO click — interactivity is the wow factor
+          • Pause on the competitive split view — most impactful visual
+          • End with the revenue impact number — CMOs think in dollars
+          • Use EN/中文 toggle to show bilingual capability
         </div>
 
       </div>
