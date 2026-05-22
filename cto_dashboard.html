@@ -332,6 +332,26 @@
             border-color: #374151 !important;
         }
 
+        /* ============ LOADING INDICATOR ============ */
+
+        .loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #e5e7eb;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 200;
+            display: none;
+        }
+
+        .loading-indicator.active {
+            display: block;
+        }
+
         /* ============ UTILITY ============ */
 
         .hidden {
@@ -422,6 +442,7 @@
     <div class="center-panel">
         <div class="map-container" id="mapContainer">
             <div id="map"></div>
+            <div class="loading-indicator" id="loadingIndicator">Generating grid data...</div>
             <div class="split-divider hidden" id="splitDivider"></div>
             <div id="splitMapRight" class="hidden" style="position: absolute; top: 0; right: 0; width: 50%; height: 100%; border-radius: var(--card-radius);"></div>
         </div>
@@ -484,7 +505,12 @@ function t(key) {
 function updateTranslations() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        el.textContent = t(key);
+        const text = t(key);
+        if (!el.querySelector('.badge')) {
+            el.textContent = text;
+        } else {
+            el.childNodes[0].textContent = text + ' ';
+        }
     });
 }
 
@@ -505,27 +531,55 @@ function mulberry32(a) {
     }
 }
 
-// City coordinates
+// City coordinates and bounds for full coverage grid
 const CITIES = {
-    'Bogota': { lat: 4.711, lon: -74.072, radius: 0.15 },
-    'Medellin': { lat: 6.251, lon: -75.564, radius: 0.15 },
-    'Cali': { lat: 3.437, lon: -76.522, radius: 0.15 },
-    'Barranquilla': { lat: 10.964, lon: -74.781, radius: 0.12 },
-    'Cartagena': { lat: 10.391, lon: -75.514, radius: 0.12 }
+    'Medellin': {
+        lat: 6.251, lon: -75.564,
+        latMin: 6.15, latMax: 6.35,
+        lonMin: -75.65, lonMax: -75.50,
+        zoom: 13
+    },
+    'Bogota': {
+        lat: 4.711, lon: -74.072,
+        latMin: 4.55, latMax: 4.80,
+        lonMin: -74.15, lonMax: -73.95,
+        zoom: 12
+    },
+    'Cali': {
+        lat: 3.437, lon: -76.522,
+        latMin: 3.35, latMax: 3.55,
+        lonMin: -76.60, lonMax: -76.45,
+        zoom: 13
+    },
+    'Barranquilla': {
+        lat: 10.964, lon: -74.781,
+        latMin: 10.90, latMax: 11.05,
+        lonMin: -74.85, lonMax: -74.75,
+        zoom: 13
+    },
+    'Cartagena': {
+        lat: 10.391, lon: -75.514,
+        latMin: 10.35, latMax: 10.45,
+        lonMin: -75.55, lonMax: -75.48,
+        zoom: 14
+    }
 };
 
-// Generate 50m grid data for a city
-function generateGridData(city, operator = 'tigo') {
+// Grid spacing in degrees (approximately 50m at equator)
+const GRID_SPACING = 0.00045;
+
+// Generate 50m grid data for full city coverage (fast generation, deterministic)
+function generateFullGridData(city, operator = 'tigo') {
     const cfg = CITIES[city];
-    const rand = mulberry32(city.charCodeAt(0) * 1234 + (operator === 'opb' ? 5000 : 0));
+    const seed = city.charCodeAt(0) * 1234 + (operator === 'opb' ? 5000 : 0);
+    const rand = mulberry32(seed);
 
     const grids = [];
-    const gridCount = operator === 'tigo' ? 1500 : 1200;
 
     // Speed baselines by city
     const speedBaselines = {
-        'Bogota': { tigo: 12, opb: 10 },
         'Medellin': { tigo: 8, opb: 7 },
+        'Bogota': { tigo: 12, opb: 10 },
         'Cali': { tigo: 6, opb: 5 },
         'Barranquilla': { tigo: 5, opb: 4 },
         'Cartagena': { tigo: 5, opb: 4 }
@@ -533,75 +587,146 @@ function generateGridData(city, operator = 'tigo') {
 
     const baseline = speedBaselines[city][operator] || 8;
 
-    for (let i = 0; i < gridCount; i++) {
-        // Generate lat/lon with Gaussian distribution
-        const u1 = rand() + 0.001;
-        const u2 = rand();
-        const gauss = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-        const dist = Math.min(Math.abs(gauss), 2.5) * cfg.radius * 0.5;
-        const angle = rand() * 2 * Math.PI;
+    // Generate grid covering full city bounds at GRID_SPACING
+    for (let lat = cfg.latMin; lat < cfg.latMax; lat += GRID_SPACING) {
+        for (let lon = cfg.lonMin; lon < cfg.lonMax; lon += GRID_SPACING) {
+            // Deterministic speed based on position + operator + city
+            const posHash = Math.sin(lat * 12345) * Math.cos(lon * 67890);
+            const noise = (rand() - 0.5) * 6;
 
-        const lat = cfg.lat + dist * Math.cos(angle);
-        const lon = cfg.lon + dist * Math.sin(angle);
+            let speed = baseline + noise;
 
-        if (isNaN(lat) || isNaN(lon)) continue;
+            // Create hotspots of congestion (poor speed clusters)
+            const blockLat = Math.floor(lat * 100);
+            const blockLon = Math.floor(lon * 100);
+            const blockHash = (blockLat * 73856093) ^ (blockLon * 19349663);
+            const blockRand = mulberry32(blockHash)();
 
-        // Speed: Gaussian centered on baseline
-        const speedGauss = (rand() - 0.5) * 4;
-        let speed = Math.max(0.3, baseline + speedGauss);
-        speed = +(speed.toFixed(1));
+            if (blockRand < 0.08) {
+                // Congestion zone
+                speed = Math.max(0.5, baseline * 0.3 + (rand() - 0.5) * 2);
+            }
 
-        grids.push({
-            lat: +lat.toFixed(6),
-            lon: +lon.toFixed(6),
-            dl_speed: speed,
-            users: Math.round(20 + rand() * 200),
-            prb: Math.round(30 + rand() * 50),
-            rsrp: Math.round(-130 + rand() * 40)
-        });
+            speed = Math.max(0.3, Math.min(25, speed));
+            speed = +(speed.toFixed(1));
+
+            grids.push({
+                lat: +lat.toFixed(6),
+                lon: +lon.toFixed(6),
+                dl_speed: speed,
+                users: Math.round(20 + rand() * 200),
+                prb: Math.round(30 + rand() * 50),
+                rsrp: Math.round(-130 + rand() * 40)
+            });
+        }
     }
 
     return grids;
 }
 
+// ============ CANVAS GRID OVERLAY ============
+
+L.GridCanvas = L.Layer.extend({
+    initialize: function(options) {
+        L.setOptions(this, options);
+        this._data = [];
+        this._cellIndex = {};
+        this._bounds = null;
+    },
+
+    onAdd: function(map) {
+        this._map = map;
+        this._canvas = L.DomUtil.create('canvas', 'grid-canvas');
+        this._canvas.style.position = 'absolute';
+        this._canvas.style.pointerEvents = 'none';
+        this._canvas.style.zIndex = '10';
+        map.getPanes().overlayPane.appendChild(this._canvas);
+
+        map.on('moveend zoomend resize', this._redraw, this);
+        this._redraw();
+    },
+
+    _redraw: function() {
+        if (!this._map || !this._canvas) return;
+
+        const map = this._map;
+        const size = map.getSize();
+        this._canvas.width = size.x;
+        this._canvas.height = size.y;
+        this._canvas.style.left = '0px';
+        this._canvas.style.top = '0px';
+
+        const ctx = this._canvas.getContext('2d');
+        ctx.clearRect(0, 0, size.x, size.y);
+
+        const bounds = map.getBounds();
+        const zoom = map.getZoom();
+
+        // Only render visible cells (frustum culling)
+        let rendered = 0;
+        this._data.forEach(cell => {
+            // Quick bounds check
+            if (cell.lat < bounds.getSouth() || cell.lat > bounds.getNorth()) return;
+            if (cell.lon < bounds.getWest() || cell.lon > bounds.getEast()) return;
+
+            const p = map.latLngToContainerPoint([cell.lat, cell.lon]);
+            const p2 = map.latLngToContainerPoint([cell.lat + GRID_SPACING, cell.lon + GRID_SPACING]);
+
+            const w = Math.max(1, Math.abs(p2.x - p.x));
+            const h = Math.max(1, Math.abs(p2.y - p.y));
+
+            ctx.fillStyle = cell.color;
+            ctx.globalAlpha = 0.7;
+            ctx.fillRect(p.x, p.y, w, h);
+
+            rendered++;
+        });
+    },
+
+    setData: function(data) {
+        this._data = data;
+        this._buildIndex();
+        if (this._map) this._redraw();
+    },
+
+    _buildIndex: function() {
+        this._cellIndex = {};
+        this._data.forEach(cell => {
+            const key = cell.lat.toFixed(6) + ',' + cell.lon.toFixed(6);
+            this._cellIndex[key] = cell;
+        });
+    },
+
+    getCellAtLatLng: function(lat, lon) {
+        const gridLat = Math.round(lat / GRID_SPACING) * GRID_SPACING;
+        const gridLon = Math.round(lon / GRID_SPACING) * GRID_SPACING;
+        const key = gridLat.toFixed(6) + ',' + gridLon.toFixed(6);
+        return this._cellIndex[key];
+    },
+
+    onRemove: function(map) {
+        map.getPanes().overlayPane.removeChild(this._canvas);
+        map.off('moveend zoomend resize', this._redraw, this);
+    }
+});
+
+L.gridCanvas = function(options) {
+    return new L.GridCanvas(options);
+};
+
 // ============ GLOBAL STATE ============
 
 let map = null;
+let splitMapRight = null;
+let gridCanvasLeft = null;
+let gridCanvasRight = null;
+
 let tigoGrids = {};
 let opbGrids = {};
-let gridMarkers = { tigo: [], opb: [] };
 let currentCity = 'Medellin';
 let splitViewActive = false;
-let splitMapRight = null;
 
-// ============ MAP INITIALIZATION ============
-
-function initMap() {
-    const cityCoord = CITIES[currentCity];
-
-    map = L.map('map', {
-        center: [cityCoord.lat, cityCoord.lon],
-        zoom: 13,
-        zoomControl: true,
-        attributionControl: false
-    });
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        maxZoom: 19,
-        attribution: ''
-    }).addTo(map);
-
-    // Generate grid data for current city
-    tigoGrids[currentCity] = generateGridData(currentCity, 'tigo');
-    opbGrids[currentCity] = generateGridData(currentCity, 'opb');
-
-    renderGrids('tigo');
-    updateStats();
-    updateLowSpeedList();
-    updateHistogram();
-}
-
-// ============ GRID RENDERING ============
+// ============ COLOR & UTILITY ============
 
 function getSpeedColor(speed) {
     if (speed <= 1) return '#dc2626';      // deep red
@@ -611,43 +736,100 @@ function getSpeedColor(speed) {
     return '#10b981';                      // deep green
 }
 
-function renderGrids(operator = 'tigo') {
-    // Clear existing markers
-    gridMarkers[operator].forEach(layer => map.removeLayer(layer));
-    gridMarkers[operator] = [];
+function showLoadingIndicator(show) {
+    const indicator = document.getElementById('loadingIndicator');
+    if (show) {
+        indicator.classList.add('active');
+    } else {
+        indicator.classList.remove('active');
+    }
+}
 
+// ============ MAP INITIALIZATION ============
+
+function initMap() {
+    const cityCoord = CITIES[currentCity];
+
+    map = L.map('map', {
+        center: [cityCoord.lat, cityCoord.lon],
+        zoom: cityCoord.zoom,
+        zoomControl: true,
+        attributionControl: false
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        attribution: ''
+    }).addTo(map);
+
+    // Create canvas overlay for grids
+    gridCanvasLeft = L.gridCanvas().addTo(map);
+
+    // Generate and load grid data for current city
+    loadCityGrids(currentCity).then(() => {
+        renderGridsOnCanvas(map, gridCanvasLeft, 'tigo');
+        updateStats();
+        updateLowSpeedList();
+        updateHistogram();
+    });
+
+    // Click handler for grid interaction
+    map.on('click', (e) => {
+        const cell = gridCanvasLeft.getCellAtLatLng(e.latlng.lat, e.latlng.lng);
+        if (cell) {
+            const popupContent = `
+                <div style="font-size: 12px;">
+                    <strong>Speed: ${cell.dl_speed} Mbps</strong><br>
+                    Users: ${cell.users}<br>
+                    PRB: ${cell.prb}%<br>
+                    RSRP: ${cell.rsrp} dBm
+                </div>
+            `;
+            L.popup()
+                .setLatLng(e.latlng)
+                .setContent(popupContent)
+                .openOn(map);
+        }
+    });
+}
+
+// Lazy load grid data for a city
+function loadCityGrids(city) {
+    return new Promise((resolve) => {
+        if (tigoGrids[city] && opbGrids[city]) {
+            resolve();
+            return;
+        }
+
+        showLoadingIndicator(true);
+
+        // Offload generation to next tick to avoid blocking
+        setTimeout(() => {
+            if (!tigoGrids[city]) {
+                tigoGrids[city] = generateFullGridData(city, 'tigo');
+            }
+            if (!opbGrids[city]) {
+                opbGrids[city] = generateFullGridData(city, 'opb');
+            }
+
+            showLoadingIndicator(false);
+            resolve();
+        }, 10);
+    });
+}
+
+// Render grids on canvas with color coding
+function renderGridsOnCanvas(mapInstance, canvasOverlay, operator = 'tigo') {
     const grids = operator === 'tigo' ? tigoGrids[currentCity] : opbGrids[currentCity];
     if (!grids) return;
 
-    grids.forEach(grid => {
-        const color = getSpeedColor(grid.dl_speed);
-        const latDelta = 0.0027;  // ~300m per grid at equator, adjust for 50m nominal
-        const lonDelta = 0.0027;
+    // Add color to each cell
+    const coloredGrids = grids.map(grid => ({
+        ...grid,
+        color: getSpeedColor(grid.dl_speed)
+    }));
 
-        const rect = L.rectangle(
-            [[grid.lat - latDelta/2, grid.lon - lonDelta/2],
-             [grid.lat + latDelta/2, grid.lon + lonDelta/2]],
-            {
-                color: color,
-                weight: 0.5,
-                opacity: 0.7,
-                fillColor: color,
-                fillOpacity: 0.6
-            }
-        ).addTo(map);
-
-        const popupContent = `
-            <div style="font-size: 12px;">
-                <strong>Speed: ${grid.dl_speed} Mbps</strong><br>
-                Users: ${grid.users}<br>
-                PRB: ${grid.prb}%<br>
-                RSRP: ${grid.rsrp} dBm
-            </div>
-        `;
-
-        rect.bindPopup(popupContent);
-        gridMarkers[operator].push(rect);
-    });
+    canvasOverlay.setData(coloredGrids);
 }
 
 // ============ STATS & LISTS ============
@@ -657,16 +839,20 @@ function updateStats() {
     const opbGrids_current = opbGrids[currentCity] || [];
 
     const totalGrids = grids.length;
-    const avgSpeed = grids.length > 0 ? (grids.reduce((sum, g) => sum + g.dl_speed, 0) / grids.length).toFixed(1) : 0;
+    const avgSpeed = grids.length > 0
+        ? (grids.reduce((sum, g) => sum + g.dl_speed, 0) / grids.length).toFixed(1)
+        : 0;
     const lowSpeedCount = grids.filter(g => g.dl_speed < 3).length;
-    const opbAvgSpeed = opbGrids_current.length > 0 ? (opbGrids_current.reduce((sum, g) => sum + g.dl_speed, 0) / opbGrids_current.length).toFixed(1) : 0;
+    const opbAvgSpeed = opbGrids_current.length > 0
+        ? (opbGrids_current.reduce((sum, g) => sum + g.dl_speed, 0) / opbGrids_current.length).toFixed(1)
+        : 0;
     const diff = (avgSpeed - opbAvgSpeed).toFixed(1);
 
-    document.getElementById('totalGridsValue').textContent = totalGrids;
+    document.getElementById('totalGridsValue').textContent = totalGrids.toLocaleString();
     document.getElementById('avgSpeedValue').textContent = avgSpeed + ' Mbps';
-    document.getElementById('lowSpeedCountValue').innerHTML = lowSpeedCount + ' <span class="badge">cells</span>';
+    document.getElementById('lowSpeedCountValue').innerHTML = lowSpeedCount.toLocaleString() + ' <span class="badge">cells</span>';
     document.getElementById('vsOperatorBValue').textContent = (diff > 0 ? '+' : '') + diff + ' Mbps';
-    document.getElementById('alertBadge').textContent = lowSpeedCount;
+    document.getElementById('alertBadge').textContent = lowSpeedCount.toLocaleString();
 }
 
 function updateLowSpeedList() {
@@ -674,7 +860,7 @@ function updateLowSpeedList() {
     const lowSpeedGrids = grids
         .filter(g => g.dl_speed < 3)
         .sort((a, b) => a.dl_speed - b.dl_speed)
-        .slice(0, 20);  // Show top 20
+        .slice(0, 100);  // Show top 100 worst cells
 
     const listHtml = lowSpeedGrids.map((grid, idx) => {
         const isCritical = grid.dl_speed <= 1;
@@ -682,15 +868,26 @@ function updateLowSpeedList() {
 
         return `
             <div class="${className}" onclick="zoomToGrid(${grid.lat}, ${grid.lon})">
-                <div class="list-item-title">Cell #${idx + 1}</div>
+                <div class="list-item-title">Cell #${idx + 1} (${grid.dl_speed} Mbps)</div>
                 <div class="list-item-meta">
-                    Speed: ${grid.dl_speed} Mbps | Users: ${grid.users} | PRB: ${grid.prb}%
+                    Users: ${grid.users} | PRB: ${grid.prb}% | RSRP: ${grid.rsrp}
                 </div>
             </div>
         `;
     }).join('');
 
-    document.getElementById('lowSpeedList').innerHTML = listHtml || '<div style="color: #9ca3af; padding: 12px;">No cells <3 Mbps in this view</div>';
+    const lowSpeedCount = grids.filter(g => g.dl_speed < 3).length;
+    const message = lowSpeedCount > 100
+        ? `Showing top 100 of ${lowSpeedCount.toLocaleString()} cells`
+        : lowSpeedCount === 0
+            ? 'No cells <3 Mbps in this view'
+            : `Showing all ${lowSpeedCount} cells`;
+
+    document.getElementById('lowSpeedList').innerHTML = listHtml
+        ? (message !== 'No cells <3 Mbps in this view'
+            ? `<div style="color: #9ca3af; padding: 8px 0; font-size: var(--fs-xs); margin-bottom: 8px;">${message}</div>${listHtml}`
+            : listHtml)
+        : `<div style="color: #9ca3af; padding: 12px;">${message}</div>`;
 }
 
 function zoomToGrid(lat, lon) {
@@ -725,7 +922,7 @@ function updateHistogram() {
     const data = Object.entries(bins).map(([label, count]) => ({
         name: label,
         value: count,
-        percent: ((count / total) * 100).toFixed(1)
+        percent: total > 0 ? ((count / total) * 100).toFixed(1) : 0
     }));
 
     const chart = echarts.init(document.getElementById('histogram'));
@@ -746,7 +943,10 @@ function updateHistogram() {
         },
         series: [{
             type: 'bar',
-            data: data.map(d => ({ value: d.value, itemStyle: { color: getSpeedColor(parseFloat(d.name) || 0) } })),
+            data: data.map(d => ({
+                value: d.value,
+                itemStyle: { color: getSpeedColor(parseFloat(d.name) || 0) }
+            })),
             showBackground: true,
             backgroundStyle: { color: 'rgba(180, 180, 180, 0.1)' }
         }],
@@ -759,20 +959,20 @@ function updateHistogram() {
 
 document.getElementById('citySelector').addEventListener('change', (e) => {
     currentCity = e.target.value;
-    if (!tigoGrids[currentCity]) {
-        tigoGrids[currentCity] = generateGridData(currentCity, 'tigo');
-    }
-    if (!opbGrids[currentCity]) {
-        opbGrids[currentCity] = generateGridData(currentCity, 'opb');
-    }
 
-    const cityCoord = CITIES[currentCity];
-    map.setView([cityCoord.lat, cityCoord.lon], 13);
+    loadCityGrids(currentCity).then(() => {
+        const cityCoord = CITIES[currentCity];
+        map.setView([cityCoord.lat, cityCoord.lon], cityCoord.zoom);
 
-    renderGrids('tigo');
-    updateStats();
-    updateLowSpeedList();
-    updateHistogram();
+        renderGridsOnCanvas(map, gridCanvasLeft, 'tigo');
+        if (splitViewActive && gridCanvasRight) {
+            renderGridsOnCanvas(splitMapRight, gridCanvasRight, 'opb');
+        }
+
+        updateStats();
+        updateLowSpeedList();
+        updateHistogram();
+    });
 });
 
 document.getElementById('splitViewBtn').addEventListener('click', () => {
@@ -784,7 +984,6 @@ document.getElementById('splitViewBtn').addEventListener('click', () => {
         btn.classList.add('active');
         divider.classList.remove('hidden');
 
-        // Create split view
         if (!splitMapRight) {
             const rightContainer = document.getElementById('splitMapRight');
             rightContainer.classList.remove('hidden');
@@ -801,28 +1000,52 @@ document.getElementById('splitViewBtn').addEventListener('click', () => {
                 maxZoom: 19
             }).addTo(splitMapRight);
 
-            renderGridsOnMap(splitMapRight, 'opb');
+            gridCanvasRight = L.gridCanvas().addTo(splitMapRight);
 
-            // Sync maps
-            let syncingLeft = false;
-            let syncingRight = false;
+            // Ensure data is loaded
+            loadCityGrids(currentCity).then(() => {
+                renderGridsOnCanvas(splitMapRight, gridCanvasRight, 'opb');
 
-            const onLeftMove = () => {
-                if (syncingLeft) return;
-                syncingRight = true;
-                splitMapRight.setView(map.getCenter(), map.getZoom());
-                syncingRight = false;
-            };
+                // Sync maps
+                let syncingLeft = false;
+                let syncingRight = false;
 
-            const onRightMove = () => {
-                if (syncingRight) return;
-                syncingLeft = true;
-                map.setView(splitMapRight.getCenter(), splitMapRight.getZoom());
-                syncingLeft = false;
-            };
+                const onLeftMove = () => {
+                    if (syncingLeft) return;
+                    syncingRight = true;
+                    splitMapRight.setView(map.getCenter(), map.getZoom());
+                    syncingRight = false;
+                };
 
-            map.on('move', onLeftMove);
-            splitMapRight.on('move', onRightMove);
+                const onRightMove = () => {
+                    if (syncingRight) return;
+                    syncingLeft = true;
+                    map.setView(splitMapRight.getCenter(), splitMapRight.getZoom());
+                    syncingLeft = false;
+                };
+
+                map.on('move', onLeftMove);
+                splitMapRight.on('move', onRightMove);
+            });
+
+            // Click handler for right map
+            splitMapRight.on('click', (e) => {
+                const cell = gridCanvasRight.getCellAtLatLng(e.latlng.lat, e.latlng.lng);
+                if (cell) {
+                    const popupContent = `
+                        <div style="font-size: 12px;">
+                            <strong>Speed: ${cell.dl_speed} Mbps</strong><br>
+                            Users: ${cell.users}<br>
+                            PRB: ${cell.prb}%<br>
+                            RSRP: ${cell.rsrp} dBm
+                        </div>
+                    `;
+                    L.popup()
+                        .setLatLng(e.latlng)
+                        .setContent(popupContent)
+                        .openOn(splitMapRight);
+                }
+            });
         }
     } else {
         btn.classList.remove('active');
@@ -831,44 +1054,10 @@ document.getElementById('splitViewBtn').addEventListener('click', () => {
         if (splitMapRight) {
             splitMapRight.remove();
             splitMapRight = null;
+            gridCanvasRight = null;
         }
     }
 });
-
-// Helper function to render grids on a specific map
-function renderGridsOnMap(mapInstance, operator = 'tigo') {
-    const grids = operator === 'tigo' ? tigoGrids[currentCity] : opbGrids[currentCity];
-    if (!grids) return;
-
-    grids.forEach(grid => {
-        const color = getSpeedColor(grid.dl_speed);
-        const latDelta = 0.0027;
-        const lonDelta = 0.0027;
-
-        const rect = L.rectangle(
-            [[grid.lat - latDelta/2, grid.lon - lonDelta/2],
-             [grid.lat + latDelta/2, grid.lon + lonDelta/2]],
-            {
-                color: color,
-                weight: 0.5,
-                opacity: 0.7,
-                fillColor: color,
-                fillOpacity: 0.6
-            }
-        ).addTo(mapInstance);
-
-        const popupContent = `
-            <div style="font-size: 12px;">
-                <strong>Speed: ${grid.dl_speed} Mbps</strong><br>
-                Users: ${grid.users}<br>
-                PRB: ${grid.prb}%<br>
-                RSRP: ${grid.rsrp} dBm
-            </div>
-        `;
-
-        rect.bindPopup(popupContent);
-    });
-}
 
 // ============ INITIALIZATION ============
 
