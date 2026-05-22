@@ -377,6 +377,236 @@
             font-weight: 600;
         }
 
+        /* ============ CITY DETAIL OVERLAY ============ */
+
+        .city-detail-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .city-detail-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .city-detail-panel {
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: var(--card-radius);
+            padding: var(--card-pad);
+            width: 90vw;
+            max-width: 1400px;
+            height: 90vh;
+            max-height: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: var(--gap);
+            overflow: hidden;
+        }
+
+        .city-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: var(--gap);
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .city-detail-title {
+            font-size: var(--fs-lg);
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+
+        .city-detail-close {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            color: #e5e7eb;
+            padding: 6px 12px;
+            border-radius: calc(var(--card-radius) * 0.75);
+            font-size: var(--fs-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .city-detail-close:hover {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+
+        .city-detail-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--gap);
+            flex: 1;
+            overflow: auto;
+        }
+
+        .city-detail-chart {
+            background-color: #0f1419;
+            border: 1px solid #1f2937;
+            border-radius: calc(var(--card-radius) * 0.75);
+            padding: var(--card-pad);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .city-detail-table {
+            background-color: #0f1419;
+            border: 1px solid #1f2937;
+            border-radius: calc(var(--card-radius) * 0.75);
+            padding: var(--card-pad);
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+
+        .city-detail-table table {
+            width: 100%;
+            font-size: var(--fs-xs);
+            border-collapse: collapse;
+        }
+
+        .city-detail-table th {
+            background-color: #0a0e1a;
+            color: #9ca3af;
+            text-align: left;
+            padding: 6px 8px;
+            border-bottom: 1px solid #1f2937;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .city-detail-table td {
+            color: #e5e7eb;
+            padding: 6px 8px;
+            border-bottom: 1px solid #0f1419;
+        }
+
+        .city-detail-table tr:hover {
+            background-color: #1f2937;
+        }
+
+        .city-detail-comparison {
+            background-color: #0f1419;
+            border: 1px solid #1f2937;
+            border-radius: calc(var(--card-radius) * 0.75);
+            padding: var(--card-pad);
+            display: flex;
+            flex-direction: column;
+            gap: var(--card-pad);
+        }
+
+        .comparison-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            background-color: #0a0e1a;
+            border-radius: calc(var(--card-radius) * 0.5);
+        }
+
+        .comparison-label {
+            color: #9ca3af;
+            font-size: var(--fs-xs);
+        }
+
+        .comparison-value {
+            color: #e5e7eb;
+            font-weight: 600;
+            font-size: var(--fs-sm);
+        }
+
+        .comparison-positive {
+            color: #10b981;
+        }
+
+        .comparison-negative {
+            color: #ef4444;
+        }
+
+        /* ============ CITY SUMMARY TABLE ============ */
+
+        .city-summary-table {
+            margin-top: var(--card-pad);
+            width: 100%;
+            font-size: var(--fs-xs);
+            border-collapse: collapse;
+        }
+
+        .city-summary-table th {
+            background-color: #0a0e1a;
+            color: #9ca3af;
+            text-align: left;
+            padding: 6px 8px;
+            border-bottom: 1px solid #1f2937;
+            font-weight: 600;
+        }
+
+        .city-summary-table td {
+            color: #e5e7eb;
+            padding: 6px 8px;
+            border-bottom: 1px solid #0f1419;
+        }
+
+        .city-summary-table tbody tr {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .city-summary-table tbody tr:hover {
+            background-color: #1f2937;
+        }
+
+        .city-summary-table .pct-cell {
+            font-weight: 600;
+        }
+
+        .pct-green {
+            color: #10b981;
+        }
+
+        .pct-yellow {
+            color: #f59e0b;
+        }
+
+        .pct-red {
+            color: #ef4444;
+        }
+
+        .city-summary-label {
+            color: #9ca3af;
+            font-size: var(--fs-xs);
+            margin-bottom: 6px;
+            margin-top: 12px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #374151;
+            border-top-color: #06b6d4;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
     </style>
 </head>
 <body>
@@ -444,6 +674,23 @@
                 <div class="stat-label" data-i18n="vsOperatorB">vs Operator B</div>
                 <div class="stat-value" id="vsOperatorBValue">-5.2 Mbps</div>
             </div>
+
+            <div class="city-summary-label" data-i18n="allCitiesSummary">All Cities Summary</div>
+            <table class="city-summary-table" id="citySummaryTable">
+                <thead>
+                    <tr>
+                        <th data-i18n="city">City</th>
+                        <th data-i18n="grids">Grids</th>
+                        <th data-i18n="avgSpeed">Avg</th>
+                        <th data-i18n="lowSpeed">Low</th>
+                        <th data-i18n="percentage">%</th>
+                        <th data-i18n="vsOpB">vs Op-B</th>
+                    </tr>
+                </thead>
+                <tbody id="citySummaryBody">
+                    <tr><td colspan="6" style="color: #9ca3af; text-align: center; padding: 12px;"><span class="loading-spinner"></span> Loading...</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -482,6 +729,73 @@
     </div>
 </div>
 
+<!-- CITY DETAIL OVERLAY -->
+<div class="city-detail-overlay" id="cityDetailOverlay">
+    <div class="city-detail-panel">
+        <div class="city-detail-header">
+            <div class="city-detail-title" id="cityDetailTitle">Medellin</div>
+            <button class="city-detail-close" onclick="closeCityDetail()">✕ Close</button>
+        </div>
+        <div class="city-detail-content">
+            <!-- Speed Trend Chart -->
+            <div class="city-detail-chart">
+                <div style="font-size: var(--fs-sm); font-weight: 600; color: #e5e7eb; margin-bottom: 6px;" data-i18n="speedTrend">Speed Trend (12 weeks)</div>
+                <div id="cityTrendChart" style="flex: 1;"></div>
+            </div>
+
+            <!-- Speed Distribution Pie Chart -->
+            <div class="city-detail-chart">
+                <div style="font-size: var(--fs-sm); font-weight: 600; color: #e5e7eb; margin-bottom: 6px;" data-i18n="speedDistribution">Speed Distribution</div>
+                <div id="cityDistributionChart" style="flex: 1;"></div>
+            </div>
+
+            <!-- Top 10 Worst Cells Table -->
+            <div class="city-detail-table" style="grid-column: 1 / 2;">
+                <div style="font-size: var(--fs-sm); font-weight: 600; color: #e5e7eb; margin-bottom: 6px;" data-i18n="topWorstCells">Top 10 Worst Cells</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-i18n="rank">Rank</th>
+                            <th data-i18n="speed">Speed</th>
+                            <th data-i18n="users">Users</th>
+                            <th data-i18n="prb">PRB%</th>
+                            <th data-i18n="location">Location</th>
+                        </tr>
+                    </thead>
+                    <tbody id="worstCellsBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- vs Operator B Comparison -->
+            <div class="city-detail-comparison">
+                <div style="font-size: var(--fs-sm); font-weight: 600; color: #e5e7eb; margin-bottom: 6px;" data-i18n="opBComparison">vs Operator B</div>
+                <div class="comparison-row">
+                    <span class="comparison-label" data-i18n="avgDLSpeed">Avg DL Speed</span>
+                    <span>
+                        <span class="comparison-value" id="compOurSpeed">12.3</span>
+                        <span style="color: #9ca3af; margin: 0 4px;">/</span>
+                        <span class="comparison-value" id="compOpBSpeed">10.2</span>
+                        <span class="comparison-value" id="compDiff"></span>
+                    </span>
+                </div>
+                <div class="comparison-row">
+                    <span class="comparison-label" data-i18n="lowSpeedCount">&lt;3 Mbps Count</span>
+                    <span>
+                        <span class="comparison-value" id="compOurLow">8,420</span>
+                        <span style="color: #9ca3af; margin: 0 4px;">/</span>
+                        <span class="comparison-value" id="compOpBLow">12,300</span>
+                        <span class="comparison-value" id="compLowDiff"></span>
+                    </span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: #9ca3af; margin-top: 8px; line-height: 1.4;">
+                    <div data-i18n="betterPerformance">Our performance is better in avg speed & low-speed count metrics</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -504,6 +818,21 @@ const TRANSLATIONS = {
         'users': 'Users',
         'prb': 'PRB%',
         'rsrp': 'RSRP (dBm)',
+        'allCitiesSummary': 'All Cities Summary',
+        'city': 'City',
+        'grids': 'Grids',
+        'avg': 'Avg',
+        'lowSpeed': 'Low',
+        'percentage': '%',
+        'vsOpB': 'vs Op-B',
+        'speedTrend': 'Speed Trend (12 weeks)',
+        'speedDistribution': 'Speed Distribution',
+        'topWorstCells': 'Top 10 Worst Cells',
+        'rank': 'Rank',
+        'location': 'Location',
+        'opBComparison': 'vs Operator B',
+        'avgDLSpeed': 'Avg DL Speed',
+        'betterPerformance': 'Our performance is better in avg speed & low-speed count metrics',
     },
     'zh': {
         'overview': '概览',
@@ -520,6 +849,21 @@ const TRANSLATIONS = {
         'users': '用户数',
         'prb': 'PRB利用率',
         'rsrp': 'RSRP (dBm)',
+        'allCitiesSummary': '所有城市概览',
+        'city': '城市',
+        'grids': '栅格数',
+        'avg': '平均',
+        'lowSpeed': '低速',
+        'percentage': '占比',
+        'vsOpB': '对比B',
+        'speedTrend': '速率趋势 (12周)',
+        'speedDistribution': '速率分布',
+        'topWorstCells': '最差10个栅格',
+        'rank': '排名',
+        'location': '位置',
+        'opBComparison': '对比 B运营商',
+        'avgDLSpeed': '平均下行速率',
+        'betterPerformance': '我们在平均速率和低速率计数指标上表现更好',
     }
 };
 
@@ -1040,6 +1384,256 @@ function updateCityComparison() {
     });
 }
 
+// ============ CITY DETAIL MODAL ============
+
+// Generate simulated weekly trend data (12 weeks)
+function generateWeeklyTrend(city) {
+    const seed = city.charCodeAt(0) * 5678;
+    const rand = mulberry32(seed);
+    const weeks = [];
+    const baseline = {
+        'Bogota': 12, 'Medellin': 8, 'Cali': 6,
+        'Barranquilla': 5, 'Cartagena': 5
+    }[city] || 8;
+
+    for (let i = 0; i < 12; i++) {
+        const trend = baseline + (Math.sin(i / 4) * 2);
+        const noise = (rand() - 0.5) * 1.5;
+        const speed = Math.max(2, trend + noise).toFixed(1);
+        weeks.push({
+            week: `W${i + 1}`,
+            speed: parseFloat(speed)
+        });
+    }
+    return weeks;
+}
+
+// Generate distribution data for pie chart
+function generateDistributionData(city) {
+    const grids = tigoGrids[city] || [];
+    const bins = binGrids(grids);
+    return [
+        { name: '≤1 Mbps', value: bins['≤1'], color: '#dc2626' },
+        { name: '1-3 Mbps', value: bins['1-3'], color: '#f87171' },
+        { name: '3-5 Mbps', value: bins['3-5'], color: '#f59e0b' },
+        { name: '5-8 Mbps', value: bins['5-8'], color: '#84cc16' },
+        { name: '>8 Mbps', value: bins['>8'], color: '#10b981' }
+    ];
+}
+
+// Get top 10 worst cells
+function getWorstCells(city) {
+    const grids = tigoGrids[city] || [];
+    return grids
+        .sort((a, b) => a.dl_speed - b.dl_speed)
+        .slice(0, 10);
+}
+
+// Open city detail modal
+function openCityDetail(city) {
+    // Load grids if not already loaded
+    loadCityGrids(city).then(() => {
+        const overlay = document.getElementById('cityDetailOverlay');
+        document.getElementById('cityDetailTitle').textContent = city;
+
+        // Render trend chart
+        const trendData = generateWeeklyTrend(city);
+        const trendChart = echarts.init(document.getElementById('cityTrendChart'));
+        trendChart.setOption({
+            tooltip: { trigger: 'axis' },
+            grid: { left: 40, right: 20, top: 10, bottom: 30 },
+            xAxis: {
+                type: 'category',
+                data: trendData.map(d => d.week),
+                axisLabel: { color: '#9ca3af', fontSize: 9 },
+                axisLine: { lineStyle: { color: '#374151' } }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: { color: '#9ca3af', fontSize: 9 },
+                axisLine: { lineStyle: { color: '#374151' } },
+                splitLine: { lineStyle: { color: '#1f2937' } }
+            },
+            series: [{
+                type: 'line',
+                data: trendData.map(d => d.speed),
+                smooth: true,
+                lineStyle: { color: '#06b6d4', width: 2 },
+                areaStyle: { color: 'rgba(6, 182, 212, 0.2)' },
+                itemStyle: { color: '#06b6d4' }
+            }],
+            textStyle: { color: '#e5e7eb' }
+        });
+
+        // Render distribution pie chart
+        const distData = generateDistributionData(city);
+        const distChart = echarts.init(document.getElementById('cityDistributionChart'));
+        const grids = tigoGrids[city] || [];
+        const avg = grids.length > 0 ? (grids.reduce((s, g) => s + g.dl_speed, 0) / grids.length).toFixed(1) : 0;
+        distChart.setOption({
+            tooltip: { trigger: 'item' },
+            series: [{
+                type: 'pie',
+                radius: ['45%', '70%'],
+                center: ['50%', '50%'],
+                data: distData.map(d => ({ name: d.name, value: d.value, itemStyle: { color: d.color } })),
+                label: { show: false },
+                emphasis: { label: { show: true, fontSize: 11 } }
+            }],
+            graphic: [{
+                type: 'text',
+                left: 'center',
+                top: 'center',
+                style: {
+                    text: avg + ' Mbps',
+                    fontSize: 18,
+                    fontWeight: '600',
+                    fill: '#e5e7eb',
+                    textAlign: 'center'
+                }
+            }],
+            textStyle: { color: '#e5e7eb', fontSize: 11 }
+        });
+
+        // Render worst cells table
+        const worstCells = getWorstCells(city);
+        const cellsHtml = worstCells.map((cell, idx) => `
+            <tr>
+                <td>${idx + 1}</td>
+                <td>${cell.dl_speed}</td>
+                <td>${cell.users}</td>
+                <td>${cell.prb}%</td>
+                <td style="font-size: var(--fs-xs); color: #9ca3af;">${cell.lat.toFixed(4)},${cell.lon.toFixed(4)}</td>
+            </tr>
+        `).join('');
+        document.getElementById('worstCellsBody').innerHTML = cellsHtml;
+
+        // Render vs Op-B comparison
+        const ourGrids = tigoGrids[city] || [];
+        const opbGrids_detail = opbGrids[city] || [];
+        const ourAvg = ourGrids.length > 0 ? (ourGrids.reduce((s, g) => s + g.dl_speed, 0) / ourGrids.length).toFixed(1) : 0;
+        const opbAvg = opbGrids_detail.length > 0 ? (opbGrids_detail.reduce((s, g) => s + g.dl_speed, 0) / opbGrids_detail.length).toFixed(1) : 0;
+        const ourLow = ourGrids.filter(g => g.dl_speed < 3).length;
+        const opbLow = opbGrids_detail.filter(g => g.dl_speed < 3).length;
+        const speedDiff = (ourAvg - opbAvg).toFixed(1);
+        const lowDiff = ourLow - opbLow;
+
+        document.getElementById('compOurSpeed').textContent = ourAvg;
+        document.getElementById('compOpBSpeed').textContent = opbAvg;
+        document.getElementById('compOurLow').textContent = ourLow.toLocaleString();
+        document.getElementById('compOpBLow').textContent = opbLow.toLocaleString();
+
+        const speedDiffEl = document.getElementById('compDiff');
+        speedDiffEl.textContent = (speedDiff > 0 ? '+' : '') + speedDiff + ' Mbps';
+        speedDiffEl.className = 'comparison-value ' + (speedDiff > 0 ? 'comparison-positive' : 'comparison-negative');
+
+        const lowDiffEl = document.getElementById('compLowDiff');
+        lowDiffEl.textContent = (lowDiff < 0 ? '' : '+') + lowDiff;
+        lowDiffEl.className = 'comparison-value ' + (lowDiff < 0 ? 'comparison-positive' : 'comparison-negative');
+
+        overlay.classList.add('active');
+    });
+}
+
+// Close city detail modal
+function closeCityDetail() {
+    const overlay = document.getElementById('cityDetailOverlay');
+    overlay.classList.remove('active');
+}
+
+// Close modal on overlay click
+document.getElementById('cityDetailOverlay').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+        closeCityDetail();
+    }
+});
+
+// Preload and display city summary table
+function updateCitySummaryTable() {
+    const cityNames = Object.keys(CITIES);
+    let htmlRows = cityNames.map(city => {
+        const grids = tigoGrids[city] || [];
+        const opbGrids_summary = opbGrids[city] || [];
+
+        const gridCount = grids.length;
+        const avg = grids.length > 0 ? (grids.reduce((s, g) => s + g.dl_speed, 0) / grids.length).toFixed(1) : 0;
+        const low = grids.filter(g => g.dl_speed < 3).length;
+        const pct = grids.length > 0 ? (low / grids.length * 100).toFixed(1) : 0;
+        const opbAvg = opbGrids_summary.length > 0 ? (opbGrids_summary.reduce((s, g) => s + g.dl_speed, 0) / opbGrids_summary.length).toFixed(1) : 0;
+        const diff = (avg - opbAvg).toFixed(1);
+
+        // Color-code pct column
+        let pctClass = 'pct-green';
+        if (pct > 10) pctClass = 'pct-red';
+        else if (pct > 5) pctClass = 'pct-yellow';
+
+        return `
+            <tr onclick="openCityDetail('${city}')">
+                <td>${city}</td>
+                <td>${gridCount.toLocaleString()}</td>
+                <td>${avg}</td>
+                <td>${low.toLocaleString()}</td>
+                <td class="pct-cell ${pctClass}">${pct}%</td>
+                <td style="color: ${diff > 0 ? '#10b981' : '#ef4444'}">${diff > 0 ? '+' : ''}${diff}</td>
+            </tr>
+        `;
+    }).join('');
+
+    // Calculate totals
+    const allGrids = [];
+    const allOpbGrids = [];
+    cityNames.forEach(city => {
+        if (tigoGrids[city]) allGrids.push(...tigoGrids[city]);
+        if (opbGrids[city]) allOpbGrids.push(...opbGrids[city]);
+    });
+
+    const totalGrids = allGrids.length;
+    const avgTotal = allGrids.length > 0 ? (allGrids.reduce((s, g) => s + g.dl_speed, 0) / allGrids.length).toFixed(1) : 0;
+    const lowTotal = allGrids.filter(g => g.dl_speed < 3).length;
+    const pctTotal = allGrids.length > 0 ? (lowTotal / allGrids.length * 100).toFixed(1) : 0;
+    const opbAvgTotal = allOpbGrids.length > 0 ? (allOpbGrids.reduce((s, g) => s + g.dl_speed, 0) / allOpbGrids.length).toFixed(1) : 0;
+    const diffTotal = (avgTotal - opbAvgTotal).toFixed(1);
+
+    let pctClassTotal = 'pct-green';
+    if (pctTotal > 10) pctClassTotal = 'pct-red';
+    else if (pctTotal > 5) pctClassTotal = 'pct-yellow';
+
+    htmlRows += `
+        <tr style="background-color: #0a0e1a; font-weight: 600; border-top: 1px solid #1f2937;">
+            <td>TOTAL</td>
+            <td>${totalGrids.toLocaleString()}</td>
+            <td>${avgTotal}</td>
+            <td>${lowTotal.toLocaleString()}</td>
+            <td class="pct-cell ${pctClassTotal}">${pctTotal}%</td>
+            <td style="color: ${diffTotal > 0 ? '#10b981' : '#ef4444'}">${diffTotal > 0 ? '+' : ''}${diffTotal}</td>
+        </tr>
+    `;
+
+    document.getElementById('citySummaryBody').innerHTML = htmlRows;
+}
+
+// Preload all city grids one by one
+function preloadAllCities() {
+    const cityNames = Object.keys(CITIES);
+    let loaded = 0;
+
+    function loadNext() {
+        if (loaded >= cityNames.length) {
+            updateCitySummaryTable();
+            return;
+        }
+
+        const city = cityNames[loaded];
+        loadCityGrids(city).then(() => {
+            loaded++;
+            updateCitySummaryTable();
+            loadNext();
+        });
+    }
+
+    loadNext();
+}
+
 // ============ EVENT HANDLERS ============
 
 document.getElementById('citySelector').addEventListener('change', (e) => {
@@ -1149,6 +1743,7 @@ document.getElementById('splitViewBtn').addEventListener('click', () => {
 window.addEventListener('load', () => {
     initMap();
     updateTranslations();
+    preloadAllCities();
 });
 
 window.addEventListener('resize', () => {
