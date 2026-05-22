@@ -593,6 +593,205 @@
             margin-top: 12px;
         }
 
+        /* ============ SITE DIAGNOSTIC PANEL ============ */
+
+        .site-diagnostic-panel {
+            position: fixed;
+            right: var(--pad);
+            top: 50%;
+            transform: translateY(-50%);
+            width: clamp(280px, 20vw, 400px);
+            max-height: 80vh;
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: var(--card-radius);
+            padding: var(--card-pad);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 1500;
+            display: none;
+            flex-direction: column;
+            gap: var(--gap);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #374151 transparent;
+        }
+
+        .site-diagnostic-panel.active {
+            display: flex;
+        }
+
+        .site-diagnostic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: var(--gap);
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .site-diagnostic-title {
+            font-size: var(--fs-lg);
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+
+        .site-diagnostic-close {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: var(--fs-lg);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .site-diagnostic-close:hover {
+            color: #e5e7eb;
+        }
+
+        .diagnostic-section {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .diagnostic-label {
+            font-size: var(--fs-sm);
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .diagnostic-value {
+            font-size: var(--fs-xs);
+            color: #9ca3af;
+        }
+
+        .sector-item {
+            background-color: #0f1419;
+            border: 1px solid #1f2937;
+            border-radius: calc(var(--card-radius) * 0.75);
+            padding: 8px;
+            font-size: var(--fs-xs);
+        }
+
+        .sector-item-title {
+            font-weight: 600;
+            color: #e5e7eb;
+            margin-bottom: 4px;
+        }
+
+        .sector-item-row {
+            display: flex;
+            justify-content: space-between;
+            color: #9ca3af;
+            margin-bottom: 2px;
+        }
+
+        .sector-item-value {
+            color: #e5e7eb;
+            font-weight: 500;
+        }
+
+        .sector-speed-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #0a0e1a;
+            border-radius: 2px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .sector-speed-fill {
+            height: 100%;
+            border-radius: 2px;
+        }
+
+        .recommendation-box {
+            background-color: #0f1419;
+            border: 1px solid #374151;
+            border-radius: calc(var(--card-radius) * 0.75);
+            padding: 8px;
+            color: #e5e7eb;
+            font-size: var(--fs-xs);
+            line-height: 1.4;
+        }
+
+        .recommendation-box.warning {
+            border-color: #f59e0b;
+            background-color: rgba(245, 158, 11, 0.1);
+        }
+
+        .recommendation-box.critical {
+            border-color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        /* ============ EXPANSION PRIORITY TABLE ============ */
+
+        .expansion-priority-table {
+            width: 100%;
+            font-size: var(--fs-xs);
+            border-collapse: collapse;
+        }
+
+        .expansion-priority-table th {
+            background-color: #0a0e1a;
+            color: #9ca3af;
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #1f2937;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .expansion-priority-table td {
+            color: #e5e7eb;
+            padding: 8px;
+            border-bottom: 1px solid #0f1419;
+        }
+
+        .expansion-priority-table tbody tr {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .expansion-priority-table tbody tr:hover {
+            background-color: #1f2937;
+        }
+
+        .priority-rank {
+            font-weight: 600;
+            color: #06b6d4;
+        }
+
+        .action-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 60px;
+            font-size: var(--fs-xs);
+        }
+
+        .action-urgent {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+
+        .action-plan {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+        }
+
+        .action-monitor {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+
         .loading-spinner {
             display: inline-block;
             width: 12px;
@@ -710,22 +909,81 @@
         <div class="panel-content" id="lowSpeedList"></div>
     </div>
 
-    <!-- BOTTOM: HISTOGRAM + CITY COMPARISON -->
-    <div class="bottom-panel panel" style="display:flex;gap:var(--gap);">
-        <div style="flex:1;display:flex;flex-direction:column;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-                <span class="panel-title" style="margin:0;" data-i18n="distribution">Speed Distribution</span>
-                <div style="display:flex;gap:4px;">
-                    <button id="btnViewCity" class="view-toggle active" onclick="setHistView('city')"><span data-i18n="currentCity">Current City</span></button>
-                    <button id="btnViewAll" class="view-toggle" onclick="setHistView('all')"><span data-i18n="allCities">All Cities</span></button>
+    <!-- BOTTOM: HISTOGRAM + CITY COMPARISON / EXPANSION PRIORITY -->
+    <div class="bottom-panel panel" style="display:flex;flex-direction:column;gap:var(--gap);">
+        <!-- Tab switcher -->
+        <div style="display:flex;gap:4px;align-items:center;">
+            <button id="btnTabDistribution" class="view-toggle active" onclick="setBottomTab('distribution')"><span data-i18n="distribution">Speed Distribution</span></button>
+            <button id="btnTabExpansion" class="view-toggle" onclick="setBottomTab('expansion')"><span data-i18n="expansionPriority">Expansion Priority</span></button>
+        </div>
+
+        <!-- Distribution tab content -->
+        <div id="tabDistribution" style="flex:1;display:flex;gap:var(--gap);min-height:0;">
+            <div style="flex:1;display:flex;flex-direction:column;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                    <span class="panel-title" style="margin:0;" data-i18n="distribution">Speed Distribution</span>
+                    <div style="display:flex;gap:4px;">
+                        <button id="btnViewCity" class="view-toggle active" onclick="setHistView('city')"><span data-i18n="currentCity">Current City</span></button>
+                        <button id="btnViewAll" class="view-toggle" onclick="setHistView('all')"><span data-i18n="allCities">All Cities</span></button>
+                    </div>
                 </div>
+                <div id="histogram" style="flex:1;min-height:0;"></div>
             </div>
-            <div id="histogram" style="flex:1;min-height:0;"></div>
+            <div style="flex:1;display:flex;flex-direction:column;">
+                <span class="panel-title" style="margin-bottom:4px;" data-i18n="cityComparison">City Comparison</span>
+                <div id="cityCompChart" style="flex:1;min-height:0;"></div>
+            </div>
         </div>
-        <div style="flex:1;display:flex;flex-direction:column;">
-            <span class="panel-title" style="margin-bottom:4px;" data-i18n="cityComparison">City Comparison</span>
-            <div id="cityCompChart" style="flex:1;min-height:0;"></div>
+
+        <!-- Expansion priority tab content -->
+        <div id="tabExpansion" style="flex:1;display:none;flex-direction:column;min-height:0;overflow:hidden;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                <span class="panel-title" style="margin:0;" data-i18n="expansionPriority">Expansion Priority</span>
+                <span style="font-size:var(--fs-xs);color:#9ca3af;">Top 20 Sites</span>
+            </div>
+            <div style="flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#374151 transparent;">
+                <table class="expansion-priority-table" id="expansionPriorityTable">
+                    <thead>
+                        <tr>
+                            <th data-i18n="rank">Rank</th>
+                            <th data-i18n="location">Location</th>
+                            <th data-i18n="priorityScore">Priority Score</th>
+                            <th data-i18n="lowSpeedGrids">Low-Speed</th>
+                            <th data-i18n="users">Users</th>
+                            <th data-i18n="avg">Avg Speed</th>
+                            <th data-i18n="action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expansionPriorityBody">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+</div>
+
+<!-- SITE DIAGNOSTIC PANEL -->
+<div class="site-diagnostic-panel" id="siteDiagnosticPanel">
+    <div class="site-diagnostic-header">
+        <div class="site-diagnostic-title" id="diagnosticSiteID">Site-001</div>
+        <button class="site-diagnostic-close" onclick="closeSiteDiagnostic()">✕</button>
+    </div>
+    <div class="diagnostic-section">
+        <div class="diagnostic-label" data-i18n="location">Location</div>
+        <div class="diagnostic-value" id="diagnosticLocation">0.0000, 0.0000</div>
+    </div>
+    <div class="diagnostic-section">
+        <div class="diagnostic-label" data-i18n="sectors">Sectors</div>
+        <div id="diagnosticSectors" style="display:flex;flex-direction:column;gap:6px;"></div>
+    </div>
+    <div class="diagnostic-section">
+        <div class="diagnostic-label" data-i18n="sectorSpeed">Sector Speed Distribution</div>
+        <div id="diagnosticSpeedChart" style="height:200px;"></div>
+    </div>
+    <div class="diagnostic-section">
+        <div class="diagnostic-label" data-i18n="recommendation">Recommendation</div>
+        <div id="diagnosticRecommendation" class="recommendation-box"></div>
     </div>
 </div>
 
@@ -833,6 +1091,19 @@ const TRANSLATIONS = {
         'opBComparison': 'vs Operator B',
         'avgDLSpeed': 'Avg DL Speed',
         'betterPerformance': 'Our performance is better in avg speed & low-speed count metrics',
+        'diagnose': 'Diagnose',
+        'siteID': 'Site ID',
+        'sectors': 'Sectors',
+        'sectorSpeed': 'Sector Speed',
+        'recommendation': 'Recommendation',
+        'expandRecommended': 'Recommend expansion',
+        'expansionPriority': 'Expansion Priority',
+        'priorityScore': 'Priority Score',
+        'lowSpeedGrids': 'Low-Speed Grids',
+        'action': 'Action',
+        'urgent': 'Urgent',
+        'plan': 'Plan',
+        'monitor': 'Monitor',
     },
     'zh': {
         'overview': '概览',
@@ -864,6 +1135,19 @@ const TRANSLATIONS = {
         'opBComparison': '对比 B运营商',
         'avgDLSpeed': '平均下行速率',
         'betterPerformance': '我们在平均速率和低速率计数指标上表现更好',
+        'diagnose': '诊断',
+        'siteID': '站点ID',
+        'sectors': '扇区',
+        'sectorSpeed': '扇区速率',
+        'recommendation': '建议',
+        'expandRecommended': '建议扩容',
+        'expansionPriority': '扩容优先级',
+        'priorityScore': '优先级分数',
+        'lowSpeedGrids': '低速栅格',
+        'action': '操作',
+        'urgent': '紧急',
+        'plan': '规划',
+        'monitor': '监测',
     }
 };
 
@@ -1153,7 +1437,8 @@ function initMap() {
                     <strong>Speed: ${cell.dl_speed} Mbps</strong><br>
                     Users: ${cell.users}<br>
                     PRB: ${cell.prb}%<br>
-                    RSRP: ${cell.rsrp} dBm
+                    RSRP: ${cell.rsrp} dBm<br>
+                    <a href="javascript:showSiteDiagnostic(${cell.lat}, ${cell.lon})" style="color:#06b6d4;cursor:pointer;margin-top:6px;display:inline-block;">🔍 Diagnose</a>
                 </div>
             `;
             L.popup()
@@ -1548,6 +1833,232 @@ document.getElementById('cityDetailOverlay').addEventListener('click', (e) => {
     }
 });
 
+// ============ SITE DIAGNOSTIC PANEL (F-05) ============
+
+function closeSiteDiagnostic() {
+    const panel = document.getElementById('siteDiagnosticPanel');
+    panel.classList.remove('active');
+}
+
+function showSiteDiagnostic(lat, lon) {
+    // Get sectors (simulate by clustering nearby cells)
+    const grids = tigoGrids[currentCity] || [];
+    const nearbyGrids = grids.filter(g => {
+        const dlat = Math.abs(g.lat - lat);
+        const dlon = Math.abs(g.lon - lon);
+        return dlat < 0.005 && dlon < 0.005; // ~500m radius
+    });
+
+    if (nearbyGrids.length === 0) {
+        return;
+    }
+
+    // Simulate sectors (in practice, would be from real site data)
+    const sectorCount = Math.max(1, Math.min(3, Math.ceil(nearbyGrids.length / 10)));
+    const sectors = [];
+    for (let i = 0; i < sectorCount; i++) {
+        const sectorGrids = nearbyGrids.slice(i * Math.ceil(nearbyGrids.length / sectorCount), (i + 1) * Math.ceil(nearbyGrids.length / sectorCount));
+        const avgSpeed = sectorGrids.length > 0 ? (sectorGrids.reduce((s, g) => s + g.dl_speed, 0) / sectorGrids.length).toFixed(1) : 0;
+        const totalUsers = sectorGrids.reduce((s, g) => s + g.users, 0);
+        const avgPRB = sectorGrids.length > 0 ? (sectorGrids.reduce((s, g) => s + g.prb, 0) / sectorGrids.length).toFixed(0) : 0;
+        const avgRSRP = sectorGrids.length > 0 ? (sectorGrids.reduce((s, g) => s + g.rsrp, 0) / sectorGrids.length).toFixed(0) : 0;
+        sectors.push({
+            id: i + 1,
+            speed: avgSpeed,
+            users: totalUsers,
+            prb: avgPRB,
+            rsrp: avgRSRP,
+            count: sectorGrids.length
+        });
+    }
+
+    // Render diagnostic panel
+    const panel = document.getElementById('siteDiagnosticPanel');
+    const siteID = 'Site-' + Math.floor(lat * 10000).toString().slice(-3).padStart(3, '0');
+    document.getElementById('diagnosticSiteID').textContent = siteID;
+    document.getElementById('diagnosticLocation').textContent = lat.toFixed(4) + ', ' + lon.toFixed(4);
+
+    // Render sectors
+    const sectorsHtml = sectors.map(s => {
+        const speedPct = Math.min(100, (s.speed / 20) * 100);
+        const speedColor = s.speed < 3 ? '#dc2626' : s.speed < 5 ? '#f59e0b' : '#10b981';
+        return `
+            <div class="sector-item">
+                <div class="sector-item-title">Sector ${s.id}</div>
+                <div class="sector-item-row">
+                    <span>Speed:</span>
+                    <span class="sector-item-value">${s.speed} Mbps</span>
+                </div>
+                <div class="sector-speed-bar">
+                    <div class="sector-speed-fill" style="width: ${speedPct}%; background-color: ${speedColor};"></div>
+                </div>
+                <div class="sector-item-row">
+                    <span>Users:</span>
+                    <span class="sector-item-value">${s.users.toLocaleString()}</span>
+                </div>
+                <div class="sector-item-row">
+                    <span>PRB:</span>
+                    <span class="sector-item-value">${s.prb}%</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+    document.getElementById('diagnosticSectors').innerHTML = sectorsHtml;
+
+    // Render speed distribution chart
+    const speedChart = echarts.init(document.getElementById('diagnosticSpeedChart'));
+    speedChart.setOption({
+        tooltip: { trigger: 'axis' },
+        grid: { left: 40, right: 20, top: 10, bottom: 20 },
+        xAxis: {
+            type: 'category',
+            data: sectors.map(s => 'S' + s.id),
+            axisLabel: { color: '#9ca3af', fontSize: 9 },
+            axisLine: { lineStyle: { color: '#374151' } }
+        },
+        yAxis: {
+            type: 'value',
+            max: 20,
+            axisLabel: { color: '#9ca3af', fontSize: 9 },
+            axisLine: { lineStyle: { color: '#374151' } },
+            splitLine: { lineStyle: { color: '#1f2937' } }
+        },
+        series: [{
+            type: 'bar',
+            data: sectors.map(s => ({
+                value: parseFloat(s.speed),
+                itemStyle: { color: parseFloat(s.speed) < 3 ? '#dc2626' : parseFloat(s.speed) < 5 ? '#f59e0b' : '#10b981' }
+            })),
+            barWidth: '60%'
+        }],
+        textStyle: { color: '#e5e7eb' }
+    });
+
+    // Render recommendation
+    const hasLowSpeed = sectors.some(s => s.speed < 3);
+    const maxUsers = Math.max(...sectors.map(s => s.users));
+    let recommendationClass = 'warning';
+    let recommendationText = '⚠️ ' + t('expandRecommended') + ' - Some sectors are below 3 Mbps with ' + maxUsers.toLocaleString() + ' users';
+
+    if (hasLowSpeed && maxUsers > 500) {
+        recommendationClass = 'critical';
+        recommendationText = '🔴 Urgent expansion needed - Multiple low-speed sectors with high user count';
+    }
+
+    document.getElementById('diagnosticRecommendation').className = 'recommendation-box ' + recommendationClass;
+    document.getElementById('diagnosticRecommendation').textContent = recommendationText;
+
+    // Show panel
+    panel.classList.add('active');
+}
+
+// ============ EXPANSION PRIORITY RANKING (F-06) ============
+
+var bottomTab = 'distribution'; // 'distribution' or 'expansion'
+
+function setBottomTab(tab) {
+    bottomTab = tab;
+    document.getElementById('btnTabDistribution').classList.toggle('active', tab === 'distribution');
+    document.getElementById('btnTabExpansion').classList.toggle('active', tab === 'expansion');
+    document.getElementById('tabDistribution').style.display = tab === 'distribution' ? 'flex' : 'none';
+    document.getElementById('tabExpansion').style.display = tab === 'expansion' ? 'flex' : 'none';
+
+    if (tab === 'expansion') {
+        updateExpansionPriority();
+    }
+}
+
+function calculateExpansionPriority() {
+    // Scan all grids in current city and calculate expansion priority
+    const grids = tigoGrids[currentCity] || [];
+    const CLUSTER_RADIUS = 0.009; // ~1km at equator
+
+    // Find clusters of low-speed grids
+    const clusters = [];
+    const processed = new Set();
+
+    grids.forEach((grid, idx) => {
+        if (processed.has(idx) || grid.dl_speed >= 3) return;
+
+        // Start a new cluster
+        const cluster = {
+            centerLat: grid.lat,
+            centerLon: grid.lon,
+            grids: [grid],
+            indices: [idx]
+        };
+        processed.add(idx);
+
+        // Find nearby low-speed grids
+        grids.forEach((otherGrid, otherIdx) => {
+            if (processed.has(otherIdx) || otherGrid.dl_speed >= 3) return;
+            const dlat = Math.abs(otherGrid.lat - grid.lat);
+            const dlon = Math.abs(otherGrid.lon - grid.lon);
+            if (dlat < CLUSTER_RADIUS && dlon < CLUSTER_RADIUS) {
+                cluster.grids.push(otherGrid);
+                cluster.indices.push(otherIdx);
+                processed.add(otherIdx);
+            }
+        });
+
+        // Recalculate center
+        cluster.centerLat = (cluster.grids.reduce((s, g) => s + g.lat, 0) / cluster.grids.length).toFixed(6);
+        cluster.centerLon = (cluster.grids.reduce((s, g) => s + g.lon, 0) / cluster.grids.length).toFixed(6);
+
+        clusters.push(cluster);
+    });
+
+    // Calculate priority scores
+    const priorities = clusters.map(cluster => {
+        const lowSpeedGrids = cluster.grids.filter(g => g.dl_speed < 3).length;
+        const totalUsers = cluster.grids.reduce((s, g) => s + g.users, 0);
+        const avgSpeed = cluster.grids.length > 0 ? (cluster.grids.reduce((s, g) => s + g.dl_speed, 0) / cluster.grids.length).toFixed(1) : 0;
+        const priorityScore = (lowSpeedGrids * totalUsers) / 1000;
+
+        return {
+            lat: cluster.centerLat,
+            lon: cluster.centerLon,
+            lowSpeedGrids: lowSpeedGrids,
+            totalUsers: totalUsers,
+            avgSpeed: avgSpeed,
+            priorityScore: priorityScore.toFixed(2)
+        };
+    });
+
+    // Sort by priority score (descending) and take top 20
+    return priorities.sort((a, b) => b.priorityScore - a.priorityScore).slice(0, 20);
+}
+
+function updateExpansionPriority() {
+    const priorities = calculateExpansionPriority();
+
+    let htmlRows = priorities.map((item, idx) => {
+        let actionClass = 'action-monitor';
+        let actionText = t('monitor');
+        if (item.priorityScore > 100) {
+            actionClass = 'action-urgent';
+            actionText = t('urgent');
+        } else if (item.priorityScore > 50) {
+            actionClass = 'action-plan';
+            actionText = t('plan');
+        }
+
+        return `
+            <tr onclick="zoomToGrid(${item.lat}, ${item.lon})">
+                <td class="priority-rank">${idx + 1}</td>
+                <td>${item.lat}, ${item.lon}</td>
+                <td>${item.priorityScore}</td>
+                <td>${item.lowSpeedGrids}</td>
+                <td>${item.totalUsers.toLocaleString()}</td>
+                <td>${item.avgSpeed}</td>
+                <td><span class="action-badge ${actionClass}">${actionText}</span></td>
+            </tr>
+        `;
+    }).join('');
+
+    document.getElementById('expansionPriorityBody').innerHTML = htmlRows;
+}
+
 // Preload and display city summary table
 function updateCitySummaryTable() {
     const cityNames = Object.keys(CITIES);
@@ -1716,7 +2227,8 @@ document.getElementById('splitViewBtn').addEventListener('click', () => {
                             <strong>Speed: ${cell.dl_speed} Mbps</strong><br>
                             Users: ${cell.users}<br>
                             PRB: ${cell.prb}%<br>
-                            RSRP: ${cell.rsrp} dBm
+                            RSRP: ${cell.rsrp} dBm<br>
+                            <a href="javascript:showSiteDiagnostic(${cell.lat}, ${cell.lon})" style="color:#06b6d4;cursor:pointer;margin-top:6px;display:inline-block;">🔍 Diagnose</a>
                         </div>
                     `;
                     L.popup()
