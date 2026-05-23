@@ -479,6 +479,368 @@
       .fs-num { font-size: 30px; }
     }
 
+    /* ── Environment & Workflow Section ── */
+    .env-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 24px 0;
+    }
+    .env-section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .env-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent3);
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+    .env-section-header h2 {
+      font-size: clamp(22px, 4vw, 38px);
+      font-weight: 800;
+      background: linear-gradient(135deg, #e2e8f0 0%, #34d399 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .env-section-header p {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .env-block {
+      margin-bottom: 48px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .env-block.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .env-block-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .env-block-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Tool icon grid */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .tool-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      backdrop-filter: blur(4px);
+    }
+    .tool-card:hover {
+      border-color: rgba(56,189,248,0.35);
+      box-shadow: 0 4px 20px rgba(56,189,248,0.08);
+    }
+    .tool-icon { font-size: 26px; }
+    .tool-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .tool-desc {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .tool-card.green { border-color: rgba(52,211,153,0.2); }
+    .tool-card.green:hover { border-color: rgba(52,211,153,0.4); box-shadow: 0 4px 20px rgba(52,211,153,0.08); }
+    .tool-card.purple { border-color: rgba(129,140,248,0.2); }
+    .tool-card.purple:hover { border-color: rgba(129,140,248,0.4); box-shadow: 0 4px 20px rgba(129,140,248,0.08); }
+    .tool-card.warn { border-color: rgba(245,158,11,0.2); }
+    .tool-card.warn:hover { border-color: rgba(245,158,11,0.4); box-shadow: 0 4px 20px rgba(245,158,11,0.08); }
+
+    /* Workflow diagram */
+    .workflow-diagram {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .wf-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+    }
+    .wf-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 44px;
+      bottom: -12px;
+      width: 2px;
+      background: linear-gradient(to bottom, rgba(56,189,248,0.4), rgba(56,189,248,0.1));
+    }
+    .wf-icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .wf-step.human .wf-icon-wrap { border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.08); }
+    .wf-step.ai .wf-icon-wrap { border-color: rgba(56,189,248,0.4); background: rgba(56,189,248,0.08); }
+    .wf-step.loop .wf-icon-wrap { border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.08); }
+    .wf-content {
+      flex: 1;
+      padding: 8px 0 20px;
+    }
+    .wf-actor {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .wf-step.human .wf-actor { color: var(--accent3); }
+    .wf-step.ai .wf-actor { color: var(--accent); }
+    .wf-step.loop .wf-actor { color: var(--warn); }
+    .wf-text {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .wf-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* Role badges */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .role-card {
+      background: rgba(52,211,153,0.04);
+      border: 1px solid rgba(52,211,153,0.15);
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+    .role-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent3);
+      margin-bottom: 6px;
+    }
+    .role-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Iteration examples */
+    .iter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .iter-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      transition: border-color 0.2s;
+    }
+    .iter-card:hover { border-color: rgba(129,140,248,0.3); }
+    .iter-said {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    .iter-quote {
+      font-size: 13px;
+      color: var(--accent2);
+      font-style: italic;
+      margin-bottom: 10px;
+      padding: 8px 12px;
+      background: rgba(129,140,248,0.06);
+      border-left: 2px solid rgba(129,140,248,0.3);
+      border-radius: 0 6px 6px 0;
+    }
+    .iter-result {
+      font-size: 12px;
+      color: var(--accent3);
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .iter-result::before { content: '→'; flex-shrink: 0; }
+
+    /* QA table */
+    .qa-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .qa-table th {
+      text-align: left;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .qa-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(56,189,248,0.06);
+      vertical-align: top;
+    }
+    .qa-table tr:last-child td { border-bottom: none; }
+    .qa-table tr:hover td { background: rgba(56,189,248,0.03); }
+    .qa-code {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .qa-desc { color: #94a3b8; }
+    .qa-added {
+      font-size: 10px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .qa-table-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* Autonomous dev stats */
+    .auto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .auto-stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .auto-stat:hover { border-color: rgba(56,189,248,0.3); }
+    .auto-stat-num {
+      font-size: 32px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .auto-stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .auto-flow {
+      background: var(--card);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      align-items: center;
+      justify-content: center;
+    }
+    .af-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text);
+      padding: 8px 4px;
+    }
+    .af-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .af-arrow {
+      color: var(--muted);
+      font-size: 18px;
+      padding: 0 4px;
+    }
+    .af-label { font-size: 12px; color: #94a3b8; }
+
+    .env-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 56px 0 0;
+    }
+
+    @media (max-width: 700px) {
+      .tool-grid { grid-template-columns: repeat(2, 1fr); }
+      .role-grid { grid-template-columns: 1fr; }
+      .workflow-diagram { padding: 20px; }
+      .auto-flow { flex-direction: column; align-items: flex-start; }
+      .af-arrow { transform: rotate(90deg); align-self: center; }
+    }
+
     /* scroll progress bar */
     #progress-bar {
       position: fixed;
@@ -513,6 +875,7 @@
 
 <!-- ── Nav ── -->
 <nav>
+  <button class="nav-btn" onclick="scrollTo('env-workflow')" style="border-color:rgba(52,211,153,0.3);color:var(--accent3)">🛠️ 开发环境</button>
   <button class="nav-btn" onclick="scrollTo('p1')">P1 立项</button>
   <button class="nav-btn" onclick="scrollTo('p2')">P2 骨架</button>
   <button class="nav-btn" onclick="scrollTo('p3')">P3 FANG UI</button>
@@ -529,6 +892,426 @@
   <button class="nav-btn" onclick="scrollTo('p14')">P14 CTO</button>
   <button class="nav-btn" onclick="document.getElementById('learnings').scrollIntoView({behavior:'smooth'})">Key Learnings</button>
 </nav>
+
+<!-- ── Environment & Workflow ── -->
+<section id="env-workflow" class="env-section">
+
+  <div class="env-section-header">
+    <div class="env-section-label">Behind the Scenes</div>
+    <h2>环境 & 工作流程</h2>
+    <p>如果你对 AI 和编程完全陌生，这一节告诉你这个 Dashboard 到底是怎么做出来的。</p>
+  </div>
+
+  <!-- Section 1: Environment -->
+  <div class="env-block" id="env-s1">
+    <div class="env-block-title">🖥️ Section 1 · 我的开发环境 — "一个人 + 一台电脑 + AI"</div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px 28px;margin-bottom:20px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:20px;">
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:22px;margin-bottom:8px;">🖥️</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">硬件：云服务器 (Debian Linux)</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;">不是顶配游戏电脑，就是一台普通的云端 Linux 服务器。浏览器跑在你的电脑里，代码和 AI 在云端运行。</div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid rgba(56,189,248,0.2);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:22px;margin-bottom:8px;">🤖</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">AI 助手：Claude Code v2.1.104</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;">一个能读代码、写代码、运行命令、搜索网络、管理文件的 AI。想象成一个从不睡觉、反应极快的初级开发员。</div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:22px;margin-bottom:8px;">💬</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">编程语言：3种</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;"><strong style="color:var(--accent)">HTML + CSS + JavaScript</strong> — 负责你看到的 Dashboard 界面。<br><strong style="color:var(--accent3)">Python</strong> — 负责 AI 智库的后端逻辑。</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--accent3);font-weight:600;margin-bottom:12px;">💰 使用工具：全部免费开源，零付费软件</div>
+    </div>
+
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-icon">🗺️</div>
+        <div class="tool-name">Leaflet</div>
+        <div class="tool-desc">开源地图库。类似 Google Maps，但完全免费、可定制。所有哥伦比亚地图都用它画的。</div>
+      </div>
+      <div class="tool-card green">
+        <div class="tool-icon">📊</div>
+        <div class="tool-name">ECharts</div>
+        <div class="tool-desc">图表库。柱状图、饼图、趋势线全靠它。百度开源，全球主流数据可视化工具之一。</div>
+      </div>
+      <div class="tool-card purple">
+        <div class="tool-icon">🔀</div>
+        <div class="tool-name">Git / GitHub</div>
+        <div class="tool-desc">版本控制系统。每次改动都有记录，像"整个项目的撤销历史"。共 114 次提交，每次都有说明。</div>
+      </div>
+      <div class="tool-card green">
+        <div class="tool-icon">🌐</div>
+        <div class="tool-name">GitHub Pages</div>
+        <div class="tool-desc">免费网站托管。把 HTML 文件放上去，全世界都能访问。无需服务器，无需域名费用。</div>
+      </div>
+      <div class="tool-card warn">
+        <div class="tool-icon">🤖</div>
+        <div class="tool-name">Playwright</div>
+        <div class="tool-desc">自动化浏览器测试工具。一个机器人自动打开网站、点按钮、检查有没有 Bug，代替人工手动测试。</div>
+      </div>
+      <div class="tool-card purple">
+        <div class="tool-icon">🐍</div>
+        <div class="tool-name">FastAPI</div>
+        <div class="tool-desc">Python 后端框架。AI 智库用它来接收请求、处理逻辑、返回分析结果。</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📝</div>
+        <div class="tool-name">VS Code / Terminal</div>
+        <div class="tool-desc">编辑器和命令行工具。AI 在终端里直接运行代码，不需要手动点按钮。</div>
+      </div>
+      <div class="tool-card green">
+        <div class="tool-icon">🎨</div>
+        <div class="tool-name">零付费设计工具</div>
+        <div class="tool-desc">没有 Photoshop，没有 Figma，没有任何付费设计软件。所有 UI 用 CSS + 创意实现。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Workflow -->
+  <div class="env-block" id="env-s2">
+    <div class="env-block-title">🔄 Section 2 · 我的工作流程 — "对话式开发"</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+      <div class="workflow-diagram">
+        <div class="wf-step human">
+          <div class="wf-icon-wrap">🧑</div>
+          <div class="wf-content">
+            <div class="wf-actor">Human</div>
+            <div class="wf-text">用中文说想要什么</div>
+            <div class="wf-note">普通话、口语、不用写代码</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">🤖</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">理解需求，生成代码</div>
+            <div class="wf-note">同时处理 HTML、CSS、JS 逻辑</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">⚙️</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">运行代码，检查错误</div>
+            <div class="wf-note">自动执行、自动发现问题</div>
+          </div>
+        </div>
+        <div class="wf-step human">
+          <div class="wf-icon-wrap">👀</div>
+          <div class="wf-content">
+            <div class="wf-actor">Human</div>
+            <div class="wf-text">在浏览器里看结果</div>
+            <div class="wf-note">刷新页面，用眼睛判断好不好看</div>
+          </div>
+        </div>
+        <div class="wf-step human">
+          <div class="wf-icon-wrap">💬</div>
+          <div class="wf-content">
+            <div class="wf-actor">Human</div>
+            <div class="wf-text">给出反馈</div>
+            <div class="wf-note">"太丑了" / "左边有空白" / "这个数据不对"</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">🔧</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">修复，再次迭代</div>
+            <div class="wf-note">循环往复，直到满意</div>
+          </div>
+        </div>
+        <div class="wf-step loop">
+          <div class="wf-icon-wrap">🔁</div>
+          <div class="wf-content">
+            <div class="wf-actor">Loop</div>
+            <div class="wf-text">重复，直到满意</div>
+            <div class="wf-note">平均每个功能迭代 3–8 轮</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">🚀</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">Push 到 GitHub，版本保存</div>
+            <div class="wf-note">自动提交，附上中文说明</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:20px 24px;margin-bottom:16px;">
+          <div style="font-size:14px;font-weight:700;color:var(--accent3);margin-bottom:10px;">🎯 核心原则</div>
+          <div style="font-size:13px;color:#94a3b8;line-height:1.7;">整个过程中，<strong style="color:var(--text)">人类一行代码都没有写</strong>。所有编码工作全部由 AI 完成。</div>
+        </div>
+
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">人类在这个流程里的角色</div>
+        <div class="role-grid">
+          <div class="role-card">
+            <div class="role-title">📋 产品经理</div>
+            <div class="role-desc">定义要做什么、优先级是什么，把业务需求翻译成 AI 能理解的语言</div>
+          </div>
+          <div class="role-card">
+            <div class="role-title">🔍 QA 测试员</div>
+            <div class="role-desc">打开浏览器，用眼睛和鼠标检查结果是否符合预期</div>
+          </div>
+          <div class="role-card">
+            <div class="role-title">🎨 设计总监</div>
+            <div class="role-desc">说"太丑了"、"间距不对"，给出审美判断，AI 负责技术实现</div>
+          </div>
+          <div class="role-card">
+            <div class="role-title">📡 领域专家</div>
+            <div class="role-desc">提供电信行业知识：哪些 KPI 重要、RSRP 颜色应该什么意思、CMO 真正关心什么</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Iteration -->
+  <div class="env-block" id="env-s3">
+    <div class="env-block-title">⚡ Section 3 · 如何迭代 — "说 → 看 → 改 → 推"</div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
+      <div style="background:var(--card);border:1px solid rgba(52,211,153,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">💬</div>
+        <div style="font-size:20px;font-weight:900;color:var(--accent3);margin-bottom:6px;">说</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">用中文告诉 AI 你想要什么，口语也行，不用技术术语</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(56,189,248,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">👁️</div>
+        <div style="font-size:20px;font-weight:900;color:var(--accent);margin-bottom:6px;">看</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">刷新浏览器，用肉眼观察结果是否符合预期</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">🔧</div>
+        <div style="font-size:20px;font-weight:900;color:var(--warn);margin-bottom:6px;">改</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">给反馈，AI 修复，再看，循环直到满意</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(129,140,248,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">🚀</div>
+        <div style="font-size:20px;font-weight:900;color:var(--accent2);margin-bottom:6px;">推</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">满意后 AI Push 到 GitHub，版本永久保存</div>
+      </div>
+    </div>
+
+    <div style="font-size:13px;color:var(--muted);margin-bottom:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">真实对话案例 — 这些话直接触发了代码修改</div>
+    <div class="iter-grid">
+      <div class="iter-card">
+        <div class="iter-said">Human 说</div>
+        <div class="iter-quote">"UI设计请回退两个版本"</div>
+        <div class="iter-result">AI 用 Git 找到两个版本前的代码，精准恢复，无数据丢失</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">Human 说</div>
+        <div class="iter-quote">"站点的分布更符合普通网络的站点分布，现在柔在一团"</div>
+        <div class="iter-result">AI 改用高斯分布 + 10条公路走廊算法，站点自然分散在全国</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">Human 说</div>
+        <div class="iter-quote">"太丑了"</div>
+        <div class="iter-result">AI 完全重新设计了整个 UI 布局，从配色到间距全部重写</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">Human 说</div>
+        <div class="iter-quote">"有的站点跑到海上去了"</div>
+        <div class="iter-result">AI 加入海洋边界过滤，太平洋和加勒比海内不再生成站点</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">Human 说</div>
+        <div class="iter-quote">"底下四个卡片里面的元素布局可以左右"</div>
+        <div class="iter-result">AI 调整底部卡片为左右分栏布局，文字左、图表右</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">Human 说</div>
+        <div class="iter-quote">"英文界面里面还有中文"</div>
+        <div class="iter-result">AI 扫描全部 145 个 i18n 条目，补全所有遗漏翻译</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Documentation -->
+  <div class="env-block" id="env-s4">
+    <div class="env-block-title">📚 Section 4 · 文档如何记录 — "AI 自动写文档"</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+      <div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:0;">
+          <div style="background:var(--card);border:1px solid rgba(56,189,248,0.2);border-radius:12px;padding:16px 20px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px;">📄 CLAUDE.md — 项目规则文件</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6;">AI 开始工作前<strong style="color:var(--text)">必须先读这个文件</strong>。里面写了 QA 检查清单、禁止行为、项目约定。相当于给 AI 的"工作手册"。</div>
+          </div>
+          <div style="background:var(--card);border:1px solid rgba(129,140,248,0.2);border-radius:12px;padding:16px 20px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent2);margin-bottom:6px;">📋 PRD.md — 产品需求文档</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6;">明确列出 Dashboard 应该有哪些功能（共 49 条）。AI 开发时对照这个文档，确保没有遗漏，没有越界。</div>
+          </div>
+          <div style="background:var(--card);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:16px 20px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent3);margin-bottom:6px;">🔀 Git Commit Messages — 每次改动都有说明</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6;">114 次提交，每次都有 AI 用中文写的说明，解释"改了什么、为什么改"。翻开历史记录，一眼看清整个项目演化过程。</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">QA 检查清单 — 每次 Push 前自动执行</div>
+        <div class="qa-table-wrap">
+          <table class="qa-table">
+            <thead>
+              <tr>
+                <th>检查项</th>
+                <th>内容</th>
+                <th>加入时间</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="qa-code">CHECK-1</td>
+                <td class="qa-desc">中英文翻译完整性（145个条目）</td>
+                <td class="qa-added">P9</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-2</td>
+                <td class="qa-desc">布局对齐，无意外错位</td>
+                <td class="qa-added">P3</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-3</td>
+                <td class="qa-desc">响应式设计，手机/桌面都好看</td>
+                <td class="qa-added">P8</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-4</td>
+                <td class="qa-desc">HTML 结构合法性验证</td>
+                <td class="qa-added">P2</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-5</td>
+                <td class="qa-desc">JavaScript 安全性（变量作用域、事件绑定）</td>
+                <td class="qa-added">P6</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-6</td>
+                <td class="qa-desc">底部卡片布局正确性</td>
+                <td class="qa-added">P10</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-7</td>
+                <td class="qa-desc">分屏对比视图同步</td>
+                <td class="qa-added">P10</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-8</td>
+                <td class="qa-desc">RSRP 信号颜色编码准确性</td>
+                <td class="qa-added">P13</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Autonomous Development -->
+  <div class="env-block" id="env-s5">
+    <div class="env-block-title">🌙 Section 5 · 自动开发流程 — "AI 不睡觉"</div>
+
+    <div class="auto-grid">
+      <div class="auto-stat">
+        <div class="auto-stat-num">666</div>
+        <div class="auto-stat-label">自动通过测试数</div>
+      </div>
+      <div class="auto-stat">
+        <div class="auto-stat-num">4</div>
+        <div class="auto-stat-label">并行 Agent 最多数量</div>
+      </div>
+      <div class="auto-stat">
+        <div class="auto-stat-num">30m</div>
+        <div class="auto-stat-label">后台定时检查间隔</div>
+      </div>
+      <div class="auto-stat">
+        <div class="auto-stat-num">0</div>
+        <div class="auto-stat-label">人类写的代码行数</div>
+      </div>
+    </div>
+
+    <div class="auto-flow" style="margin-bottom:20px;">
+      <div class="af-step">
+        <div class="af-icon">🌙</div>
+        <div class="af-label">人类去睡觉</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">⚙️</div>
+        <div class="af-label">AI 继续开发</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🧪</div>
+        <div class="af-label">运行测试</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">❌</div>
+        <div class="af-label">测试失败</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🔍</div>
+        <div class="af-label">分析错误</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🔧</div>
+        <div class="af-label">自动修复</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">✅</div>
+        <div class="af-label">全绿，继续</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🚀</div>
+        <div class="af-label">Push，等人类醒来</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;">
+      <div style="background:var(--card);border:1px solid rgba(56,189,248,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🔀</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">后台并行 Agent</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">AI 可以同时启动多个"工人"并行工作。例如：一个 Agent 写前端，另一个同时写测试脚本。互不干扰，最大化效率。</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">⏱️</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">定时监控</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">人类去睡觉后，AI 设置 30 分钟定时器，自动检查测试是否通过、发现问题就修复、继续开发直到完成。</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🛠️</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">自愈能力</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">测试失败时，AI 不会叫醒人类 — 自己读错误信息、定位问题、修代码、重跑测试。只有涉及设计决策时才问人类。</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(129,140,248,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🎭</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">Playwright 沙盒测试</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">AI 启动一个真实的 Web 服务器，打开真实的浏览器（无头模式），自动点击按钮、验证地图加载、检查图表渲染 — 全自动，无需人工干预。</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;background:rgba(52,211,153,0.05);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:16px 20px;">
+      <div style="font-size:13px;color:var(--accent3);font-weight:600;margin-bottom:6px;">📌 真实案例</div>
+      <div style="font-size:13px;color:#94a3b8;line-height:1.7;">AI 智库的 Phase 0 → 1 → 2 → 3 整个开发过程，大部分是在人类睡眠期间完成的。共自动通过 <strong style="color:var(--text)">666 个测试</strong>，全程自主运行，人类早上醒来看到的是"全绿"的测试报告和一份完整的新功能。</div>
+    </div>
+  </div>
+
+  <div class="env-divider"></div>
+
+</section>
 
 <!-- ── Timeline ── -->
 <div class="timeline-wrap">
@@ -1145,7 +1928,7 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-  document.querySelectorAll('.phase, .learning-card').forEach(el => observer.observe(el));
+  document.querySelectorAll('.phase, .learning-card, .env-block').forEach(el => observer.observe(el));
 
   // Nav scroll helper (overrides built-in scrollTo)
   function scrollTo(id) {
