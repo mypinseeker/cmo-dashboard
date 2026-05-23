@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Making Of: CMO Dashboard — The Complete Build Story</title>
+  <style>
+    :root {
+      --bg: #080c17;
+      --bg2: #0d1526;
+      --bg3: #111d35;
+      --border: rgba(56, 189, 248, 0.15);
+      --accent: #38bdf8;
+      --accent2: #818cf8;
+      --accent3: #34d399;
+      --warn: #f59e0b;
+      --danger: #f87171;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --card: #0f1a2e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #080c17 0%, #0d1f3c 50%, #080c17 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 60px 24px 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(56,189,248,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .header-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      opacity: 0.9;
+    }
+    header h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 800;
+      background: linear-gradient(135deg, #e2e8f0 0%, #38bdf8 50%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+    .header-subtitle {
+      color: var(--muted);
+      font-size: clamp(14px, 2vw, 18px);
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .header-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .hstat {
+      text-align: center;
+    }
+    .hstat-num {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .hstat-label {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 12, 23, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .nav-btn {
+      background: none;
+      border: 1px solid rgba(56,189,248,0.2);
+      color: var(--muted);
+      padding: 4px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .nav-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(56,189,248,0.06);
+    }
+
+    /* ── Timeline container ── */
+    .timeline-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      position: relative;
+    }
+
+    /* center spine */
+    .timeline-wrap::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent 0%, var(--border) 5%, var(--border) 95%, transparent 100%);
+      transform: translateX(-50%);
+    }
+
+    /* ── Phase card ── */
+    .phase {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 56px;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .phase.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* alternating sides */
+    .phase:nth-child(odd) { flex-direction: row-reverse; }
+    .phase:nth-child(odd) .phase-card { text-align: right; }
+    .phase:nth-child(odd) .tags { justify-content: flex-end; }
+    .phase:nth-child(odd) .phase-meta { justify-content: flex-end; }
+
+    /* center dot */
+    .phase-dot-wrap {
+      flex: 0 0 auto;
+      width: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .phase-dot {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 16px rgba(56,189,248,0.25);
+      flex-shrink: 0;
+    }
+    .phase-dot.warn { border-color: var(--warn); box-shadow: 0 0 16px rgba(245,158,11,0.3); }
+    .phase-dot.danger { border-color: var(--danger); box-shadow: 0 0 16px rgba(248,113,113,0.3); }
+    .phase-dot.success { border-color: var(--accent3); box-shadow: 0 0 16px rgba(52,211,153,0.3); }
+    .phase-dot.purple { border-color: var(--accent2); box-shadow: 0 0 16px rgba(129,140,248,0.3); }
+
+    /* card */
+    .phase-card {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-width: 0;
+    }
+    .phase-card:hover {
+      border-color: rgba(56,189,248,0.35);
+      box-shadow: 0 4px 24px rgba(56,189,248,0.08);
+    }
+
+    /* arrow connector */
+    .phase:nth-child(even) .phase-card::after {
+      content: '';
+      position: absolute;
+      right: -9px;
+      top: 22px;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 9px solid var(--border);
+    }
+    .phase:nth-child(odd) .phase-card::after {
+      content: '';
+      position: absolute;
+      left: -9px;
+      top: 22px;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-right: 9px solid var(--border);
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .phase:nth-child(odd) .phase-header { flex-direction: row-reverse; }
+
+    .phase-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding-top: 3px;
+    }
+    .phase-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .phase-title .zh {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-left: 8px;
+    }
+
+    .phase-meta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .meta-item { display: flex; align-items: center; gap: 4px; }
+
+    .phase-body {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 14px;
+    }
+    .phase-body ul { padding-left: 18px; }
+    .phase:nth-child(odd) .phase-body ul { padding-left: 0; padding-right: 18px; list-style: none; }
+    .phase:nth-child(odd) .phase-body ul li::before { content: ''; }
+    .phase-body li { margin-bottom: 4px; }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .tag {
+      font-size: 11px;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .tag-blue { background: rgba(56,189,248,0.1); color: var(--accent); border: 1px solid rgba(56,189,248,0.2); }
+    .tag-purple { background: rgba(129,140,248,0.1); color: var(--accent2); border: 1px solid rgba(129,140,248,0.2); }
+    .tag-green { background: rgba(52,211,153,0.1); color: var(--accent3); border: 1px solid rgba(52,211,153,0.2); }
+    .tag-warn { background: rgba(245,158,11,0.1); color: var(--warn); border: 1px solid rgba(245,158,11,0.2); }
+    .tag-red { background: rgba(248,113,113,0.1); color: var(--danger); border: 1px solid rgba(248,113,113,0.2); }
+
+    /* highlight box inside card */
+    .highlight-box {
+      background: rgba(56,189,248,0.06);
+      border: 1px solid rgba(56,189,248,0.15);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--accent);
+      margin-top: 12px;
+    }
+    .highlight-box.warn {
+      background: rgba(245,158,11,0.06);
+      border-color: rgba(245,158,11,0.2);
+      color: var(--warn);
+    }
+    .highlight-box.danger {
+      background: rgba(248,113,113,0.06);
+      border-color: rgba(248,113,113,0.2);
+      color: var(--danger);
+    }
+    .highlight-box.success {
+      background: rgba(52,211,153,0.06);
+      border-color: rgba(52,211,153,0.2);
+      color: var(--accent3);
+    }
+
+    /* stat pills inside card */
+    .stat-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .phase:nth-child(odd) .stat-row { justify-content: flex-end; }
+    .stat-pill {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      text-align: center;
+    }
+    .stat-pill .sp-num {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-pill .sp-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Key Learnings ── */
+    .learnings {
+      max-width: 900px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+    .learnings h2 {
+      font-size: 26px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .learnings-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 36px;
+    }
+    .learning-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .learning-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .learning-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .learning-card:hover {
+      border-color: rgba(56,189,248,0.3);
+    }
+    .lc-icon { font-size: 28px; margin-bottom: 12px; }
+    .lc-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .lc-body {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* ── Final stats banner ── */
+    .final-banner {
+      background: linear-gradient(135deg, #0d1f3c 0%, #0d1526 100%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .final-banner h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+    .final-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .fs-item { text-align: center; }
+    .fs-num {
+      font-size: 42px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .fs-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 6px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .timeline-wrap::before { left: 24px; }
+      .phase, .phase:nth-child(odd) { flex-direction: column !important; }
+      .phase:nth-child(odd) .phase-card { text-align: left; }
+      .phase:nth-child(odd) .tags,
+      .phase:nth-child(odd) .phase-meta,
+      .phase:nth-child(odd) .stat-row { justify-content: flex-start; }
+      .phase:nth-child(odd) .phase-header { flex-direction: row; }
+      .phase:nth-child(odd) .phase-body ul { padding-left: 18px; padding-right: 0; list-style: disc; }
+      .phase:nth-child(odd) .phase-body ul li::before { content: none; }
+      .phase-dot-wrap { width: 48px; align-self: flex-start; }
+      .phase:nth-child(odd) .phase-card::after,
+      .phase:nth-child(even) .phase-card::after { display: none; }
+      .header-stats { gap: 24px; }
+      .hstat-num { font-size: 24px; }
+      .final-stats { gap: 28px; }
+      .fs-num { font-size: 30px; }
+    }
+
+    /* ── Environment & Workflow Section ── */
+    .env-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 24px 0;
+    }
+    .env-section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .env-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent3);
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+    .env-section-header h2 {
+      font-size: clamp(22px, 4vw, 38px);
+      font-weight: 800;
+      background: linear-gradient(135deg, #e2e8f0 0%, #34d399 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .env-section-header p {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .env-block {
+      margin-bottom: 48px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .env-block.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .env-block-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .env-block-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Tool icon grid */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .tool-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      backdrop-filter: blur(4px);
+    }
+    .tool-card:hover {
+      border-color: rgba(56,189,248,0.35);
+      box-shadow: 0 4px 20px rgba(56,189,248,0.08);
+    }
+    .tool-icon { font-size: 26px; }
+    .tool-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .tool-desc {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .tool-card.green { border-color: rgba(52,211,153,0.2); }
+    .tool-card.green:hover { border-color: rgba(52,211,153,0.4); box-shadow: 0 4px 20px rgba(52,211,153,0.08); }
+    .tool-card.purple { border-color: rgba(129,140,248,0.2); }
+    .tool-card.purple:hover { border-color: rgba(129,140,248,0.4); box-shadow: 0 4px 20px rgba(129,140,248,0.08); }
+    .tool-card.warn { border-color: rgba(245,158,11,0.2); }
+    .tool-card.warn:hover { border-color: rgba(245,158,11,0.4); box-shadow: 0 4px 20px rgba(245,158,11,0.08); }
+
+    /* Workflow diagram */
+    .workflow-diagram {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .wf-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+    }
+    .wf-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 44px;
+      bottom: -12px;
+      width: 2px;
+      background: linear-gradient(to bottom, rgba(56,189,248,0.4), rgba(56,189,248,0.1));
+    }
+    .wf-icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .wf-step.human .wf-icon-wrap { border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.08); }
+    .wf-step.ai .wf-icon-wrap { border-color: rgba(56,189,248,0.4); background: rgba(56,189,248,0.08); }
+    .wf-step.loop .wf-icon-wrap { border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.08); }
+    .wf-content {
+      flex: 1;
+      padding: 8px 0 20px;
+    }
+    .wf-actor {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .wf-step.human .wf-actor { color: var(--accent3); }
+    .wf-step.ai .wf-actor { color: var(--accent); }
+    .wf-step.loop .wf-actor { color: var(--warn); }
+    .wf-text {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .wf-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* Role badges */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .role-card {
+      background: rgba(52,211,153,0.04);
+      border: 1px solid rgba(52,211,153,0.15);
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+    .role-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent3);
+      margin-bottom: 6px;
+    }
+    .role-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Iteration examples */
+    .iter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .iter-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      transition: border-color 0.2s;
+    }
+    .iter-card:hover { border-color: rgba(129,140,248,0.3); }
+    .iter-said {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    .iter-quote {
+      font-size: 13px;
+      color: var(--accent2);
+      font-style: italic;
+      margin-bottom: 10px;
+      padding: 8px 12px;
+      background: rgba(129,140,248,0.06);
+      border-left: 2px solid rgba(129,140,248,0.3);
+      border-radius: 0 6px 6px 0;
+    }
+    .iter-result {
+      font-size: 12px;
+      color: var(--accent3);
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .iter-result::before { content: '→'; flex-shrink: 0; }
+
+    /* QA table */
+    .qa-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .qa-table th {
+      text-align: left;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .qa-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(56,189,248,0.06);
+      vertical-align: top;
+    }
+    .qa-table tr:last-child td { border-bottom: none; }
+    .qa-table tr:hover td { background: rgba(56,189,248,0.03); }
+    .qa-code {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .qa-desc { color: #94a3b8; }
+    .qa-added {
+      font-size: 10px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .qa-table-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* Autonomous dev stats */
+    .auto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .auto-stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .auto-stat:hover { border-color: rgba(56,189,248,0.3); }
+    .auto-stat-num {
+      font-size: 32px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .auto-stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .auto-flow {
+      background: var(--card);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      align-items: center;
+      justify-content: center;
+    }
+    .af-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text);
+      padding: 8px 4px;
+    }
+    .af-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .af-arrow {
+      color: var(--muted);
+      font-size: 18px;
+      padding: 0 4px;
+    }
+    .af-label { font-size: 12px; color: #94a3b8; }
+
+    .env-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 56px 0 0;
+    }
+
+    @media (max-width: 700px) {
+      .tool-grid { grid-template-columns: repeat(2, 1fr); }
+      .role-grid { grid-template-columns: 1fr; }
+      .workflow-diagram { padding: 20px; }
+      .auto-flow { flex-direction: column; align-items: flex-start; }
+      .af-arrow { transform: rotate(90deg); align-self: center; }
+    }
+
+    /* scroll progress bar */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      z-index: 999;
+      transition: width 0.1s;
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar" style="width:0%"></div>
+
+<!-- ── Header ── -->
+<header>
+  <div class="header-label">Behind the Build</div>
+  <h1>CMO Dashboard — The Making Of</h1>
+  <p class="header-subtitle">
+    A 3-day sprint from blank canvas to production-grade telecom intelligence platform — 14 phases, 114 commits, countless cups of coffee.
+  </p>
+  <div class="header-stats">
+    <div class="hstat"><div class="hstat-num">114</div><div class="hstat-label">Commits</div></div>
+    <div class="hstat"><div class="hstat-num">3</div><div class="hstat-label">Days</div></div>
+    <div class="hstat"><div class="hstat-num">14</div><div class="hstat-label">Phases</div></div>
+    <div class="hstat"><div class="hstat-num">7,218</div><div class="hstat-label">Lines of Code</div></div>
+    <div class="hstat"><div class="hstat-num">32</div><div class="hstat-label">Departments Mapped</div></div>
+  </div>
+</header>
+
+<!-- ── Nav ── -->
+<nav>
+  <button class="nav-btn" onclick="scrollTo('env-workflow')" style="border-color:rgba(52,211,153,0.3);color:var(--accent3)">🛠️ Environment</button>
+  <button class="nav-btn" onclick="scrollTo('p1')">P1 Project Setup</button>
+  <button class="nav-btn" onclick="scrollTo('p2')">P2 Frontend Skeleton</button>
+  <button class="nav-btn" onclick="scrollTo('p3')">P3 FANG-Level Design</button>
+  <button class="nav-btn" onclick="scrollTo('p4')">P4 Map Evolution</button>
+  <button class="nav-btn" onclick="scrollTo('p5')">P5 Sites & Coverage</button>
+  <button class="nav-btn" onclick="scrollTo('p6')">P6 The Great Crash</button>
+  <button class="nav-btn" onclick="scrollTo('p7')">P7 V3 Refactor</button>
+  <button class="nav-btn" onclick="scrollTo('p8')">P8 Responsive Design</button>
+  <button class="nav-btn" onclick="scrollTo('p9')">P9 Translation & i18n</button>
+  <button class="nav-btn" onclick="scrollTo('p10')">P10 Split-View Sync</button>
+  <button class="nav-btn" onclick="scrollTo('p11')">P11 Provincial Coverage</button>
+  <button class="nav-btn" onclick="scrollTo('p12')">P12 Performance Boost</button>
+  <button class="nav-btn" onclick="scrollTo('p13')">P13 Heatmap Visualization</button>
+  <button class="nav-btn" onclick="document.getElementById('learnings').scrollIntoView({behavior:'smooth'})">Key Learnings</button>
+</nav>
+
+<!-- ── Environment & Workflow ── -->
+<section id="env-workflow" class="env-section">
+
+  <div class="env-section-header">
+    <div class="env-section-label">Behind the Scenes</div>
+    <h2>Environment & Workflow</h2>
+    <p>This section explains how the Dashboard was built using AI and how the entire development process works.</p>
+  </div>
+
+  <!-- Section 1: Environment -->
+  <div class="env-block" id="env-s1">
+    <div class="env-block-title">🖥️ Section 1 · My Development Environment — "One Person + One Computer + AI"</div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px 28px;margin-bottom:20px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:20px;">
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:22px;margin-bottom:8px;">🖥️</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">Hardware: Cloud Server (Debian Linux)</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;">Not a gaming PC, just a standard cloud Linux server. Browser runs on your computer, code and AI run in the cloud.</div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid rgba(56,189,248,0.2);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:22px;margin-bottom:8px;">🤖</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">AI Assistant: Claude Code v2.1.104</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;">An AI that reads code, writes code, runs commands, searches the web, and manages files. Think of it as an entry-level developer who never sleeps and responds instantly.</div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:22px;margin-bottom:8px;">💬</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">Programming Languages: 3 Types</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;"><strong style="color:var(--accent)">HTML + CSS + JavaScript</strong> — Handles the Dashboard UI you see.<br><strong style="color:var(--accent3)">Python</strong> — Powers the AI Knowledge Base backend logic.</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--accent3);font-weight:600;margin-bottom:12px;">💰 Tools Used: All Free & Open Source, Zero Paid Software</div>
+    </div>
+
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-icon">🗺️</div>
+        <div class="tool-name">Leaflet</div>
+        <div class="tool-desc">Open-source map library. Similar to Google Maps, but completely free and customizable. All Colombia maps are drawn with it.</div>
+      </div>
+      <div class="tool-card green">
+        <div class="tool-icon">📊</div>
+        <div class="tool-name">ECharts</div>
+        <div class="tool-desc">Chart library. Bar charts, pie charts, trend lines all rely on it. Baidu open source, one of the world's mainstream data visualization tools.</div>
+      </div>
+      <div class="tool-card purple">
+        <div class="tool-icon">🔀</div>
+        <div class="tool-name">Git / GitHub</div>
+        <div class="tool-desc">Version control system. Every change is recorded, like an "undo history for the entire project". 114 commits total, each with documentation.</div>
+      </div>
+      <div class="tool-card green">
+        <div class="tool-icon">🌐</div>
+        <div class="tool-name">GitHub Pages</div>
+        <div class="tool-desc">Free website hosting. Upload HTML files and the world can access them. No server needed, no domain fees.</div>
+      </div>
+      <div class="tool-card warn">
+        <div class="tool-icon">🤖</div>
+        <div class="tool-name">Playwright</div>
+        <div class="tool-desc">Automated browser testing tool. A robot automatically opens the website, clicks buttons, checks for bugs — replacing manual testing.</div>
+      </div>
+      <div class="tool-card purple">
+        <div class="tool-icon">🐍</div>
+        <div class="tool-name">FastAPI</div>
+        <div class="tool-desc">Python backend framework. The AI Knowledge Base uses it to receive requests, process logic, and return analysis results.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📝</div>
+        <div class="tool-name">VS Code / Terminal</div>
+        <div class="tool-desc">Editor and command-line tools. AI runs code directly in the terminal without manually clicking buttons.</div>
+      </div>
+      <div class="tool-card green">
+        <div class="tool-icon">🎨</div>
+        <div class="tool-name">Free & Open-Source Design Tools</div>
+        <div class="tool-desc">No Photoshop, no Figma, no paid design software. All UI implemented with CSS + creativity.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Workflow -->
+  <div class="env-block" id="env-s2">
+    <div class="env-block-title">🔄 Section 2 · My Workflow — "Conversational Development"</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+      <div class="workflow-diagram">
+        <div class="wf-step human">
+          <div class="wf-icon-wrap">🧑</div>
+          <div class="wf-content">
+            <div class="wf-actor">Human</div>
+            <div class="wf-text">Tell me in Chinese what you want</div>
+            <div class="wf-note">Mandarin, casual speech, no coding required</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">🤖</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">Understand requirements, generate code</div>
+            <div class="wf-note">Handle HTML, CSS, JS logic simultaneously</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">⚙️</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">Run code, check for errors</div>
+            <div class="wf-note">Auto-execute, auto-discover issues</div>
+          </div>
+        </div>
+        <div class="wf-step human">
+          <div class="wf-icon-wrap">👀</div>
+          <div class="wf-content">
+            <div class="wf-actor">Human</div>
+            <div class="wf-text">View results in browser</div>
+            <div class="wf-note">Refresh page, judge visually with eyes</div>
+          </div>
+        </div>
+        <div class="wf-step human">
+          <div class="wf-icon-wrap">💬</div>
+          <div class="wf-content">
+            <div class="wf-actor">Human</div>
+            <div class="wf-text">Give feedback</div>
+            <div class="wf-note">"Too ugly" / "White space on left" / "Data is wrong"</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">🔧</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">Fix, iterate again</div>
+            <div class="wf-note">Loop until satisfied</div>
+          </div>
+        </div>
+        <div class="wf-step loop">
+          <div class="wf-icon-wrap">🔁</div>
+          <div class="wf-content">
+            <div class="wf-actor">Loop</div>
+            <div class="wf-text">Repeat until satisfied</div>
+            <div class="wf-note">Average 3–8 iterations per feature</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">🚀</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">Push to GitHub, version saved</div>
+            <div class="wf-note">Auto-commit with description</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:20px 24px;margin-bottom:16px;">
+          <div style="font-size:14px;font-weight:700;color:var(--accent3);margin-bottom:10px;">🎯 Core Principle</div>
+          <div style="font-size:13px;color:#94a3b8;line-height:1.7;">Throughout the entire process, <strong style="color:var(--text)">not a single line of code was written by humans</strong>. All coding was done by AI.</div>
+        </div>
+
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Human Roles in This Workflow</div>
+        <div class="role-grid">
+          <div class="role-card">
+            <div class="role-title">📋 Product Manager</div>
+            <div class="role-desc">Define what to build and priorities, translate business requirements into language AI understands</div>
+          </div>
+          <div class="role-card">
+            <div class="role-title">🔍 QA Tester</div>
+            <div class="role-desc">Open browser, use eyes and mouse to verify results match expectations</div>
+          </div>
+          <div class="role-card">
+            <div class="role-title">🎨 Design Director</div>
+            <div class="role-desc">Say "too ugly", "spacing is wrong", make aesthetic judgments, AI handles technical implementation</div>
+          </div>
+          <div class="role-card">
+            <div class="role-title">📡 Domain Expert</div>
+            <div class="role-desc">Provide telecom industry knowledge: which KPIs matter, what RSRP colors mean, what CMOs really care about</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Iteration -->
+  <div class="env-block" id="env-s3">
+    <div class="env-block-title">⚡ Section 3 · How to Iterate — "Say → Look → Fix → Push"</div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
+      <div style="background:var(--card);border:1px solid rgba(52,211,153,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">💬</div>
+        <div style="font-size:20px;font-weight:900;color:var(--accent3);margin-bottom:6px;">Say</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">Tell AI in Chinese what you want, casual speech is fine, no technical jargon needed</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(56,189,248,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">👁️</div>
+        <div style="font-size:20px;font-weight:900;color:var(--accent);margin-bottom:6px;">Look</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">Refresh browser, visually observe if results match expectations</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">🔧</div>
+        <div style="font-size:20px;font-weight:900;color:var(--warn);margin-bottom:6px;">Fix</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">Give feedback, AI fixes, look again, loop until satisfied</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(129,140,248,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">🚀</div>
+        <div style="font-size:20px;font-weight:900;color:var(--accent2);margin-bottom:6px;">Push</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">Once satisfied, AI pushes to GitHub, version saved permanently</div>
+      </div>
+    </div>
+
+    <div style="font-size:13px;color:var(--muted);margin-bottom:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Real Conversation Examples — These statements directly triggered code changes</div>
+    <div class="iter-grid">
+      <div class="iter-card">
+        <div class="iter-said">Human said</div>
+        <div class="iter-quote">"Please rollback UI design two versions"</div>
+        <div class="iter-result">AI found code from two versions back using Git, precisely restored, no data loss</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">Human said</div>
+        <div class="iter-quote">"Site distribution should be more like real network distribution, now it's bunched up"</div>
+        <div class="iter-result">AI switched to Gaussian distribution + 10-corridor highway algorithm, sites naturally spread nationwide</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">Human said</div>
+        <div class="iter-quote">"Too ugly"</div>
+        <div class="iter-result">AI completely redesigned entire UI layout, rewrote everything from color to spacing</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">Human said</div>
+        <div class="iter-quote">"Some sites ran into the ocean"</div>
+        <div class="iter-result">AI added ocean boundary filtering, no more sites generated in Pacific and Caribbean</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">Human said</div>
+        <div class="iter-quote">"The elements in the bottom four cards can be laid out left-right"</div>
+        <div class="iter-result">AI adjusted bottom cards to left-right column layout, text left, charts right</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">Human said</div>
+        <div class="iter-quote">"English interface still has Chinese in it"</div>
+        <div class="iter-result">AI scanned all 145 i18n entries, completed all missing translations</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Documentation -->
+  <div class="env-block" id="env-s4">
+    <div class="env-block-title">📚 Section 4 · Documentation — "AI Auto-Writes Docs"</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+      <div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:0;">
+          <div style="background:var(--card);border:1px solid rgba(56,189,248,0.2);border-radius:12px;padding:16px 20px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px;">📄 CLAUDE.md — Project Rules File</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6;">AI must <strong style="color:var(--text)">read this file first</strong> before starting work. Contains QA checklists, forbidden actions, project conventions. Like an "instruction manual" for AI.</div>
+          </div>
+          <div style="background:var(--card);border:1px solid rgba(129,140,248,0.2);border-radius:12px;padding:16px 20px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent2);margin-bottom:6px;">📋 PRD.md — Product Requirements Document</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6;">Clearly lists what features the Dashboard should have (49 total). AI development references this to ensure nothing is missed or out of scope.</div>
+          </div>
+          <div style="background:var(--card);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:16px 20px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent3);margin-bottom:6px;">🔀 Git Commit Messages — Every Change Has Description</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6;">114 commits, each with AI-written Chinese descriptions explaining "what changed and why". Open the history and see the entire project evolution at a glance.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">QA Checklist — Auto-Execute Before Each Push</div>
+        <div class="qa-table-wrap">
+          <table class="qa-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Description</th>
+                <th>Added in Phase</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="qa-code">CHECK-1</td>
+                <td class="qa-desc">Chinese-English translation completeness (145 entries)</td>
+                <td class="qa-added">P9</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-2</td>
+                <td class="qa-desc">Layout alignment, no unexpected misalignment</td>
+                <td class="qa-added">P3</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-3</td>
+                <td class="qa-desc">Responsive design, looks good on mobile/desktop</td>
+                <td class="qa-added">P8</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-4</td>
+                <td class="qa-desc">HTML structure validity check</td>
+                <td class="qa-added">P2</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-5</td>
+                <td class="qa-desc">JavaScript security (variable scope, event binding)</td>
+                <td class="qa-added">P6</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-6</td>
+                <td class="qa-desc">Bottom card layout correctness</td>
+                <td class="qa-added">P10</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-7</td>
+                <td class="qa-desc">Split-screen comparison view sync</td>
+                <td class="qa-added">P10</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-8</td>
+                <td class="qa-desc">RSRP signal color coding accuracy</td>
+                <td class="qa-added">P13</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Autonomous Development -->
+  <div class="env-block" id="env-s5">
+    <div class="env-block-title">🌙 Section 5 · Autonomous Development — "AI Never Sleeps"</div>
+
+    <div class="auto-grid">
+      <div class="auto-stat">
+        <div class="auto-stat-num">666</div>
+        <div class="auto-stat-label">Auto-Passed Tests</div>
+      </div>
+      <div class="auto-stat">
+        <div class="auto-stat-num">4</div>
+        <div class="auto-stat-label">Max Parallel Agents</div>
+      </div>
+      <div class="auto-stat">
+        <div class="auto-stat-num">30m</div>
+        <div class="auto-stat-label">Background Check Interval</div>
+      </div>
+      <div class="auto-stat">
+        <div class="auto-stat-num">0</div>
+        <div class="auto-stat-label">Lines of Code by Humans</div>
+      </div>
+    </div>
+
+    <div class="auto-flow" style="margin-bottom:20px;">
+      <div class="af-step">
+        <div class="af-icon">🌙</div>
+        <div class="af-label">Human goes to sleep</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">⚙️</div>
+        <div class="af-label">AI continues development</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🧪</div>
+        <div class="af-label">Run tests</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">❌</div>
+        <div class="af-label">Test fails</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🔍</div>
+        <div class="af-label">Analyze error</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🔧</div>
+        <div class="af-label">Auto fix</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">✅</div>
+        <div class="af-label">All green, continue</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🚀</div>
+        <div class="af-label">Push, wait for human to wake up</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;">
+      <div style="background:var(--card);border:1px solid rgba(56,189,248,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🔀</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">Background Parallel Agents</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">AI can simultaneously spawn multiple "workers" in parallel. Example: one Agent writes frontend, another writes tests at the same time. No interference, maximum efficiency.</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">⏱️</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">Scheduled Monitoring</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">After human sleeps, AI sets a 30-minute timer, auto-checks if tests pass, fixes issues, continues development until completion.</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🛠️</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">Self-Healing Capability</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">When tests fail, AI doesn't wake the human — reads error messages, locates problems, fixes code, reruns tests. Only asks human for design decisions.</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(129,140,248,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🎭</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">Playwright Sandbox Testing</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">AI launches a real web server, opens a real browser (headless mode), auto-clicks buttons, verifies map loading, checks chart rendering — fully automated, no manual intervention.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;background:rgba(52,211,153,0.05);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:16px 20px;">
+      <div style="font-size:13px;color:var(--accent3);font-weight:600;margin-bottom:6px;">📌 Real Case</div>
+      <div style="font-size:13px;color:#94a3b8;line-height:1.7;">The AI Knowledge Base Phase 0 → 1 → 2 → 3 development process was mostly completed during human sleep. Auto-passed <strong style="color:var(--text)">666 tests</strong>, fully autonomous throughout. When human wakes up, there's an all-green test report and a complete new feature.</div>
+    </div>
+  </div>
+
+  <div class="env-divider"></div>
+
+</section>
+
+<!-- ── Timeline ── -->
+<div class="timeline-wrap">
+
+  <!-- P1 -->
+  <div class="phase" id="p1">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">📋</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 01 · May 20</div>
+        <div class="phase-title">Project Initiation & Data Preparation </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 20, 2026</span>
+        <span class="meta-item">🏁 Day 1 Start</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>PRD v1.0 drafted — defined what a CMO actually needs to see in a telecom dashboard</li>
+          <li>Architecture decision: single-page HTML, Leaflet for maps, ECharts for charts</li>
+          <li>Generated 8 categories of realistic simulated data: sites, KPIs, churn, terminals, competitor, coverage, video streaming, app experience</li>
+          <li>FastAPI backend scaffolded to serve data endpoints</li>
+        </ul>
+      </div>
+      <div class="highlight-box">The key question: what does a CMO care about? Not raw network metrics — business outcomes. Users, revenue, competitor position, customer experience.</div>
+      <div class="tags">
+        <span class="tag tag-blue">PRD</span>
+        <span class="tag tag-blue">Architecture</span>
+        <span class="tag tag-blue">FastAPI</span>
+        <span class="tag tag-purple">Data Generation</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P2 -->
+  <div class="phase" id="p2">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">🏗️</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 02 · May 20</div>
+        <div class="phase-title">Frontend Dashboard Skeleton </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 20, 2026</span>
+        <span class="meta-item">⚡ First Working Build</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>6 core components built: user trends, map view, network KPI, competitor analysis, churn metrics, app experience</li>
+          <li>City drill-down implemented with 5-city diagnostic panel (Bogotá, Medellín, Cali, Barranquilla, Cartagena)</li>
+          <li>v0.1.0 — first end-to-end working version, everything wired together</li>
+          <li>Converted to standalone HTML — eliminated server dependency entirely</li>
+        </ul>
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">6</div><div class="sp-label">Components</div></div>
+        <div class="stat-pill"><div class="sp-num">5</div><div class="sp-label">Cities</div></div>
+        <div class="stat-pill"><div class="sp-num">v0.1</div><div class="sp-label">First Release</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-green">v0.1.0</span>
+        <span class="tag tag-blue">Standalone HTML</span>
+        <span class="tag tag-blue">ECharts</span>
+        <span class="tag tag-blue">Leaflet</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P3 -->
+  <div class="phase" id="p3">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot purple">✨</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 03 · May 20–21</div>
+        <div class="phase-title">FANG-Level UI Design </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 20–21</span>
+        <span class="meta-item">🎨 Design Overhaul</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Brought in "FANG-level UI designer" perspective — dark theme, glassmorphism, micro-interactions</li>
+          <li>52-week user trend chart with animated area fill and milestone markers</li>
+          <li>Terminal distribution panel with click-to-expand regional breakdown</li>
+          <li>Competitor analysis integrated with Ookla-style speed metrics</li>
+          <li>Map layer switcher: 9 different views (network KPI, growth, churn, video quality, coverage, etc.)</li>
+          <li>APP experience panels: YouTube / Netflix / TikTok / Total Traffic with streaming quality bars</li>
+        </ul>
+      </div>
+      <div class="highlight-box" style="border-color: rgba(129,140,248,0.25); background: rgba(129,140,248,0.06); color: var(--accent2);">
+        Design principle adopted: every pixel earns its place. No decoration without data purpose.
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">9</div><div class="sp-label">Map Layers</div></div>
+        <div class="stat-pill"><div class="sp-num">52</div><div class="sp-label">Week Trend</div></div>
+        <div class="stat-pill"><div class="sp-num">4</div><div class="sp-label">App Panels</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-purple">FANG Design</span>
+        <span class="tag tag-blue">Map Layers</span>
+        <span class="tag tag-blue">Ookla Data</span>
+        <span class="tag tag-purple">Glassmorphism</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P4 -->
+  <div class="phase" id="p4">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">🗺️</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 04 · May 21</div>
+        <div class="phase-title">Map Evolution </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 21, 2026</span>
+        <span class="meta-item">🌎 Colombia GeoJSON</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Migrated from circle markers to real polygon regions — GeoJSON administrative boundaries</li>
+          <li>Loaded real Colombia 32-department boundaries via GitHub CDN (no local file needed)</li>
+          <li>5-tier color coding for user growth: dark red → light red → gray → light green → dark green</li>
+          <li>Chinese/English bilingual toggle — all labels switch instantly</li>
+          <li>RSRP coverage distribution chart added to sidebar</li>
+          <li>Split-screen comparison mode: Tigo vs Op-B side by side</li>
+        </ul>
+      </div>
+      <div class="highlight-box">
+        Real geographic boundaries changed everything — the map went from "demo-looking" to "boardroom-ready" instantly.
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">32</div><div class="sp-label">Departments</div></div>
+        <div class="stat-pill"><div class="sp-num">5</div><div class="sp-label">Color Tiers</div></div>
+        <div class="stat-pill"><div class="sp-num">2</div><div class="sp-label">Languages</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-green">GeoJSON</span>
+        <span class="tag tag-blue">Split Screen</span>
+        <span class="tag tag-blue">Bilingual</span>
+        <span class="tag tag-purple">RSRP Chart</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P5 -->
+  <div class="phase" id="p5">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">📡</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 05 · May 21</div>
+        <div class="phase-title">Sites & Coverage </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 21, 2026</span>
+        <span class="meta-item">📡 5,000+ Sites</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Scaled from 50 demo sites to 5,000+ geographically realistic sites</li>
+          <li>Gaussian distribution algorithm for realistic city-center clustering</li>
+          <li>Highway corridor sites connecting cities — 10 linear corridors</li>
+          <li>Terminal heatmap layer added — shows user density by location</li>
+          <li>Coverage split-screen: synchronized pan/zoom so both sides move together</li>
+        </ul>
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">5K+</div><div class="sp-label">Sites</div></div>
+        <div class="stat-pill"><div class="sp-num">10</div><div class="sp-label">Corridors</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-blue">Gaussian Distribution</span>
+        <span class="tag tag-blue">Heatmap</span>
+        <span class="tag tag-green">Synchronized Maps</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P6 -->
+  <div class="phase" id="p6">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot danger">💥</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 06 · May 21</div>
+        <div class="phase-title">The Great Crash & Rollback </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 21, 2026</span>
+        <span class="meta-item">💀 Critical Failure</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Attempted full UI reskin for 65-inch 4K display — scaled every font, every padding, every element simultaneously</li>
+          <li>User verdict: "Too ugly" (way too ugly) — the simultaneous changes created visual chaos</li>
+          <li>Rolled back entire UI to Phase 4 baseline via git revert</li>
+          <li>Re-added the lost features one by one with careful validation at each step</li>
+        </ul>
+      </div>
+      <div class="highlight-box danger">
+        Hard lesson: never change the entire visual system in one commit. Incremental changes with checkpoints = survivable. Big bang = disaster.
+      </div>
+      <div class="tags">
+        <span class="tag tag-red">Rollback</span>
+        <span class="tag tag-warn">4K Scaling</span>
+        <span class="tag tag-red">UX Failure</span>
+        <span class="tag tag-blue">Git Revert</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P7 -->
+  <div class="phase" id="p7">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">🔧</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 07 · May 22</div>
+        <div class="phase-title">V3 Refactor </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 22, 2026</span>
+        <span class="meta-item">🔄 Fresh Layout</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Dashboard V3 — clean-slate layout design to fix accumulated technical debt</li>
+          <li>Bottom cards went through multiple iterations: vertical → horizontal, pie too big → 90px fixed, duplicate numbers removed</li>
+          <li>Discovered bottom row was blocking sidebar panels — fixed with CSS grid-column span</li>
+          <li>Site distribution overhauled: rectangular grid blocks → Gaussian + highway corridors algorithm</li>
+        </ul>
+      </div>
+      <div class="highlight-box">
+        V3 was the "boring but necessary" refactor. No new features — just making everything that existed actually work reliably.
+      </div>
+      <div class="tags">
+        <span class="tag tag-blue">V3</span>
+        <span class="tag tag-blue">CSS Grid</span>
+        <span class="tag tag-purple">Layout Fix</span>
+        <span class="tag tag-green">Gaussian Sites</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P8 -->
+  <div class="phase" id="p8">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">📱</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 08 · May 22</div>
+        <div class="phase-title">V4 Responsive Design </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 22, 2026</span>
+        <span class="meta-item">📐 53 clamp() usages</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>CSS variables + clamp() for fluid responsive scaling across all screen sizes</li>
+          <li>53 clamp() usages and 45 CSS variable references — no hardcoded pixel values remain</li>
+          <li>Media queries for 3 breakpoints: laptop / desktop / 4K</li>
+          <li>Global ECharts resize handler — all charts reflow correctly on window resize</li>
+          <li>QA checklist established: CHECK-1 through CHECK-6 categories</li>
+        </ul>
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">53</div><div class="sp-label">clamp()</div></div>
+        <div class="stat-pill"><div class="sp-num">45</div><div class="sp-label">CSS Vars</div></div>
+        <div class="stat-pill"><div class="sp-num">3</div><div class="sp-label">Breakpoints</div></div>
+        <div class="stat-pill"><div class="sp-num">6</div><div class="sp-label">QA Checks</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-green">v4</span>
+        <span class="tag tag-blue">clamp()</span>
+        <span class="tag tag-blue">CSS Variables</span>
+        <span class="tag tag-purple">QA System</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P9 -->
+  <div class="phase" id="p9">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">🌐</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 09 · May 22</div>
+        <div class="phase-title">Translation & Compliance </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 22, 2026</span>
+        <span class="meta-item">🔍 55 Strings Found</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>QA scan found 55 untranslated Chinese strings embedded in JavaScript code blocks — not just HTML</li>
+          <li>QA rules upgraded to scan JS template literals and string concatenations, not only static HTML</li>
+          <li>Built translation system: 145 entries, 101 getTranslation() call sites</li>
+          <li>Compliance pass: "Claro" → "Op-B" anonymization across 32 locations to avoid competitor naming</li>
+        </ul>
+      </div>
+      <div class="highlight-box warn">
+        The hidden i18n bug: Chinese strings inside JavaScript template literals were invisible to HTML-only QA scans. Needed JS-aware regex.
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">145</div><div class="sp-label">Translations</div></div>
+        <div class="stat-pill"><div class="sp-num">101</div><div class="sp-label">Call Sites</div></div>
+        <div class="stat-pill"><div class="sp-num">32</div><div class="sp-label">Anonymized</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-blue">i18n</span>
+        <span class="tag tag-blue">getTranslation()</span>
+        <span class="tag tag-warn">Compliance</span>
+        <span class="tag tag-purple">QA Upgrade</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P10 -->
+  <div class="phase" id="p10">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot danger">⚔️</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 10 · May 22–23</div>
+        <div class="phase-title">Split-View Sync Battle </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 22–23</span>
+        <span class="meta-item">🐛 5 Rounds of Debugging</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li><strong>Root Cause 1:</strong> <code>window.map</code> was not a Leaflet object — <code>let map</code> inside a function scope never assigned to <code>window</code></li>
+          <li><strong>Root Cause 2:</strong> <code>map.off('move')</code> removed ALL move handlers including Leaflet internals — broke pan/zoom entirely</li>
+          <li><strong>Root Cause 3:</strong> Heatmap data contained 5 NULL coordinate points from Box-Muller extreme values</li>
+          <li><strong>Root Cause 4:</strong> <code>const MR_HEATMAP</code> declared after first usage — Temporal Dead Zone error</li>
+          <li>Built Playwright automated browser testing to validate split-view behavior end-to-end</li>
+          <li>Final fix: named handler references + safe event unbinding + NaN coordinate filtering</li>
+        </ul>
+      </div>
+      <div class="highlight-box danger">
+        5 debugging rounds. Each fix revealed the next deeper bug. The TDZ bug was the sneakiest — no error thrown, just silent failure at runtime.
+      </div>
+      <div class="tags">
+        <span class="tag tag-red">5 Bug Rounds</span>
+        <span class="tag tag-warn">Leaflet Events</span>
+        <span class="tag tag-warn">TDZ Bug</span>
+        <span class="tag tag-green">Playwright E2E</span>
+        <span class="tag tag-blue">NaN Filtering</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P11 -->
+  <div class="phase" id="p11">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot success">🇨🇴</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 11 · May 23</div>
+        <div class="phase-title">Provincial Coverage </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 23, 2026</span>
+        <span class="meta-item">🗺️ Full Colombia Coverage</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Expanded from 5 major cities to 60 site configurations across all regions</li>
+          <li>All 32 Colombian departments mapped to 6 macro-regions with full data</li>
+          <li>Replaced circular distribution with 10 linear highway corridors for realism</li>
+          <li>Ocean boundary filtering — zero sites placed in the Pacific or Caribbean</li>
+          <li>Amazonia region added with complete metrics (previously missing from all views)</li>
+        </ul>
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">60</div><div class="sp-label">Site Configs</div></div>
+        <div class="stat-pill"><div class="sp-num">32</div><div class="sp-label">Departments</div></div>
+        <div class="stat-pill"><div class="sp-num">6</div><div class="sp-label">Regions</div></div>
+        <div class="stat-pill"><div class="sp-num">10</div><div class="sp-label">Corridors</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-green">Full Coverage</span>
+        <span class="tag tag-blue">Ocean Filter</span>
+        <span class="tag tag-blue">Amazonia</span>
+        <span class="tag tag-purple">Highway Corridors</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P12 -->
+  <div class="phase" id="p12">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">📊</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 12 · May 23</div>
+        <div class="phase-title">Information Enhancement </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 23, 2026</span>
+        <span class="meta-item">📈 4 Cards Enhanced</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Users card: added net add / churn rate / ARPU metrics + prepaid vs postpaid bar chart</li>
+          <li>Network KPI card: target comparison row with RAG (red/amber/green) status</li>
+          <li>Competitor card: latency / upload speed / market share breakdown added</li>
+          <li>Terminals card: 5G penetration 28.5% + VoLTE adoption 72.3% highlighted</li>
+          <li>Bottom pie charts: center labels showing HD ratio / Success Rate / Daily Traffic totals</li>
+        </ul>
+      </div>
+      <div class="highlight-box">
+        Goal: every panel should answer a CMO's question without them needing to ask. Each enhancement was triggered by a real "but what about...?" question.
+      </div>
+      <div class="tags">
+        <span class="tag tag-blue">ARPU</span>
+        <span class="tag tag-blue">5G Penetration</span>
+        <span class="tag tag-blue">VoLTE</span>
+        <span class="tag tag-purple">RAG Status</span>
+        <span class="tag tag-green">Center Labels</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P13 -->
+  <div class="phase" id="p13">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">🌡️</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">Phase 13 · May 23</div>
+        <div class="phase-title">RSRP Heatmap </div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 May 23, 2026</span>
+        <span class="meta-item">🎨 Color Science</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Coverage heatmap color scheme changed: blue-green (arbitrary) → red-yellow-green (signal quality semantics)</li>
+          <li>Red = poor RSRP, yellow = marginal, green = excellent — matches industry convention</li>
+          <li>Unified gradient applied to both Tigo and Op-B layers — same color scale for valid comparison</li>
+          <li>9 gradient instances synchronized across all map layer variants</li>
+        </ul>
+      </div>
+      <div class="highlight-box success">
+        A color change that took 30 minutes added months of credibility. Domain experts immediately recognized the RSRP color convention.
+      </div>
+      <div class="tags">
+        <span class="tag tag-warn">RSRP Scale</span>
+        <span class="tag tag-green">Red→Yellow→Green</span>
+        <span class="tag tag-blue">9 Gradients Synced</span>
+        <span class="tag tag-purple">Industry Standard</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P14 -->
+  <div class="phase" id="p14">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot purple">🔬</div>
+    </div>
+  </div>
+
+</div><!-- /timeline-wrap -->
+
+<!-- ── Final Stats Banner ── -->
+<div class="final-banner">
+  <h2>By the Numbers</h2>
+  <div class="final-stats">
+    <div class="fs-item"><div class="fs-num">114</div><div class="fs-label">Git Commits</div></div>
+    <div class="fs-item"><div class="fs-num">3</div><div class="fs-label">Days</div></div>
+    <div class="fs-item"><div class="fs-num">4,374</div><div class="fs-label">CMO Dashboard Lines</div></div>
+    <div class="fs-item"><div class="fs-num">2,844</div><div class="fs-label">CTO Dashboard Lines</div></div>
+    <div class="fs-item"><div class="fs-num">8</div><div class="fs-label">QA Check Categories</div></div>
+    <div class="fs-item"><div class="fs-num">145</div><div class="fs-label">i18n Entries</div></div>
+  </div>
+</div>
+
+<!-- ── Key Learnings ── -->
+<section class="learnings" id="learnings">
+  <h2>Key Learnings</h2>
+  <p class="learnings-sub">14 phases. 1 rollback. 5 debugging rounds. Here's what actually mattered.</p>
+  <div class="learning-grid">
+
+    <div class="learning-card">
+      <div class="lc-icon">🎯</div>
+      <div class="lc-title">Start With the User's Question</div>
+      <div class="lc-body">A CMO doesn't want raw network metrics — they want business outcomes. Every feature decision was filtered through "does this answer a question the CMO would actually ask on Monday morning?"</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🔄</div>
+      <div class="lc-title">Incremental Over Big Bang</div>
+      <div class="lc-body">Phase 6 was the proof. Changing the entire visual system in one commit — fonts, spacing, colors, layout — created chaos. Every subsequent redesign was done in small, reviewable increments with a checkpoint after each.</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🐛</div>
+      <div class="lc-title">Named Event Handlers Are Non-Negotiable</div>
+      <div class="lc-body">Calling <code>map.off('move')</code> with anonymous functions removes ALL handlers of that type — including internal Leaflet ones. Always store references to handlers and use <code>map.off('move', namedHandler)</code> for safe unbinding.</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🌍</div>
+      <div class="lc-title">Real Data Changes Perception</div>
+      <div class="lc-body">Switching from circle markers to real GeoJSON boundaries, and from synthetic site grids to Gaussian + corridor placement, transformed the dashboard from "demo" to "production-ready" in users' minds — even with identical underlying data.</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🔍</div>
+      <div class="lc-title">QA Must Scan Code, Not Just HTML</div>
+      <div class="lc-body">55 untranslated strings were hiding inside JavaScript template literals. HTML-only QA tools missed them entirely. i18n validation needs to parse JS string contexts too — always use JS-aware regex patterns.</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🎨</div>
+      <div class="lc-title">Color Carries Semantics</div>
+      <div class="lc-body">The RSRP heatmap color change from blue-green to red-yellow-green took 30 minutes. The credibility gain with domain experts was instant — they immediately recognized the industry-standard signal quality convention.</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">⚡</div>
+      <div class="lc-title">Canvas Over DOM at Scale</div>
+      <div class="lc-body">146,000 DOM elements for the CTO grid would crash any browser. Canvas rendering with direct pixel manipulation made it smooth. The lesson: choose the rendering primitive that matches your data density, not your coding convenience.</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🧪</div>
+      <div class="lc-title">Automate What You'll Recheck</div>
+      <div class="lc-body">The split-view sync broke four times during development. Building Playwright E2E tests after the third break meant the fourth regression was caught in CI, not in a demo. Automation investment pays back on the second failure.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  CMO Dashboard — Built May 20–23, 2026 &nbsp;·&nbsp; 114 commits &nbsp;·&nbsp; 14 phases &nbsp;·&nbsp; 3 days
+</footer>
+
+<script>
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // Intersection observer for scroll-reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.phase, .learning-card, .env-block').forEach(el => observer.observe(el));
+
+  // Nav scroll helper (overrides built-in scrollTo)
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMO Dashboard 制作过程 — 从零到交付的完整记录</title>
+  <style>
+    :root {
+      --bg: #080c17;
+      --bg2: #0d1526;
+      --bg3: #111d35;
+      --border: rgba(56, 189, 248, 0.15);
+      --accent: #38bdf8;
+      --accent2: #818cf8;
+      --accent3: #34d399;
+      --warn: #f59e0b;
+      --danger: #f87171;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --card: #0f1a2e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #080c17 0%, #0d1f3c 50%, #080c17 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 60px 24px 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(56,189,248,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .header-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      opacity: 0.9;
+    }
+    header h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 800;
+      background: linear-gradient(135deg, #e2e8f0 0%, #38bdf8 50%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+    .header-subtitle {
+      color: var(--muted);
+      font-size: clamp(14px, 2vw, 18px);
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .header-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .hstat {
+      text-align: center;
+    }
+    .hstat-num {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .hstat-label {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 12, 23, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .nav-btn {
+      background: none;
+      border: 1px solid rgba(56,189,248,0.2);
+      color: var(--muted);
+      padding: 4px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .nav-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(56,189,248,0.06);
+    }
+
+    /* ── Timeline container ── */
+    .timeline-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      position: relative;
+    }
+
+    /* center spine */
+    .timeline-wrap::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent 0%, var(--border) 5%, var(--border) 95%, transparent 100%);
+      transform: translateX(-50%);
+    }
+
+    /* ── Phase card ── */
+    .phase {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 56px;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .phase.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* alternating sides */
+    .phase:nth-child(odd) { flex-direction: row-reverse; }
+    .phase:nth-child(odd) .phase-card { text-align: right; }
+    .phase:nth-child(odd) .tags { justify-content: flex-end; }
+    .phase:nth-child(odd) .phase-meta { justify-content: flex-end; }
+
+    /* center dot */
+    .phase-dot-wrap {
+      flex: 0 0 auto;
+      width: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .phase-dot {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 16px rgba(56,189,248,0.25);
+      flex-shrink: 0;
+    }
+    .phase-dot.warn { border-color: var(--warn); box-shadow: 0 0 16px rgba(245,158,11,0.3); }
+    .phase-dot.danger { border-color: var(--danger); box-shadow: 0 0 16px rgba(248,113,113,0.3); }
+    .phase-dot.success { border-color: var(--accent3); box-shadow: 0 0 16px rgba(52,211,153,0.3); }
+    .phase-dot.purple { border-color: var(--accent2); box-shadow: 0 0 16px rgba(129,140,248,0.3); }
+
+    /* card */
+    .phase-card {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-width: 0;
+    }
+    .phase-card:hover {
+      border-color: rgba(56,189,248,0.35);
+      box-shadow: 0 4px 24px rgba(56,189,248,0.08);
+    }
+
+    /* arrow connector */
+    .phase:nth-child(even) .phase-card::after {
+      content: '';
+      position: absolute;
+      right: -9px;
+      top: 22px;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 9px solid var(--border);
+    }
+    .phase:nth-child(odd) .phase-card::after {
+      content: '';
+      position: absolute;
+      left: -9px;
+      top: 22px;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-right: 9px solid var(--border);
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .phase:nth-child(odd) .phase-header { flex-direction: row-reverse; }
+
+    .phase-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding-top: 3px;
+    }
+    .phase-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .phase-title .zh {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-left: 8px;
+    }
+
+    .phase-meta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .meta-item { display: flex; align-items: center; gap: 4px; }
+
+    .phase-body {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 14px;
+    }
+    .phase-body ul { padding-left: 18px; }
+    .phase:nth-child(odd) .phase-body ul { padding-left: 0; padding-right: 18px; list-style: none; }
+    .phase:nth-child(odd) .phase-body ul li::before { content: ''; }
+    .phase-body li { margin-bottom: 4px; }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .tag {
+      font-size: 11px;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .tag-blue { background: rgba(56,189,248,0.1); color: var(--accent); border: 1px solid rgba(56,189,248,0.2); }
+    .tag-purple { background: rgba(129,140,248,0.1); color: var(--accent2); border: 1px solid rgba(129,140,248,0.2); }
+    .tag-green { background: rgba(52,211,153,0.1); color: var(--accent3); border: 1px solid rgba(52,211,153,0.2); }
+    .tag-warn { background: rgba(245,158,11,0.1); color: var(--warn); border: 1px solid rgba(245,158,11,0.2); }
+    .tag-red { background: rgba(248,113,113,0.1); color: var(--danger); border: 1px solid rgba(248,113,113,0.2); }
+
+    /* highlight box inside card */
+    .highlight-box {
+      background: rgba(56,189,248,0.06);
+      border: 1px solid rgba(56,189,248,0.15);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--accent);
+      margin-top: 12px;
+    }
+    .highlight-box.warn {
+      background: rgba(245,158,11,0.06);
+      border-color: rgba(245,158,11,0.2);
+      color: var(--warn);
+    }
+    .highlight-box.danger {
+      background: rgba(248,113,113,0.06);
+      border-color: rgba(248,113,113,0.2);
+      color: var(--danger);
+    }
+    .highlight-box.success {
+      background: rgba(52,211,153,0.06);
+      border-color: rgba(52,211,153,0.2);
+      color: var(--accent3);
+    }
+
+    /* stat pills inside card */
+    .stat-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .phase:nth-child(odd) .stat-row { justify-content: flex-end; }
+    .stat-pill {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      text-align: center;
+    }
+    .stat-pill .sp-num {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-pill .sp-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Key Learnings ── */
+    .learnings {
+      max-width: 900px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+    .learnings h2 {
+      font-size: 26px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .learnings-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 36px;
+    }
+    .learning-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .learning-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .learning-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .learning-card:hover {
+      border-color: rgba(56,189,248,0.3);
+    }
+    .lc-icon { font-size: 28px; margin-bottom: 12px; }
+    .lc-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .lc-body {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* ── Final stats banner ── */
+    .final-banner {
+      background: linear-gradient(135deg, #0d1f3c 0%, #0d1526 100%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .final-banner h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+    .final-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .fs-item { text-align: center; }
+    .fs-num {
+      font-size: 42px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .fs-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 6px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .timeline-wrap::before { left: 24px; }
+      .phase, .phase:nth-child(odd) { flex-direction: column !important; }
+      .phase:nth-child(odd) .phase-card { text-align: left; }
+      .phase:nth-child(odd) .tags,
+      .phase:nth-child(odd) .phase-meta,
+      .phase:nth-child(odd) .stat-row { justify-content: flex-start; }
+      .phase:nth-child(odd) .phase-header { flex-direction: row; }
+      .phase:nth-child(odd) .phase-body ul { padding-left: 18px; padding-right: 0; list-style: disc; }
+      .phase:nth-child(odd) .phase-body ul li::before { content: none; }
+      .phase-dot-wrap { width: 48px; align-self: flex-start; }
+      .phase:nth-child(odd) .phase-card::after,
+      .phase:nth-child(even) .phase-card::after { display: none; }
+      .header-stats { gap: 24px; }
+      .hstat-num { font-size: 24px; }
+      .final-stats { gap: 28px; }
+      .fs-num { font-size: 30px; }
+    }
+
+    /* ── Environment & Workflow Section ── */
+    .env-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 24px 0;
+    }
+    .env-section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .env-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent3);
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+    .env-section-header h2 {
+      font-size: clamp(22px, 4vw, 38px);
+      font-weight: 800;
+      background: linear-gradient(135deg, #e2e8f0 0%, #34d399 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .env-section-header p {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .env-block {
+      margin-bottom: 48px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .env-block.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .env-block-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .env-block-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Tool icon grid */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .tool-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      backdrop-filter: blur(4px);
+    }
+    .tool-card:hover {
+      border-color: rgba(56,189,248,0.35);
+      box-shadow: 0 4px 20px rgba(56,189,248,0.08);
+    }
+    .tool-icon { font-size: 26px; }
+    .tool-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .tool-desc {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .tool-card.green { border-color: rgba(52,211,153,0.2); }
+    .tool-card.green:hover { border-color: rgba(52,211,153,0.4); box-shadow: 0 4px 20px rgba(52,211,153,0.08); }
+    .tool-card.purple { border-color: rgba(129,140,248,0.2); }
+    .tool-card.purple:hover { border-color: rgba(129,140,248,0.4); box-shadow: 0 4px 20px rgba(129,140,248,0.08); }
+    .tool-card.warn { border-color: rgba(245,158,11,0.2); }
+    .tool-card.warn:hover { border-color: rgba(245,158,11,0.4); box-shadow: 0 4px 20px rgba(245,158,11,0.08); }
+
+    /* Workflow diagram */
+    .workflow-diagram {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .wf-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+    }
+    .wf-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 44px;
+      bottom: -12px;
+      width: 2px;
+      background: linear-gradient(to bottom, rgba(56,189,248,0.4), rgba(56,189,248,0.1));
+    }
+    .wf-icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .wf-step.human .wf-icon-wrap { border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.08); }
+    .wf-step.ai .wf-icon-wrap { border-color: rgba(56,189,248,0.4); background: rgba(56,189,248,0.08); }
+    .wf-step.loop .wf-icon-wrap { border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.08); }
+    .wf-content {
+      flex: 1;
+      padding: 8px 0 20px;
+    }
+    .wf-actor {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .wf-step.human .wf-actor { color: var(--accent3); }
+    .wf-step.ai .wf-actor { color: var(--accent); }
+    .wf-step.loop .wf-actor { color: var(--warn); }
+    .wf-text {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .wf-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* Role badges */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .role-card {
+      background: rgba(52,211,153,0.04);
+      border: 1px solid rgba(52,211,153,0.15);
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+    .role-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent3);
+      margin-bottom: 6px;
+    }
+    .role-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Iteration examples */
+    .iter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .iter-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      transition: border-color 0.2s;
+    }
+    .iter-card:hover { border-color: rgba(129,140,248,0.3); }
+    .iter-said {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    .iter-quote {
+      font-size: 13px;
+      color: var(--accent2);
+      font-style: italic;
+      margin-bottom: 10px;
+      padding: 8px 12px;
+      background: rgba(129,140,248,0.06);
+      border-left: 2px solid rgba(129,140,248,0.3);
+      border-radius: 0 6px 6px 0;
+    }
+    .iter-result {
+      font-size: 12px;
+      color: var(--accent3);
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .iter-result::before { content: '→'; flex-shrink: 0; }
+
+    /* QA table */
+    .qa-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .qa-table th {
+      text-align: left;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .qa-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(56,189,248,0.06);
+      vertical-align: top;
+    }
+    .qa-table tr:last-child td { border-bottom: none; }
+    .qa-table tr:hover td { background: rgba(56,189,248,0.03); }
+    .qa-code {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .qa-desc { color: #94a3b8; }
+    .qa-added {
+      font-size: 10px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .qa-table-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* Autonomous dev stats */
+    .auto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .auto-stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .auto-stat:hover { border-color: rgba(56,189,248,0.3); }
+    .auto-stat-num {
+      font-size: 32px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .auto-stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .auto-flow {
+      background: var(--card);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      align-items: center;
+      justify-content: center;
+    }
+    .af-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text);
+      padding: 8px 4px;
+    }
+    .af-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .af-arrow {
+      color: var(--muted);
+      font-size: 18px;
+      padding: 0 4px;
+    }
+    .af-label { font-size: 12px; color: #94a3b8; }
+
+    .env-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 56px 0 0;
+    }
+
+    @media (max-width: 700px) {
+      .tool-grid { grid-template-columns: repeat(2, 1fr); }
+      .role-grid { grid-template-columns: 1fr; }
+      .workflow-diagram { padding: 20px; }
+      .auto-flow { flex-direction: column; align-items: flex-start; }
+      .af-arrow { transform: rotate(90deg); align-self: center; }
+    }
+
+    /* scroll progress bar */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      z-index: 999;
+      transition: width 0.1s;
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar" style="width:0%"></div>
+
+<!-- ── Header ── -->
+<header>
+  <div class="header-label">幕后故事</div>
+  <h1>CMO Dashboard 制作过程 — 从零到交付的完整记录</h1>
+  <p class="header-subtitle">
+    3 天冲刺，从白纸到生产级电信智库平台 — 14 个阶段、114 次代码提交、无数杯咖啡。
+  </p>
+  <div class="header-stats">
+    <div class="hstat"><div class="hstat-num">114</div><div class="hstat-label">代码提交</div></div>
+    <div class="hstat"><div class="hstat-num">3</div><div class="hstat-label">天</div></div>
+    <div class="hstat"><div class="hstat-num">14</div><div class="hstat-label">阶段</div></div>
+    <div class="hstat"><div class="hstat-num">7,218</div><div class="hstat-label">代码行数</div></div>
+    <div class="hstat"><div class="hstat-num">32</div><div class="hstat-label">省份已映射</div></div>
+  </div>
+</header>
+
+<!-- ── Nav ── -->
+<nav>
+  <button class="nav-btn" onclick="scrollTo('env-workflow')" style="border-color:rgba(52,211,153,0.3);color:var(--accent3)">🛠️ 开发环境</button>
+  <button class="nav-btn" onclick="scrollTo('p1')">阶段1 立项</button>
+  <button class="nav-btn" onclick="scrollTo('p2')">阶段2 骨架</button>
+  <button class="nav-btn" onclick="scrollTo('p3')">阶段3 设计</button>
+  <button class="nav-btn" onclick="scrollTo('p4')">阶段4 地图</button>
+  <button class="nav-btn" onclick="scrollTo('p5')">阶段5 站点</button>
+  <button class="nav-btn" onclick="scrollTo('p6')">阶段6 翻车</button>
+  <button class="nav-btn" onclick="scrollTo('p7')">阶段7 重构</button>
+  <button class="nav-btn" onclick="scrollTo('p8')">阶段8 响应式</button>
+  <button class="nav-btn" onclick="scrollTo('p9')">阶段9 翻译</button>
+  <button class="nav-btn" onclick="scrollTo('p10')">阶段10 分屏</button>
+  <button class="nav-btn" onclick="scrollTo('p11')">阶段11 全省</button>
+  <button class="nav-btn" onclick="scrollTo('p12')">阶段12 增强</button>
+  <button class="nav-btn" onclick="scrollTo('p13')">阶段13 热力图</button>
+  <button class="nav-btn" onclick="document.getElementById('learnings').scrollIntoView({behavior:'smooth'})">关键经验</button>
+</nav>
+
+<!-- ── Environment & Workflow ── -->
+<section id="env-workflow" class="env-section">
+
+  <div class="env-section-header">
+    <div class="env-section-label">幕后故事</div>
+    <h2>开发环境与工作流程</h2>
+    <p>如果你对 AI 和编程完全陌生，这一节告诉你这个 Dashboard 到底是怎么做出来的。</p>
+  </div>
+
+  <!-- Section 1: Environment -->
+  <div class="env-block" id="env-s1">
+    <div class="env-block-title">🖥️ 第一部分 · 我的开发环境 — 一个人 + 一台电脑 + AI</div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px 28px;margin-bottom:20px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:20px;">
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:22px;margin-bottom:8px;">🖥️</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">硬件：云服务器（Debian Linux）</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;">不是顶配游戏电脑，就是一台普通的云端 Linux 服务器。浏览器跑在你的电脑里，代码和 AI 在云端运行。</div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid rgba(56,189,248,0.2);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:22px;margin-bottom:8px;">🤖</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">AI 助手：Claude Code v2.1.104</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;">一个能读代码、写代码、运行命令、搜索网络、管理文件的 AI。想象成一个从不睡觉、反应极快的初级开发员。</div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:22px;margin-bottom:8px;">💬</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">编程语言：3 种</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;"><strong style="color:var(--accent)">HTML + CSS + JavaScript</strong> — 负责你看到的 Dashboard 界面。<br><strong style="color:var(--accent3)">Python</strong> — 负责 AI 智库的后端逻辑。</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--accent3);font-weight:600;margin-bottom:12px;">💰 使用工具：全部免费开源，零付费软件</div>
+    </div>
+
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-icon">🗺️</div>
+        <div class="tool-name">Leaflet</div>
+        <div class="tool-desc">开源地图库。类似 Google Maps，但完全免费、可定制。所有哥伦比亚地图都用它画的。</div>
+      </div>
+      <div class="tool-card green">
+        <div class="tool-icon">📊</div>
+        <div class="tool-name">ECharts</div>
+        <div class="tool-desc">图表库。柱状图、饼图、趋势线全靠它。百度开源，全球主流数据可视化工具之一。</div>
+      </div>
+      <div class="tool-card purple">
+        <div class="tool-icon">🔀</div>
+        <div class="tool-name">Git / GitHub</div>
+        <div class="tool-desc">版本控制系统。每次改动都有记录，像"整个项目的撤销历史"。共 114 次提交，每次都有说明。</div>
+      </div>
+      <div class="tool-card green">
+        <div class="tool-icon">🌐</div>
+        <div class="tool-name">GitHub Pages</div>
+        <div class="tool-desc">免费网站托管。把 HTML 文件放上去，全世界都能访问。无需服务器，无需域名费用。</div>
+      </div>
+      <div class="tool-card warn">
+        <div class="tool-icon">🤖</div>
+        <div class="tool-name">Playwright</div>
+        <div class="tool-desc">自动化浏览器测试工具。一个机器人自动打开网站、点按钮、检查有没有 Bug，代替人工手动测试。</div>
+      </div>
+      <div class="tool-card purple">
+        <div class="tool-icon">🐍</div>
+        <div class="tool-name">FastAPI</div>
+        <div class="tool-desc">Python 后端框架。AI 智库用它来接收请求、处理逻辑、返回分析结果。</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📝</div>
+        <div class="tool-name">VS Code / Terminal</div>
+        <div class="tool-desc">编辑器和命令行工具。AI 在终端里直接运行代码，不需要手动点按钮。</div>
+      </div>
+      <div class="tool-card green">
+        <div class="tool-icon">🎨</div>
+        <div class="tool-name">零付费设计工具</div>
+        <div class="tool-desc">没有 Photoshop，没有 Figma，没有任何付费设计软件。所有 UI 用 CSS + 创意实现。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Workflow -->
+  <div class="env-block" id="env-s2">
+    <div class="env-block-title">🔄 第二部分 · 我的工作流程 — 对话式开发</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+      <div class="workflow-diagram">
+        <div class="wf-step human">
+          <div class="wf-icon-wrap">🧑</div>
+          <div class="wf-content">
+            <div class="wf-actor">人类</div>
+            <div class="wf-text">用中文说想要什么</div>
+            <div class="wf-note">普通话、口语、不用写代码</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">🤖</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">理解需求，生成代码</div>
+            <div class="wf-note">同时处理 HTML、CSS、JS 逻辑</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">⚙️</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">运行代码，检查错误</div>
+            <div class="wf-note">自动执行、自动发现问题</div>
+          </div>
+        </div>
+        <div class="wf-step human">
+          <div class="wf-icon-wrap">👀</div>
+          <div class="wf-content">
+            <div class="wf-actor">人类</div>
+            <div class="wf-text">在浏览器里看结果</div>
+            <div class="wf-note">刷新页面，用眼睛判断好不好看</div>
+          </div>
+        </div>
+        <div class="wf-step human">
+          <div class="wf-icon-wrap">💬</div>
+          <div class="wf-content">
+            <div class="wf-actor">人类</div>
+            <div class="wf-text">给出反馈</div>
+            <div class="wf-note">"太丑了" / "左边有空白" / "这个数据不对"</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">🔧</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">修复，再次迭代</div>
+            <div class="wf-note">循环往复，直到满意</div>
+          </div>
+        </div>
+        <div class="wf-step loop">
+          <div class="wf-icon-wrap">🔁</div>
+          <div class="wf-content">
+            <div class="wf-actor">循环</div>
+            <div class="wf-text">重复，直到满意</div>
+            <div class="wf-note">平均每个功能迭代 3–8 轮</div>
+          </div>
+        </div>
+        <div class="wf-step ai">
+          <div class="wf-icon-wrap">🚀</div>
+          <div class="wf-content">
+            <div class="wf-actor">AI</div>
+            <div class="wf-text">Push 到 GitHub，版本保存</div>
+            <div class="wf-note">自动提交，附上中文说明</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:20px 24px;margin-bottom:16px;">
+          <div style="font-size:14px;font-weight:700;color:var(--accent3);margin-bottom:10px;">🎯 核心原则</div>
+          <div style="font-size:13px;color:#94a3b8;line-height:1.7;">整个过程中，<strong style="color:var(--text)">人类一行代码都没有写</strong>。所有编码工作全部由 AI 完成。</div>
+        </div>
+
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">人类在这个流程里的角色</div>
+        <div class="role-grid">
+          <div class="role-card">
+            <div class="role-title">📋 产品经理</div>
+            <div class="role-desc">定义要做什么、优先级是什么，把业务需求翻译成 AI 能理解的语言</div>
+          </div>
+          <div class="role-card">
+            <div class="role-title">🔍 QA 测试员</div>
+            <div class="role-desc">打开浏览器，用眼睛和鼠标检查结果是否符合预期</div>
+          </div>
+          <div class="role-card">
+            <div class="role-title">🎨 设计总监</div>
+            <div class="role-desc">说"太丑了"、"间距不对"，给出审美判断，AI 负责技术实现</div>
+          </div>
+          <div class="role-card">
+            <div class="role-title">📡 领域专家</div>
+            <div class="role-desc">提供电信行业知识：哪些 KPI 重要、RSRP 颜色应该什么意思、CMO 真正关心什么</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Iteration -->
+  <div class="env-block" id="env-s3">
+    <div class="env-block-title">⚡ 第三部分 · 如何迭代 — 说 → 看 → 改 → 推</div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
+      <div style="background:var(--card);border:1px solid rgba(52,211,153,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">💬</div>
+        <div style="font-size:20px;font-weight:900;color:var(--accent3);margin-bottom:6px;">说</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">用中文告诉 AI 你想要什么，口语也行，不用技术术语</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(56,189,248,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">👁️</div>
+        <div style="font-size:20px;font-weight:900;color:var(--accent);margin-bottom:6px;">看</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">刷新浏览器，用肉眼观察结果是否符合预期</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">🔧</div>
+        <div style="font-size:20px;font-weight:900;color:var(--warn);margin-bottom:6px;">改</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">给反馈，AI 修复，再看，循环直到满意</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(129,140,248,0.25);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">🚀</div>
+        <div style="font-size:20px;font-weight:900;color:var(--accent2);margin-bottom:6px;">推</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;">满意后 AI Push 到 GitHub，版本永久保存</div>
+      </div>
+    </div>
+
+    <div style="font-size:13px;color:var(--muted);margin-bottom:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">真实对话案例 — 这些话直接触发了代码修改</div>
+    <div class="iter-grid">
+      <div class="iter-card">
+        <div class="iter-said">人类说</div>
+        <div class="iter-quote">"UI 设计请回退两个版本"</div>
+        <div class="iter-result">AI 用 Git 找到两个版本前的代码，精准恢复，无数据丢失</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">人类说</div>
+        <div class="iter-quote">"站点的分布更符合普通网络的站点分布，现在柔在一团"</div>
+        <div class="iter-result">AI 改用高斯分布 + 10 条公路走廊算法，站点自然分散在全国</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">人类说</div>
+        <div class="iter-quote">"太丑了"</div>
+        <div class="iter-result">AI 完全重新设计了整个 UI 布局，从配色到间距全部重写</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">人类说</div>
+        <div class="iter-quote">"有的站点跑到海上去了"</div>
+        <div class="iter-result">AI 加入海洋边界过滤，太平洋和加勒比海内不再生成站点</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">人类说</div>
+        <div class="iter-quote">"底下四个卡片里面的元素布局可以左右"</div>
+        <div class="iter-result">AI 调整底部卡片为左右分栏布局，文字左、图表右</div>
+      </div>
+      <div class="iter-card">
+        <div class="iter-said">人类说</div>
+        <div class="iter-quote">"英文界面里面还有中文"</div>
+        <div class="iter-result">AI 扫描全部 145 个 i18n 条目，补全所有遗漏翻译</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Documentation -->
+  <div class="env-block" id="env-s4">
+    <div class="env-block-title">📚 第四部分 · 文档如何记录 — AI 自动写文档</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+      <div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:0;">
+          <div style="background:var(--card);border:1px solid rgba(56,189,248,0.2);border-radius:12px;padding:16px 20px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px;">📄 CLAUDE.md — 项目规则文件</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6;">AI 开始工作前<strong style="color:var(--text)">必须先读这个文件</strong>。里面写了 QA 检查清单、禁止行为、项目约定。相当于给 AI 的"工作手册"。</div>
+          </div>
+          <div style="background:var(--card);border:1px solid rgba(129,140,248,0.2);border-radius:12px;padding:16px 20px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent2);margin-bottom:6px;">📋 PRD.md — 产品需求文档</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6;">明确列出 Dashboard 应该有哪些功能（共 49 条）。AI 开发时对照这个文档，确保没有遗漏，没有越界。</div>
+          </div>
+          <div style="background:var(--card);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:16px 20px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent3);margin-bottom:6px;">🔀 Git Commit Messages — 每次改动都有说明</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6;">114 次提交，每次都有 AI 用中文写的说明，解释"改了什么、为什么改"。翻开历史记录，一眼看清整个项目演化过程。</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">QA 检查清单 — 每次 Push 前自动执行</div>
+        <div class="qa-table-wrap">
+          <table class="qa-table">
+            <thead>
+              <tr>
+                <th>检查项</th>
+                <th>内容</th>
+                <th>加入时间</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="qa-code">CHECK-1</td>
+                <td class="qa-desc">中英文翻译完整性（145 个条目）</td>
+                <td class="qa-added">阶段9</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-2</td>
+                <td class="qa-desc">布局对齐，无意外错位</td>
+                <td class="qa-added">阶段3</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-3</td>
+                <td class="qa-desc">响应式设计，手机/桌面都好看</td>
+                <td class="qa-added">阶段8</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-4</td>
+                <td class="qa-desc">HTML 结构合法性验证</td>
+                <td class="qa-added">阶段2</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-5</td>
+                <td class="qa-desc">JavaScript 安全性（变量作用域、事件绑定）</td>
+                <td class="qa-added">阶段6</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-6</td>
+                <td class="qa-desc">底部卡片布局正确性</td>
+                <td class="qa-added">阶段10</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-7</td>
+                <td class="qa-desc">分屏对比视图同步</td>
+                <td class="qa-added">阶段10</td>
+              </tr>
+              <tr>
+                <td class="qa-code">CHECK-8</td>
+                <td class="qa-desc">RSRP 信号颜色编码准确性</td>
+                <td class="qa-added">阶段13</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Autonomous Development -->
+  <div class="env-block" id="env-s5">
+    <div class="env-block-title">🌙 第五部分 · 自动开发流程 — AI 不睡觉</div>
+
+    <div class="auto-grid">
+      <div class="auto-stat">
+        <div class="auto-stat-num">666</div>
+        <div class="auto-stat-label">自动通过测试数</div>
+      </div>
+      <div class="auto-stat">
+        <div class="auto-stat-num">4</div>
+        <div class="auto-stat-label">并行 Agent 最多数量</div>
+      </div>
+      <div class="auto-stat">
+        <div class="auto-stat-num">30m</div>
+        <div class="auto-stat-label">后台定时检查间隔</div>
+      </div>
+      <div class="auto-stat">
+        <div class="auto-stat-num">0</div>
+        <div class="auto-stat-label">人类写的代码行数</div>
+      </div>
+    </div>
+
+    <div class="auto-flow" style="margin-bottom:20px;">
+      <div class="af-step">
+        <div class="af-icon">🌙</div>
+        <div class="af-label">人类去睡觉</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">⚙️</div>
+        <div class="af-label">AI 继续开发</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🧪</div>
+        <div class="af-label">运行测试</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">❌</div>
+        <div class="af-label">测试失败</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🔍</div>
+        <div class="af-label">分析错误</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🔧</div>
+        <div class="af-label">自动修复</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">✅</div>
+        <div class="af-label">全绿，继续</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-icon">🚀</div>
+        <div class="af-label">Push，等人类醒来</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;">
+      <div style="background:var(--card);border:1px solid rgba(56,189,248,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🔀</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">后台并行 Agent</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">AI 可以同时启动多个"工人"并行工作。例如：一个 Agent 写前端，另一个同时写测试脚本。互不干扰，最大化效率。</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">⏱️</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">定时监控</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">人类去睡觉后，AI 设置 30 分钟定时器，自动检查测试是否通过、发现问题就修复、继续开发直到完成。</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🛠️</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">自愈能力</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">测试失败时，AI 不会叫醒人类 — 自己读错误信息、定位问题、修代码、重跑测试。只有涉及设计决策时才问人类。</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(129,140,248,0.2);border-radius:12px;padding:18px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🎭</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">Playwright 沙盒测试</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">AI 启动一个真实的 Web 服务器，打开真实的浏览器（无头模式），自动点击按钮、验证地图加载、检查图表渲染 — 全自动，无需人工干预。</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;background:rgba(52,211,153,0.05);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:16px 20px;">
+      <div style="font-size:13px;color:var(--accent3);font-weight:600;margin-bottom:6px;">📌 真实案例</div>
+      <div style="font-size:13px;color:#94a3b8;line-height:1.7;">AI 智库的阶段 0 → 1 → 2 → 3 整个开发过程，大部分是在人类睡眠期间完成的。共自动通过 <strong style="color:var(--text)">666 个测试</strong>，全程自主运行，人类早上醒来看到的是"全绿"的测试报告和一份完整的新功能。</div>
+    </div>
+  </div>
+
+  <div class="env-divider"></div>
+
+</section>
+
+<!-- ── Timeline ── -->
+<div class="timeline-wrap">
+
+  <!-- P1 -->
+  <div class="phase" id="p1">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">📋</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 01 · 5 月 20 日</div>
+        <div class="phase-title">立项与数据准备 <span class="zh">Foundation</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 2026 年 5 月 20 日</span>
+        <span class="meta-item">🏁 第 1 天开始</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>产品需求文档 v1.0 — 明确 CMO 在电信 Dashboard 中真正需要看什么</li>
+          <li>架构决策：单页 HTML、Leaflet 地图、ECharts 图表</li>
+          <li>生成 8 大类真实模拟数据：站点、KPI、流失、终端、竞争、覆盖、视频流、应用体验</li>
+          <li>FastAPI 后端脚手架搭建，用于数据端点服务</li>
+        </ul>
+      </div>
+      <div class="highlight-box">核心问题：CMO 真正关心什么？不是原始网络指标 — 而是商业结果。用户、收入、竞争地位、客户体验。</div>
+      <div class="tags">
+        <span class="tag tag-blue">产品需求</span>
+        <span class="tag tag-blue">架构</span>
+        <span class="tag tag-blue">FastAPI</span>
+        <span class="tag tag-purple">数据生成</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P2 -->
+  <div class="phase" id="p2">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">🏗️</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 02 · 5 月 20 日</div>
+        <div class="phase-title">前端大屏骨架 <span class="zh">Frontend Skeleton</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 2026 年 5 月 20 日</span>
+        <span class="meta-item">⚡ 首个可工作版本</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>构建 6 个核心组件：用户趋势、地图视图、网络 KPI、竞争分析、流失指标、应用体验</li>
+          <li>城市钻取实现，包括 5 城诊断面板（波哥大、麦德林、卡利、巴兰基亚、卡塔赫纳）</li>
+          <li>v0.1.0 — 首个端到端工作版本，全部连接完毕</li>
+          <li>转换为独立 HTML — 完全消除服务器依赖</li>
+        </ul>
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">6</div><div class="sp-label">组件</div></div>
+        <div class="stat-pill"><div class="sp-num">5</div><div class="sp-label">城市</div></div>
+        <div class="stat-pill"><div class="sp-num">v0.1</div><div class="sp-label">首次发布</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-green">v0.1.0</span>
+        <span class="tag tag-blue">独立 HTML</span>
+        <span class="tag tag-blue">ECharts</span>
+        <span class="tag tag-blue">Leaflet</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P3 -->
+  <div class="phase" id="p3">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot purple">✨</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 03 · 5 月 20–21 日</div>
+        <div class="phase-title">FANG 级 UI 设计 <span class="zh">FANG-Level Design</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 5 月 20–21 日</span>
+        <span class="meta-item">🎨 设计大改</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>引入"FANG 级 UI 设计师"视角 — 暗色主题、毛玻璃态、微交互</li>
+          <li>52 周用户趋势图，含动画填充和里程碑标记</li>
+          <li>终端分布面板，点击展开地区分解</li>
+          <li>竞争分析集成 Ookla 风格的速率指标</li>
+          <li>地图图层切换器：9 种不同视图（网络 KPI、增长、流失、视频质量、覆盖等）</li>
+          <li>应用体验面板：YouTube / Netflix / TikTok / 总流量，含流媒体质量条</li>
+        </ul>
+      </div>
+      <div class="highlight-box" style="border-color: rgba(129,140,248,0.25); background: rgba(129,140,248,0.06); color: var(--accent2);">
+        设计原则：每一像素都要有数据目的。无装饰性的像素。
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">9</div><div class="sp-label">地图图层</div></div>
+        <div class="stat-pill"><div class="sp-num">52</div><div class="sp-label">周趋势</div></div>
+        <div class="stat-pill"><div class="sp-num">4</div><div class="sp-label">应用面板</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-purple">FANG 设计</span>
+        <span class="tag tag-blue">地图图层</span>
+        <span class="tag tag-blue">Ookla 数据</span>
+        <span class="tag tag-purple">毛玻璃态</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P4 -->
+  <div class="phase" id="p4">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">🗺️</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 04 · 5 月 21 日</div>
+        <div class="phase-title">地图进化 <span class="zh">Map Evolution</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 2026 年 5 月 21 日</span>
+        <span class="meta-item">🌎 哥伦比亚 GeoJSON</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>从圆形标记迁移到真实多边形区域 — GeoJSON 行政边界</li>
+          <li>通过 GitHub CDN 加载真实哥伦比亚 32 省边界（无本地文件需要）</li>
+          <li>5 阶色编码用户增长：深红 → 浅红 → 灰 → 浅绿 → 深绿</li>
+          <li>中英双语切换 — 所有标签瞬间切换</li>
+          <li>RSRP 覆盖分布图添加到侧边栏</li>
+          <li>分屏对比模式：Tigo vs Op-B 并排显示</li>
+        </ul>
+      </div>
+      <div class="highlight-box">
+        真实地理边界改变一切 — 地图从"演示风格"瞬间变成"董事会风格"。
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">32</div><div class="sp-label">省份</div></div>
+        <div class="stat-pill"><div class="sp-num">5</div><div class="sp-label">颜色阶</div></div>
+        <div class="stat-pill"><div class="sp-num">2</div><div class="sp-label">语言</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-green">GeoJSON</span>
+        <span class="tag tag-blue">分屏</span>
+        <span class="tag tag-blue">双语</span>
+        <span class="tag tag-purple">RSRP 图表</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P5 -->
+  <div class="phase" id="p5">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">📡</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 05 · 5 月 21 日</div>
+        <div class="phase-title">站点与覆盖 <span class="zh">Sites &amp; Coverage</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 2026 年 5 月 21 日</span>
+        <span class="meta-item">📡 5,000+ 站点</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>从 50 个演示站点扩展到 5,000+ 地理真实站点</li>
+          <li>高斯分布算法实现真实城市中心聚集</li>
+          <li>公路走廊站点连接城市 — 10 条线性走廊</li>
+          <li>终端热力图图层 — 显示用户密度分布</li>
+          <li>覆盖分屏：同步平移/缩放，两侧同时移动</li>
+        </ul>
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">5K+</div><div class="sp-label">站点</div></div>
+        <div class="stat-pill"><div class="sp-num">10</div><div class="sp-label">走廊</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-blue">高斯分布</span>
+        <span class="tag tag-blue">热力图</span>
+        <span class="tag tag-green">同步地图</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P6 -->
+  <div class="phase" id="p6">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot danger">💥</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 06 · 5 月 21 日</div>
+        <div class="phase-title">大翻车与回退 <span class="zh">The Crash &amp; Rollback</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 2026 年 5 月 21 日</span>
+        <span class="meta-item">💀 关键故障</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>尝试为 65 英寸 4K 显示屏完整 UI 重新设计 — 同时缩放所有字体、内边距、元素</li>
+          <li>用户评价："太丑了" — 同时进行的更改造成视觉混乱</li>
+          <li>通过 git revert 回退整个 UI 至阶段 4 基线</li>
+          <li>逐一重新添加丢失的功能，每步仔细验证</li>
+        </ul>
+      </div>
+      <div class="highlight-box danger">
+        沉痛教训：永远不要在一次提交中更改整个视觉系统。增量改变加检查点 = 可恢复。一次性改动 = 灾难。
+      </div>
+      <div class="tags">
+        <span class="tag tag-red">回退</span>
+        <span class="tag tag-warn">4K 缩放</span>
+        <span class="tag tag-red">用户体验失败</span>
+        <span class="tag tag-blue">Git Revert</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P7 -->
+  <div class="phase" id="p7">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">🔧</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 07 · 5 月 22 日</div>
+        <div class="phase-title">V3 重构 <span class="zh">Dashboard V3 Refactor</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 2026 年 5 月 22 日</span>
+        <span class="meta-item">🔄 新布局</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Dashboard V3 — 全新布局设计以修复积累的技术债</li>
+          <li>底部卡片经过多轮迭代：竖直 → 水平、饼图过大 → 固定 90px、重复数字移除</li>
+          <li>发现底部行阻挡侧边栏面板 — 用 CSS grid-column span 修复</li>
+          <li>站点分布大改：矩形网格块 → 高斯 + 公路走廊算法</li>
+        </ul>
+      </div>
+      <div class="highlight-box">
+        V3 是"无聊但必要"的重构。没有新功能 — 只是让现有一切真正可靠地工作。
+      </div>
+      <div class="tags">
+        <span class="tag tag-blue">V3</span>
+        <span class="tag tag-blue">CSS Grid</span>
+        <span class="tag tag-purple">布局修复</span>
+        <span class="tag tag-green">高斯站点</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P8 -->
+  <div class="phase" id="p8">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">📱</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 08 · 5 月 22 日</div>
+        <div class="phase-title">V4 响应式 <span class="zh">Responsive V4</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 2026 年 5 月 22 日</span>
+        <span class="meta-item">📐 53 个 clamp() 用法</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>CSS 变量 + clamp() 实现所有屏幕尺寸的流体响应缩放</li>
+          <li>53 个 clamp() 用法和 45 个 CSS 变量引用 — 无硬编码像素值</li>
+          <li>3 个断点的媒体查询：笔记本 / 桌面 / 4K</li>
+          <li>全局 ECharts 调整大小处理 — 所有图表在窗口调整大小时正确回流</li>
+          <li>建立 QA 检查清单：CHECK-1 至 CHECK-6 分类</li>
+        </ul>
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">53</div><div class="sp-label">clamp()</div></div>
+        <div class="stat-pill"><div class="sp-num">45</div><div class="sp-label">CSS 变量</div></div>
+        <div class="stat-pill"><div class="sp-num">3</div><div class="sp-label">断点</div></div>
+        <div class="stat-pill"><div class="sp-num">6</div><div class="sp-label">QA 检查</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-green">v4</span>
+        <span class="tag tag-blue">clamp()</span>
+        <span class="tag tag-blue">CSS 变量</span>
+        <span class="tag tag-purple">QA 系统</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P9 -->
+  <div class="phase" id="p9">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">🌐</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 09 · 5 月 22 日</div>
+        <div class="phase-title">翻译与合规 <span class="zh">i18n &amp; Compliance</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 2026 年 5 月 22 日</span>
+        <span class="meta-item">🔍 发现 55 个字符串</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>QA 扫描发现 55 个未翻译的中文字符串嵌入在 JavaScript 代码块中 — 不仅仅是 HTML</li>
+          <li>QA 规则升级为扫描 JS 模板字符串和字符串连接，不仅仅是静态 HTML</li>
+          <li>构建翻译系统：145 个条目，101 个 getTranslation() 调用点</li>
+          <li>合规检查："Claro" → "Op-B" 匿名化，遍及 32 个位置以避免竞争对手命名</li>
+        </ul>
+      </div>
+      <div class="highlight-box warn">
+        隐藏的 i18n Bug：JavaScript 模板字符串中的中文字符串对只看 HTML 的 QA 扫描是隐形的。需要 JS 感知的正则表达式。
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">145</div><div class="sp-label">翻译</div></div>
+        <div class="stat-pill"><div class="sp-num">101</div><div class="sp-label">调用点</div></div>
+        <div class="stat-pill"><div class="sp-num">32</div><div class="sp-label">已匿名化</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-blue">i18n</span>
+        <span class="tag tag-blue">getTranslation()</span>
+        <span class="tag tag-warn">合规</span>
+        <span class="tag tag-purple">QA 升级</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P10 -->
+  <div class="phase" id="p10">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot danger">⚔️</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 10 · 5 月 22–23 日</div>
+        <div class="phase-title">分屏联动大战 <span class="zh">Split-View Sync Battle</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 5 月 22–23 日</span>
+        <span class="meta-item">🐛 5 轮调试</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li><strong>根因 1：</strong> <code>window.map</code> 不是 Leaflet 对象 — <code>let map</code> 在函数作用域内从未分配给 <code>window</code></li>
+          <li><strong>根因 2：</strong> <code>map.off('move')</code> 移除了所有移动处理程序，包括 Leaflet 内部的 — 完全破坏平移/缩放</li>
+          <li><strong>根因 3：</strong> 热力图数据包含来自 Box-Muller 极值的 5 个 NULL 坐标点</li>
+          <li><strong>根因 4：</strong> <code>const MR_HEATMAP</code> 在首次使用后声明 — 时间死区错误</li>
+          <li>构建 Playwright 自动化浏览器测试以验证分屏行为端到端</li>
+          <li>最终修复：命名处理程序引用 + 安全事件解绑 + NaN 坐标过滤</li>
+        </ul>
+      </div>
+      <div class="highlight-box danger">
+        5 轮调试。每个修复揭露下一个更深的 Bug。TDZ Bug 最狡猾 — 无错误抛出，只是运行时静默失败。
+      </div>
+      <div class="tags">
+        <span class="tag tag-red">5 Bug 轮</span>
+        <span class="tag tag-warn">Leaflet 事件</span>
+        <span class="tag tag-warn">TDZ Bug</span>
+        <span class="tag tag-green">Playwright E2E</span>
+        <span class="tag tag-blue">NaN 过滤</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P11 -->
+  <div class="phase" id="p11">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot success">🇨🇴</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 11 · 5 月 23 日</div>
+        <div class="phase-title">全省覆盖 <span class="zh">All 32 Departments</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 2026 年 5 月 23 日</span>
+        <span class="meta-item">🗺️ 哥伦比亚全覆盖</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>从 5 个主要城市扩展到全地区 60 个站点配置</li>
+          <li>所有 32 个哥伦比亚省映射到 6 个宏观地区，含完整数据</li>
+          <li>用 10 条线性公路走廊替换圆形分布以提高真实性</li>
+          <li>海洋边界过滤 — 零站点放置在太平洋或加勒比海</li>
+          <li>亚马逊地区添加了完整指标（之前从所有视图中缺失）</li>
+        </ul>
+      </div>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="sp-num">60</div><div class="sp-label">站点配置</div></div>
+        <div class="stat-pill"><div class="sp-num">32</div><div class="sp-label">省份</div></div>
+        <div class="stat-pill"><div class="sp-num">6</div><div class="sp-label">地区</div></div>
+        <div class="stat-pill"><div class="sp-num">10</div><div class="sp-label">走廊</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-green">全覆盖</span>
+        <span class="tag tag-blue">海洋过滤</span>
+        <span class="tag tag-blue">亚马逊</span>
+        <span class="tag tag-purple">公路走廊</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P12 -->
+  <div class="phase" id="p12">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">📊</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 12 · 5 月 23 日</div>
+        <div class="phase-title">信息增强 <span class="zh">Data Enrichment</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 2026 年 5 月 23 日</span>
+        <span class="meta-item">📈 4 张卡片增强</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>用户卡片：添加净增/流失率/ARPU 指标 + 预付费与后付费柱状图</li>
+          <li>网络 KPI 卡片：目标对比行，包含 RAG（红/琥珀/绿）状态</li>
+          <li>竞争对手卡片：延迟 / 上行速率 / 市场份额分解已添加</li>
+          <li>终端卡片：5G 渗透率 28.5% + VoLTE 采用率 72.3% 突出显示</li>
+          <li>底部饼图：中心标签显示 HD 比率 / 成功率 / 日流量总计</li>
+        </ul>
+      </div>
+      <div class="highlight-box">
+        目标：每个面板都应该在不需要人提问的情况下回答 CMO 的问题。每个增强都是由真实的"但要不要...?"问题触发的。
+      </div>
+      <div class="tags">
+        <span class="tag tag-blue">ARPU</span>
+        <span class="tag tag-blue">5G 渗透</span>
+        <span class="tag tag-blue">VoLTE</span>
+        <span class="tag tag-purple">RAG 状态</span>
+        <span class="tag tag-green">中心标签</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P13 -->
+  <div class="phase" id="p13">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot">🌡️</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-num">阶段 13 · 5 月 23 日</div>
+        <div class="phase-title">RSRP 热力图 <span class="zh">Coverage Heatmap</span></div>
+      </div>
+      <div class="phase-meta">
+        <span class="meta-item">📅 2026 年 5 月 23 日</span>
+        <span class="meta-item">🎨 颜色科学</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>覆盖热力图颜色方案改变：蓝绿（任意） → 红黄绿（信号质量语义）</li>
+          <li>红 = 差 RSRP，黄 = 边际，绿 = 优秀 — 符合行业惯例</li>
+          <li>统一梯度应用于 Tigo 和 Op-B 图层 — 有效比较的相同颜色尺度</li>
+          <li>9 个梯度实例在所有地图图层变体间同步</li>
+        </ul>
+      </div>
+      <div class="highlight-box success">
+        耗时 30 分钟的颜色变化为与领域专家相处增加了数月的可信度。他们立即识别了 RSRP 颜色惯例。
+      </div>
+      <div class="tags">
+        <span class="tag tag-warn">RSRP 尺度</span>
+        <span class="tag tag-green">红→黄→绿</span>
+        <span class="tag tag-blue">9 个梯度同步</span>
+        <span class="tag tag-purple">行业标准</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P14 -->
+  <div class="phase" id="p14">
+    <div class="phase-dot-wrap">
+      <div class="phase-dot purple">🔬</div>
+    </div>
+  </div>
+
+</div><!-- /timeline-wrap -->
+
+<!-- ── Final Stats Banner ── -->
+<div class="final-banner">
+  <h2>数据总览</h2>
+  <div class="final-stats">
+    <div class="fs-item"><div class="fs-num">114</div><div class="fs-label">代码提交</div></div>
+    <div class="fs-item"><div class="fs-num">3</div><div class="fs-label">天</div></div>
+    <div class="fs-item"><div class="fs-num">4,374</div><div class="fs-label">CMO Dashboard 行数</div></div>
+    <div class="fs-item"><div class="fs-num">2,844</div><div class="fs-label">CTO Dashboard 行数</div></div>
+    <div class="fs-item"><div class="fs-num">8</div><div class="fs-label">QA 检查分类</div></div>
+    <div class="fs-item"><div class="fs-num">145</div><div class="fs-label">i18n 条目</div></div>
+  </div>
+</div>
+
+<!-- ── Key Learnings ── -->
+<section class="learnings" id="learnings">
+  <h2>关键经验</h2>
+  <p class="learnings-sub">14 个阶段。1 次回退。5 轮调试。以下是真正重要的事。</p>
+  <div class="learning-grid">
+
+    <div class="learning-card">
+      <div class="lc-icon">🎯</div>
+      <div class="lc-title">从用户问题开始</div>
+      <div class="lc-body">CMO 不想要原始网络指标 — 他们想要商业结果。每个功能决策都经过"CMO 在周一早上会真正问这个问题吗?"的过滤。</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🔄</div>
+      <div class="lc-title">增量优于一次性</div>
+      <div class="lc-body">阶段 6 证实了这一点。在一次提交中更改整个视觉系统 — 字体、间距、颜色、布局 — 造成混乱。每个后续重新设计都在小的、可审视的增量中进行，每个阶段后有检查点。</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🐛</div>
+      <div class="lc-title">命名事件处理程序不可谈判</div>
+      <div class="lc-body">调用 <code>map.off('move')</code> 有匿名函数会移除该类型的所有处理程序 — 包括内部 Leaflet 的。始终存储处理程序的引用，并使用 <code>map.off('move', namedHandler)</code> 以安全解绑。</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🌍</div>
+      <div class="lc-title">真实数据改变认知</div>
+      <div class="lc-body">从圆形标记切换到真实 GeoJSON 边界，从合成站点网格切换到高斯 + 走廊放置，即使底层数据相同，也将 Dashboard 从"演示"转变为"生产就绪"— 在用户心中。</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🔍</div>
+      <div class="lc-title">QA 必须扫描代码，不仅仅是 HTML</div>
+      <div class="lc-body">55 个未翻译的字符串隐藏在 JavaScript 模板字符串内。仅限 HTML 的 QA 工具完全错过它们。i18n 验证需要也解析 JS 字符串上下文 — 始终使用 JS 感知的正则表达式模式。</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🎨</div>
+      <div class="lc-title">颜色承载语义</div>
+      <div class="lc-body">RSRP 热力图颜色从蓝绿改为红黄绿只用了 30 分钟。与领域专家相处的可信度收益瞬间 — 他们立即识别了行业标准信号质量惯例。</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">⚡</div>
+      <div class="lc-title">规模处用 Canvas 而非 DOM</div>
+      <div class="lc-body">CTO 网格的 146,000 个 DOM 元素会让任何浏览器崩溃。用直接像素操作的 Canvas 渲染使其平滑。教训：选择与你的数据密度匹配的渲染基元，而非编码便利。</div>
+    </div>
+
+    <div class="learning-card">
+      <div class="lc-icon">🧪</div>
+      <div class="lc-title">自动化你会重新检查的东西</div>
+      <div class="lc-body">分屏同步在开发期间破坏了四次。在第三次破坏后构建 Playwright E2E 测试意味着第四次回归被 CI 捕获，而非演示中。自动化投资在第二次失败时就开始回本。</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  CMO Dashboard — 建于 2026 年 5 月 20–23 日 &nbsp;·&nbsp; 114 次提交 &nbsp;·&nbsp; 14 个阶段 &nbsp;·&nbsp; 3 天
+</footer>
+
+<script>
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // Intersection observer for scroll-reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.phase, .learning-card, .env-block').forEach(el => observer.observe(el));
+
+  // Nav scroll helper (overrides built-in scrollTo)
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+</script>
+
+</body>
+</html>
