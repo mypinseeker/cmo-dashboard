@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Millicom FBB Investment Strategy | Global Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #080c17 0%, #0a0e1a 100%);
+            color: #e0e7ff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #00ff88, #ffa500);
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Fixed Navigation */
+        nav.fixed-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(8, 12, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #1e3a5f;
+            padding: 1rem 2rem;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        nav.fixed-nav .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        nav.fixed-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav.fixed-nav a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav.fixed-nav a:hover {
+            color: #00d4ff;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #0f172a 0%, #1a2847 100%);
+            border-bottom: 1px solid #1e3a5f;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .keynum {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffa500;
+            margin: 1rem 0;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid #1e3a5f;
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #00d4ff;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+            color: #e0e7ff;
+        }
+
+        /* BLM Framework Section */
+        .blm-framework {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .blm-card {
+            background: #0f172a;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .blm-card:hover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .blm-card .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .blm-card .title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .blm-card p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        /* Country Cards */
+        .country-card {
+            background: #0f172a;
+            border: 1px solid #1e3a5f;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .country-card:hover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.02);
+        }
+
+        .country-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #1e3a5f;
+        }
+
+        .country-flag {
+            font-size: 3rem;
+        }
+
+        .country-info h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.8rem;
+        }
+
+        .country-investment {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00ff88;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .p0 { background: rgba(255, 0, 0, 0.2); color: #ff6b6b; }
+        .p1 { background: rgba(255, 165, 0, 0.2); color: #ffa500; }
+        .p2 { background: rgba(255, 255, 0, 0.2); color: #ffd700; }
+        .p3 { background: rgba(100, 200, 255, 0.2); color: #64c8ff; }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #00d4ff;
+            border-bottom: 1px solid #1e3a5f;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.5);
+            color: #cbd5e1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        /* Technology Cards */
+        .tech-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tech-card {
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+            background: rgba(15, 23, 42, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateX(5px);
+        }
+
+        .tech-fwa {
+            border-left-color: #00ff88;
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .tech-ftth {
+            border-left-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .tech-cable {
+            border-left-color: #ffa500;
+            background: rgba(255, 165, 0, 0.05);
+        }
+
+        .tech-card h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-card .investment {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .tech-card .payback {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        /* Investment Bars */
+        .investment-bar-group {
+            margin: 2rem 0;
+        }
+
+        .bar-row {
+            margin-bottom: 1.5rem;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .bar-container {
+            height: 30px;
+            background: rgba(30, 58, 95, 0.5);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #1e3a5f;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            transition: width 0.6s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: #080c17;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        /* Pie Chart */
+        .pie-container {
+            max-width: 400px;
+            margin: 2rem auto;
+        }
+
+        .pie-chart {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                #00d4ff 0% 48%,
+                #00ff88 48% 70%,
+                #ffa500 70% 87%,
+                #ff6b6b 87% 99%,
+                #00d4ff 99%
+            );
+            margin: 0 auto;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
+        }
+
+        .pie-legend {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .pie-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .pie-swatch {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        /* Flow Diagram */
+        .flow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .step-box {
+            background: #0f172a;
+            border: 2px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .step-box:hover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+            border-radius: 50%;
+            color: #080c17;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .step-box h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-box p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            margin: 2rem 0;
+        }
+
+        .comparison-table thead th {
+            background: rgba(0, 212, 255, 0.15);
+            color: #00d4ff;
+        }
+
+        /* Global Summary Grid */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .summary-item {
+            background: #0f172a;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .summary-item:hover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.02);
+        }
+
+        .summary-item .label {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .summary-item .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00ff88;
+        }
+
+        /* Risk Matrix */
+        .risk-matrix {
+            width: 100%;
+            margin: 2rem 0;
+        }
+
+        .risk-row {
+            display: grid;
+            grid-template-columns: 200px 1fr 200px;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .risk-trigger {
+            padding: 1rem;
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #ff6b6b;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .risk-action {
+            padding: 1rem;
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #ffa500;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0a0e1a 0%, #080c17 100%);
+            border-top: 1px solid #1e3a5f;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #94a3b8;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav.fixed-nav {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav.fixed-nav ul {
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 3rem 1rem;
+                margin-top: 120px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .keynum {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .country-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .flow-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .risk-row {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress"></div>
+
+    <nav class="fixed-nav">
+        <a href="#" class="logo">MILLICOM FBB</a>
+        <ul>
+            <li><a href="#overview">BLM Framework</a></li>
+            <li><a href="#guatemala">Guatemala</a></li>
+            <li><a href="#colombia">Colombia</a></li>
+            <li><a href="#honduras">Honduras</a></li>
+            <li><a href="#panama">Panama</a></li>
+            <li><a href="#summary">Global Summary</a></li>
+            <li><a href="#risks">Risks</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>Millicom FBB Investment Strategy</h1>
+        <p>Business Leadership Model Analysis: Fiber-to-Home & Fixed Wireless Access</p>
+        <div class="keynum">$301M</div>
+        <p>Global FBB Investment Commitment (36 Months)</p>
+    </section>
+
+    <main>
+        <!-- BLM Framework Section -->
+        <section id="overview">
+            <h2>🎯 BLM Five-Look Framework</h2>
+            <p>The Business Leadership Model guides our FBB strategy across five critical dimensions:</p>
+
+            <div class="blm-framework">
+                <div class="blm-card">
+                    <div class="number">1</div>
+                    <div class="title">Market Insight</div>
+                    <p>FBB penetration rates, competitive landscape, and growth opportunities in each country</p>
+                </div>
+                <div class="blm-card">
+                    <div class="number">2</div>
+                    <div class="title">Strategic Intent</div>
+                    <p>Where to compete, how to win, and resource allocation across regions</p>
+                </div>
+                <div class="blm-card">
+                    <div class="number">3</div>
+                    <div class="title">Innovation Focus</div>
+                    <p>Technology selection: FWA vs FTTH vs Cable upgrade for each market</p>
+                </div>
+                <div class="blm-card">
+                    <div class="number">4</div>
+                    <div class="title">Business Design</div>
+                    <p>Execution plan: phased deployment, milestones, and KPIs</p>
+                </div>
+                <div class="blm-card">
+                    <div class="number">5</div>
+                    <div class="title">Organizational Capability</div>
+                    <p>Teams, partnerships, supply chain, and infrastructure requirements</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Guatemala Section -->
+        <section id="guatemala">
+            <h2>🇬🇹 Guatemala – Largest Opportunity & Most Urgent</h2>
+
+            <div class="country-card">
+                <div class="country-header">
+                    <div class="country-flag">🇬🇹</div>
+                    <div class="country-info">
+                        <h3>Guatemala</h3>
+                        <div class="country-investment">$88M Investment</div>
+                        <div class="priority-badge p0">⭐ P0 Priority</div>
+                    </div>
+                </div>
+
+                <h3>Market Insight (LOOK 1)</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Value</th>
+                                <th>Source</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>FBB Penetration Rate</td>
+                                <td><strong>~5%</strong> (~920K lines / 18.7M population)</td>
+                                <td>DataReportal</td>
+                            </tr>
+                            <tr>
+                                <td>Tigo Fixed Lines</td>
+                                <td>720K</td>
+                                <td>Millicom Q1 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Primary Technology</td>
+                                <td>Cable/HFC</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>FBB Revenue Growth</td>
+                                <td><strong>13.8% CAGR</strong> ($470M→$896M by 2029)</td>
+                                <td>Mordor Intelligence</td>
+                            </tr>
+                            <tr>
+                                <td>EBITDA Margin</td>
+                                <td>55.4%</td>
+                                <td>Millicom Q1 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Main Competitors</td>
+                                <td>Claro FTTH expansion, Starlink (live since 2023.7), Cablenet</td>
+                                <td>—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Strategic Intent (LOOK 2)</h3>
+                <p><strong>Where to Compete:</strong></p>
+                <ul style="margin: 1rem 0 0 1.5rem; color: #cbd5e1;">
+                    <li><strong>Urban new development zones</strong> (Guatemala City Zones 10-15): High density, high ARPU, Claro hasn't deployed fiber yet</li>
+                    <li><strong>Suburban growth corridors</strong> (Mixco/Villa Nueva/Petapa): Rapid population growth, strong FBB demand</li>
+                    <li><strong>Rural areas:</strong> Starlink competitive, but Tigo has ~3x price advantage (GTQ 100 vs 300)</li>
+                </ul>
+
+                <p style="margin-top: 1.5rem;"><strong>How to Win:</strong></p>
+                <div class="tech-cards">
+                    <div class="tech-card tech-fwa">
+                        <h4>Short-term (0-6M)</h4>
+                        <div style="color: #00ff88; font-weight: 600;">FWA "Lightning Strike"</div>
+                        <p>Zero network investment, lock users immediately</p>
+                    </div>
+                    <div class="tech-card tech-ftth">
+                        <h4>Mid-term (6-18M)</h4>
+                        <div style="color: #00d4ff; font-weight: 600;">FTTH Precision Deployment</div>
+                        <p>Validate demand, high-precision fiber placement</p>
+                    </div>
+                    <div class="tech-card tech-cable">
+                        <h4>Long-term (18-36M)</h4>
+                        <div style="color: #ffa500; font-weight: 600;">Cable→Fiber Migration</div>
+                        <p>Full technology transformation ($700M committed)</p>
+                    </div>
+                </div>
+
+                <h3>Innovation Focus (LOOK 3) – Technology Selection</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Region</th>
+                                <th>Recommended Tech</th>
+                                <th>Rationale</th>
+                                <th>Investment</th>
+                                <th>Payback Period</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Urban Low-Load</td>
+                                <td>4G FWA (WTTx)</td>
+                                <td>PRB <40%, zero network investment</td>
+                                <td>$8M</td>
+                                <td><strong>7 months</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Urban High-Demand</td>
+                                <td>GPON FTTH</td>
+                                <td>Demand validated, long-term competitive strength</td>
+                                <td>$25M</td>
+                                <td>24 months</td>
+                            </tr>
+                            <tr>
+                                <td>Suburban</td>
+                                <td>FWA + Fiber Hybrid</td>
+                                <td>FWA first coverage, fiber follows</td>
+                                <td>$15M</td>
+                                <td>10 months (FWA)</td>
+                            </tr>
+                            <tr>
+                                <td>Rural</td>
+                                <td>4G FWA</td>
+                                <td>Starlink parity at 1/3 the price</td>
+                                <td>$5M</td>
+                                <td>14 months</td>
+                            </tr>
+                            <tr>
+                                <td>Urban High-Load</td>
+                                <td>❌ No FWA</td>
+                                <td>PRB >70%, would degrade MBB experience</td>
+                                <td>—</td>
+                                <td>—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p style="margin-top: 1.5rem;"><strong>WTTx Probe Strategy (Tigo actively executing):</strong></p>
+                <div class="flow-steps">
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <h4>Deploy FWA</h4>
+                        <p>Enable FWA on low-load 4G sites (2-30 Mbps). No official website marketing.</p>
+                    </div>
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <h4>Track User Clusters</h4>
+                        <p>Monitor where users concentrate using data-driven analytics</p>
+                    </div>
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <h4>Deploy FTTH</h4>
+                        <p>In areas where user density meets threshold, deploy fiber</p>
+                    </div>
+                    <div class="step-box">
+                        <div class="step-number">4</div>
+                        <h4>Seamless Migration</h4>
+                        <p>Migrate FWA users to fiber with zero customer acquisition cost</p>
+                    </div>
+                </div>
+
+                <h3>Business Design (LOOK 4) – Execution Plan</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Phase</th>
+                                <th>Timeline</th>
+                                <th>Investment</th>
+                                <th>Output</th>
+                                <th>KPI Target</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Phase 1:</strong> FWA Lightning Strike</td>
+                                <td>Months 1-6</td>
+                                <td>$13M</td>
+                                <td>2,500 FWA customers</td>
+                                <td>ARPU $13-25/mo</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phase 2:</strong> FTTH Precision</td>
+                                <td>Months 6-18</td>
+                                <td>$25M</td>
+                                <td>10K FTTH customers</td>
+                                <td>ARPU $25-40/mo</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phase 3:</strong> Cable→Fiber Migration</td>
+                                <td>Months 12-36</td>
+                                <td>$50M</td>
+                                <td>30% of 720K cable users migrated</td>
+                                <td>-40% maintenance cost</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><strong>Total 36-month commitment</strong></td>
+                                <td colspan="3"><strong>$88M</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Colombia Section -->
+        <section id="colombia">
+            <h2>🇨🇴 Colombia – Largest Scale, Integration-Driven</h2>
+
+            <div class="country-card">
+                <div class="country-header">
+                    <div class="country-flag">🇨🇴</div>
+                    <div class="country-info">
+                        <h3>Colombia</h3>
+                        <div class="country-investment">$90M Investment</div>
+                        <div class="priority-badge p0">⭐ P0 Priority</div>
+                    </div>
+                </div>
+
+                <h3>Market Insight (LOOK 1)</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>FBB Penetration Rate</td>
+                                <td><strong>46%</strong> (highest in region)</td>
+                            </tr>
+                            <tr>
+                                <td>Market Size</td>
+                                <td>$9.8B (2026)</td>
+                            </tr>
+                            <tr>
+                                <td>Tigo Market Position</td>
+                                <td>#2 (post Tigo+Movistar merger)</td>
+                            </tr>
+                            <tr>
+                                <td>Tier-2 City Fiber Penetration</td>
+                                <td><strong>&lt;40%</strong> (Barranquilla, Bucaramanga)</td>
+                            </tr>
+                            <tr>
+                                <td>Claro 5G FWA Status</td>
+                                <td>Launched June 2024</td>
+                            </tr>
+                            <tr>
+                                <td>Network Status</td>
+                                <td>Tigo + Coltel operate independently</td>
+                            </tr>
+                            <tr>
+                                <td>Profit Margins</td>
+                                <td>Mixed: Tigo 41.2%, Coltel lower</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Strategic Intent (LOOK 2)</h3>
+                <p><strong>Key Opportunity:</strong> 46% penetration is highest, but tier-2 cities <40%. Largest opportunity is <strong>dual-network integration (Tigo + Coltel)</strong>, not just greenfield.</p>
+
+                <p style="margin-top: 1rem;"><strong>Where to Compete:</strong></p>
+                <ul style="margin: 1rem 0 0 1.5rem; color: #cbd5e1;">
+                    <li>Tier-2 cities (Barranquilla, Bucaramanga, Pereira): <40% fiber penetration, lighter competitive pressure</li>
+                    <li>Coltel fiber network: Acquired assets, integration optimization opportunity</li>
+                    <li>Avoid Tier-1 head-to-head (Bogotá/Medellín): Claro dominance, high cost of competition</li>
+                </ul>
+
+                <h3>Innovation Focus (LOOK 3)</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Region</th>
+                                <th>Recommended Tech</th>
+                                <th>Rationale</th>
+                                <th>Investment</th>
+                                <th>Payback</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Network Integration</td>
+                                <td>OSS/BSS Unification + Fiber Sharing</td>
+                                <td>Consolidate 2 systems → 1. $25M/yr OPEX savings</td>
+                                <td>$35M</td>
+                                <td>18 months</td>
+                            </tr>
+                            <tr>
+                                <td>Tier-2 Cities</td>
+                                <td>GPON FTTH</td>
+                                <td>Fiber penetration <40%, validated demand</td>
+                                <td>$30M</td>
+                                <td>24 months</td>
+                            </tr>
+                            <tr>
+                                <td>Rural/Suburban</td>
+                                <td>5G FWA</td>
+                                <td>Claro already launched, must match</td>
+                                <td>$15M</td>
+                                <td>15 months</td>
+                            </tr>
+                            <tr>
+                                <td>Convergence Platform</td>
+                                <td>Unified BSS</td>
+                                <td>Mobile + home single billing</td>
+                                <td>$10M</td>
+                                <td>12 months</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Business Design (LOOK 4) – Execution Plan</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Phase</th>
+                                <th>Timeline</th>
+                                <th>Investment</th>
+                                <th>Output</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Phase 1: Dual-Network Integration</td>
+                                <td>Months 1-12</td>
+                                <td>$35M</td>
+                                <td>20% OPEX reduction</td>
+                            </tr>
+                            <tr>
+                                <td>Phase 2: Tier-2 FTTH Expansion</td>
+                                <td>Months 6-18</td>
+                                <td>$30M</td>
+                                <td>50K new FTTH customers</td>
+                            </tr>
+                            <tr>
+                                <td>Phase 3: 5G FWA Rollout</td>
+                                <td>Months 6-15</td>
+                                <td>$15M</td>
+                                <td>30K new FWA customers</td>
+                            </tr>
+                            <tr>
+                                <td>Phase 4: Convergence Bundles</td>
+                                <td>Months 3-12</td>
+                                <td>$10M</td>
+                                <td>Convergence penetration 36%→50%</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><strong>Total 18-month commitment</strong></td>
+                                <td colspan="2"><strong>$90M</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Honduras Section -->
+        <section id="honduras">
+            <h2>🇭🇳 Honduras – Infrastructure Investment Committed</h2>
+
+            <div class="country-card">
+                <div class="country-header">
+                    <div class="country-flag">🇭🇳</div>
+                    <div class="country-info">
+                        <h3>Honduras</h3>
+                        <div class="country-investment">$50M Investment</div>
+                        <div class="priority-badge p1">P1 Priority</div>
+                    </div>
+                </div>
+
+                <h3>Market Position</h3>
+                <ul style="margin: 1rem 0 0 1.5rem; color: #cbd5e1;">
+                    <li>Tigo is market leader</li>
+                    <li><strong>$1B infrastructure investment already committed</strong> (includes FTTH expansion)</li>
+                    <li>FBB penetration estimated 10-15%</li>
+                    <li>Main competitor: Claro Honduras</li>
+                </ul>
+
+                <h3>Technology Recommendations</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Region</th>
+                                <th>Recommended Tech</th>
+                                <th>Rationale</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Urban Areas</td>
+                                <td>GPON FTTH</td>
+                                <td>Core cities, $1B commitment includes fiber deployment</td>
+                            </tr>
+                            <tr>
+                                <td>Suburban</td>
+                                <td>FWA + Fiber Hybrid</td>
+                                <td>Quick coverage for fiber-gap areas</td>
+                            </tr>
+                            <tr>
+                                <td>Rural</td>
+                                <td>4G FWA</td>
+                                <td>Cost-effective coverage, lower density</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>FBB Investment Allocation</h3>
+                <div class="investment-bar-group">
+                    <div class="bar-row">
+                        <div class="bar-label">
+                            <span>FTTH (Urban Core)</span>
+                            <span>$40M</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 80%; background: linear-gradient(90deg, #00d4ff, #00ff88);">80%</div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <div class="bar-label">
+                            <span>FWA (Suburban/Rural)</span>
+                            <span>$10M</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 20%; background: linear-gradient(90deg, #00ff88, #ffa500);">20%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="margin-top: 1rem; font-weight: 600; color: #00ff88;">Total FBB Allocation: $50M</p>
+            </div>
+        </section>
+
+        <!-- Panama Section -->
+        <section id="panama">
+            <h2>🇵🇦 Panama – Premium ARPU Market</h2>
+
+            <div class="country-card">
+                <div class="country-header">
+                    <div class="country-flag">🇵🇦</div>
+                    <div class="country-info">
+                        <h3>Panama</h3>
+                        <div class="country-investment">$25M Investment</div>
+                        <div class="priority-badge p1">P1 Priority</div>
+                    </div>
+                </div>
+
+                <h3>Market Characteristics</h3>
+                <ul style="margin: 1rem 0 0 1.5rem; color: #cbd5e1;">
+                    <li>Mature market with ARPU higher than Central American average</li>
+                    <li>Cable+ brand (Tigo's cable/broadband offering) well-established</li>
+                    <li>FBB penetration estimated 25-35%</li>
+                    <li>High profitability environment supports premium technology investment</li>
+                </ul>
+
+                <h3>Technology Strategy</h3>
+                <div class="tech-cards">
+                    <div class="tech-card tech-ftth">
+                        <h4>Panama City</h4>
+                        <div style="color: #00d4ff; font-weight: 600;">XGS-PON Upgrade</div>
+                        <p>High ARPU justifies next-gen fiber technology</p>
+                        <div class="investment" style="color: #00d4ff;">$12M</div>
+                    </div>
+                    <div class="tech-card tech-ftth">
+                        <h4>Other Cities</h4>
+                        <div style="color: #00d4ff; font-weight: 600;">Standard GPON</div>
+                        <p>GPON technology for secondary markets</p>
+                        <div class="investment" style="color: #00d4ff;">$8M</div>
+                    </div>
+                    <div class="tech-card tech-fwa">
+                        <h4>Rural Areas</h4>
+                        <div style="color: #00ff88; font-weight: 600;">FWA Coverage</div>
+                        <p>Low-density areas served by wireless</p>
+                        <div class="investment" style="color: #00ff88;">$5M</div>
+                    </div>
+                </div>
+
+                <p style="margin-top: 2rem;"><strong>Total FBB Investment: $25M</strong></p>
+            </div>
+        </section>
+
+        <!-- Other Countries Section -->
+        <section>
+            <h2>🌎 Other Countries – Opportunistic Investments</h2>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Country</th>
+                            <th>FBB Strategy</th>
+                            <th>Investment</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🇸🇻 El Salvador</td>
+                            <td>FWA primary + selective FTTH</td>
+                            <td>$10M</td>
+                            <td><span class="priority-badge p2">P2</span></td>
+                        </tr>
+                        <tr>
+                            <td>🇳🇮 Nicaragua</td>
+                            <td>FWA dominant strategy</td>
+                            <td>$5M</td>
+                            <td><span class="priority-badge p3">P3</span></td>
+                        </tr>
+                        <tr>
+                            <td>🇨🇷 Costa Rica</td>
+                            <td>FTTH upgrade (mature market)</td>
+                            <td>$15M</td>
+                            <td><span class="priority-badge p2">P2</span></td>
+                        </tr>
+                        <tr>
+                            <td>🇧🇴 Bolivia</td>
+                            <td>FWA (low penetration rate)</td>
+                            <td>$8M</td>
+                            <td><span class="priority-badge p2">P2</span></td>
+                        </tr>
+                        <tr>
+                            <td>🇺🇾 Uruguay</td>
+                            <td>New acquisition integration</td>
+                            <td>$5M</td>
+                            <td><span class="priority-badge p3">P3</span></td>
+                        </tr>
+                        <tr>
+                            <td>🇪🇨 Ecuador</td>
+                            <td>New acquisition integration</td>
+                            <td>$5M</td>
+                            <td><span class="priority-badge p3">P3</span></td>
+                        </tr>
+                        <tr style="background: rgba(0, 255, 136, 0.1); font-weight: 600;">
+                            <td colspan="2">Subtotal: Other Countries</td>
+                            <td>$48M</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Global Summary Section -->
+        <section id="summary">
+            <h2>📊 Global FBB Investment Summary</h2>
+
+            <h3>Country-by-Country Allocation</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Country</th>
+                            <th>Investment</th>
+                            <th>% of Total</th>
+                            <th>Primary Technology</th>
+                            <th>Payback Period</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>🇬🇹 Guatemala</strong></td>
+                            <td><strong style="color: #00ff88;">$88M</strong></td>
+                            <td>29%</td>
+                            <td>FWA → FTTH → Cable Migration</td>
+                            <td>7-24 months</td>
+                            <td><span class="priority-badge p0">P0</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>🇨🇴 Colombia</strong></td>
+                            <td><strong style="color: #00ff88;">$90M</strong></td>
+                            <td>30%</td>
+                            <td>Network Integration + Tier-2 FTTH + 5G FWA</td>
+                            <td>12-24 months</td>
+                            <td><span class="priority-badge p0">P0</span></td>
+                        </tr>
+                        <tr>
+                            <td>🇭🇳 Honduras</td>
+                            <td>$50M</td>
+                            <td>17%</td>
+                            <td>FTTH + FWA</td>
+                            <td>18-30 months</td>
+                            <td><span class="priority-badge p1">P1</span></td>
+                        </tr>
+                        <tr>
+                            <td>🇵🇦 Panama</td>
+                            <td>$25M</td>
+                            <td>8%</td>
+                            <td>Cable→FTTH Upgrade + FWA</td>
+                            <td>18-24 months</td>
+                            <td><span class="priority-badge p1">P1</span></td>
+                        </tr>
+                        <tr>
+                            <td>Other (SV/NI/CR/BO/UY/EC)</td>
+                            <td>$48M</td>
+                            <td>16%</td>
+                            <td>FWA primary, selective FTTH</td>
+                            <td>12-24 months</td>
+                            <td><span class="priority-badge p2">P2/P3</span></td>
+                        </tr>
+                        <tr style="background: rgba(0, 212, 255, 0.15); font-weight: 600; font-size: 1.1rem;">
+                            <td colspan="2">TOTAL GROUP</td>
+                            <td colspan="2">$301M</td>
+                            <td>100%</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 3rem;">Technology Mix Composition</h3>
+            <div class="pie-container">
+                <div class="pie-chart"></div>
+                <div class="pie-legend">
+                    <div class="pie-item">
+                        <div class="pie-swatch" style="background: #00d4ff;"></div>
+                        <span><strong>FTTH</strong> (GPON/XGS-PON) — $145M (48%)</span>
+                    </div>
+                    <div class="pie-item">
+                        <div class="pie-swatch" style="background: #00ff88;"></div>
+                        <span><strong>FWA</strong> (4G/5G) — $66M (22%)</span>
+                    </div>
+                    <div class="pie-item">
+                        <div class="pie-swatch" style="background: #ffa500;"></div>
+                        <span><strong>Cable→Fiber</strong> Migration — $50M (17%)</span>
+                    </div>
+                    <div class="pie-item">
+                        <div class="pie-swatch" style="background: #ff6b6b;"></div>
+                        <span><strong>Network Integration</strong> — $35M (12%)</span>
+                    </div>
+                    <div class="pie-item">
+                        <div class="pie-swatch" style="background: #64c8ff;"></div>
+                        <span><strong>BSS/Convergence</strong> — $5M (1%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 3rem;">WTTx Probe Strategy Rollout</h3>
+            <p>Validated in Guatemala, expand to scale across group:</p>
+
+            <div class="flow-steps" style="margin: 2rem 0;">
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <h4>Enable WTTx/FWA</h4>
+                    <p>Deploy on low-load 4G cells (zero network investment)</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <h4>Track User Density</h4>
+                    <p>Monitor clustering through offline channels</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <h4>Data-Driven FTTH</h4>
+                    <p>Deploy fiber where density reaches threshold</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">4</div>
+                    <h4>Zero-Cost Migration</h4>
+                    <p>Transition FWA users to fiber at no acquisition cost</p>
+                </div>
+            </div>
+
+            <p style="color: #94a3b8; margin-top: 1.5rem; font-size: 0.95rem;">
+                <strong>Applicability:</strong> Guatemala (active) → Honduras → El Salvador → Bolivia<br>
+                <strong>Exceptions:</strong> Colombia (46% penetration, direct FTTH) · Panama (Cable upgrade primary)
+            </p>
+        </section>
+
+        <!-- Starlink Defense Section -->
+        <section>
+            <h2>🛡️ Starlink Defense Strategy (Group-Wide)</h2>
+
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Dimension</th>
+                            <th>Starlink</th>
+                            <th>Tigo FWA</th>
+                            <th>Tigo FTTH</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Monthly Cost</strong></td>
+                            <td>$50+ (GTQ 300+)</td>
+                            <td style="background: rgba(0, 255, 136, 0.1); color: #00ff88;"><strong>$13-25 (3x cheaper)</strong></td>
+                            <td>$25-40</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Latency</strong></td>
+                            <td>25-60ms</td>
+                            <td style="background: rgba(0, 255, 136, 0.1); color: #00ff88;"><strong>&lt;20ms (gaming/video)</strong></td>
+                            <td><strong>&lt;5ms (premium)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Speed Range</strong></td>
+                            <td>50-200 Mbps</td>
+                            <td>10-100 Mbps</td>
+                            <td style="background: rgba(0, 212, 255, 0.1); color: #00d4ff;"><strong>500+ Mbps</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Installation</strong></td>
+                            <td>Self-install (DIY)</td>
+                            <td>Self/Professional</td>
+                            <td>Professional on-site</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Local Support</strong></td>
+                            <td>None</td>
+                            <td style="background: rgba(0, 255, 136, 0.1); color: #00ff88;"><strong>Physical stores</strong></td>
+                            <td style="background: rgba(0, 212, 255, 0.1); color: #00d4ff;"><strong>Physical stores</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Weather Impact</strong></td>
+                            <td>Yes (rain fade)</td>
+                            <td style="background: rgba(0, 255, 136, 0.1); color: #00ff88;"><strong>No</strong></td>
+                            <td style="background: rgba(0, 212, 255, 0.1); color: #00d4ff;"><strong>No</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Defense Tactics by Segment</h3>
+            <div class="tech-cards">
+                <div class="tech-card tech-fwa">
+                    <h4>Rural Markets</h4>
+                    <p>Deploy FWA at 1/3 Starlink price. Price advantage is unbeatable. ARPU $13-25 vs $50+.</p>
+                </div>
+                <div class="tech-card">
+                    <h4 style="color: #00ff88;">Suburban Growth</h4>
+                    <p style="border-left: 4px solid #00ff88; padding-left: 1rem;">FWA + Convergence bundles (mobile+home discounts). Starlink has no bundle strategy.</p>
+                </div>
+                <div class="tech-card tech-ftth">
+                    <h4>Urban Centers</h4>
+                    <p>FTTH speed/latency superiority is decisive. Starlink cannot compete on performance (500+ Mbps vs 50-200).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Equipment Recommendations Section -->
+        <section>
+            <h2>⚙️ Equipment & Technology Recommendations</h2>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Technology</th>
+                            <th>Recommended Equipment</th>
+                            <th>Unit Cost Estimate</th>
+                            <th>Applicable Countries</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>GPON OLT</strong></td>
+                            <td>Huawei MA5800 / ZTE C600</td>
+                            <td>$15K-25K/unit</td>
+                            <td>All countries</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GPON ONT</strong></td>
+                            <td>Huawei OptiXstar HG8145X6</td>
+                            <td>$30-50/unit</td>
+                            <td>All countries</td>
+                        </tr>
+                        <tr>
+                            <td><strong>XGS-PON OLT</strong></td>
+                            <td>Huawei MA5800-X17</td>
+                            <td>$30K-50K/unit</td>
+                            <td>Panama (high ARPU premium markets)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4G FWA CPE</strong></td>
+                            <td>Huawei B535 / B818</td>
+                            <td>$50-80/unit</td>
+                            <td>Guatemala, Honduras, Bolivia</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5G FWA CPE</strong></td>
+                            <td>Huawei 5G CPE Pro 2</td>
+                            <td>$120-180/unit</td>
+                            <td>Colombia (5G networks)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>WiFi 7 Gateway</strong></td>
+                            <td>Huawei OptiXstar W7</td>
+                            <td>$80-120/unit</td>
+                            <td>Panama, Colombia (premium)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BSS Convergence</strong></td>
+                            <td>Huawei SmartCare CEM</td>
+                            <td>Project-based pricing</td>
+                            <td>All countries (mobile+home billing)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Risk Management Section -->
+        <section id="risks">
+            <h2>⚠️ Risk Management & Guardrails</h2>
+
+            <p style="margin-bottom: 2rem; color: #cbd5e1;">Execution risks and trigger-based mitigation strategies:</p>
+
+            <div class="investment-bar-group">
+                <div class="bar-row">
+                    <div class="bar-label">
+                        <span style="color: #ff6b6b; font-weight: 600;">Risk 1: Leverage Spike</span>
+                        <span style="font-size: 0.85rem;">Trigger: Leverage >2.8x</span>
+                    </div>
+                    <div style="background: rgba(255, 0, 0, 0.15); padding: 1rem; border-radius: 4px; border-left: 4px solid #ff6b6b;">
+                        <p><strong>Condition:</strong> Q2 or Q3 earnings confirm leverage exceeds 2.8x</p>
+                        <p style="margin-top: 0.5rem;"><strong>Action:</strong> Pause P2 country investments immediately. Reallocate budget to P0 only.</p>
+                    </div>
+                </div>
+
+                <div class="bar-row" style="margin-top: 2rem;">
+                    <div class="bar-label">
+                        <span style="color: #ff6b6b; font-weight: 600;">Risk 2: FWA Underperformance</span>
+                        <span style="font-size: 0.85rem;">Trigger: Adoption <50% forecast</span>
+                    </div>
+                    <div style="background: rgba(255, 0, 0, 0.15); padding: 1rem; border-radius: 4px; border-left: 4px solid #ff6b6b;">
+                        <p><strong>Condition:</strong> After 6 months, FWA customer acquisition <50% of plan</p>
+                        <p style="margin-top: 0.5rem;"><strong>Action:</strong> Scale back FWA, accelerate FTTH deployment instead</p>
+                    </div>
+                </div>
+
+                <div class="bar-row" style="margin-top: 2rem;">
+                    <div class="bar-label">
+                        <span style="color: #ffa500; font-weight: 600;">Risk 3: Claro Price War</span>
+                        <span style="font-size: 0.85rem;">Trigger: Price cut >30%</span>
+                    </div>
+                    <div style="background: rgba(255, 165, 0, 0.15); padding: 1rem; border-radius: 4px; border-left: 4px solid #ffa500;">
+                        <p><strong>Condition:</strong> Claro FBB pricing drops >30% in any market</p>
+                        <p style="margin-top: 0.5rem;"><strong>Action:</strong> Pivot to convergence bundle differentiation (mobile+home), not price matching</p>
+                    </div>
+                </div>
+
+                <div class="bar-row" style="margin-top: 2rem;">
+                    <div class="bar-label">
+                        <span style="color: #ffa500; font-weight: 600;">Risk 4: Starlink Disruption</span>
+                        <span style="font-size: 0.85rem;">Trigger: Monthly cost <$30</span>
+                    </div>
+                    <div style="background: rgba(255, 165, 0, 0.15); padding: 1rem; border-radius: 4px; border-left: 4px solid #ffa500;">
+                        <p><strong>Condition:</strong> Starlink monthly subscription drops below $30</p>
+                        <p style="margin-top: 0.5rem;"><strong>Action:</strong> Accelerate FTTH fiber deployment to urban/suburban. Cede rural if necessary.</p>
+                    </div>
+                </div>
+
+                <div class="bar-row" style="margin-top: 2rem;">
+                    <div class="bar-label">
+                        <span style="color: #ffa500; font-weight: 600;">Risk 5: Integration Delay (Colombia)</span>
+                        <span style="font-size: 0.85rem;">Trigger: >12M without Phase 1 completion</span>
+                    </div>
+                    <div style="background: rgba(255, 165, 0, 0.15); padding: 1rem; border-radius: 4px; border-left: 4px solid #ffa500;">
+                        <p><strong>Condition:</strong> Dual-network integration (Tigo+Coltel) not complete after 12 months</p>
+                        <p style="margin-top: 0.5rem;"><strong>Action:</strong> Deploy Huawei integration SWAT team + external SI partner</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Sources Section -->
+        <section style="padding: 3rem 0; border-bottom: none;">
+            <h2>📚 Data Sources & Methodology</h2>
+
+            <div class="summary-grid" style="margin: 2rem 0;">
+                <div class="summary-item">
+                    <div class="label">Primary Sources</div>
+                    <div class="value" style="font-size: 1.2rem; margin-top: 0.5rem;">Millicom Q1 2026 SEC Filing</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Market Research</div>
+                    <div class="value" style="font-size: 1.2rem; margin-top: 0.5rem;">Mordor Intelligence 2026</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Industry Data</div>
+                    <div class="value" style="font-size: 1.2rem; margin-top: 0.5rem;">S&P Global / DataReportal</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Company Sources</div>
+                    <div class="value" style="font-size: 1.2rem; margin-top: 0.5rem;">Investor Presentations</div>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; color: #94a3b8; font-size: 0.95rem;">
+                <strong>Analysis Date:</strong> Q1 2026 | <strong>Planning Horizon:</strong> 36 months | <strong>Currency:</strong> USD
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p><strong>Millicom FBB Investment Strategy Report</strong></p>
+        <p>Business Leadership Model (BLM) Analysis Across 8 Operating Countries</p>
+        <p style="margin-top: 1.5rem; font-size: 0.85rem; color: #64748b;">
+            This report presents FBB investment recommendations based on Q1 2026 market data.
+            All capital allocation, technology choices, and deployment timelines are subject to board approval
+            and market validation.
+        </p>
+    </footer>
+
+    <script>
+        // Scroll progress bar
+        window.addEventListener('scroll', function() {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.querySelector('.scroll-progress').style.width = scrollPercent + '%';
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('nav.fixed-nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Animate bars on scroll into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bars = entry.target.querySelectorAll('.bar-fill');
+                    bars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.investment-bar-group').forEach(group => {
+            observer.observe(group);
+        });
+
+        // Stagger card animations
+        const cards = document.querySelectorAll('.country-card, .blm-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s forwards`;
+        });
+    </script>
+
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</body>
+</html>
