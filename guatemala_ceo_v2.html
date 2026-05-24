@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tigo Guatemala — CEO Strategic Briefing | May 2026</title>
+<style>
+:root {
+  --tigo-blue: #00377B;
+  --tigo-light: #0066CC;
+  --tigo-accent: #00A651;
+  --tigo-gold: #F5A623;
+  --tigo-red: #E74C3C;
+  --bg: #FFFFFF;
+  --text: #1A1A2E;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+  --slide-bg: #FAFBFC;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #F0F2F5; color: var(--text); }
+
+/* Slide system */
+.slide {
+  width: 1060px; min-height: 600px; margin: 40px auto; background: var(--bg);
+  border-radius: 4px; box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  padding: 48px 56px; position: relative; page-break-after: always;
+  display: flex; flex-direction: column;
+}
+.slide-number {
+  position: absolute; bottom: 20px; right: 32px;
+  font-size: 11px; color: var(--muted); font-weight: 500;
+}
+.slide-footer {
+  position: absolute; bottom: 20px; left: 56px;
+  font-size: 10px; color: #B0B0B0; letter-spacing: 0.3px;
+}
+
+/* Action Title bar */
+.action-title {
+  background: var(--tigo-blue); color: #fff; padding: 14px 24px;
+  font-size: 17px; font-weight: 600; line-height: 1.4;
+  border-radius: 3px; margin-bottom: 28px; letter-spacing: -0.2px;
+}
+.action-title.accent { background: var(--tigo-accent); }
+.action-title.gold { background: var(--tigo-gold); color: var(--text); }
+.action-title.red { background: var(--tigo-red); }
+
+/* Section title */
+.section-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--tigo-light); margin-bottom: 6px;
+}
+.slide-title {
+  font-size: 28px; font-weight: 700; color: var(--tigo-blue);
+  margin-bottom: 8px; line-height: 1.2;
+}
+.slide-subtitle {
+  font-size: 15px; color: var(--muted); margin-bottom: 24px; line-height: 1.5;
+}
+
+/* KPI cards */
+.kpi-row { display: flex; gap: 16px; margin-bottom: 24px; }
+.kpi-card {
+  flex: 1; background: var(--slide-bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 18px 20px; text-align: center;
+}
+.kpi-card.highlight { border-color: var(--tigo-accent); border-width: 2px; background: #F0FAF4; }
+.kpi-value { font-size: 32px; font-weight: 800; color: var(--tigo-blue); line-height: 1; }
+.kpi-value.green { color: var(--tigo-accent); }
+.kpi-value.gold { color: var(--tigo-gold); }
+.kpi-label { font-size: 12px; color: var(--muted); margin-top: 6px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-delta { font-size: 12px; color: var(--tigo-accent); font-weight: 600; margin-top: 4px; }
+.kpi-delta.red { color: var(--tigo-red); }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+th { background: var(--tigo-blue); color: #fff; padding: 10px 14px; text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+tr:nth-child(even) { background: var(--slide-bg); }
+tr:hover { background: #EEF2FF; }
+td:first-child { font-weight: 600; }
+.td-right { text-align: right; }
+.td-center { text-align: center; }
+
+/* Columns */
+.cols { display: flex; gap: 28px; flex: 1; }
+.col { flex: 1; }
+.col-2 { flex: 2; }
+
+/* Content */
+h3 { font-size: 16px; font-weight: 700; color: var(--tigo-blue); margin-bottom: 10px; }
+p { font-size: 14px; line-height: 1.65; color: var(--text); margin-bottom: 12px; }
+ul { padding-left: 18px; margin-bottom: 14px; }
+li { font-size: 13.5px; line-height: 1.6; color: #333; margin-bottom: 4px; }
+.callout {
+  background: #FEF9E7; border-left: 4px solid var(--tigo-gold);
+  padding: 14px 18px; font-size: 13px; line-height: 1.6;
+  margin: 16px 0; border-radius: 0 4px 4px 0;
+}
+.callout.blue { background: #EBF5FF; border-left-color: var(--tigo-light); }
+.callout.green { background: #F0FAF4; border-left-color: var(--tigo-accent); }
+.callout.red { background: #FEF0EF; border-left-color: var(--tigo-red); }
+
+/* Tags */
+.tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.tag-green { background: #D4EDDA; color: #155724; }
+.tag-yellow { background: #FFF3CD; color: #856404; }
+.tag-red { background: #F8D7DA; color: #721C24; }
+.tag-blue { background: #D1ECF1; color: #0C5460; }
+
+/* Priority matrix */
+.matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+.matrix-cell {
+  border: 1px solid var(--border); border-radius: 6px; padding: 16px;
+  background: var(--slide-bg);
+}
+.matrix-cell.p0 { border-left: 4px solid var(--tigo-red); }
+.matrix-cell.p1 { border-left: 4px solid var(--tigo-gold); }
+.matrix-cell.p2 { border-left: 4px solid var(--tigo-light); }
+.matrix-cell h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--tigo-blue); }
+.matrix-cell p { font-size: 12px; margin-bottom: 0; }
+
+/* Flowchart */
+.flow { display: flex; align-items: center; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+.flow-step {
+  background: var(--tigo-blue); color: #fff; padding: 10px 16px;
+  border-radius: 4px; font-size: 12px; font-weight: 600; text-align: center;
+}
+.flow-step.green { background: var(--tigo-accent); }
+.flow-step.gold { background: var(--tigo-gold); color: var(--text); }
+.flow-step.red { background: var(--tigo-red); }
+.flow-arrow { color: var(--muted); font-size: 18px; }
+
+/* Checklist */
+.checklist { list-style: none; padding: 0; }
+.checklist li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; display: flex; align-items: flex-start; gap: 8px; }
+.checklist li::before { content: "☐"; color: var(--tigo-light); font-size: 16px; flex-shrink: 0; }
+
+/* Cover */
+.cover { justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, var(--tigo-blue) 0%, #002855 100%); color: #fff; }
+.cover .slide-footer, .cover .slide-number { color: rgba(255,255,255,0.5); }
+
+/* Divider slide */
+.divider { justify-content: center; align-items: center; background: var(--tigo-blue); color: #fff; }
+.divider .slide-number { color: rgba(255,255,255,0.5); }
+.divider .slide-footer { color: rgba(255,255,255,0.4); }
+.divider-number { font-size: 72px; font-weight: 800; opacity: 0.2; margin-bottom: 8px; }
+.divider-title { font-size: 32px; font-weight: 700; }
+.divider-sub { font-size: 16px; opacity: 0.7; margin-top: 8px; }
+
+@media print {
+  body { background: #fff; }
+  .slide { box-shadow: none; margin: 0; page-break-after: always; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== SLIDE 1: COVER ==================== -->
+<div class="slide cover">
+  <div style="margin-bottom: 32px; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.6;">Confidential — CEO Strategic Briefing</div>
+  <div style="font-size: 42px; font-weight: 800; line-height: 1.15; margin-bottom: 16px;">Accelerating<br>Commercial Success</div>
+  <div style="font-size: 20px; opacity: 0.8; margin-bottom: 40px;">Mobile · MNP · FWA Strategy for Tigo Guatemala</div>
+  <div style="display: flex; gap: 40px; justify-content: center; margin-bottom: 40px;">
+    <div><div style="font-size: 40px; font-weight: 800;">53.4%</div><div style="font-size: 12px; opacity: 0.7;">Market Share</div></div>
+    <div><div style="font-size: 40px; font-weight: 800;">$370M</div><div style="font-size: 12px; opacity: 0.7;">Q1 Revenue</div></div>
+    <div><div style="font-size: 40px; font-weight: 800;">55.4%</div><div style="font-size: 12px; opacity: 0.7;">EBITDA Margin</div></div>
+  </div>
+  <div style="font-size: 13px; opacity: 0.5;">May 2026 · Prepared by AI Think Tank V2</div>
+  <div class="slide-number">1</div>
+</div>
+
+<!-- ==================== SLIDE 2: EXECUTIVE SUMMARY ==================== -->
+<div class="slide">
+  <div class="section-label">Executive Summary</div>
+  <div class="action-title">Tigo's position is strong — the strategic question is how to accelerate growth, not how to survive</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Three Growth Pillars</h3>
+      <div class="matrix">
+        <div class="matrix-cell p0">
+          <h4>1. Mobile Monetization</h4>
+          <p>Pre-to-post conversion + B2B + 5G premium tiers → $75-115M annual uplift</p>
+        </div>
+        <div class="matrix-cell p0">
+          <h4>2. MNP as Offense</h4>
+          <p>Turn number portability from threat into weapon → protect $50-80M + win $20-30M</p>
+        </div>
+        <div class="matrix-cell p1">
+          <h4>3. Surgical FWA</h4>
+          <p>Deploy only where 3 conditions met → $12-20M new revenue, 9-month payback</p>
+        </div>
+        <div class="matrix-cell p2" style="background: #E8F4FD;">
+          <h4>Total Investment</h4>
+          <p><strong>$76-80M</strong> over 18 months<br><strong>$157-245M</strong> annual revenue impact<br><strong>6-9 months</strong> average payback</p>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="flex: 0.7;">
+      <h3>Key Insight</h3>
+      <div class="callout blue">
+        <strong>MNP is not a threat — it's an opportunity.</strong> As the market leader with widest coverage, Tigo has more to gain from dissatisfied Claro users switching in than to lose from churn out. But only if we invest in CX now.
+      </div>
+      <h3>Three Forces to Address</h3>
+      <ul>
+        <li><span class="tag tag-red">Urgent</span> MNP — delayed but inevitable</li>
+        <li><span class="tag tag-yellow">High</span> Claro 5G/FTTH expansion</li>
+        <li><span class="tag tag-blue">Monitor</span> Starlink rural presence</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-footer">Tigo Guatemala · CEO Strategic Briefing · May 2026</div>
+  <div class="slide-number">2</div>
+</div>
+
+<!-- ==================== SLIDE 3: CURRENT POSITION ==================== -->
+<div class="slide">
+  <div class="section-label">Current Position</div>
+  <div class="action-title">Q1 2026 results confirm healthy fundamentals — mobile revenue grew 6.6% YoY with expanding postpaid mix</div>
+
+  <div class="kpi-row">
+    <div class="kpi-card highlight">
+      <div class="kpi-value">$370M</div>
+      <div class="kpi-label">Q1 Service Revenue</div>
+      <div class="kpi-delta">+5.5% YoY</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">$288M</div>
+      <div class="kpi-label">Mobile Revenue</div>
+      <div class="kpi-delta">+6.6% YoY</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value green">55.4%</div>
+      <div class="kpi-label">EBITDA Margin</div>
+      <div class="kpi-delta">Stable</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">11.7M</div>
+      <div class="kpi-label">Mobile Subs</div>
+      <div class="kpi-delta">#1 in market</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">85.7%</div>
+      <div class="kpi-label">Post-paid Mix</div>
+      <div class="kpi-delta">↑ from 82.3%</div>
+    </div>
+  </div>
+
+  <h3>Competitive Landscape</h3>
+  <table>
+    <tr><th>Competitor</th><th>Strength</th><th>Threat Level</th><th>Our Response</th></tr>
+    <tr><td>Claro</td><td>5G in all 22 departments · FTTH expansion · Ookla "Best Network" 2025</td><td><span class="tag tag-red">High</span></td><td>5G densification + CX superiority</td></tr>
+    <tr><td>Starlink</td><td>Operational since July 2023 · Zero infrastructure cost · Rural focus</td><td><span class="tag tag-yellow">Medium</span></td><td>Do not compete in rural satellite; focus population centers</td></tr>
+    <tr><td>Cablenet</td><td>Urban fixed broadband ISP</td><td><span class="tag tag-blue">Low</span></td><td>Bundle advantage (quad-play)</td></tr>
+  </table>
+  <div class="slide-footer">Source: Millicom Q1 2026 Earnings Release, Ookla, Mordor Intelligence</div>
+  <div class="slide-number">3</div>
+</div>
+
+<!-- ==================== SLIDE 4: DIVIDER ==================== -->
+<div class="slide divider">
+  <div class="divider-number">01</div>
+  <div class="divider-title">Mobile Monetization</div>
+  <div class="divider-sub">Deepening revenue from 11.7M subscribers</div>
+  <div class="slide-number">4</div>
+</div>
+
+<!-- ==================== SLIDE 5: MOBILE MONETIZATION ==================== -->
+<div class="slide">
+  <div class="section-label">Growth Pillar 1</div>
+  <div class="action-title">Pre-to-post conversion is already working at 85.7% — accelerating it to 500K additional converts unlocks $40-60M annually</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Market Tailwind</h3>
+      <p>Guatemala mobile data revenue: <strong>$1.5B → $2.5B</strong> by 2029 (<strong>10.5% CAGR</strong>). Tigo's postpaid conversion strategy is proven — 85.7% of new postpaid sales are pre-to-post migrations.</p>
+
+      <h3>Three Initiatives</h3>
+      <table>
+        <tr><th>Initiative</th><th>Investment</th><th>Revenue</th><th>Payback</th></tr>
+        <tr><td>Pre-to-Post<br><span style="font-weight:400;font-size:12px;color:#666;">+500K converts, device financing</span></td><td class="td-right">$15M</td><td class="td-right">$40-60M/yr</td><td class="td-center">4-6 mo</td></tr>
+        <tr><td>B2B / IoT<br><span style="font-weight:400;font-size:12px;color:#666;">Agriculture, logistics, mining</span></td><td class="td-right">$10M</td><td class="td-right">$20-30M/yr</td><td class="td-center">6-9 mo</td></tr>
+        <tr><td>5G Densification<br><span style="font-weight:400;font-size:12px;color:#666;">Guatemala City corridors</span></td><td class="td-right">$25M</td><td class="td-right">$15-25M/yr</td><td class="td-center">12-18 mo</td></tr>
+        <tr style="font-weight:700;background:#E8F4FD;"><td>Total</td><td class="td-right">$50M</td><td class="td-right">$75-115M/yr</td><td class="td-center">5-8 mo</td></tr>
+      </table>
+    </div>
+    <div class="col" style="flex: 0.6;">
+      <h3>Key Levers</h3>
+      <div class="callout green">
+        <strong>Postpaid ARPU = 2-3x Prepaid.</strong> Every pre-to-post convert directly lifts revenue without acquiring a new subscriber.
+      </div>
+      <h3>B2B Verticals</h3>
+      <ul>
+        <li><strong>Agriculture:</strong> Coffee plantation IoT, precision farming</li>
+        <li><strong>Mining:</strong> Private 5G networks for safety + automation</li>
+        <li><strong>Logistics:</strong> Fleet tracking, warehouse connectivity</li>
+        <li><strong>Tourism:</strong> Hotel/resort connectivity packages</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-footer">Tigo Guatemala · CEO Strategic Briefing · May 2026</div>
+  <div class="slide-number">5</div>
+</div>
+
+<!-- ==================== SLIDE 6: DIVIDER ==================== -->
+<div class="slide divider">
+  <div class="divider-number">02</div>
+  <div class="divider-title">MNP: From Threat to Weapon</div>
+  <div class="divider-sub">Turning number portability into competitive advantage</div>
+  <div class="slide-number">6</div>
+</div>
+
+<!-- ==================== SLIDE 7: MNP STATUS ==================== -->
+<div class="slide">
+  <div class="section-label">Growth Pillar 2 · MNP</div>
+  <div class="action-title">MNP is technically ready but legally stalled — use this window to prepare offense, not just defense</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Current Status (May 2026)</h3>
+      <div class="flow">
+        <div class="flow-step green">Decreto 14-2025<br><span style="font-size:10px;">Approved Nov 2025</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step green">Technical Prep<br><span style="font-size:10px;">Advancing</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step red">Legal/PGN Review<br><span style="font-size:10px;">STALLED</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="background:#ccc;color:#666;">SIT Regulation<br><span style="font-size:10px;">Pending</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="background:#ccc;color:#666;">Go Live<br><span style="font-size:10px;">TBD</span></div>
+      </div>
+
+      <h3 style="margin-top:20px;">Why MNP Favors Tigo</h3>
+      <table>
+        <tr><th>Factor</th><th>Tigo Advantage</th></tr>
+        <tr><td>53.4% share</td><td>More to win from dissatisfied Claro users than to lose</td></tr>
+        <tr><td>Widest coverage</td><td>Claro-underserved users can now port in without changing number</td></tr>
+        <tr><td>Brand loyalty</td><td>11.7M users have established relationship</td></tr>
+        <tr><td>CX investment</td><td>Whoever invests in experience wins the zero-switching-cost game</td></tr>
+      </table>
+    </div>
+    <div class="col" style="flex: 0.55;">
+      <h3>Strategy: Offense > Defense</h3>
+
+      <div class="matrix-cell p0" style="margin-bottom:10px;">
+        <h4>🗡️ Offense — Win port-ins</h4>
+        <p>MNP War Room · "Welcome to Tigo" packages · $5M Day-1 campaign targeting Claro weak zones</p>
+      </div>
+      <div class="matrix-cell p0" style="margin-bottom:10px;">
+        <h4>🛡️ Defense — Retain high-value</h4>
+        <p>Protect top 20% ARPU users NOW · Family plans · Loyalty rewards · CX quality lift</p>
+      </div>
+      <div class="matrix-cell p1">
+        <h4>📡 Intelligence</h4>
+        <p>Churn prediction AI · Daily port-in/out tracking · Weekly competitive intel</p>
+      </div>
+
+      <div class="callout red" style="margin-top:14px;">
+        <strong>Revenue at risk:</strong> $50-80M if MNP goes poorly. But $20-30M upside if Tigo plays offense. <strong>Net: preparation determines outcome.</strong>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Source: La Hora Guatemala (May 2026), Decreto 14-2025, SIT</div>
+  <div class="slide-number">7</div>
+</div>
+
+<!-- ==================== SLIDE 8: DIVIDER ==================== -->
+<div class="slide divider">
+  <div class="divider-number">03</div>
+  <div class="divider-title">FWA: Surgical Deployment</div>
+  <div class="divider-sub">Fixed wireless only where the math works</div>
+  <div class="slide-number">8</div>
+</div>
+
+<!-- ==================== SLIDE 9: FWA STRATEGY ==================== -->
+<div class="slide">
+  <div class="section-label">Growth Pillar 3 · FWA</div>
+  <div class="action-title">FWA is viable only where three conditions are met — deploy surgically, not universally</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Market Context</h3>
+      <div class="kpi-row" style="margin-bottom:16px;">
+        <div class="kpi-card">
+          <div class="kpi-value" style="font-size:28px;">~5%</div>
+          <div class="kpi-label">FBB Penetration</div>
+          <div class="kpi-delta red">vs LatAm avg 55%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value green" style="font-size:28px;">13.8%</div>
+          <div class="kpi-label">FBB CAGR</div>
+          <div class="kpi-delta">$470M→$896M by 2029</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value" style="font-size:28px;">720K</div>
+          <div class="kpi-label">Tigo Fixed Lines</div>
+          <div class="kpi-delta">#1 in country</div>
+        </div>
+      </div>
+
+      <h3>Three-Condition Framework</h3>
+      <div style="background:#F0FAF4;border:2px solid var(--tigo-accent);border-radius:8px;padding:16px;font-size:13px;margin-bottom:14px;">
+        <div style="margin-bottom:6px;">✅ <strong>Condition 1:</strong> Cell site PRB utilization &lt; 50%</div>
+        <div style="margin-bottom:6px;">✅ <strong>Condition 2:</strong> No FTTH coverage in the area</div>
+        <div style="margin-bottom:6px;">✅ <strong>Condition 3:</strong> Unserved broadband demand exists</div>
+        <div style="border-top:1px solid #ccc;margin-top:8px;padding-top:8px;font-weight:700;">All 3 met → Deploy &nbsp;|&nbsp; Any missing → Skip or FTTH</div>
+      </div>
+    </div>
+    <div class="col">
+      <h3>Zone-by-Zone Recommendation</h3>
+      <table>
+        <tr><th>Zone</th><th>Strategy</th><th>Invest</th><th>ROI</th></tr>
+        <tr><td>Suburban<br><span style="font-size:11px;color:#888;">Mixco, Villa Nueva</span></td><td>FWA via low-load 4G</td><td>$8M</td><td>7-10 mo</td></tr>
+        <tr><td>New Devs</td><td>FWA bridge to FTTH</td><td>$3M</td><td>10-14 mo</td></tr>
+        <tr><td style="color:var(--tigo-red);">Rural</td><td style="color:var(--tigo-red);">❌ Don't compete with Starlink</td><td>—</td><td>Negative</td></tr>
+        <tr><td>Urban Core</td><td>FTTH (Millicom $700M plan)</td><td>Separate</td><td>18-24 mo</td></tr>
+      </table>
+
+      <div class="callout">
+        <strong>⚠️ Capacity Constraint:</strong> Each FWA user = 200GB/month (40x mobile). Max 15-30 FWA users per cell site without degrading MBB quality. <strong>Surgical selection is non-negotiable.</strong>
+      </div>
+
+      <h3>Financial Summary</h3>
+      <table>
+        <tr><th>Metric</th><th>Conservative</th><th>Base Case</th></tr>
+        <tr><td>Investment</td><td class="td-right">$11M</td><td class="td-right">$15M</td></tr>
+        <tr><td>Target Homes</td><td class="td-right">40K</td><td class="td-right">65K</td></tr>
+        <tr><td>Annual Revenue</td><td class="td-right">$12M</td><td class="td-right">$20M</td></tr>
+        <tr><td>Payback</td><td class="td-right">11 mo</td><td class="td-right">9 mo</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="slide-footer">Source: GSMA FWA Guidelines, Millicom Investor Presentation, Ericsson Mobility Report</div>
+  <div class="slide-number">9</div>
+</div>
+
+<!-- ==================== SLIDE 10: INTEGRATED FINANCIAL VIEW ==================== -->
+<div class="slide">
+  <div class="section-label">Financial Summary</div>
+  <div class="action-title accent">Total investment of $76-80M can unlock $157-245M annual revenue impact with 6-9 month average payback</div>
+
+  <div class="kpi-row">
+    <div class="kpi-card highlight">
+      <div class="kpi-value green">$76-80M</div>
+      <div class="kpi-label">Total Investment</div>
+      <div class="kpi-delta">18-month deployment</div>
+    </div>
+    <div class="kpi-card highlight">
+      <div class="kpi-value green">$157-245M</div>
+      <div class="kpi-label">Annual Revenue Impact</div>
+      <div class="kpi-delta">2-3x return</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">6-9 mo</div>
+      <div class="kpi-label">Avg Payback</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">55%+</div>
+      <div class="kpi-label">EBITDA Margin</div>
+      <div class="kpi-delta">Maintained</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>Pillar</th><th>Investment</th><th>Revenue Impact (Annual)</th><th>Payback</th><th>Risk</th></tr>
+    <tr><td>Mobile Monetization</td><td class="td-right">$50M</td><td class="td-right">$75-115M uplift</td><td class="td-center">5-8 mo</td><td class="td-center"><span class="tag tag-green">Low</span></td></tr>
+    <tr><td>MNP Strategy</td><td class="td-right">$15M</td><td class="td-right">Protect $50-80M + Win $20-30M</td><td class="td-center">4-6 mo</td><td class="td-center"><span class="tag tag-yellow">Med</span></td></tr>
+    <tr><td>FWA (Surgical)</td><td class="td-right">$11-15M</td><td class="td-right">$12-20M new</td><td class="td-center">9-11 mo</td><td class="td-center"><span class="tag tag-yellow">Med</span></td></tr>
+    <tr style="font-weight:800;background:#E8F4FD;"><td>TOTAL</td><td class="td-right">$76-80M</td><td class="td-right">$157-245M</td><td class="td-center">6-9 mo</td><td></td></tr>
+  </table>
+
+  <div class="callout green">
+    <strong>CFO Assessment:</strong> Mobile monetization has the best risk/return profile — proven strategy, short payback. MNP investment is defensive necessity with offensive upside. FWA is attractive but requires disciplined site selection to avoid negative ROI in capacity-constrained zones.
+  </div>
+  <div class="slide-footer">Tigo Guatemala · CEO Strategic Briefing · May 2026</div>
+  <div class="slide-number">10</div>
+</div>
+
+<!-- ==================== SLIDE 11: RISKS ==================== -->
+<div class="slide">
+  <div class="section-label">Risk Management</div>
+  <div class="action-title red">Five risks require active monitoring — each has a named owner and quantified trigger</div>
+
+  <table>
+    <tr><th>#</th><th>Risk</th><th>Probability</th><th>Impact</th><th>Owner</th><th>Monitoring Trigger</th></tr>
+    <tr><td>1</td><td>Claro wins "Best Network" perception war</td><td class="td-center"><span class="tag tag-yellow">Medium</span></td><td class="td-center"><span class="tag tag-red">High</span></td><td>CTO</td><td>Quarterly Ookla benchmarks</td></tr>
+    <tr><td>2</td><td>MNP causes unexpected net churn</td><td class="td-center"><span class="tag tag-yellow">Medium</span></td><td class="td-center"><span class="tag tag-red">High</span></td><td>CMO</td><td>Daily port-in/out ratio from Day 1</td></tr>
+    <tr><td>3</td><td>FWA deployed in wrong zones, degrades MBB</td><td class="td-center"><span class="tag tag-blue">Low</span></td><td class="td-center"><span class="tag tag-yellow">Medium</span></td><td>CTO</td><td>PRB >70% on any FWA site</td></tr>
+    <tr><td>4</td><td>Starlink captures rural demand permanently</td><td class="td-center"><span class="tag tag-yellow">Medium</span></td><td class="td-center"><span class="tag tag-blue">Low</span></td><td>Strategy</td><td>Starlink GT subs >200K</td></tr>
+    <tr><td>5</td><td>Millicom CapEx allocation shifts away from GT</td><td class="td-center"><span class="tag tag-blue">Low</span></td><td class="td-center"><span class="tag tag-red">High</span></td><td>CEO</td><td>Quarterly CapEx review with HQ</td></tr>
+  </table>
+
+  <div class="cols" style="margin-top: 16px;">
+    <div class="col">
+      <h3>Dynamic Adjustment Mechanism</h3>
+      <ul>
+        <li><strong>Monthly:</strong> KPI deviation >10% triggers strategy review</li>
+        <li><strong>Quarterly:</strong> Adjust resource allocation based on competitor moves</li>
+        <li><strong>Semi-annual:</strong> Full strategic reassessment</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3>Contingency Reserves</h3>
+      <ul>
+        <li>$15M emergency pricing fund (Claro price war)</li>
+        <li>$5M accelerated retention budget (MNP churn spike)</li>
+        <li>FWA kill-switch: stop deployment if 3-condition framework violated</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-footer">Tigo Guatemala · CEO Strategic Briefing · May 2026</div>
+  <div class="slide-number">11</div>
+</div>
+
+<!-- ==================== SLIDE 12: DECISIONS ==================== -->
+<div class="slide">
+  <div class="section-label">Decision Points</div>
+  <div class="action-title gold">Three immediate decisions required this month — each has a defined budget and expected outcome</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>🔴 Immediate — This Month</h3>
+      <ul class="checklist">
+        <li><strong>Approve MNP War Room</strong> — $2M budget, reports to CEO. Build offense + defense capabilities before MNP goes live.</li>
+        <li><strong>Approve FWA Pilot</strong> — 5 suburban sites, 3-month PoC, $1.5M. Data-driven go/no-go for scale-up.</li>
+        <li><strong>Launch Retention Program</strong> — Identify and protect top 20% ARPU users with proactive offers.</li>
+      </ul>
+
+      <h3 style="margin-top: 20px;">🟡 Next Quarter</h3>
+      <ul class="checklist">
+        <li><strong>FWA Scale-up Decision</strong> — Go/No-Go based on pilot data (Q3 2026)</li>
+        <li><strong>B2B Product Portfolio</strong> — Target first 10 enterprise accounts</li>
+        <li><strong>5G Densification Plan</strong> — Guatemala City priority corridors</li>
+      </ul>
+    </div>
+    <div class="col" style="flex: 0.7;">
+      <h3>🟢 Strategic — 6-12 Months</h3>
+      <ul class="checklist">
+        <li><strong>MNP Day-1 Readiness</strong> — All systems, campaigns, processes tested</li>
+        <li><strong>Post-MNP Review</strong> — Competitive position 3 months after launch</li>
+        <li><strong>FWA vs FTTH Portfolio</strong> — Based on actual performance data</li>
+      </ul>
+
+      <div class="callout blue" style="margin-top: 20px;">
+        <strong>Bottom Line</strong><br><br>
+        Tigo Guatemala's 53.4% market share and 55.4% EBITDA margin provide a position of strength. The strategy is not about survival — it's about <strong>accelerating growth</strong> by monetizing mobile deeper, turning MNP into an offensive weapon, and deploying FWA surgically where the math works.<br><br>
+        <strong>$76-80M investment → $157-245M annual impact → 6-9 month payback.</strong>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Tigo Guatemala · CEO Strategic Briefing · May 2026</div>
+  <div class="slide-number">12</div>
+</div>
+
+<!-- ==================== SLIDE 13: BACK COVER ==================== -->
+<div class="slide cover" style="background: linear-gradient(135deg, #002855 0%, var(--tigo-blue) 100%);">
+  <div style="font-size: 28px; font-weight: 700; margin-bottom: 24px;">Thank You</div>
+  <div style="font-size: 16px; opacity: 0.8; margin-bottom: 40px;">Accelerating Commercial Success for Tigo Guatemala</div>
+  <div style="display: flex; gap: 48px; justify-content: center; margin-bottom: 40px; font-size: 14px; opacity: 0.7;">
+    <div>12 Slides</div>
+    <div>·</div>
+    <div>3 Growth Pillars</div>
+    <div>·</div>
+    <div>$76-80M Investment</div>
+    <div>·</div>
+    <div>$157-245M Impact</div>
+  </div>
+  <div style="font-size: 11px; opacity: 0.4; max-width: 600px; margin: 0 auto;">
+    Prepared by AI Think Tank V2 · 17-Agent Team<br>
+    Sources: Millicom Q1 2026 Earnings · La Hora Guatemala · GSMA · Mordor Intelligence · Ookla · DataReportal
+  </div>
+  <div class="slide-number">13</div>
+</div>
+
+</body>
+</html>
