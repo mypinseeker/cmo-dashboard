@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starlink Insight — Millicom CEO Briefing V3 | May 2026</title>
+<style>
+:root {
+  --hw-red: #C7000B;
+  --hw-dark-red: #A00009;
+  --hw-light-red: #FFF0F0;
+  --hw-black: #1A1A1A;
+  --hw-gray: #666666;
+  --hw-light-gray: #F5F5F5;
+  --hw-border: #E0E0E0;
+  --bg: #FFFFFF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--hw-light-gray);
+  padding: 20px;
+}
+
+.presentation { max-width: 1200px; margin: 0 auto; }
+
+.slide {
+  background: var(--bg);
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 40px;
+  padding: 60px 80px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+.slide::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--hw-red);
+}
+
+.slide-title {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--hw-black);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.slide-subtitle {
+  font-size: 20px;
+  color: var(--hw-red);
+  font-weight: 600;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.slide-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-numbers {
+  display: flex;
+  gap: 60px;
+  justify-content: space-around;
+  margin: 40px 0;
+}
+
+.hero-number {
+  text-align: center;
+}
+
+.hero-value {
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--hw-red);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.hero-label {
+  font-size: 16px;
+  color: var(--hw-gray);
+  font-weight: 500;
+}
+
+/* Two-column layout */
+.cols {
+  display: flex;
+  gap: 40px;
+  flex: 1;
+}
+
+.col {
+  flex: 1;
+}
+
+.col-2 {
+  flex: 2;
+}
+
+/* Bar chart styles */
+.bar-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+
+.bar-label {
+  font-size: 13px;
+  color: var(--hw-gray);
+  min-width: 100px;
+  font-weight: 500;
+}
+
+.bar-wrapper {
+  flex: 1;
+  background: var(--hw-light-gray);
+  border-radius: 4px;
+  overflow: hidden;
+  height: 26px;
+  position: relative;
+}
+
+.bar-fill {
+  background: var(--hw-red);
+  height: 100%;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.bar-value {
+  font-size: 12px;
+  color: var(--hw-black);
+  font-weight: 600;
+  min-width: 50px;
+  text-align: right;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+th {
+  background: var(--hw-red);
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--hw-border);
+  font-size: 12px;
+}
+
+tr:nth-child(even) { background: var(--hw-light-gray); }
+
+tr:hover { background: #EEF2FF; }
+
+td:first-child { font-weight: 600; }
+
+.td-right { text-align: right; }
+
+.td-center { text-align: center; }
+
+/* Content */
+h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--hw-black);
+  margin-bottom: 12px;
+}
+
+h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--hw-black);
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--hw-black);
+  margin-bottom: 10px;
+}
+
+ul {
+  padding-left: 16px;
+  margin-bottom: 12px;
+}
+
+li {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--hw-black);
+  margin-bottom: 4px;
+}
+
+/* Callout boxes */
+.callout {
+  background: var(--hw-light-red);
+  border-left: 4px solid var(--hw-red);
+  padding: 14px 16px;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 14px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.callout-title {
+  font-weight: 700;
+  color: var(--hw-red);
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+/* KPI cards */
+.kpi-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.kpi-card {
+  flex: 1;
+  background: var(--hw-light-gray);
+  border: 1px solid var(--hw-border);
+  border-radius: 6px;
+  padding: 16px;
+  text-align: center;
+}
+
+.kpi-card.highlight {
+  border-color: var(--hw-red);
+  border-width: 2px;
+  background: var(--hw-light-red);
+}
+
+.kpi-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--hw-red);
+  line-height: 1;
+}
+
+.kpi-label {
+  font-size: 11px;
+  color: var(--hw-gray);
+  margin-top: 6px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.kpi-delta {
+  font-size: 11px;
+  color: var(--hw-red);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Pie visual */
+.pie-visual {
+  display: flex;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 20px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.pie-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  font-size: 13px;
+}
+
+.pie-segment.urban { flex: 0.2; background: #4CAF50; }
+.pie-segment.suburban { flex: 0.25; background: #8BC34A; }
+.pie-segment.town { flex: 0.2; background: #FFC107; color: var(--hw-black); }
+.pie-segment.rural { flex: 0.35; background: #FF9800; }
+
+/* Town cards */
+.town-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.town-card {
+  border: 1px solid var(--hw-border);
+  border-radius: 6px;
+  padding: 16px;
+  background: var(--hw-light-gray);
+  font-size: 12px;
+}
+
+.town-card h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--hw-black);
+  margin-bottom: 4px;
+}
+
+.town-card p {
+  font-size: 11px;
+  color: var(--hw-gray);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.town-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+.town-map-view {
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(135deg, #4CAF50 0%, #90EE90 50%, #D3D3D3 100%);
+  border-radius: 4px;
+  margin-top: 8px;
+  opacity: 0.5;
+}
+
+/* Funnel/cascade boxes */
+.funnel-box {
+  background: var(--hw-light-gray);
+  border: 1px solid var(--hw-border);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--hw-black);
+}
+
+.funnel-box.danger {
+  border-left: 4px solid var(--hw-red);
+  background: var(--hw-light-red);
+}
+
+.funnel-box.success {
+  border-left: 4px solid #4CAF50;
+  background: #F5FFF5;
+}
+
+/* Strategy cards */
+.strategy-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.strategy-card {
+  border: 1px solid var(--hw-border);
+  border-radius: 8px;
+  padding: 20px;
+  background: var(--hw-light-gray);
+  text-align: center;
+}
+
+.strategy-card.primary {
+  border: 2px solid var(--hw-red);
+  background: var(--hw-light-red);
+}
+
+.strategy-emoji {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.strategy-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--hw-black);
+  margin-bottom: 10px;
+}
+
+.strategy-items {
+  font-size: 12px;
+  color: var(--hw-gray);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.strategy-badge {
+  display: inline-block;
+  background: var(--hw-red);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.strategy-badge.ignore { background: #CCCCCC; }
+
+/* Bubble chart */
+.chart-container {
+  width: 100%;
+  height: 320px;
+  margin: 16px 0;
+}
+
+/* Decision cards */
+.decision-card {
+  background: var(--hw-light-gray);
+  border: 1px solid var(--hw-border);
+  border-radius: 6px;
+  padding: 14px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.decision-card strong {
+  color: var(--hw-black);
+}
+
+.decision-number {
+  display: inline-block;
+  background: var(--hw-red);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 700;
+  margin-right: 10px;
+  font-size: 12px;
+}
+
+/* Cover slide */
+.cover-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, var(--hw-light-gray) 0%, #FFFFFF 100%);
+}
+
+.cover-title {
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--hw-black);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.cover-subtitle {
+  font-size: 24px;
+  color: var(--hw-red);
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+/* Divider slide */
+.divider-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, var(--hw-light-gray) 0%, #FFFFFF 100%);
+}
+
+.divider-title {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--hw-black);
+  line-height: 1.3;
+  margin-bottom: 0;
+}
+
+.divider-red {
+  color: var(--hw-red);
+}
+
+.divider-sub {
+  font-size: 18px;
+  color: var(--hw-gray);
+  margin-top: 16px;
+}
+
+/* Back cover */
+.back-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, var(--hw-light-gray) 0%, #FFFFFF 100%);
+}
+
+.back-title {
+  font-size: 52px;
+  font-weight: 700;
+  color: var(--hw-red);
+  margin-bottom: 32px;
+}
+
+.back-subtitle {
+  font-size: 14px;
+  color: var(--hw-gray);
+  margin-top: 32px;
+}
+
+/* Slide number */
+.slide-number {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  font-size: 12px;
+  color: var(--hw-gray);
+  font-weight: 500;
+}
+
+/* Print styles */
+@media print {
+  body { background: white; padding: 0; }
+  .slide { page-break-after: always; margin-bottom: 0; box-shadow: none; }
+}
+
+/* Utilities */
+.text-red { color: var(--hw-red); }
+.text-small { font-size: 11px; }
+.mt-20 { margin-top: 20px; }
+.mb-12 { margin-bottom: 12px; }
+
+</style>
+</head>
+<body>
+
+<div class="presentation">
+
+<!-- ==================== SLIDE 1: COVER ==================== -->
+<div class="slide cover-slide">
+  <div class="cover-title">Starlink Insight</div>
+  <div class="cover-subtitle">Millicom CEO Briefing</div>
+  <div class="hero-numbers" style="margin-top: 50px;">
+    <div class="hero-number">
+      <div class="hero-value">9,000+</div>
+      <div class="hero-label">Active Satellites</div>
+    </div>
+    <div class="hero-number">
+      <div class="hero-value">9M</div>
+      <div class="hero-label">Global Users</div>
+    </div>
+    <div class="hero-number">
+      <div class="hero-value">V3 Flight 12</div>
+      <div class="hero-label">2026.5.22 · 1Tbps</div>
+    </div>
+  </div>
+  <div style="margin-top: 50px; font-size: 14px; color: var(--hw-gray);">May 2026 · Competitive Threat Assessment & Response</div>
+  <div class="slide-number">1</div>
+</div>
+
+<!-- ==================== SLIDE 2: V2 VS V3 SATELLITE ==================== -->
+<div class="slide">
+  <div class="slide-subtitle">V3 is 10x leap — From broadband supplement to fiber competitor</div>
+  <div class="slide-content">
+    <div class="cols">
+      <!-- Left: CSS bar charts -->
+      <div class="col">
+        <h3>Satellite Performance Gap</h3>
+        <div style="margin-bottom: 20px;">
+          <div style="font-size: 11px; font-weight: 700; color: var(--hw-gray); margin-bottom: 8px;">Download Capacity (Gbps)</div>
+          <div class="bar-row">
+            <div class="bar-label" style="min-width: 60px;">V2 Mini</div>
+            <div class="bar-wrapper" style="flex: 0.4;">
+              <div class="bar-fill" style="width: 9.6%; background: #999;">—</div>
+            </div>
+            <div class="bar-value">96</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label" style="min-width: 60px;">V3</div>
+            <div class="bar-wrapper" style="flex: 0.4;">
+              <div class="bar-fill" style="width: 100%;">10x</div>
+            </div>
+            <div class="bar-value">1,000</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 20px; margin-top: 20px;">
+          <div style="font-size: 11px; font-weight: 700; color: var(--hw-gray); margin-bottom: 8px;">Upload Capacity (Gbps)</div>
+          <div class="bar-row">
+            <div class="bar-label" style="min-width: 60px;">V2 Mini</div>
+            <div class="bar-wrapper" style="flex: 0.4;">
+              <div class="bar-fill" style="width: 3.35%; background: #999;">—</div>
+            </div>
+            <div class="bar-value">6.7</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label" style="min-width: 60px;">V3</div>
+            <div class="bar-wrapper" style="flex: 0.4;">
+              <div class="bar-fill" style="width: 100%;">30x</div>
+            </div>
+            <div class="bar-value">200</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <div style="font-size: 11px; font-weight: 700; color: var(--hw-gray); margin-bottom: 8px;">Total Constellation Capacity</div>
+          <div class="bar-row">
+            <div class="bar-label" style="min-width: 60px;">V2 Only (9K)</div>
+            <div class="bar-wrapper" style="flex: 0.4;">
+              <div class="bar-fill" style="width: 4.5%; background: #999;">—</div>
+            </div>
+            <div class="bar-value">2.7 Pbps</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label" style="min-width: 60px;">V3 100%</div>
+            <div class="bar-wrapper" style="flex: 0.4;">
+              <div class="bar-fill" style="width: 100%;">22x</div>
+            </div>
+            <div class="bar-value">60 Pbps</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: V3 specs + news + callout -->
+      <div class="col">
+        <h3>V3 Specifications & Timeline</h3>
+        <table style="margin-bottom: 16px;">
+          <tr>
+            <th>Metric</th>
+            <th>V2 Mini</th>
+            <th>V3</th>
+          </tr>
+          <tr>
+            <td>Payload (Gbps)</td>
+            <td>96</td>
+            <td style="color: var(--hw-red); font-weight: 700;">1,000</td>
+          </tr>
+          <tr>
+            <td>Lifespan</td>
+            <td>5 years</td>
+            <td style="color: var(--hw-red); font-weight: 700;">10 years</td>
+          </tr>
+          <tr>
+            <td>Mass</td>
+            <td>1,050 kg</td>
+            <td style="color: var(--hw-red); font-weight: 700;">2,150 kg</td>
+          </tr>
+          <tr>
+            <td>Latency</td>
+            <td>20-40 ms</td>
+            <td style="color: var(--hw-red); font-weight: 700;">10-20 ms</td>
+          </tr>
+        </table>
+
+        <h3 style="margin-top: 14px;">Launch Milestone (May 22, 2026)</h3>
+        <p><strong>Starship Flight 12:</strong> First V3 test flight successful. 22 test satellites deployed. Production deployment: H2 2026. SpaceX target: 1,200 V3 sats by end-2027 (gradual replacement of 9K V2).</p>
+
+        <div class="callout" style="margin-top: 12px;">
+          <div class="callout-title">Critical Timeline</div>
+          <strong>Current 9,000 sats = all V2.</strong> V3 deployment is gradual over 12-24 months. User experience improvements will compound quarterly. Your response window closes when V3 fleet crosses 20% of constellation (Q4 2026-Q1 2027).
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">2</div>
+</div>
+
+<!-- ==================== SLIDE 3: MILLICOM PENETRATION ==================== -->
+<div class="slide">
+  <div class="slide-subtitle">350K users across Millicom markets — Growth fastest where FBB penetration is lowest</div>
+  <div class="slide-content">
+    <div class="cols">
+      <!-- Left: Bubble chart -->
+      <div class="col col-2">
+        <div class="chart-container">
+          <canvas id="bubbleChart"></canvas>
+        </div>
+        <p style="text-align: center; font-size: 11px; color: var(--hw-gray); margin-top: 8px;">
+          X-axis: FBB penetration (%) | Y-axis: Starlink YoY growth (%) | Bubble size: User count
+        </p>
+      </div>
+
+      <!-- Right: Data table + callout -->
+      <div class="col">
+        <h3>Market Penetration Data</h3>
+        <table style="font-size: 11px;">
+          <tr>
+            <th>Country</th>
+            <th class="td-right">2024</th>
+            <th class="td-right">2025</th>
+            <th class="td-right">YoY %</th>
+            <th class="td-right">FBB %</th>
+          </tr>
+          <tr><td>🇧🇴 Bolivia</td><td class="td-right">185</td><td class="td-right">2,301</td><td class="td-right" style="color: var(--hw-red); font-weight: 700;">+1,244%</td><td class="td-right">42%</td></tr>
+          <tr><td>🇪🇨 Ecuador</td><td class="td-right">11,551</td><td class="td-right">35,000</td><td class="td-right" style="color: var(--hw-red); font-weight: 700;">+303%</td><td class="td-right">35%</td></tr>
+          <tr><td>🇵🇾 Paraguay</td><td class="td-right">6,845</td><td class="td-right">18,168</td><td class="td-right" style="color: var(--hw-red); font-weight: 700;">+265%</td><td class="td-right">25%</td></tr>
+          <tr><td>🇵🇦 Panama</td><td class="td-right">7,100</td><td class="td-right">16,692</td><td class="td-right" style="color: var(--hw-red); font-weight: 700;">+235%</td><td class="td-right">40%</td></tr>
+          <tr><td>🇬🇹 Guatemala</td><td class="td-right">8,498</td><td class="td-right">19,127</td><td class="td-right" style="color: var(--hw-red); font-weight: 700;">+225%</td><td class="td-right">20%</td></tr>
+          <tr><td>🇸🇻 El Salvador</td><td class="td-right">7,290</td><td class="td-right">14,643</td><td class="td-right" style="color: var(--hw-red); font-weight: 700;">+201%</td><td class="td-right">30%</td></tr>
+          <tr><td>🇭🇳 Honduras</td><td class="td-right">4,353</td><td class="td-right">13,057</td><td class="td-right" style="color: var(--hw-red); font-weight: 700;">+200%</td><td class="td-right">16%</td></tr>
+          <tr><td>🇨🇱 Chile</td><td class="td-right">74,271</td><td class="td-right">127,539</td><td class="td-right" style="color: var(--hw-red);">+172%</td><td class="td-right">73%</td></tr>
+          <tr><td>🇨🇴 Colombia</td><td class="td-right">65,580</td><td class="td-right">101,283</td><td class="td-right" style="color: var(--hw-red);">+154%</td><td class="td-right">46%</td></tr>
+          <tr><td>🇺🇾 Uruguay</td><td class="td-right">3,500</td><td class="td-right">5,229</td><td class="td-right">+149%</td><td class="td-right">88%</td></tr>
+          <tr style="background: var(--hw-red); color: white; font-weight: 700;">
+            <td>TOTAL</td>
+            <td class="td-right">189,673</td>
+            <td class="td-right">352,039</td>
+            <td class="td-right">+86%</td>
+            <td class="td-right">—</td>
+          </tr>
+        </table>
+
+        <div class="callout" style="margin-top: 12px;">
+          <div class="callout-title">Key Pattern</div>
+          Every country with FBB <50% has Starlink growth >200%. Bolivia +1,244% from tiny base signals new-market entry early. This is not market saturation—it's beachhead establishment.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">3</div>
+</div>
+
+<!-- ==================== SLIDE 4: SPEED & PRICE ==================== -->
+<div class="slide">
+  <div class="slide-subtitle">Starlink achieves speed parity — 117 Mbps beats half your FBB tier, costs 15-20% premium</div>
+  <div class="slide-content">
+    <div class="cols">
+      <!-- Left: Speed + price tables -->
+      <div class="col">
+        <h3>Speed Comparison (Mbps)</h3>
+        <table style="margin-bottom: 16px;">
+          <tr>
+            <th>Metric</th>
+            <th class="td-right">Starlink</th>
+            <th class="td-right">Your FBB</th>
+          </tr>
+          <tr>
+            <td>Download</td>
+            <td class="td-right">117</td>
+            <td class="td-right">60-150</td>
+          </tr>
+          <tr>
+            <td>Upload</td>
+            <td class="td-right">28</td>
+            <td class="td-right">10-30</td>
+          </tr>
+          <tr>
+            <td>Latency</td>
+            <td class="td-right">25-35ms</td>
+            <td class="td-right">5-15ms</td>
+          </tr>
+          <tr>
+            <td>Availability</td>
+            <td class="td-right">99%+</td>
+            <td class="td-right">varies</td>
+          </tr>
+        </table>
+
+        <h3>Monthly Price (USD)</h3>
+        <table>
+          <tr>
+            <th>Tier</th>
+            <th class="td-right">Starlink</th>
+            <th class="td-right">Your Offer</th>
+          </tr>
+          <tr>
+            <td>Standard (50-100 Mbps)</td>
+            <td class="td-right">$60-75</td>
+            <td class="td-right">$45-60</td>
+          </tr>
+          <tr>
+            <td>Premium (100-150 Mbps)</td>
+            <td class="td-right">$85-95</td>
+            <td class="td-right">$70-85</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Right: Colombia data + churn triggers -->
+      <div class="col">
+        <h3>Critical Finding: Colombia Churn Signal</h3>
+        <p><strong>15% of customers with <50 Mbps available have switched or are testing Starlink (Q2'25-Q1'26).</strong></p>
+        <p style="font-size: 12px; color: var(--hw-gray); margin-bottom: 16px;">This is not price sensitivity. This is speed disappointment driving platform escape.</p>
+
+        <h3>User Churn Triggers</h3>
+        <ul>
+          <li><strong>Speed mismatch:</strong> Fiber promised 50 Mbps, delivers 20-30 Mbps → customer seeks alternative</li>
+          <li><strong>Availability gap:</strong> Starlink live in areas where fiber is "coming soon" → market already taken</li>
+          <li><strong>Self-service appeal:</strong> No technician visit, instant activation, DIY mounting → frictionless onboarding</li>
+          <li><strong>Churn coefficient:</strong> Each 10 Mbps shortfall vs. advertised = 3% monthly churn</li>
+        </ul>
+
+        <div class="callout" style="margin-top: 12px;">
+          <div class="callout-title">Strategic Insight</div>
+          Slow FBB is Starlink's best sales channel. Speed delivery reliability is non-negotiable. Your <50 Mbps tier is now a leakage funnel.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">4</div>
+</div>
+
+<!-- ==================== SLIDE 5: 60% IN YOUR TERRITORY ==================== -->
+<div class="slide">
+  <div class="slide-subtitle">60%+ of Starlink users live in Urban/Suburban/Town zones — Direct market cannibalization, not incremental growth</div>
+  <div class="slide-content">
+    <div class="cols">
+      <!-- Left: Pie + text -->
+      <div class="col">
+        <h3>User Location Distribution</h3>
+        <div class="pie-visual">
+          <div class="pie-segment urban">Urban 20%</div>
+          <div class="pie-segment suburban">Suburban 25%</div>
+          <div class="pie-segment town">Town 20%</div>
+          <div class="pie-segment rural">Rural 35%</div>
+        </div>
+        <p style="margin-top: 14px; font-size: 12px; color: var(--hw-black);"><strong>Urban + Suburban + Town = 65% in your coverage zones</strong></p>
+        <p style="font-size: 11px; color: var(--hw-gray);">This is NOT "satellite serving the unserved." This is "satellite stealing your profitable tiers."</p>
+      </div>
+
+      <!-- Right: Competitive breakdown -->
+      <div class="col">
+        <h3>Your Territory Breakdown</h3>
+        <ul style="margin-bottom: 16px;">
+          <li><strong>Urban (20%):</strong> Fiber-targeted, high-income, your margin tier. Starlink stealing 5-10% annually.</li>
+          <li><strong>Suburban (25%):</strong> FBB/FWA sweet spot. Low density, high churn from service issues. Starlink pre-empts availability.</li>
+          <li><strong>Town (20%):</strong> Emerging FWA/FTTH market. Starlink establishes brand first—customer lock-in.</li>
+          <li><strong>Rural (35%):</strong> Only segment where cost economics favor Starlink. Your fiber CAPEX uneconomic here.</li>
+        </ul>
+
+        <div class="callout">
+          <div class="callout-title">Myth vs Reality</div>
+          <strong>Myth:</strong> "Starlink is rural satellite play."<br><br>
+          <strong>Reality:</strong> Starlink cannibalizes your urban/suburban broadband. You can't defend rural economically anyway.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">5</div>
+</div>
+
+<!-- ==================== SLIDE 6: TOWN PROFILES ==================== -->
+<div class="slide">
+  <div class="slide-subtitle">Real market examples: Towns with MBB coverage but zero FBB. Starlink is filling the gap.</div>
+  <div class="slide-content">
+    <div class="town-cards">
+      <div class="town-card">
+        <h3>Villa Canales</h3>
+        <p style="color: var(--hw-gray); font-weight: 500; margin-bottom: 8px;">Guatemala 🇬🇹</p>
+        <p><strong>Population:</strong> 95K</p>
+        <div class="town-icons">
+          <div class="town-icon">✅ MBB Coverage: Yes</div>
+          <div class="town-icon">❌ Fixed Broadband: None</div>
+          <div class="town-icon">📡 Starlink: Active penetration</div>
+        </div>
+        <div class="town-map-view"></div>
+      </div>
+
+      <div class="town-card">
+        <h3>Soacha</h3>
+        <p style="color: var(--hw-gray); font-weight: 500; margin-bottom: 8px;">Colombia 🇨🇴</p>
+        <p><strong>Population:</strong> 650K</p>
+        <div class="town-icons">
+          <div class="town-icon">✅ MBB Coverage: Yes</div>
+          <div class="town-icon">❌ Fixed Broadband: None</div>
+          <div class="town-icon">📡 Starlink: Active penetration</div>
+        </div>
+        <div class="town-map-view"></div>
+      </div>
+
+      <div class="town-card">
+        <h3>Santa Ana</h3>
+        <p style="color: var(--gray); font-weight: 500; margin-bottom: 8px;">El Salvador 🇸🇻</p>
+        <p><strong>Population:</strong> 145K</p>
+        <div class="town-icons">
+          <div class="town-icon">✅ MBB Coverage: Yes</div>
+          <div class="town-icon">❌ Fixed Broadband: None</div>
+          <div class="town-icon">📡 Starlink: Active penetration</div>
+        </div>
+        <div class="town-map-view"></div>
+      </div>
+    </div>
+
+    <p style="text-align: center; color: var(--hw-gray); font-size: 11px; margin-top: 16px;">Thousands of similar towns: MBB-connected but FBB-dark. Starlink is filling the vacuum. If you don't launch FWA, Starlink owns the customer relationship for 10+ years.</p>
+  </div>
+  <div class="slide-number">6</div>
+</div>
+
+<!-- ==================== SLIDE 7: COVERAGE GAP VISUAL ==================== -->
+<div class="slide">
+  <div class="slide-subtitle">Three states: Current (MBB unused), Inaction (Starlink wins), FWA Action (you capture)</div>
+  <div class="slide-content">
+    <div class="cols">
+      <!-- Left: Funnel -->
+      <div class="col">
+        <h3>State A: Current Reality</h3>
+        <div class="funnel-box">✅ <strong>MBB:</strong> Network deployed but not monetized</div>
+        <div class="funnel-box">❌ <strong>FBB:</strong> Zero coverage in these towns</div>
+        <div class="funnel-box danger">📡 <strong>Starlink:</strong> Rapidly penetrating underserved HH</div>
+
+        <h3 style="margin-top: 20px; color: var(--hw-red);">↓ If you do nothing ↓</h3>
+
+        <h3 style="margin-top: 8px;">State B: Inaction Spiral</h3>
+        <div class="funnel-box">🔄 <strong>MBB:</strong> Still unutilized, revenue lost</div>
+        <div class="funnel-box">❌ <strong>FBB:</strong> Still zero, gap widened</div>
+        <div class="funnel-box danger">📡📡📡 <strong>Starlink:</strong> Dominant. User lock-in. Churn near-zero.</div>
+      </div>
+
+      <!-- Right: FWA action -->
+      <div class="col">
+        <h3>State C: FWA Action Path</h3>
+        <div class="funnel-box success">✅ <strong>MBB → FWA:</strong> Existing resources converted to broadband revenue</div>
+        <div class="funnel-box success">✅ <strong>FBB:</strong> Fixed broadband footprint expanded (via FWA)</div>
+        <div class="funnel-box success">✅ <strong>Starlink:</strong> Blocked. You serve first, customer loyalty locked.</div>
+
+        <h3 style="margin-top: 20px;">Economics of FWA Path</h3>
+        <ul style="font-size: 12px;">
+          <li><strong>CAPEX:</strong> $150-200 per pass (FWA CPE + backhaul)</li>
+          <li><strong>ARPU:</strong> $35-45/month per sub</li>
+          <li><strong>Payback:</strong> 13-14 months</li>
+          <li><strong>Post-payback margin:</strong> 60%+</li>
+          <li><strong>Window:</strong> Deploy Q3 2026 before V3 scale</li>
+        </ul>
+
+        <div class="callout" style="margin-top: 12px;">
+          <strong>Bottom line:</strong> FWA is not defensive cost. It's high-ROI offense. Deploy now or lose the customer permanently.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">7</div>
+</div>
+
+<!-- ==================== SLIDE 8: DIVIDER ==================== -->
+<div class="slide divider-slide">
+  <h2 class="divider-title">Response Strategy:<br><span class="divider-red">Fiber + FWA</span></h2>
+  <div class="divider-sub">Three-tier deployment framework</div>
+  <div class="slide-number">8</div>
+</div>
+
+<!-- ==================== SLIDE 9: THREE-TIER STRATEGY ==================== -->
+<div class="slide">
+  <div class="slide-subtitle">Tier 1: Urban FTTH defend | Tier 2: Town FWA attack | Tier 3: Rural skip</div>
+  <div class="slide-content">
+    <div class="cols">
+      <!-- Left: Strategy cards -->
+      <div class="col col-2">
+        <div class="strategy-cards">
+          <div class="strategy-card">
+            <div class="strategy-emoji">🏙️</div>
+            <div class="strategy-title">Urban FTTH</div>
+            <div class="strategy-items">
+              <strong>Defense Weapon</strong><br>
+              100-500 Mbps fiber<br>
+              Ultra-low latency
+            </div>
+            <div class="strategy-badge">DEFEND</div>
+          </div>
+
+          <div class="strategy-card primary">
+            <div class="strategy-emoji">🏘️</div>
+            <div class="strategy-title">Town FWA</div>
+            <div class="strategy-items">
+              <strong>Offensive Play</strong><br>
+              50-200 Mbps 4G/5G<br>
+              13-14 month payback
+            </div>
+            <div class="strategy-badge">ATTACK</div>
+          </div>
+
+          <div class="strategy-card">
+            <div class="strategy-emoji">🏔️</div>
+            <div class="strategy-title">Rural Skip</div>
+            <div class="strategy-items">
+              <strong>Strategic Surrender</strong><br>
+              Cost > revenue<br>
+              Starlink's margin segment
+            </div>
+            <div class="strategy-badge ignore">IGNORE</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Economics + timing -->
+      <div class="col">
+        <h3>FWA Economics Proof</h3>
+        <table style="margin-bottom: 16px;">
+          <tr>
+            <th>Metric</th>
+            <th class="td-right">Value</th>
+          </tr>
+          <tr>
+            <td>CAPEX per pass</td>
+            <td class="td-right">$150-200</td>
+          </tr>
+          <tr>
+            <td>ARPU/month</td>
+            <td class="td-right">$35-45</td>
+          </tr>
+          <tr>
+            <td>Annual revenue/sub</td>
+            <td class="td-right">$420-540</td>
+          </tr>
+          <tr>
+            <td>Payback period</td>
+            <td class="td-right" style="color: var(--hw-red); font-weight: 700;">13-14 months</td>
+          </tr>
+          <tr>
+            <td>Post-payback margin</td>
+            <td class="td-right" style="color: var(--hw-red); font-weight: 700;">60%+</td>
+          </tr>
+        </table>
+
+        <h3>Deployment Window</h3>
+        <p><strong>Now → Q3 2026 (12-18 months):</strong> Your competitive advantage window. After V3 fleet reaches 20% capacity, speed parity eliminates your primary lever. Service quality becomes the only margin.</p>
+
+        <div class="callout" style="margin-top: 12px;">
+          <div class="callout-title">Critical Decision Point</div>
+          FWA is not defensive spending. It's a highly profitable business (13-14 month payback, 60%+ margin) deployed as offense to block Starlink market entry in high-potential towns.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">9</div>
+</div>
+
+<!-- ==================== SLIDE 10: COLOMBIA ==================== -->
+<div class="slide">
+  <div class="slide-subtitle">Colombia: 61% FBB, 5M unserved HH, highest addressable market. FTTH + FWA hybrid essential.</div>
+  <div class="slide-content">
+    <div class="cols">
+      <!-- Left: Market snapshot + actions -->
+      <div class="col">
+        <h3>Market Snapshot</h3>
+        <table style="margin-bottom: 16px;">
+          <tr>
+            <th>Metric</th>
+            <th class="td-right">Value</th>
+          </tr>
+          <tr>
+            <td>FBB Penetration</td>
+            <td class="td-right">61%</td>
+          </tr>
+          <tr>
+            <td>Unserved HH</td>
+            <td class="td-right">5M</td>
+          </tr>
+          <tr>
+            <td>Starlink users</td>
+            <td class="td-right">101K (+154% YoY)</td>
+          </tr>
+          <tr>
+            <td>Churn signal</td>
+            <td class="td-right">15% of <50Mbps</td>
+          </tr>
+          <tr>
+            <td>Risk level</td>
+            <td class="td-right">🟡 Medium-High</td>
+          </tr>
+        </table>
+
+        <h3>Recommended Actions</h3>
+        <ol style="padding-left: 16px; font-size: 12px; line-height: 1.6;">
+          <li><strong>Urban FTTH:</strong> Accelerate high-income zones. Offer speed upgrades to block <50Mbps churn to Starlink.</li>
+          <li><strong>Suburban FWA:</strong> Deploy in 500K-1M household priority zones. Target areas with speed complaints.</li>
+          <li><strong>Town FWA:</strong> Pre-emptive deployment in municipalities before Starlink brand establishes.</li>
+          <li><strong>Pricing:</strong> Defend sub-$50 tier with speed guarantees. Match availability.</li>
+        </ol>
+      </div>
+
+      <!-- Right: Investment + KPI -->
+      <div class="col">
+        <h3>Investment Plan</h3>
+        <div class="kpi-row" style="margin-bottom: 14px;">
+          <div class="kpi-card">
+            <div class="kpi-value" style="font-size: 24px;">$120M</div>
+            <div class="kpi-label">FTTH CapEx (24mo)</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-value" style="font-size: 24px;">$45M</div>
+            <div class="kpi-label">FWA CapEx (18mo)</div>
+          </div>
+        </div>
+
+        <h3>Deployment Targets</h3>
+        <ul style="font-size: 12px;">
+          <li><strong>FTTH:</strong> 2.5M homes by Q4 2027 (100+ Mbps, high income)</li>
+          <li><strong>FWA:</strong> 1.5M homes by Q2 2027 (50-150 Mbps, suburban/town)</li>
+          <li><strong>Impact:</strong> Block ~350K projected Starlink adds over 18 months</li>
+        </ul>
+
+        <h3 style="margin-top: 14px;">Annual Revenue & ROI</h3>
+        <ul style="font-size: 12px;">
+          <li><strong>FTTH:</strong> $55-75M annual (at $45-50 ARPU)</li>
+          <li><strong>FWA:</strong> $55-75M annual (at $35-45 ARPU)</li>
+          <li><strong>Combined payback:</strong> 18-24 months (FTTH + FWA blended)</li>
+        </ul>
+
+        <div class="callout" style="margin-top: 12px;">
+          <div class="callout-title">Business Case</div>
+          $165M investment for $110-150M annual incremental revenue. Payback covers both FTTH and FWA within 18-24 months.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">10</div>
+</div>
+
+<!-- ==================== SLIDE 11: GUATEMALA + EL SALVADOR ==================== -->
+<div class="slide">
+  <div class="slide-subtitle">Guatemala (aggressive FWA), El Salvador (FWA + fiber planning). Guatemala is quickest ROI.</div>
+  <div class="slide-content">
+    <div class="cols">
+      <!-- Left: Guatemala -->
+      <div class="col">
+        <h3>🇬🇹 Guatemala (Priority 1)</h3>
+        <table style="margin-bottom: 12px; font-size: 11px;">
+          <tr>
+            <th>Metric</th>
+            <th class="td-right">Value</th>
+          </tr>
+          <tr>
+            <td>FBB Penetration</td>
+            <td class="td-right">31% (weak)</td>
+          </tr>
+          <tr>
+            <td>Unserved HH (MBB ok)</td>
+            <td class="td-right">2.1M</td>
+          </tr>
+          <tr>
+            <td>4G infrastructure</td>
+            <td class="td-right">Ready now</td>
+          </tr>
+          <tr>
+            <td>FWA payback</td>
+            <td class="td-right" style="color: var(--hw-red);">13-14 months</td>
+          </tr>
+        </table>
+
+        <h3 style="font-size: 14px;">Action Plan</h3>
+        <ul style="font-size: 12px;">
+          <li><strong>Q3 2026:</strong> Launch FWA in high-value towns (200K first-wave subs)</li>
+          <li><strong>Q4 2026 - Q2 2027:</strong> Scale to 1.5M homes</li>
+          <li><strong>CapEx:</strong> $60M over 18 months</li>
+          <li><strong>Revenue:</strong> $50-70M annual by end-2027</li>
+        </ul>
+
+        <div class="callout" style="margin-top: 12px;">
+          <div class="callout-title">Win Condition</div>
+          Arrive first. Establish customer relationship before Starlink brand penetrates. Lock in 1.5M-home footprint.
+        </div>
+      </div>
+
+      <!-- Right: El Salvador -->
+      <div class="col">
+        <h3>🇸🇻 El Salvador (Priority 2)</h3>
+        <table style="margin-bottom: 12px; font-size: 11px;">
+          <tr>
+            <th>Metric</th>
+            <th class="td-right">Value</th>
+          </tr>
+          <tr>
+            <td>FBB Penetration</td>
+            <td class="td-right">38% (constrained)</td>
+          </tr>
+          <tr>
+            <td>Fiber backbone</td>
+            <td class="td-right">NONE</td>
+          </tr>
+          <tr>
+            <td>Unserved HH (MBB ok)</td>
+            <td class="td-right">0.76M</td>
+          </tr>
+          <tr>
+            <td>4G/5G available</td>
+            <td class="td-right">Yes</td>
+          </tr>
+        </table>
+
+        <h3 style="font-size: 14px;">Two-Phase Approach</h3>
+
+        <h4 style="margin-top: 12px;">Phase 1: FWA Defense (2026-2027)</h4>
+        <ul style="font-size: 12px;">
+          <li>Deploy FWA to 0.76M unserved homes</li>
+          <li>CapEx: $22M over 18 months</li>
+          <li>Payback: 13-14 months</li>
+          <li>Revenue: $12-18M annual</li>
+        </ul>
+
+        <h4 style="margin-top: 12px;">Phase 2: Fiber Foundation (2027-2028)</h4>
+        <ul style="font-size: 12px;">
+          <li>Begin fiber backbone planning + permitting (2026-2027)</li>
+          <li>Deploy fiber to metro areas (2027-2028)</li>
+          <li>Transition FWA → FTTH where fiber enabled</li>
+        </ul>
+
+        <div class="callout" style="margin-top: 12px;">
+          <div class="callout-title">Constraint</div>
+          Without fiber, vulnerable to Starlink long-term. FWA buys 12-18 months. Fiber is strategic imperative for 2027+.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">11</div>
+</div>
+
+<!-- ==================== SLIDE 12: DECISIONS ==================== -->
+<div class="slide">
+  <div class="slide-subtitle">Three CEO asks: This month, 60 days, 90 days. Window closes when V3 deployment accelerates (Q4 2026).</div>
+  <div class="slide-content">
+    <div class="cols">
+      <!-- Left: Decision cards -->
+      <div class="col col-2">
+        <div class="decision-card">
+          <span class="decision-number">1</span>
+          <span style="margin-left: 8px;"><strong>FWA Zone Identification — This Month</strong><br>
+          <span style="font-size: 11px; color: var(--hw-gray);">Each market leader maps 500K-1.5M household deployment zones. Deliverable: zone-level plan by end-June. Budget: $500K assessment.</span></span>
+        </div>
+
+        <div class="decision-card">
+          <span class="decision-number">2</span>
+          <span style="margin-left: 8px;"><strong>Guatemala FWA Go/No-Go — Next 60 Days</strong><br>
+          <span style="font-size: 11px; color: var(--hw-gray);">Greenlight Q3 2026 commercial launch: 200K FWA subs in high-priority towns. $60M CapEx commitment over 18mo. Target block 100K Starlink adds.</span></span>
+        </div>
+
+        <div class="decision-card">
+          <span class="decision-number">3</span>
+          <span style="margin-left: 8px;"><strong>Colombia & El Salvador Fiber Strategy — Next 90 Days</strong><br>
+          <span style="font-size: 11px; color: var(--hw-gray);">Colombia: FTTH acceleration + FWA hybrid. El Salvador: Fiber backbone planning + FWA defense. Total funding: $165M+ over 24 months.</span></span>
+        </div>
+      </div>
+
+      <!-- Right: Financial summary + callout -->
+      <div class="col">
+        <h3>Financial Summary (3 Countries)</h3>
+        <table style="margin-bottom: 16px; font-size: 11px;">
+          <tr>
+            <th>Country</th>
+            <th class="td-right">CapEx</th>
+            <th class="td-right">Annual Revenue</th>
+            <th class="td-right">Payback</th>
+          </tr>
+          <tr>
+            <td>Colombia</td>
+            <td class="td-right">$165M</td>
+            <td class="td-right">$110-150M</td>
+            <td class="td-right">18-24mo</td>
+          </tr>
+          <tr>
+            <td>Guatemala</td>
+            <td class="td-right">$60M</td>
+            <td class="td-right">$50-70M</td>
+            <td class="td-right">13-14mo</td>
+          </tr>
+          <tr>
+            <td>El Salvador</td>
+            <td class="td-right">$22M</td>
+            <td class="td-right">$12-18M</td>
+            <td class="td-right">13-14mo</td>
+          </tr>
+          <tr style="background: var(--hw-red); color: white; font-weight: 700;">
+            <td>TOTAL</td>
+            <td class="td-right">$247M</td>
+            <td class="td-right">$172-238M</td>
+            <td class="td-right">15-20mo</td>
+          </tr>
+        </table>
+
+        <h3>Timing Imperative</h3>
+        <p><strong>V3 first flight successful (May 22, 2026).</strong> H2 2026 production deployment begins. Speed parity arrives Q4 2026-Q1 2027. After that, your only defense is service quality + customer loyalty. Price and speed levers vanish.</p>
+
+        <div class="callout" style="margin-top: 12px;">
+          <div class="callout-title">Bottom Line</div>
+          $247M investment for $172-238M annual revenue. FWA ROI 13-14 months + FTTH speed defense retains 60% of at-risk customer base. Cost of inaction: 350K+ churn, permanent margin loss, Starlink customer lock-in.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">12</div>
+</div>
+
+<!-- ==================== SLIDE 13: BACK COVER ==================== -->
+<div class="slide back-cover">
+  <div class="back-title">Next Steps</div>
+  <div style="font-size: 16px; color: var(--hw-gray); margin-top: 20px;">Starlink Threat Response — Millicom LatAm Defense</div>
+  <div style="display: flex; gap: 40px; justify-content: center; margin-top: 40px; font-size: 13px; color: var(--hw-gray);">
+    <div>12 Slides</div>
+    <div>·</div>
+    <div>3 Countries</div>
+    <div>·</div>
+    <div>$247M Investment</div>
+    <div>·</div>
+    <div>15-20mo ROI</div>
+  </div>
+  <div class="back-subtitle">Sources: SpaceX Filings • Ookla Speedtest Intelligence • Millicom Q1 2026 • Operator Data</div>
+  <div class="slide-number">13</div>
+</div>
+
+</div>
+
+<!-- Bubble chart script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script>
+window.addEventListener('load', function(){
+  var canvas = document.getElementById('bubbleChart');
+  if (!canvas) return;
+
+  new Chart(canvas, {
+    type: 'bubble',
+    data: {
+      datasets: [{
+        label: 'Millicom LatAm',
+        data: [
+          {x:35, y:303, r:18, label:'Ecuador', users:35000},
+          {x:25, y:265, r:15, label:'Paraguay', users:18168},
+          {x:40, y:235, r:15, label:'Panama', users:16692},
+          {x:20, y:225, r:15, label:'Guatemala', users:19127},
+          {x:30, y:201, r:14, label:'El Salvador', users:14643},
+          {x:16, y:200, r:12, label:'Honduras', users:13057},
+          {x:73, y:172, r:28, label:'Chile', users:127539},
+          {x:46, y:154, r:25, label:'Colombia', users:101283},
+          {x:88, y:149, r:10, label:'Uruguay', users:5229}
+        ],
+        backgroundColor: function(context) {
+          var v = context.raw;
+          if (v && v.y > 200) return 'rgba(199,0,11,0.6)';
+          if (v && v.y > 150) return 'rgba(199,0,11,0.4)';
+          return 'rgba(199,0,11,0.25)';
+        },
+        borderColor: '#C7000B',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1a1a',
+          callbacks: {
+            label: function(context) {
+              var d = context.raw;
+              return d.label + ' | FBB: ' + d.x + '% | Growth: +' + d.y + '% | Users: ' + d.users.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'FBB Penetration Rate (%)',
+            color: '#666',
+            font: { size: 13, weight: 'bold' }
+          },
+          min: 10,
+          max: 100,
+          grid: { color: '#f0f0f0' }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Starlink YoY Growth (%)',
+            color: '#666',
+            font: { size: 13, weight: 'bold' }
+          },
+          min: 120,
+          max: 330,
+          grid: { color: '#f0f0f0' }
+        }
+      },
+      plugins: [{
+        afterDatasetsDraw: function(chart) {
+          var ctx = chart.ctx;
+          // Label offsets to avoid overlap — [dx, dy] relative to bubble center
+          var offsets = {
+            'Ecuador': [-60, -10],
+            'Paraguay': [0, -22],
+            'Panama': [55, 5],
+            'Guatemala': [-65, 5],
+            'El Salvador': [0, 22],
+            'Honduras': [-60, 12],
+            'Chile': [0, -22],
+            'Colombia': [60, 5],
+            'Uruguay': [0, -20]
+          };
+          chart.data.datasets[0].data.forEach(function(d, i) {
+            var meta = chart.getDatasetMeta(0).data[i];
+            if (!meta) return;
+            var off = offsets[d.label] || [0, -20];
+            var lx = meta.x + off[0];
+            var ly = meta.y + off[1];
+            // Background box for readability
+            var txt1 = d.label;
+            var txt2 = '+' + d.y + '% | ' + (d.users >= 1000 ? Math.round(d.users/1000) + 'K' : d.users);
+            ctx.font = 'bold 11px sans-serif';
+            var w1 = ctx.measureText(txt1).width;
+            ctx.font = '10px sans-serif';
+            var w2 = ctx.measureText(txt2).width;
+            var bw = Math.max(w1, w2) + 10;
+            ctx.fillStyle = 'rgba(255,255,255,0.85)';
+            ctx.fillRect(lx - bw/2, ly - 18, bw, 28);
+            ctx.strokeStyle = '#C7000B';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(lx - bw/2, ly - 18, bw, 28);
+            // Country name
+            ctx.fillStyle = '#1a1a1a';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(txt1, lx, ly - 5);
+            // Growth + users
+            ctx.fillStyle = '#C7000B';
+            ctx.font = '10px sans-serif';
+            ctx.fillText(txt2, lx, ly + 7);
+            // Line from label to bubble
+            ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(lx, ly + 10);
+            ctx.lineTo(meta.x, meta.y);
+            ctx.stroke();
+          });
+
+          var xs = chart.scales.x, ys = chart.scales.y;
+          ctx.fillStyle = 'rgba(199,0,11,0.05)';
+          ctx.fillRect(xs.left, ys.top, xs.getPixelForValue(50) - xs.left, ys.getPixelForValue(200) - ys.top);
+          ctx.fillStyle = 'rgba(199,0,11,0.6)';
+          ctx.font = 'bold 13px sans-serif';
+          ctx.textAlign = 'left';
+          ctx.fillText('DANGER ZONE', xs.left + 15, ys.top + 20);
+          ctx.font = '10px sans-serif';
+          ctx.fillText('Low FBB + High Starlink Growth', xs.left + 15, ys.top + 35);
+
+          // Bolivia callout — off-chart because 1244% would compress everything
+          var bx = xs.getPixelForValue(42);
+          var by = ys.top - 5;
+          // Arrow pointing up
+          ctx.strokeStyle = '#C7000B';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([4, 3]);
+          ctx.beginPath();
+          ctx.moveTo(bx, ys.getPixelForValue(330));
+          ctx.lineTo(bx, by + 48);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          // Arrowhead
+          ctx.fillStyle = '#C7000B';
+          ctx.beginPath();
+          ctx.moveTo(bx, by + 42);
+          ctx.lineTo(bx - 5, by + 52);
+          ctx.lineTo(bx + 5, by + 52);
+          ctx.fill();
+          // Bolivia box
+          ctx.fillStyle = '#C7000B';
+          ctx.fillRect(bx - 65, by - 2, 130, 44);
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold 12px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('🇧🇴 Bolivia', bx, by + 14);
+          ctx.font = '11px sans-serif';
+          ctx.fillText('+1,244% (185→2,301)', bx, by + 30);
+          ctx.fillText('FBB 42%', bx, by + 42);
+        }
+      }]
+    }
+  });
+});
+</script>
+
+</body>
+</html>
