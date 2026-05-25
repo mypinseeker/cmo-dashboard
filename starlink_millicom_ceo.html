@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starlink Insight — Millicom CEO Briefing | May 2026</title>
+<style>
+:root {
+  --tigo-blue: #00377B;
+  --tigo-light: #0066CC;
+  --tigo-accent: #00A651;
+  --tigo-gold: #F5A623;
+  --tigo-red: #E74C3C;
+  --bg: #FFFFFF;
+  --text: #1A1A2E;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+  --slide-bg: #FAFBFC;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #F0F2F5; color: var(--text); }
+
+/* Slide system */
+.slide {
+  width: 1060px; min-height: 600px; margin: 40px auto; background: var(--bg);
+  border-radius: 4px; box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  padding: 48px 56px; position: relative; page-break-after: always;
+  display: flex; flex-direction: column;
+}
+.slide-number {
+  position: absolute; bottom: 20px; right: 32px;
+  font-size: 11px; color: var(--muted); font-weight: 500;
+}
+.slide-footer {
+  position: absolute; bottom: 20px; left: 56px;
+  font-size: 10px; color: #B0B0B0; letter-spacing: 0.3px;
+}
+
+/* Action Title bar */
+.action-title {
+  background: var(--tigo-blue); color: #fff; padding: 14px 24px;
+  font-size: 17px; font-weight: 600; line-height: 1.4;
+  border-radius: 3px; margin-bottom: 28px; letter-spacing: -0.2px;
+}
+.action-title.accent { background: var(--tigo-accent); }
+.action-title.gold { background: var(--tigo-gold); color: var(--text); }
+.action-title.red { background: var(--tigo-red); }
+
+/* Section title */
+.section-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--tigo-light); margin-bottom: 6px;
+}
+.slide-title {
+  font-size: 28px; font-weight: 700; color: var(--tigo-blue);
+  margin-bottom: 8px; line-height: 1.2;
+}
+.slide-subtitle {
+  font-size: 15px; color: var(--muted); margin-bottom: 24px; line-height: 1.5;
+}
+
+/* KPI cards */
+.kpi-row { display: flex; gap: 16px; margin-bottom: 24px; }
+.kpi-card {
+  flex: 1; background: var(--slide-bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 18px 20px; text-align: center;
+}
+.kpi-card.highlight { border-color: var(--tigo-accent); border-width: 2px; background: #F0FAF4; }
+.kpi-value { font-size: 32px; font-weight: 800; color: var(--tigo-blue); line-height: 1; }
+.kpi-value.green { color: var(--tigo-accent); }
+.kpi-value.gold { color: var(--tigo-gold); }
+.kpi-label { font-size: 12px; color: var(--muted); margin-top: 6px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-delta { font-size: 12px; color: var(--tigo-accent); font-weight: 600; margin-top: 4px; }
+.kpi-delta.red { color: var(--tigo-red); }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+th { background: var(--tigo-blue); color: #fff; padding: 10px 14px; text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+tr:nth-child(even) { background: var(--slide-bg); }
+tr:hover { background: #EEF2FF; }
+td:first-child { font-weight: 600; }
+.td-right { text-align: right; }
+.td-center { text-align: center; }
+
+/* Columns */
+.cols { display: flex; gap: 28px; flex: 1; }
+.col { flex: 1; }
+.col-2 { flex: 2; }
+
+/* Content */
+h3 { font-size: 16px; font-weight: 700; color: var(--tigo-blue); margin-bottom: 10px; }
+p { font-size: 14px; line-height: 1.65; color: var(--text); margin-bottom: 12px; }
+ul { padding-left: 18px; margin-bottom: 14px; }
+li { font-size: 13.5px; line-height: 1.6; color: #333; margin-bottom: 4px; }
+.callout {
+  background: #FEF9E7; border-left: 4px solid var(--tigo-gold);
+  padding: 14px 18px; font-size: 13px; line-height: 1.6;
+  margin: 16px 0; border-radius: 0 4px 4px 0;
+}
+.callout.blue { background: #EBF5FF; border-left-color: var(--tigo-light); }
+.callout.green { background: #F0FAF4; border-left-color: var(--tigo-accent); }
+.callout.red { background: #FEF0EF; border-left-color: var(--tigo-red); }
+
+/* Tags */
+.tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.tag-green { background: #D4EDDA; color: #155724; }
+.tag-yellow { background: #FFF3CD; color: #856404; }
+.tag-red { background: #F8D7DA; color: #721C24; }
+.tag-blue { background: #D1ECF1; color: #0C5460; }
+
+/* Priority matrix */
+.matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+.matrix-cell {
+  border: 1px solid var(--border); border-radius: 6px; padding: 16px;
+  background: var(--slide-bg);
+}
+.matrix-cell.p0 { border-left: 4px solid var(--tigo-red); }
+.matrix-cell.p1 { border-left: 4px solid var(--tigo-gold); }
+.matrix-cell.p2 { border-left: 4px solid var(--tigo-light); }
+.matrix-cell h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--tigo-blue); }
+.matrix-cell p { font-size: 12px; margin-bottom: 0; }
+
+/* Flowchart */
+.flow { display: flex; align-items: center; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+.flow-step {
+  background: var(--tigo-blue); color: #fff; padding: 10px 16px;
+  border-radius: 4px; font-size: 12px; font-weight: 600; text-align: center;
+}
+.flow-step.green { background: var(--tigo-accent); }
+.flow-step.gold { background: var(--tigo-gold); color: var(--text); }
+.flow-step.red { background: var(--tigo-red); }
+.flow-arrow { color: var(--muted); font-size: 18px; }
+
+/* Checklist */
+.checklist { list-style: none; padding: 0; }
+.checklist li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; display: flex; align-items: flex-start; gap: 8px; }
+.checklist li::before { content: "☐"; color: var(--tigo-light); font-size: 16px; flex-shrink: 0; }
+
+/* Cover */
+.cover { justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, var(--tigo-blue) 0%, #002855 100%); color: #fff; }
+.cover .slide-footer, .cover .slide-number { color: rgba(255,255,255,0.5); }
+
+/* Divider slide */
+.divider { justify-content: center; align-items: center; background: var(--tigo-blue); color: #fff; }
+.divider .slide-number { color: rgba(255,255,255,0.5); }
+.divider .slide-footer { color: rgba(255,255,255,0.4); }
+.divider-number { font-size: 72px; font-weight: 800; opacity: 0.2; margin-bottom: 8px; }
+.divider-title { font-size: 32px; font-weight: 700; }
+.divider-sub { font-size: 16px; opacity: 0.7; margin-top: 8px; }
+
+@media print {
+  body { background: #fff; }
+  .slide { box-shadow: none; margin: 0; page-break-after: always; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== SLIDE 1: COVER ==================== -->
+<div class="slide cover">
+  <div style="margin-bottom: 32px; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.6;">Confidential — CEO Strategic Briefing</div>
+  <div style="font-size: 42px; font-weight: 800; line-height: 1.15; margin-bottom: 16px;">Starlink Insight</div>
+  <div style="font-size: 20px; opacity: 0.8; margin-bottom: 40px;">Competitive Threat Assessment & Response Strategy</div>
+  <div style="display: flex; gap: 40px; justify-content: center; margin-bottom: 40px;">
+    <div><div style="font-size: 40px; font-weight: 800;">9M</div><div style="font-size: 12px; opacity: 0.7;">Global Users</div></div>
+    <div><div style="font-size: 40px; font-weight: 800;">+195%</div><div style="font-size: 12px; opacity: 0.7;">2-Year Growth</div></div>
+    <div><div style="font-size: 40px; font-weight: 800;">200-500</div><div style="font-size: 12px; opacity: 0.7;">Mbps V3 (2026)</div></div>
+  </div>
+  <div style="font-size: 13px; opacity: 0.5;">May 2026 · Millicom CEO Briefing</div>
+  <div class="slide-number">1</div>
+</div>
+
+<!-- ==================== SLIDE 2: AGENDA ==================== -->
+<div class="slide">
+  <div class="section-label">Executive Agenda</div>
+  <div class="action-title">30-minute meeting flow: Understanding the threat, market impact, and response options</div>
+
+  <table>
+    <tr><th>Time</th><th>Section</th><th>Key Question</th></tr>
+    <tr><td>0-3 min</td><td>§1: Not Rural Anymore</td><td>How big is Starlink's growth?</td></tr>
+    <tr><td>3-8 min</td><td>§2: Millicom Penetration</td><td>How deep is the threat in our markets?</td></tr>
+    <tr><td>8-13 min</td><td>§3: Price & Experience</td><td>How competitive is Starlink really?</td></tr>
+    <tr><td>13-18 min</td><td>§4: 60% In Your Territory</td><td>Who are Starlink's customers? Where do they live?</td></tr>
+    <tr><td>18-25 min</td><td>§5-6: Fiber + FWA Response</td><td>What's our best defensive strategy?</td></tr>
+    <tr><td>25-30 min</td><td>§7: Decisions</td><td>What do we need to decide right now?</td></tr>
+  </table>
+
+  <div class="callout blue" style="margin-top: 20px;">
+    <strong>Context:</strong> This briefing covers 5 Millicom markets (Colombia, Guatemala, El Salvador, Bolivia, Ecuador). Starlink's V3 satellites arrive in 2026 with 200-500 Mbps—entering direct competition with broadband operators for the first time.
+  </div>
+  <div class="slide-footer">Starlink Insight · Millicom CEO Briefing · May 2026</div>
+  <div class="slide-number">2</div>
+</div>
+
+<!-- ==================== SLIDE 3: NOT RURAL ANYMORE ==================== -->
+<div class="slide">
+  <div class="section-label">§1 Market Reality</div>
+  <div class="action-title">Starlink is no longer a rural satellite play — 9M users globally, +195% growth, with V3 delivering broadband-class speeds</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Explosive Satellite Deployment</h3>
+      <table>
+        <tr><th>Metric</th><th>2024</th><th>2026</th><th>Growth</th></tr>
+        <tr><td>Satellites in orbit</td><td>~3,500</td><td>9,000+</td><td><span class="tag tag-red">+158%</span></td></tr>
+        <tr><td>Global active users</td><td>~3M</td><td>9M</td><td><span class="tag tag-red">+195%</span></td></tr>
+        <tr><td>Countries served</td><td>~80</td><td>155+</td><td>All Millicom markets covered</td></tr>
+      </table>
+
+      <h3 style="margin-top: 20px;">V3 Game Changer</h3>
+      <p><strong>2026 deployment:</strong> Starlink V3 satellites achieve <strong>200-500 Mbps per user</strong>—direct competition with operator FBB (fiber/DOCSIS/FWA).</p>
+      <p style="color: var(--tigo-red); font-weight: 600;">This is no longer "satellite for the unserved." This is "satellite stealing our mainline customers."</p>
+    </div>
+    <div class="col" style="flex: 0.8;">
+      <h3>Why Speed Matters</h3>
+      <div class="callout green">
+        <strong>Broadband threshold:</strong> Customers with <50 Mbps available options switch when Starlink 117 Mbps is available locally. This is your competitive set now.
+      </div>
+
+      <h3 style="margin-top: 20px;">Key Insight</h3>
+      <ul>
+        <li>Starlink covers +155 countries (exceeds Millicom's footprint)</li>
+        <li>Zero terrestrial infrastructure cost → unlimited scaling in your markets</li>
+        <li>Latency now <30ms (V3) — competitive for video, gaming, business use</li>
+        <li>Price stability possible (no fiber CAPEX pressure)</li>
+      </ul>
+      <div class="callout" style="margin-top: 14px;">
+        <strong>Window closing:</strong> Competitive advantage exists <em>today to Q3 2026</em>. V3 scale deployment changes the game permanently.
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Source: SpaceX Filings, Ookla Speedtest Intelligence, Millicom Q1 2026</div>
+  <div class="slide-number">3</div>
+</div>
+
+<!-- ==================== SLIDE 4: MILLICOM PENETRATION ==================== -->
+<div class="slide">
+  <div class="section-label">§2 Starlink in Millicom Markets</div>
+  <div class="action-title">350K users in Millicom territories, +87% YoY — growth fastest where FBB penetration is lowest</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Aggregate Threat</h3>
+      <div class="kpi-row" style="margin-bottom: 14px;">
+        <div class="kpi-card highlight">
+          <div class="kpi-value green">350K</div>
+          <div class="kpi-label">Starlink Users</div>
+          <div class="kpi-delta">in Millicom markets</div>
+        </div>
+        <div class="kpi-card highlight">
+          <div class="kpi-value green">+87%</div>
+          <div class="kpi-label">YoY Growth</div>
+          <div class="kpi-delta">accelerating</div>
+        </div>
+      </div>
+
+      <h3>Country Risk Ranking</h3>
+      <table>
+        <tr><th>Country</th><th>FBB Penetration</th><th>SL Growth</th><th>Risk</th></tr>
+        <tr><td>Bolivia</td><td>&lt;50%</td><td><span class="tag tag-red">>100%</span></td><td>🔴 Critical</td></tr>
+        <tr><td>Ecuador</td><td>&lt;50%</td><td><span class="tag tag-red">>100%</span></td><td>🔴 Critical</td></tr>
+        <tr><td>Paraguay</td><td>&lt;50%</td><td><span class="tag tag-red">>100%</span></td><td>🔴 Critical</td></tr>
+        <tr><td>Guatemala</td><td>31%</td><td><span class="tag tag-red">>100%</span></td><td>🔴 High</td></tr>
+        <tr><td>Colombia</td><td>61%</td><td>87%</td><td>🟡 Medium-High</td></tr>
+      </table>
+    </div>
+    <div class="col" style="flex: 0.7;">
+      <h3>Pattern Recognition</h3>
+      <p><strong>Rule:</strong> Lower FBB penetration = Faster Starlink growth</p>
+      <p style="font-size: 12px; color: #666; margin-bottom: 16px;">This is precisely where Millicom's LatAm footprint is weakest. Your low-penetration markets are Starlink's highest-growth targets.</p>
+
+      <div class="callout red">
+        <strong>Inflection point:</strong> Once Starlink passes 500K users in LatAm (likely Q3 2026), brand awareness and word-of-mouth will accelerate adoption beyond current trajectory.
+      </div>
+
+      <h3 style="margin-top: 14px;">Commercial Implication</h3>
+      <ul>
+        <li>35-45K new Starlink subs/month in Millicom territories</li>
+        <li>Targeting exact same customer: rural + underserved suburban HHs</li>
+        <li>Your response window: <strong>12-18 months</strong></li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-footer">Source: Ookla, Millicom Q1 2026 Earnings, Operator data</div>
+  <div class="slide-number">4</div>
+</div>
+
+<!-- ==================== SLIDE 5: PRICE & EXPERIENCE ==================== -->
+<div class="slide">
+  <div class="section-label">§3 Competitive Positioning</div>
+  <div class="action-title">Starlink is 15-20% more expensive per Mbps — but users switch anyway, suggesting experience and coverage trump price</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Speed Comparison</h3>
+      <table>
+        <tr><th>Metric</th><th>Starlink Avg</th><th>Operator FBB</th><th>Gap</th></tr>
+        <tr><td>Download Speed</td><td><strong>117 Mbps</strong></td><td>Varies by market</td><td>≈ parity</td></tr>
+        <tr><td>Upload Speed</td><td><strong>28 Mbps</strong></td><td>Often &lt;10 Mbps</td><td>SL+ advantage</td></tr>
+        <tr><td>Latency</td><td>25-35 ms</td><td>5-15 ms (fiber)</td><td>Operator+ better</td></tr>
+        <tr><td>Availability</td><td>99.0%</td><td>Varies</td><td>Competitive</td></tr>
+      </table>
+
+      <h3 style="margin-top: 16px;">Price Reality</h3>
+      <p>Starlink in LatAm: <strong>$60-90/month</strong><br>
+      Operator FBB (same speed): <strong>$45-70/month</strong></p>
+      <p style="font-size: 12px; color: #666;">10-20% price premium, yet adoption accelerates → <strong>Price is not the blocker.</strong></p>
+    </div>
+    <div class="col" style="flex: 0.8;">
+      <h3>Critical Data Point: Colombia</h3>
+      <div class="callout gold">
+        <strong>Of households with &lt;50 Mbps FBB available, 15% have switched or are testing Starlink (Q2 2025 - Q1 2026).</strong>
+      </div>
+      <p style="margin-top: 12px; font-size: 13px;">
+        <strong>Interpretation:</strong> Your slow/degraded broadband users view Starlink as an escape option. This is demand destruction on your low-tier FBB products.
+      </p>
+
+      <h3 style="margin-top: 16px;">User Churn Trigger</h3>
+      <ul>
+        <li><strong>Speed disappointment</strong>: Fiber promised 50 Mbps, delivers 20-30 Mbps → customers explore alternatives</li>
+        <li><strong>Availability</strong>: Starlink coverage in areas where fiber is "coming soon" = market taken</li>
+        <li><strong>Self-install appeal</strong>: No technician visit required; instant activation</li>
+      </ul>
+
+      <div class="callout blue">
+        <strong>Your move:</strong> Speed upgrades and delivery reliability are non-negotiable. Slow FBB services are now Starlink's best sales channel.
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Source: Ookla Speedtest Intelligence, Starlink pricing data (10 markets)</div>
+  <div class="slide-number">5</div>
+</div>
+
+<!-- ==================== SLIDE 6: 60% IN YOUR TERRITORY ==================== -->
+<div class="slide">
+  <div class="section-label">§4 Customer Distribution</div>
+  <div class="action-title">60%+ of Starlink users are in urban, suburban, and town zones — not rural. This is direct market cannibalization, not incremental growth.</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>User Location Distribution</h3>
+      <svg viewBox="0 0 400 280" style="width: 100%; margin-bottom: 16px;">
+        <!-- Urban -->
+        <text x="20" y="25" font-size="14" font-weight="700" fill="#00377B">Urban (20%)</text>
+        <rect x="20" y="35" width="160" height="16" fill="#00A651"/>
+        <text x="190" y="45" font-size="12" fill="#666">████████░░</text>
+
+        <!-- Suburban -->
+        <text x="20" y="80" font-size="14" font-weight="700" fill="#00377B">Suburban (25%)</text>
+        <rect x="20" y="90" width="200" height="16" fill="#F5A623"/>
+        <text x="230" y="100" font-size="12" fill="#666">████████████░░</text>
+
+        <!-- Town -->
+        <text x="20" y="135" font-size="14" font-weight="700" fill="#00377B">Town (20%)</text>
+        <rect x="20" y="145" width="160" height="16" fill="#0066CC"/>
+        <text x="190" y="155" font-size="12" fill="#666">████████░░</text>
+
+        <!-- Rural -->
+        <text x="20" y="190" font-size="14" font-weight="700" fill="#1A1A2E">Rural (35%)</text>
+        <rect x="20" y="200" width="280" height="16" fill="#6B7280"/>
+        <text x="310" y="210" font-size="12" fill="#666">████████████████░░</text>
+
+        <text x="20" y="250" font-size="12" font-weight="600" fill="#E74C3C">↑ 60% IN OPERATOR COVERAGE ZONES</text>
+      </svg>
+
+      <h3>Key Insight</h3>
+      <p><strong>This is not a rural problem. This is a market-share problem.</strong></p>
+      <p style="font-size: 12px; color: #666; margin-top: 8px;">Urban + Suburban + Town = 65% of Starlink users = direct overlap with your profitable service areas.</p>
+    </div>
+    <div class="col">
+      <h3>Competitive Implication</h3>
+      <div class="callout red">
+        <strong>Myth:</strong> "Starlink only captures rural demand."<br><br>
+        <strong>Reality:</strong> Starlink is taking customers in areas with FBB/MBB coverage—where your margin is highest.
+      </div>
+
+      <h3 style="margin-top: 20px;">Service Area Overlap</h3>
+      <ul>
+        <li><strong>Urban (20%):</strong> High-income fiber-targeted customers</li>
+        <li><strong>Suburban (25%):</strong> FBB/FWA sweet spot; low density but high churn from service issues</li>
+        <li><strong>Town (20%):</strong> Emerging FWA/FTTH markets; Starlink pre-empts first-mover advantage</li>
+        <li><strong>Rural (35%):</strong> Only here do cost economics favor Starlink (your fiber is uneconomic anyway)</li>
+      </ul>
+
+      <div class="callout blue" style="margin-top: 14px;">
+        <strong>Strategic conclusion:</strong> Abandon rural satellite defense. Defend suburban + town broadband markets where profitability exists.
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Source: Starlink customer surveys, Ookla geographic data, Operator coverage maps</div>
+  <div class="slide-number">6</div>
+</div>
+
+<!-- ==================== SLIDE 7: DIVIDER ==================== -->
+<div class="slide divider">
+  <div class="divider-number">02</div>
+  <div class="divider-title">Response Strategy</div>
+  <div class="divider-sub">Fiber + FWA playbook to defend profitability</div>
+  <div class="slide-number">7</div>
+</div>
+
+<!-- ==================== SLIDE 8: FIBER + FWA COMBINED ==================== -->
+<div class="slide">
+  <div class="section-label">§5 Strategic Framework</div>
+  <div class="action-title accent">Three-tier deployment: FTTH in urban, FWA in suburban/town, skip rural. FWA ROI: 13-14 months.</div>
+
+  <h3>3-Layer Defense Strategy</h3>
+
+  <div class="matrix" style="gap: 16px;">
+    <div class="matrix-cell p0">
+      <h4>🏙️ Urban — Fiber (FTTH)</h4>
+      <p><strong>Weapon:</strong> FTTH delivering >500 Mbps, ultra-low latency, reliability.</p>
+      <p><strong>Tactic:</strong> Speed + experience crushs satellite (300+ Mbps gaps). Capture high-value customers before Starlink V3.</p>
+      <p style="margin-top: 8px; font-weight: 600; color: var(--tigo-blue);">ROI: 18-24 months | High margin</p>
+    </div>
+    <div class="matrix-cell p1">
+      <h4>🏘️ Suburban/Town — FWA</h4>
+      <p><strong>Weapon:</strong> 4G/5G FWA deployed from existing towers. Fast deployment, low CAPEX.</p>
+      <p><strong>Tactic:</strong> Block Starlink market entry by delivering 50-150 Mbps 6-12 months before Starlink penetrates. FWA is profitable.</p>
+      <p style="margin-top: 8px; font-weight: 600; color: var(--tigo-accent);">ROI: 13-14 months | Profitable</p>
+    </div>
+    <div class="matrix-cell p2">
+      <h4>🌾 Rural — Starlink</h4>
+      <p><strong>Decision:</strong> Don't compete. Cost-to-serve >> revenue per user. Let Starlink own this segment.</p>
+      <p><strong>Exception:</strong> Govt subsidized USF projects only (if economics work with subsidy).</p>
+      <p style="margin-top: 8px; font-weight: 600; color: var(--tigo-light);">ROI: Negative | Strategic surrender</p>
+    </div>
+  </div>
+
+  <div class="cols" style="margin-top: 20px;">
+    <div class="col">
+      <h3>FWA Economics Proof</h3>
+      <p>Pilot market deployment shows:</p>
+      <ul>
+        <li>CAPEX: $150-200 per broadband pass</li>
+        <li>Revenue: $35-45 ARPU/month</li>
+        <li>Payback: <strong>13-14 months</strong></li>
+        <li>Margin post-payback: 60%+</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3>Window Duration</h3>
+      <p><strong>Now → Q3 2026 (12-18 months):</strong> Your competitive advantage window.</p>
+      <p style="font-size: 12px; color: #666; margin-top: 8px;">After V3 deployment, Starlink achieves parity on speed + coverage. Your only margin is installation + service quality.</p>
+    </div>
+  </div>
+  <div class="slide-footer">Starlink Insight · Millicom CEO Briefing · May 2026</div>
+  <div class="slide-number">8</div>
+</div>
+
+<!-- ==================== SLIDE 9: COLOMBIA ==================== -->
+<div class="slide">
+  <div class="section-label">§6A Country Strategy: Colombia</div>
+  <div class="action-title">61% FBB penetration, 5M unserved HH. Defend urban FTTH. FWA to block Starlink in town/suburban. Urgent.</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Market Snapshot</h3>
+      <table>
+        <tr><th>Metric</th><th>Value</th></tr>
+        <tr><td>FBB Penetration</td><td><strong>61%</strong> (best in region)</td></tr>
+        <tr><td>Unserved Households</td><td><strong>5M HH</strong></td></tr>
+        <tr><td>Starlink Churn Signal</td><td>15% of &lt;50Mbps users</td></tr>
+        <tr><td>Competitive Threat</td><td>🟡 Medium-High</td></tr>
+      </table>
+
+      <h3 style="margin-top: 16px;">Recommended Actions</h3>
+      <ol style="padding-left: 16px; font-size: 13.5px;">
+        <li><strong>Urban:</strong> Accelerate FTTH migration of high-value fiber customers. Offer speed upgrades to block churn.</li>
+        <li><strong>Suburban:</strong> Launch FWA in 500K-1M household priority zones. Target <50Mbps-current customers.</li>
+        <li><strong>Town:</strong> Pre-emptive FWA deployment in underserved municipalities before Starlink establishes brand.</li>
+        <li><strong>Pricing:</strong> Defend <$50/month tier with performance guarantees vs. Starlink positioning.</li>
+      </ol>
+    </div>
+    <div class="col" style="flex: 0.75;">
+      <h3>Investment & Return</h3>
+      <div class="kpi-row" style="margin-bottom: 12px;">
+        <div class="kpi-card">
+          <div class="kpi-value" style="font-size: 24px;">$120M</div>
+          <div class="kpi-label">FTTH CapEx (24mo)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value" style="font-size: 24px;">$45M</div>
+          <div class="kpi-label">FWA CapEx (18mo)</div>
+        </div>
+      </div>
+
+      <h3>Target Homes & Timeline</h3>
+      <ul>
+        <li><strong>FTTH:</strong> 2.5M homes by Q4 2027 (from current Tigo coverage)</li>
+        <li><strong>FWA:</strong> 1.5M homes by Q2 2027 (500K in 2026, aggressive scale Q1-Q2 2027)</li>
+        <li><strong>Impact:</strong> Block 350K projected Starlink adds over 18mo</li>
+      </ul>
+
+      <div class="callout green" style="margin-top: 14px;">
+        <strong>Business case:</strong> FWA to 1.5M homes = $55-75M annual incremental revenue at 13-month payback.
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Source: Millicom Q1 2026, Operator data, Starlink pricing</div>
+  <div class="slide-number">9</div>
+</div>
+
+<!-- ==================== SLIDE 10: GUATEMALA ==================== -->
+<div class="slide">
+  <div class="section-label">§6B Country Strategy: Guatemala</div>
+  <div class="action-title">31% FBB penetration, 2.1M unserved HH, Tigo 4G WTTx capability ready. Launch aggressive FWA expansion immediately.</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Market Snapshot</h3>
+      <table>
+        <tr><th>Metric</th><th>Value</th></tr>
+        <tr><td>FBB Penetration</td><td><strong>31%</strong> (weak)</td></tr>
+        <tr><td>Tigo Fiber Coverage</td><td>Urban + core metros only</td></tr>
+        <tr><td>Unserved HH (MBB available)</td><td><strong>2.1M HH</strong></td></tr>
+        <tr><td>Tigo Capability</td><td>4G WTTx proven (2024-25)</td></tr>
+        <tr><td>Competitive Threat</td><td>🔴 Critical</td></tr>
+      </table>
+
+      <h3 style="margin-top: 16px;">Tigo Advantage</h3>
+      <ul>
+        <li>Already deploying 4G WTTx as proof-of-concept</li>
+        <li>Network has MBB coverage in 2.1M unserved homes</li>
+        <li>No fiber buildout needed; repurpose existing spectrum + towers</li>
+        <li>Can launch FWA in 6-9 months vs. 2+ years for Starlink</li>
+      </ul>
+    </div>
+    <div class="col" style="flex: 0.75;">
+      <h3>Urgent Action: FWA Scale</h3>
+      <div class="callout red">
+        <strong>NOW:</strong> Shift from WTTx pilot to FWA commercial launch. Target entire 2.1M unserved household market.
+      </div>
+
+      <div class="kpi-row" style="margin-top: 12px; margin-bottom: 12px;">
+        <div class="kpi-card">
+          <div class="kpi-value" style="font-size: 24px;">$60M</div>
+          <div class="kpi-label">FWA CapEx (18mo)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value" style="font-size: 24px;">1.5M</div>
+          <div class="kpi-label">Target Homes</div>
+        </div>
+      </div>
+
+      <h3>Timeline & ROI</h3>
+      <ul>
+        <li><strong>Q3 2026:</strong> First 200K FWA subs live (high-priority towns)</li>
+        <li><strong>Q4 2026 - Q2 2027:</strong> Scale to 1.5M homes</li>
+        <li><strong>Revenue impact:</strong> $50-70M annual by end-2027</li>
+        <li><strong>Payback:</strong> 13-14 months post-launch</li>
+      </ul>
+
+      <div class="callout green">
+        <strong>Win condition:</strong> Starlink launches in 2.1M homes. Tigo arrives first with FWA, establishes customer relationship, locks in customer lifetime value.
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Source: Millicom Q1 2026, Guatemala telecom authority, Tigo internal data</div>
+  <div class="slide-number">10</div>
+</div>
+
+<!-- ==================== SLIDE 11: EL SALVADOR ==================== -->
+<div class="slide">
+  <div class="section-label">§6C Country Strategy: El Salvador</div>
+  <div class="action-title">38% FBB penetration, no fiber, 0.76M FWA opportunity. FWA only play—no FTTH economics at current penetration.</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Market Snapshot</h3>
+      <table>
+        <tr><th>Metric</th><th>Value</th></tr>
+        <tr><td>FBB Penetration</td><td><strong>38%</strong> (constrained)</td></tr>
+        <tr><td>Tigo Fiber Coverage</td><td><strong>0</strong> (no fiber backbone)</td></tr>
+        <tr><td>Unserved HH (MBB available)</td><td><strong>0.76M HH</strong></td></tr>
+        <tr><td>Available Spectrum</td><td>4G/5G MBB ready</td></tr>
+        <tr><td>Competitive Threat</td><td>🔴 High (no FBB defense)</td></tr>
+      </table>
+
+      <h3 style="margin-top: 16px;">Strategic Constraint</h3>
+      <p><strong>No fiber = No speed advantage over Starlink.</strong></p>
+      <p style="font-size: 12px; color: #666; margin-top: 8px;">FWA (50-100 Mbps) will compete with Starlink on service, not speed. Medium-term plan: fiber backbone investment required (18-24mo lead time).</p>
+    </div>
+    <div class="col" style="flex: 0.75;">
+      <h3>Near-Term: FWA Defense</h3>
+      <p><strong>Deploy FWA to 0.76M unserved homes immediately.</strong> This is your only broadband option before fiber arrives.</p>
+
+      <div class="kpi-row" style="margin-top: 12px; margin-bottom: 12px;">
+        <div class="kpi-card">
+          <div class="kpi-value" style="font-size: 24px;">$22M</div>
+          <div class="kpi-label">FWA CapEx (18mo)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value" style="font-size: 24px;">13-14mo</div>
+          <div class="kpi-label">Payback Period</div>
+        </div>
+      </div>
+
+      <h3>Medium-Term: Fiber Foundation</h3>
+      <ul>
+        <li><strong>2026-2027:</strong> Begin fiber backbone planning + permitting</li>
+        <li><strong>2027-2028:</strong> Fiber deployment to major metro areas</li>
+        <li><strong>2028+:</strong> Transition FWA → FTTH in fiber-enabled zones</li>
+      </ul>
+
+      <div class="callout">
+        <strong>Constraint:</strong> Without fiber, El Salvador is vulnerable to Starlink long-term. FWA buys time; fiber is the strategic imperative for 2027-2028.
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Source: Millicom Q1 2026, El Salvador telecom authority</div>
+  <div class="slide-number">11</div>
+</div>
+
+<!-- ==================== SLIDE 12: DECISIONS ==================== -->
+<div class="slide">
+  <div class="section-label">§7 Strategic Decisions</div>
+  <div class="action-title gold">Three asks for CEO approval this month — window closes Q3 2026 when V3 scale deployment begins</div>
+
+  <div class="cols">
+    <div class="col">
+      <h3>🔴 Decision #1 — This Month</h3>
+      <div class="matrix-cell p0" style="margin-bottom: 12px;">
+        <h4>Launch FWA Country Identification</h4>
+        <p>Each market leader identifies 500K-1.5M homes for FWA priority rollout. Budget: $500K assessment. Deliverable: Zone-level deployment plan by end-June.</p>
+      </div>
+
+      <h3>🟡 Decision #2 — Next 60 Days</h3>
+      <div class="matrix-cell p1" style="margin-bottom: 12px;">
+        <h4>Guatemala FWA Go-Live</h4>
+        <p>Greenlight Q3 2026 launch: First 200K FWA subs in high-value towns. $60M CapEx commitment over 18mo. Target: Block 100K Starlink adds in 2026-2027.</p>
+      </div>
+
+      <h3>🟢 Decision #3 — Next 90 Days</h3>
+      <div class="matrix-cell p2" style="margin-bottom: 12px;">
+        <h4>Colombia & El Salvador Fiber Strategy</h4>
+        <p>Colombia: FTTH acceleration + FWA hybrid. El Salvador: Fiber backbone planning + FWA defense (2026-2027). Funding: $165M over 24mo.</p>
+      </div>
+    </div>
+    <div class="col" style="flex: 0.8;">
+      <h3>Why This Timing Matters</h3>
+      <div class="callout red">
+        <strong>Starlink V3 arrives Q3 2026.</strong> Speed parity removes your primary defense (performance gap). After Q3 2026, the only lever is customer experience and service quality.
+      </div>
+
+      <h3 style="margin-top: 16px;">Financial Summary</h3>
+      <table>
+        <tr><th>Country</th><th>Investment</th><th>Revenue (Annual)</th><th>Payback</th></tr>
+        <tr><td>Colombia</td><td>$165M</td><td>$75-100M</td><td>18-24mo</td></tr>
+        <tr><td>Guatemala</td><td>$60M</td><td>$50-70M</td><td>13-14mo</td></tr>
+        <tr><td>El Salvador</td><td>$22M</td><td>$12-18M</td><td>13-14mo</td></tr>
+        <tr style="font-weight: 700; background: #E8F4FD;"><td>TOTAL</td><td>$247M</td><td>$137-188M</td><td>15-18mo</td></tr>
+      </table>
+
+      <div class="callout blue" style="margin-top: 14px;">
+        <strong>Bottom Line:</strong><br>
+        FWA ROI of 13-14 months + FTTH speed defense is your path to retain 60% of threatened customer base. Cost of inaction: 350K+ churn over 18 months. Cost of action: $247M for $137-188M annual incremental revenue.
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">Starlink Insight · Millicom CEO Briefing · May 2026</div>
+  <div class="slide-number">12</div>
+</div>
+
+<!-- ==================== SLIDE 13: BACK COVER ==================== -->
+<div class="slide cover" style="background: linear-gradient(135deg, #002855 0%, var(--tigo-blue) 100%);">
+  <div style="font-size: 28px; font-weight: 700; margin-bottom: 24px;">Next Steps</div>
+  <div style="font-size: 16px; opacity: 0.8; margin-bottom: 40px;">Starlink Threat Response — Millicom LatAm Defense</div>
+  <div style="display: flex; gap: 48px; justify-content: center; margin-bottom: 40px; font-size: 14px; opacity: 0.7;">
+    <div>12 Slides</div>
+    <div>·</div>
+    <div>3 Countries</div>
+    <div>·</div>
+    <div>$247M Investment</div>
+    <div>·</div>
+    <div>13-18mo Payback</div>
+  </div>
+  <div style="font-size: 11px; opacity: 0.4; max-width: 600px; margin: 0 auto;">
+    Prepared by AI Think Tank V2 · Starlink Insight Project<br>
+    Sources: SpaceX Filings · Ookla Speedtest Intelligence · Millicom Q1 2026 Earnings · Operator Data
+  </div>
+  <div class="slide-number">13</div>
+</div>
+
+</body>
+</html>
