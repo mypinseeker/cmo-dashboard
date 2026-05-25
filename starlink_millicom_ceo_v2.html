@@ -933,94 +933,7 @@
             </div>
             <div class="slide-number">3B</div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('bubbleChart');
-            if (!ctx) return;
-            new Chart(ctx, {
-                type: 'bubble',
-                data: {
-                    datasets: [{
-                        label: 'Millicom Markets',
-                        data: [
-                            { x: 20, y: 140, r: 22, label: 'Bolivia 🇧🇴' },
-                            { x: 30, y: 120, r: 18, label: 'Ecuador 🇪🇨' },
-                            { x: 25, y: 130, r: 16, label: 'Paraguay 🇵🇾' },
-                            { x: 31, y: 110, r: 20, label: 'Guatemala 🇬🇹' },
-                            { x: 38, y: 105, r: 14, label: 'El Salvador 🇸🇻' },
-                            { x: 61, y: 87, r: 28, label: 'Colombia 🇨🇴' },
-                            { x: 16, y: 200, r: 12, label: 'Honduras 🇭🇳' },
-                        ],
-                        backgroundColor: function(ctx) {
-                            const v = ctx.raw;
-                            if (!v) return 'rgba(199, 0, 11, 0.3)';
-                            return v.y > 100 ? 'rgba(199, 0, 11, 0.5)' : 'rgba(199, 0, 11, 0.25)';
-                        },
-                        borderColor: '#C7000B',
-                        borderWidth: 2,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: '#1a1a1a',
-                            titleColor: '#fff',
-                            bodyColor: '#ddd',
-                            callbacks: {
-                                label: function(ctx) {
-                                    const d = ctx.raw;
-                                    return d.label + ' | FBB: ' + d.x + '% | Growth: ' + d.y + '% | Users: ' + (d.r * 800);
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: { display: true, text: 'FBB Penetration Rate (%)', color: '#666', font: { size: 13, weight: 'bold' } },
-                            min: 10, max: 75,
-                            grid: { color: '#f0f0f0' },
-                            ticks: { color: '#666' }
-                        },
-                        y: {
-                            title: { display: true, text: 'Starlink User YoY Growth (%)', color: '#666', font: { size: 13, weight: 'bold' } },
-                            min: 50, max: 220,
-                            grid: { color: '#f0f0f0' },
-                            ticks: { color: '#666' }
-                        }
-                    }
-                },
-                plugins: [{
-                    afterDatasetsDraw: function(chart) {
-                        const ctx2 = chart.ctx;
-                        chart.data.datasets[0].data.forEach(function(d, i) {
-                            const meta = chart.getDatasetMeta(0).data[i];
-                            if (!meta) return;
-                            ctx2.fillStyle = '#1a1a1a';
-                            ctx2.font = 'bold 11px sans-serif';
-                            ctx2.textAlign = 'center';
-                            ctx2.fillText(d.label, meta.x, meta.y - d.r - 6);
-                        });
-                        // Draw danger zone
-                        const xScale = chart.scales.x;
-                        const yScale = chart.scales.y;
-                        const x40 = xScale.getPixelForValue(40);
-                        const y100 = yScale.getPixelForValue(100);
-                        ctx2.fillStyle = 'rgba(199, 0, 11, 0.04)';
-                        ctx2.fillRect(xScale.left, yScale.top, x40 - xScale.left, y100 - yScale.top);
-                        ctx2.fillStyle = 'rgba(199, 0, 11, 0.5)';
-                        ctx2.font = 'bold 12px sans-serif';
-                        ctx2.fillText('⚠️ DANGER ZONE', xScale.left + 40, yScale.top + 20);
-                        ctx2.font = '10px sans-serif';
-                        ctx2.fillText('Low FBB + High SL Growth', xScale.left + 55, yScale.top + 35);
-                    }
-                }]
-            });
-        });
-        </script>
+        <!-- bubble chart script at bottom of file -->
 
         <!-- Slide 4: SPEED COMPARISON -->
         <div class="slide">
@@ -1394,5 +1307,9 @@
         </div>
 
     </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script>
+window.addEventListener('load',function(){var c=document.getElementById('bubbleChart');if(!c)return;new Chart(c,{type:'bubble',data:{datasets:[{label:'Millicom',data:[{x:20,y:140,r:22,label:'Bolivia'},{x:30,y:120,r:18,label:'Ecuador'},{x:25,y:130,r:16,label:'Paraguay'},{x:31,y:110,r:20,label:'Guatemala'},{x:38,y:105,r:14,label:'El Salvador'},{x:61,y:87,r:28,label:'Colombia'},{x:16,y:200,r:12,label:'Honduras'}],backgroundColor:function(t){var v=t.raw;return v&&v.y>100?'rgba(199,0,11,0.5)':'rgba(199,0,11,0.25)'},borderColor:'#C7000B',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1a1a',callbacks:{label:function(t){var d=t.raw;return d.label+' | FBB:'+d.x+'% | Growth:+'+d.y+'%'}}}},scales:{x:{title:{display:true,text:'FBB Penetration Rate (%)',color:'#666',font:{size:13,weight:'bold'}},min:10,max:75,grid:{color:'#f0f0f0'}},y:{title:{display:true,text:'Starlink YoY Growth (%)',color:'#666',font:{size:13,weight:'bold'}},min:50,max:220,grid:{color:'#f0f0f0'}}}},plugins:[{afterDatasetsDraw:function(chart){var x=chart.ctx;chart.data.datasets[0].data.forEach(function(d,i){var m=chart.getDatasetMeta(0).data[i];if(!m)return;x.fillStyle='#1a1a1a';x.font='bold 11px sans-serif';x.textAlign='center';x.fillText(d.label,m.x,m.y-d.r-6)});var xs=chart.scales.x,ys=chart.scales.y;x.fillStyle='rgba(199,0,11,0.05)';x.fillRect(xs.left,ys.top,xs.getPixelForValue(40)-xs.left,ys.getPixelForValue(100)-ys.top);x.fillStyle='rgba(199,0,11,0.6)';x.font='bold 13px sans-serif';x.textAlign='left';x.fillText('DANGER ZONE',xs.left+15,ys.top+20);x.font='10px sans-serif';x.fillText('Low FBB + High Starlink Growth',xs.left+15,ys.top+35)}}]})});
+</script>
 </body>
 </html>
