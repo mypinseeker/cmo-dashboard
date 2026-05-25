@@ -916,6 +916,112 @@
             <div class="slide-number">3</div>
         </div>
 
+        <!-- Slide 3B: BUBBLE CHART — FBB Penetration vs Starlink Growth -->
+        <div class="slide">
+            <div class="slide-subtitle" style="background: var(--hw-red); color: white;">FBB渗透率越低，星链增长越快 — Millicom各子网泡泡图</div>
+            <div class="slide-content" style="display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 100%; max-width: 950px; height: 480px; position: relative;">
+                    <canvas id="bubbleChart"></canvas>
+                </div>
+                <div style="display: flex; gap: 20px; margin-top: 10px; font-size: 11px; color: var(--hw-gray);">
+                    <span>横轴: FBB渗透率(%) — 越左越脆弱</span>
+                    <span>|</span>
+                    <span>纵轴: 星链用户YoY增长率(%) — 越高威胁越大</span>
+                    <span>|</span>
+                    <span>圆圈大小: 星链用户数量</span>
+                </div>
+            </div>
+            <div class="slide-number">3B</div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('bubbleChart');
+            if (!ctx) return;
+            new Chart(ctx, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        label: 'Millicom Markets',
+                        data: [
+                            { x: 20, y: 140, r: 22, label: 'Bolivia 🇧🇴' },
+                            { x: 30, y: 120, r: 18, label: 'Ecuador 🇪🇨' },
+                            { x: 25, y: 130, r: 16, label: 'Paraguay 🇵🇾' },
+                            { x: 31, y: 110, r: 20, label: 'Guatemala 🇬🇹' },
+                            { x: 38, y: 105, r: 14, label: 'El Salvador 🇸🇻' },
+                            { x: 61, y: 87, r: 28, label: 'Colombia 🇨🇴' },
+                            { x: 35, y: 200, r: 12, label: 'Honduras 🇭🇳' },
+                        ],
+                        backgroundColor: function(ctx) {
+                            const v = ctx.raw;
+                            if (!v) return 'rgba(199, 0, 11, 0.3)';
+                            return v.y > 100 ? 'rgba(199, 0, 11, 0.5)' : 'rgba(199, 0, 11, 0.25)';
+                        },
+                        borderColor: '#C7000B',
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1a1a1a',
+                            titleColor: '#fff',
+                            bodyColor: '#ddd',
+                            callbacks: {
+                                label: function(ctx) {
+                                    const d = ctx.raw;
+                                    return d.label + ' | FBB: ' + d.x + '% | Growth: ' + d.y + '% | Users: ' + (d.r * 800);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'FBB Penetration Rate (%)', color: '#666', font: { size: 13, weight: 'bold' } },
+                            min: 10, max: 75,
+                            grid: { color: '#f0f0f0' },
+                            ticks: { color: '#666' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Starlink User YoY Growth (%)', color: '#666', font: { size: 13, weight: 'bold' } },
+                            min: 50, max: 220,
+                            grid: { color: '#f0f0f0' },
+                            ticks: { color: '#666' }
+                        }
+                    }
+                },
+                plugins: [{
+                    afterDatasetsDraw: function(chart) {
+                        const ctx2 = chart.ctx;
+                        chart.data.datasets[0].data.forEach(function(d, i) {
+                            const meta = chart.getDatasetMeta(0).data[i];
+                            if (!meta) return;
+                            ctx2.fillStyle = '#1a1a1a';
+                            ctx2.font = 'bold 11px sans-serif';
+                            ctx2.textAlign = 'center';
+                            ctx2.fillText(d.label, meta.x, meta.y - d.r - 6);
+                        });
+                        // Draw danger zone
+                        const xScale = chart.scales.x;
+                        const yScale = chart.scales.y;
+                        const x40 = xScale.getPixelForValue(40);
+                        const y100 = yScale.getPixelForValue(100);
+                        ctx2.fillStyle = 'rgba(199, 0, 11, 0.04)';
+                        ctx2.fillRect(xScale.left, yScale.top, x40 - xScale.left, y100 - yScale.top);
+                        ctx2.fillStyle = 'rgba(199, 0, 11, 0.5)';
+                        ctx2.font = 'bold 12px sans-serif';
+                        ctx2.fillText('⚠️ DANGER ZONE', xScale.left + 40, yScale.top + 20);
+                        ctx2.font = '10px sans-serif';
+                        ctx2.fillText('Low FBB + High SL Growth', xScale.left + 55, yScale.top + 35);
+                    }
+                }]
+            });
+        });
+        </script>
+
         <!-- Slide 4: SPEED COMPARISON -->
         <div class="slide">
             <div class="slide-subtitle">Starlink已经和各子网FBB体验持平</div>
