@@ -1233,61 +1233,60 @@
             height: 100%;
         }
 
-        /* Isometric 3D */
+        /* Three.js 3D Canvas */
         #building-isometric {
             display: none;
             width: 100%;
             height: 100%;
-            overflow-y: auto;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            position: relative;
+            overflow: hidden;
         }
-        #building-isometric.active { display: flex; }
-        .iso-scene {
-            perspective: 800px;
-            perspective-origin: 50% 30%;
+        #building-isometric.active { display: block; }
+        #threejs-canvas-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
         }
-        .building-3d {
-            transform: rotateX(55deg) rotateZ(-45deg);
-            transform-style: preserve-3d;
+        #threejs-canvas-container canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        #threejs-tooltip {
+            position: absolute;
+            pointer-events: none;
+            background: rgba(10,22,40,0.92);
+            border: 1px solid #06b6d4;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 11px;
+            color: #f1f5f9;
+            line-height: 1.7;
+            display: none;
+            z-index: 100;
+            white-space: nowrap;
+        }
+        #threejs-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #475569;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        /* Legacy CSS 3D classes (kept for mini-building in popup) */
+        .mini-building-3d {
             display: flex;
             flex-direction: column-reverse;
-            align-items: center;
-            gap: 2px;
+            gap: 1px;
+            padding: 8px 0;
         }
-        .floor-slab-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            position: relative;
-        }
-        .floor-number-label {
-            font-size: 9px;
-            color: #64748b;
-            width: 20px;
-            text-align: right;
-            transform: rotateX(-55deg) rotateZ(45deg);
-        }
-        .floor-slab {
-            width: 140px;
-            height: 22px;
-            border-radius: 2px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-            transition: all 0.2s;
-            position: relative;
-        }
-        .floor-slab:hover {
-            border-color: rgba(255,255,255,0.4);
-            box-shadow: 0 0 12px rgba(6,182,212,0.4);
-            transform: translateY(-2px);
-            z-index: 10;
-        }
-        .floor-slab.selected {
-            border-color: #06b6d4;
-            box-shadow: 0 0 16px rgba(6,182,212,0.6);
+        .mini-floor {
+            height: 6px;
+            border-radius: 1px;
+            width: 120px;
         }
 
         /* Right: detail panel */
@@ -1354,17 +1353,6 @@
         /* Building popup in grid map */
         .building-popup {
             min-width: 200px;
-        }
-        .mini-building-3d {
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 1px;
-            padding: 8px 0;
-        }
-        .mini-floor {
-            height: 6px;
-            border-radius: 1px;
-            width: 120px;
         }
     </style>
 </head>
@@ -2163,7 +2151,7 @@
                         <span style="font-size:var(--fs-xs);color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:1px;" data-i18n="视图">视图</span>
                         <div class="grid-btn-group">
                             <button class="grid-btn active" id="viz-btn-chart" onclick="switchBuildingViz('chart')"><span data-i18n="截面图">截面图</span></button>
-                            <button class="grid-btn" id="viz-btn-iso" onclick="switchBuildingViz('iso')">3D <span data-i18n="等轴测">等轴测</span></button>
+                            <button class="grid-btn" id="viz-btn-iso" onclick="switchBuildingViz('iso')">3D Model</button>
                         </div>
                         <span style="font-size:var(--fs-xs);color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-left:12px;" data-i18n="指标">指标</span>
                         <div class="grid-btn-group" id="building-metric-btns">
@@ -2177,11 +2165,11 @@
                         <div id="building-chart-container" style="width:100%;height:100%;">
                             <div id="building-chart" style="width:100%;height:100%;"></div>
                         </div>
-                        <!-- Isometric 3D view -->
+                        <!-- Three.js 3D view -->
                         <div id="building-isometric">
-                            <div class="iso-scene">
-                                <div class="building-3d" id="iso-floors"></div>
-                            </div>
+                            <div id="threejs-canvas-container"></div>
+                            <div id="threejs-tooltip"></div>
+                            <div id="threejs-hint">Drag to rotate · Scroll to zoom · Click floor to select</div>
                         </div>
                     </div>
                 </div>
@@ -2226,10 +2214,18 @@
                         </div>
                     </div>
                     <div class="stat-block">
-                        <div class="stat-block-title" data-i18n="楼层颜色图例">楼层颜色图例</div>
-                        <div class="legend-item"><div class="legend-color" style="background:#10b981;"></div><span class="legend-label">RSRP ≥ -90 dBm (Good)</span></div>
-                        <div class="legend-item"><div class="legend-color" style="background:#f59e0b;"></div><span class="legend-label">RSRP -90 ~ -105 dBm (Fair)</span></div>
-                        <div class="legend-item"><div class="legend-color" style="background:#ef4444;"></div><span class="legend-label">RSRP &lt; -105 dBm (Poor)</span></div>
+                        <div class="stat-block-title" data-i18n="楼层颜色图例">楼层颜色图例 (RSRP)</div>
+                        <div class="legend-item"><div class="legend-color" style="background:#00cc44;"></div><span class="legend-label">≥ -85 dBm (Excellent)</span></div>
+                        <div class="legend-item"><div class="legend-color" style="background:#66cc00;"></div><span class="legend-label">-85 ~ -95 dBm (Good)</span></div>
+                        <div class="legend-item"><div class="legend-color" style="background:#ffcc00;"></div><span class="legend-label">-95 ~ -100 dBm (Fair)</span></div>
+                        <div class="legend-item"><div class="legend-color" style="background:#ff8800;"></div><span class="legend-label">-100 ~ -105 dBm (Weak)</span></div>
+                        <div class="legend-item"><div class="legend-color" style="background:#ff4400;"></div><span class="legend-label">-105 ~ -110 dBm (Poor)</span></div>
+                        <div class="legend-item"><div class="legend-color" style="background:#cc0000;"></div><span class="legend-label">&lt; -110 dBm (Very Poor)</span></div>
+                        <div style="margin-top:6px;font-size:9px;color:#475569;line-height:1.6;">
+                            Facing tower = +3 dBm<br/>
+                            Side faces = ±0 dBm<br/>
+                            Away from tower = -6 dBm
+                        </div>
                     </div>
                     <div class="stat-block">
                         <div class="stat-block-title" data-i18n="穿透损耗分析">穿透损耗分析</div>
@@ -2288,6 +2284,10 @@
 
     <!-- ECharts JS -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+
+    <!-- Three.js for 3D Building -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
 
     <script>
         // ============ I18N (INTERNATIONALIZATION) ============
@@ -5010,6 +5010,11 @@
                     }, 150);
                 } else {
                     buildingView.style.display = 'none';
+                    // Pause Three.js render loop when not visible
+                    if (threeAnimFrameId) {
+                        cancelAnimationFrame(threeAnimFrameId);
+                        threeAnimFrameId = null;
+                    }
                 }
             }
         }
@@ -5212,7 +5217,7 @@
         }
 
         function generateMiniFloorPreview(building) {
-            const floorData = generateFloorData(5, building.id === 'C' ? 1.0 : 0.7);
+            const floorData = generateFloorData(5, building.id === 'C' ? 1.0 : 0.7, building.id);
             return floorData.map((f, i) => {
                 const color = getMetricColor(f.rsrp, 'rsrp');
                 return `<div class="mini-floor" style="background:${color};opacity:${0.5 + i*0.1};"></div>`;
@@ -5294,20 +5299,69 @@
         let buildingChartInstance = null;
         let selectedFloor = null;
 
-        function generateFloorData(floors, distanceFactor) {
+        // Three.js state
+        let threeScene = null;
+        let threeCamera = null;
+        let threeRenderer = null;
+        let threeControls = null;
+        let threeRaycaster = null;
+        let threeMouse = null;
+        let threeFloorMeshes = [];
+        let threeHoveredFloor = null;
+        let threeSelectedFloor = null;
+        let threeAnimFrameId = null;
+        let threeCurrentBuilding = null;
+
+        // Direction offsets for each building:
+        // faces: [north, south, east, west] offsets in dBm
+        const BUILDING_DIRECTIONS = {
+            A: { north: +3, south: -6, east: +3, west:  0 }, // tower NE
+            B: { north: -6, south: +3, east:  0, west: +3 }, // tower SW
+            C: { north: -6, south: +3, east:  0, west: +3 }  // tower SW
+        };
+
+        function rsrpToColor(rsrp) {
+            if (rsrp >= -85)  return 0x00cc44;
+            if (rsrp >= -95)  return 0x66cc00;
+            if (rsrp >= -100) return 0xffcc00;
+            if (rsrp >= -105) return 0xff8800;
+            if (rsrp >= -110) return 0xff4400;
+            return 0xcc0000;
+        }
+
+        function rsrpToHex(rsrp) {
+            if (rsrp >= -85)  return '#00cc44';
+            if (rsrp >= -95)  return '#66cc00';
+            if (rsrp >= -100) return '#ffcc00';
+            if (rsrp >= -105) return '#ff8800';
+            if (rsrp >= -110) return '#ff4400';
+            return '#cc0000';
+        }
+
+        function generateFloorData(floors, distanceFactor, buildingId) {
             const data = [];
             const baseRsrp = -72 - (distanceFactor * 8); // ground floor base
+            const dirOffsets = BUILDING_DIRECTIONS[buildingId] || { north: 0, south: 0, east: 0, west: 0 };
             for (let i = 1; i <= floors; i++) {
                 const jitter = (Math.random() - 0.5) * 6;
                 const rsrp = baseRsrp - (i - 1) * 1.5 + jitter;
                 const sigNorm = Math.max(0, (rsrp + 120) / 45);
                 const dl = Math.max(2, sigNorm * 95 + 2);
                 const ul = Math.max(0.5, sigNorm * 22 + 0.5);
+                // per-face RSRP
+                const faceRsrp = {
+                    north: rsrp + dirOffsets.north,
+                    south: rsrp + dirOffsets.south,
+                    east:  rsrp + dirOffsets.east,
+                    west:  rsrp + dirOffsets.west,
+                    top:   rsrp - 2
+                };
                 data.push({
                     floor: i,
                     rsrp: Math.round(rsrp * 10) / 10,
                     dl: Math.round(dl * 10) / 10,
-                    ul: Math.round(ul * 10) / 10
+                    ul: Math.round(ul * 10) / 10,
+                    faceRsrp
                 });
             }
             return data;
@@ -5335,7 +5389,8 @@
             if (!BUILDING_DATA[id].floorData) {
                 BUILDING_DATA[id].floorData = generateFloorData(
                     BUILDING_DATA[id].floors,
-                    BUILDING_DATA[id].distFactor
+                    BUILDING_DATA[id].distFactor,
+                    id
                 );
             }
             return BUILDING_DATA[id].floorData;
@@ -5405,7 +5460,12 @@
             if (currentBuildingViz === 'chart') {
                 renderBuildingChart();
             } else {
-                renderBuildingIsometric();
+                if (threeRenderer && !threeAnimFrameId) {
+                    animateThree();
+                }
+                if (threeRenderer) {
+                    renderBuilding3D(currentBuilding);
+                }
             }
         }
 
@@ -5422,12 +5482,25 @@
                 chartCont.style.display = 'block';
                 isoCont.style.display = 'none';
                 isoCont.classList.remove('active');
+                // Stop Three.js animation when hidden
+                if (threeAnimFrameId) {
+                    cancelAnimationFrame(threeAnimFrameId);
+                    threeAnimFrameId = null;
+                }
                 renderBuildingChart();
             } else {
                 chartCont.style.display = 'none';
-                isoCont.style.display = 'flex';
+                isoCont.style.display = 'block';
                 isoCont.classList.add('active');
-                renderBuildingIsometric();
+                // Use requestAnimationFrame to let DOM settle before init
+                requestAnimationFrame(() => {
+                    if (!threeRenderer) {
+                        initThreeJS();
+                    } else if (!threeAnimFrameId) {
+                        animateThree();
+                    }
+                    renderBuilding3D(currentBuilding);
+                });
             }
         }
 
@@ -5517,37 +5590,255 @@
             });
         }
 
-        function renderBuildingIsometric() {
-            const container = document.getElementById('iso-floors');
+        // ============ THREE.JS 3D BUILDING ============
+
+        function initThreeJS() {
+            const container = document.getElementById('threejs-canvas-container');
             if (!container) return;
 
-            const floorData = getBuildingFloorData(currentBuilding);
-            container.innerHTML = '';
+            const w = container.clientWidth || 600;
+            const h = container.clientHeight || 500;
+
+            // Scene
+            threeScene = new THREE.Scene();
+            threeScene.background = new THREE.Color(0x0a1628);
+
+            // Ambient + directional light
+            const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+            threeScene.add(ambient);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight.position.set(50, 100, 80);
+            threeScene.add(dirLight);
+
+            // Camera
+            threeCamera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
+            threeCamera.position.set(60, 60, 80);
+            threeCamera.lookAt(0, 20, 0);
+
+            // Renderer
+            threeRenderer = new THREE.WebGLRenderer({ antialias: true });
+            threeRenderer.setPixelRatio(window.devicePixelRatio);
+            threeRenderer.setSize(w, h);
+            container.appendChild(threeRenderer.domElement);
+
+            // OrbitControls
+            threeControls = new THREE.OrbitControls(threeCamera, threeRenderer.domElement);
+            threeControls.target.set(0, 20, 0);
+            threeControls.enableDamping = true;
+            threeControls.dampingFactor = 0.08;
+            threeControls.minDistance = 30;
+            threeControls.maxDistance = 300;
+
+            // Raycaster
+            threeRaycaster = new THREE.Raycaster();
+            threeMouse = new THREE.Vector2();
+
+            // Events
+            threeRenderer.domElement.addEventListener('mousemove', onThreeMouseMove);
+            threeRenderer.domElement.addEventListener('click', onThreeClick);
+
+            // Resize observer
+            const ro = new ResizeObserver(() => {
+                const cw = container.clientWidth;
+                const ch = container.clientHeight;
+                if (cw > 0 && ch > 0) {
+                    threeCamera.aspect = cw / ch;
+                    threeCamera.updateProjectionMatrix();
+                    threeRenderer.setSize(cw, ch);
+                }
+            });
+            ro.observe(container);
+
+            // Start render loop
+            animateThree();
+        }
+
+        function animateThree() {
+            threeAnimFrameId = requestAnimationFrame(animateThree);
+            if (threeControls) threeControls.update();
+            if (threeRenderer && threeScene && threeCamera) {
+                threeRenderer.render(threeScene, threeCamera);
+            }
+        }
+
+        function disposeThreeBuilding() {
+            threeFloorMeshes.forEach(mesh => {
+                threeScene.remove(mesh);
+                if (mesh.geometry) mesh.geometry.dispose();
+                if (Array.isArray(mesh.material)) {
+                    mesh.material.forEach(m => m.dispose());
+                } else if (mesh.material) {
+                    mesh.material.dispose();
+                }
+                // remove outline
+                if (mesh.userData.outline) {
+                    threeScene.remove(mesh.userData.outline);
+                    mesh.userData.outline.geometry.dispose();
+                    mesh.userData.outline.material.dispose();
+                }
+            });
+            threeFloorMeshes = [];
+            threeHoveredFloor = null;
+        }
+
+        function renderBuilding3D(buildingId) {
+            if (!threeScene) initThreeJS();
+            if (!threeScene) return;
+
+            disposeThreeBuilding();
+
+            const floorData = getBuildingFloorData(buildingId);
+            const floorH = 3;    // height per floor
+            const W = 30;        // building width (east-west)
+            const D = 20;        // building depth (north-south)
 
             floorData.forEach((f, idx) => {
-                const color = currentBuildingMetric === 'rsrp'
-                    ? getMetricColor(f.rsrp, 'rsrp')
-                    : currentBuildingMetric === 'dl'
-                    ? getMetricColor(f.dl, 'dl')
-                    : getMetricColor(f.ul, 'ul');
+                const yBase = idx * (floorH + 0.2);
+                const geo = new THREE.BoxGeometry(W, floorH, D);
 
-                const wrapper = document.createElement('div');
-                wrapper.className = 'floor-slab-wrapper';
-                wrapper.innerHTML = `
-                    <span class="floor-number-label">${f.floor}</span>
-                    <div class="floor-slab ${selectedFloor === f.floor ? 'selected' : ''}"
-                         style="background:${color};"
-                         onmouseenter="updateFloorDetail(${JSON.stringify(f).replace(/"/g, '&quot;')})"
-                         onclick="selectFloor(${f.floor})">
-                    </div>
-                `;
-                container.appendChild(wrapper);
+                // BoxGeometry face material order: +X(east), -X(west), +Y(top), -Y(bottom), +Z(south), -Z(north)
+                // Use faceRsrp for directional coloring
+                const faceRsrp = f.faceRsrp;
+                let materials;
+                if (currentBuildingMetric === 'rsrp') {
+                    materials = [
+                        new THREE.MeshLambertMaterial({ color: rsrpToColor(faceRsrp.east) }),   // +X east
+                        new THREE.MeshLambertMaterial({ color: rsrpToColor(faceRsrp.west) }),   // -X west
+                        new THREE.MeshLambertMaterial({ color: rsrpToColor(faceRsrp.top) }),    // +Y top
+                        new THREE.MeshLambertMaterial({ color: 0x111827 }),                     // -Y bottom
+                        new THREE.MeshLambertMaterial({ color: rsrpToColor(faceRsrp.south) }),  // +Z south
+                        new THREE.MeshLambertMaterial({ color: rsrpToColor(faceRsrp.north) }),  // -Z north
+                    ];
+                } else {
+                    const val = f[currentBuildingMetric];
+                    const col = currentBuildingMetric === 'dl'
+                        ? parseInt(getMetricColor(val, 'dl').replace('#','0x'), 16)
+                        : parseInt(getMetricColor(val, 'ul').replace('#','0x'), 16);
+                    materials = Array(6).fill(null).map(() =>
+                        new THREE.MeshLambertMaterial({ color: col })
+                    );
+                }
+
+                const mesh = new THREE.Mesh(geo, materials);
+                mesh.position.set(0, yBase + floorH / 2, 0);
+                mesh.userData.floorData = f;
+                mesh.userData.floorIdx = idx;
+
+                // Wireframe outline (hidden by default, shown on hover/select)
+                const edges = new THREE.EdgesGeometry(geo);
+                const lineMat = new THREE.LineBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0 });
+                const outline = new THREE.LineSegments(edges, lineMat);
+                outline.position.copy(mesh.position);
+                threeScene.add(outline);
+                mesh.userData.outline = outline;
+
+                threeScene.add(mesh);
+                threeFloorMeshes.push(mesh);
             });
+
+            // Ground plane
+            const groundGeo = new THREE.PlaneGeometry(60, 40);
+            const groundMat = new THREE.MeshLambertMaterial({ color: 0x0d1b2e });
+            const ground = new THREE.Mesh(groundGeo, groundMat);
+            ground.rotation.x = -Math.PI / 2;
+            ground.position.y = 0;
+            ground.userData.isGround = true;
+            threeScene.add(ground);
+
+            // Reset camera target based on building height
+            const totalH = floorData.length * (floorH + 0.2);
+            threeControls.target.set(0, totalH / 2, 0);
+            threeCamera.position.set(60, totalH * 0.8, 80);
+            threeControls.update();
+
+            threeCurrentBuilding = buildingId;
+        }
+
+        function onThreeMouseMove(event) {
+            const container = document.getElementById('threejs-canvas-container');
+            if (!container || !threeRenderer) return;
+            const rect = threeRenderer.domElement.getBoundingClientRect();
+            threeMouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            threeMouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+            threeRaycaster.setFromCamera(threeMouse, threeCamera);
+            const intersects = threeRaycaster.intersectObjects(threeFloorMeshes);
+
+            const tooltip = document.getElementById('threejs-tooltip');
+
+            // Clear previous hover
+            if (threeHoveredFloor && threeHoveredFloor !== threeSelectedFloor) {
+                const outline = threeHoveredFloor.userData.outline;
+                if (outline) outline.material.opacity = 0;
+                threeHoveredFloor = null;
+            }
+
+            if (intersects.length > 0) {
+                const mesh = intersects[0].object;
+                if (!mesh.userData.isGround) {
+                    threeHoveredFloor = mesh;
+                    const outline = mesh.userData.outline;
+                    if (outline && mesh !== threeSelectedFloor) {
+                        outline.material.color.set(0x06b6d4);
+                        outline.material.opacity = 1;
+                    }
+                    const f = mesh.userData.floorData;
+                    if (f) {
+                        updateFloorDetail(f);
+                        // Show tooltip
+                        const faceRsrp = f.faceRsrp;
+                        tooltip.style.display = 'block';
+                        tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
+                        tooltip.style.top = (event.clientY - rect.top - 10) + 'px';
+                        tooltip.innerHTML = `<b style="color:#06b6d4;">Floor ${f.floor}</b><br/>
+                            RSRP avg: <b>${f.rsrp} dBm</b><br/>
+                            N: ${Math.round(faceRsrp.north)} &nbsp; S: ${Math.round(faceRsrp.south)}<br/>
+                            E: ${Math.round(faceRsrp.east)} &nbsp; W: ${Math.round(faceRsrp.west)}<br/>
+                            DL: ${f.dl} Mbps &nbsp; UL: ${f.ul} Mbps`;
+                    }
+                    threeRenderer.domElement.style.cursor = 'pointer';
+                    return;
+                }
+            }
+            tooltip.style.display = 'none';
+            threeRenderer.domElement.style.cursor = '';
+        }
+
+        function onThreeClick(event) {
+            threeRaycaster.setFromCamera(threeMouse, threeCamera);
+            const intersects = threeRaycaster.intersectObjects(threeFloorMeshes);
+
+            // Clear previous selection outline
+            if (threeSelectedFloor) {
+                const prevOutline = threeSelectedFloor.userData.outline;
+                if (prevOutline) prevOutline.material.opacity = 0;
+                threeSelectedFloor = null;
+            }
+
+            if (intersects.length > 0) {
+                const mesh = intersects[0].object;
+                if (!mesh.userData.isGround) {
+                    threeSelectedFloor = mesh;
+                    const outline = mesh.userData.outline;
+                    if (outline) {
+                        outline.material.color.set(0xffffff);
+                        outline.material.opacity = 1;
+                    }
+                    const f = mesh.userData.floorData;
+                    if (f) {
+                        selectedFloor = f.floor;
+                        updateFloorDetail(f);
+                    }
+                }
+            }
+        }
+
+        function renderBuildingIsometric() {
+            renderBuilding3D(currentBuilding);
         }
 
         function selectFloor(floorNum) {
             selectedFloor = floorNum;
-            renderBuildingIsometric();
         }
 
         function updateFloorDetail(floorData) {
