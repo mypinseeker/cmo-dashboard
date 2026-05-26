@@ -5059,44 +5059,43 @@
 
         function generateGridData() {
             const cells = [];
-            const centerLat = 6.210, centerLon = -75.575;
-            const gridSize = 20; // 20x20
-            const cellSizeDeg = 0.00045; // ~50m
+            // 5km × 5km area centered on Medellín El Poblado / La Candelaria
+            const centerLat = 6.220, centerLon = -75.573;
+            const gridSize = 50; // 50×50 = 2,500 cells
+            const cellSizeDeg = 0.0009; // ~100m per cell
 
-            // Single tower placed off-center (northeast corner of grid)
-            // This creates a clear gradient: green near tower → yellow middle → red far edge
+            // 4 cell towers spread across 5km area — realistic urban density
             const towers = [
-                { lat: 6.2135, lon: -75.5715, power: 1.0 },  // Main tower (NE area)
-                { lat: 6.2065, lon: -75.5790, power: 0.6 },  // Weaker tower (SW area)
+                { lat: 6.2149, lon: -75.5757, power: 1.0 },  // Near Building B (El Poblado center)
+                { lat: 6.2440, lon: -75.5671, power: 0.9 },  // Near Building C (La Candelaria)
+                { lat: 6.2000, lon: -75.5850, power: 0.8 },  // Southwest corner
+                { lat: 6.2350, lon: -75.5550, power: 0.7 },  // East side
             ];
-
-            // Distance scale: at this lat, 0.001 deg ≈ 111m
-            // Grid spans ~0.009 deg = ~1km. We want signal to drop off across this range.
-            const decayScale = 0.003; // distance at which signal drops to ~37%
 
             for (let r = 0; r < gridSize; r++) {
                 for (let c = 0; c < gridSize; c++) {
                     const lat = centerLat - (gridSize/2 - r) * cellSizeDeg;
                     const lon = centerLon - (gridSize/2 - c) * cellSizeDeg;
 
-                    // Best signal from nearest tower (exponential decay, not inverse square)
+                    // Best signal from nearest tower (exponential decay)
                     let bestSig = 0;
                     towers.forEach(t => {
-                        const dist = Math.sqrt(Math.pow((lat - t.lat)*111, 2) + Math.pow((lon - t.lon)*111*Math.cos(lat*Math.PI/180), 2));
-                        // dist is now in km. Signal decays with distance.
-                        const sig = t.power * Math.exp(-dist / 0.25); // drops to 37% at 250m
+                        const dLat = (lat - t.lat) * 111; // km
+                        const dLon = (lon - t.lon) * 111 * Math.cos(lat * Math.PI / 180); // km
+                        const dist = Math.sqrt(dLat * dLat + dLon * dLon);
+                        // 5km range: signal drops to 37% at 600m, near zero at 2km+
+                        const sig = t.power * Math.exp(-dist / 0.6);
                         bestSig = Math.max(bestSig, sig);
                     });
 
-                    // Add realistic noise + shadow fading
-                    const shadowFading = (Math.random() - 0.5) * 0.25; // ±12.5%
-                    const buildingLoss = Math.random() < 0.15 ? -0.3 : 0; // 15% cells have building shadow
+                    // Realistic effects
+                    const shadowFading = (Math.random() - 0.5) * 0.2;
+                    const buildingLoss = Math.random() < 0.12 ? -0.25 : 0;
                     const sig = Math.max(0, Math.min(1, bestSig + shadowFading + buildingLoss));
 
-                    // Map to metrics with wider spread
-                    const rsrp = -120 + sig * 55;    // -120 to -65 dBm (wider range)
-                    const dl = sig * 140 + 2;          // 2 to 142 Mbps
-                    const ul = sig * 28 + 0.5;         // 0.5 to 28.5 Mbps
+                    const rsrp = -120 + sig * 55;
+                    const dl = sig * 140 + 2;
+                    const ul = sig * 28 + 0.5;
 
                     cells.push({
                         row: r, col: c, lat, lon,
@@ -5137,8 +5136,8 @@
             gridCells = generateGridData();
 
             gridMap = L.map('grid-map', {
-                center: [6.210, -75.575],
-                zoom: 15,
+                center: [6.220, -75.573],
+                zoom: 14,
                 zoomControl: true,
                 attributionControl: false
             });
