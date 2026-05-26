@@ -2285,9 +2285,22 @@
     <!-- ECharts JS -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 
-    <!-- Three.js for 3D Building -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Three.js for 3D Building (importmap for ES modules) -->
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+    </script>
+    <script type="module">
+      import * as THREE from 'three';
+      import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+      window.THREE = THREE;
+      window.OrbitControls = OrbitControls;
+      window.dispatchEvent(new Event('three-ready'));
+    </script>
 
     <script>
         // ============ I18N (INTERNATIONALIZATION) ============
@@ -5492,15 +5505,20 @@
                 chartCont.style.display = 'none';
                 isoCont.style.display = 'block';
                 isoCont.classList.add('active');
-                // Use requestAnimationFrame to let DOM settle before init
-                requestAnimationFrame(() => {
+                // Wait for Three.js module to load, then init
+                function tryInit3D() {
+                    if (typeof THREE === 'undefined' || typeof OrbitControls === 'undefined') {
+                        setTimeout(tryInit3D, 100);
+                        return;
+                    }
                     if (!threeRenderer) {
                         initThreeJS();
                     } else if (!threeAnimFrameId) {
                         animateThree();
                     }
                     renderBuilding3D(currentBuilding);
-                });
+                }
+                requestAnimationFrame(tryInit3D);
             }
         }
 
@@ -5622,7 +5640,7 @@
             container.appendChild(threeRenderer.domElement);
 
             // OrbitControls
-            threeControls = new THREE.OrbitControls(threeCamera, threeRenderer.domElement);
+            threeControls = new OrbitControls(threeCamera, threeRenderer.domElement);
             threeControls.target.set(0, 20, 0);
             threeControls.enableDamping = true;
             threeControls.dampingFactor = 0.08;
